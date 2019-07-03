@@ -83,7 +83,7 @@
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon16" @click="hint" /></div>
+                        <svg-icon icon-class="serveComponent_icon15" @click="hint" /></div>
                 </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
         <div class="carousel">
             <swipe>
                 <swipe-item>
-                    <svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                    <svg-icon icon-class="serveComponent_icon16" /></swipe-item>
                 <!-- <swipe-item>
                     <svg-icon icon-class="serveComponent_icon15" /></swipe-item>
                 <swipe-item>
