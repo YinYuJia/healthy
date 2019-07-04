@@ -18,7 +18,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>备案来源：</span></div>
-                    <div class="InfoText">{{item.BKE258 || "暂无" | BKE258()}}</div>
+                    <div class="InfoText">{{item.BKE258 | BKE258()}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>备案期限：</span></div>
