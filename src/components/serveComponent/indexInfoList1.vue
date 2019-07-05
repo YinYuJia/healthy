@@ -297,7 +297,7 @@
                     dd.biz.navigation.open({
                         pageId: 'card',
                         params:{
-                            id:"medicalPayCard",
+                            id:"socialCard",
                             functionType:2//1社保卡首页 2打开社保卡支付码 3打开社保卡关联页
                         },
                         onSuccess: function(data) {

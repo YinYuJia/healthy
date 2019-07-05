@@ -4,6 +4,7 @@ import Index from '@/components/serveComponent/index'
 import indexInfoList from '@/components/serveComponent/indexInfoList'
 import indexInfoList1 from '@/components/serveComponent/indexInfoList1'
 import indexInfoListMore from '@/components/serveComponent/indexInfoListMore'
+import BusinessGuide from '@/components/serveComponent/BusinessGuide'
 
 import First from '@/components/First';
 
@@ -84,6 +85,11 @@ export default new Router({
       path: '/indexInfoListMore',
       name: 'indexInfoListMore',
       component: indexInfoListMore
+    },
+    {
+      path: '/BusinessGuide',
+      name: 'BusinessGuide',
+      component: BusinessGuide
     },
 
     {
