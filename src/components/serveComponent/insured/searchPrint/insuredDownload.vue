@@ -35,15 +35,28 @@
                 window.location.href = this.pdfUrl
             },
             saveImage() {
+                let _this = this;
                 console.log(2222)
                 var u = navigator.userAgent;
                 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-
+                console.log("是否为苹果设备",isiOS);
                 if ( isiOS ) {
-                        window.location.href = this.pdfUrl
+                    window.location.href = _this.pdfUrl
 
                 }else{
-                    window.location.href = this.pdfUrl 
+                    dd.ready({
+                    developer: 'daip@dtdream.com',
+                    usage: [
+                        'dd.biz.util.openLink',
+                    ],
+                    remark: '描述业务场景'
+                    }, function() {
+                        dd.biz.util.openLink({
+                            url: _this.pdfUrl,
+                            onSuccess: function(data) {},
+                            onFail: function(error) {}
+                        })
+                    })
                 }
 
             }
@@ -79,7 +92,7 @@
             bottom: 0;
         }
         .active {
-            background: #05AEF0;
+            background: #1492FF;
         }
     }
 </style>

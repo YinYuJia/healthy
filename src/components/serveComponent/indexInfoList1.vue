@@ -83,7 +83,7 @@
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon16" @click="hint" /></div>
+                        <svg-icon icon-class="serveComponent_icon15" @click="hint" /></div>
                 </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
         <div class="carousel">
             <swipe>
                 <swipe-item>
-                    <svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                    <svg-icon icon-class="serveComponent_icon16" /></swipe-item>
                 <!-- <swipe-item>
                     <svg-icon icon-class="serveComponent_icon15" /></swipe-item>
                 <swipe-item>
@@ -231,6 +231,18 @@
             })
             // 移动支付
             // this.$ep.mobelPay((data) => {
+            //     console.log('locationGet成功回调',data)
+            // },(error)=> {
+            //     console.log('locationGet失败回调',error)
+            // })
+            // 支付码
+            // this.$ep.payCode((data) => {
+            //     console.log('locationGet成功回调',data)
+            // },(error)=> {
+            //     console.log('locationGet失败回调',error)
+            // })
+            // 电子社保卡
+            // this.$ep.socialCard((data) => {
             //     console.log('locationGet成功回调',data)
             // },(error)=> {
             //     console.log('locationGet失败回调',error)
