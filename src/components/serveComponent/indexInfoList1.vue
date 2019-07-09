@@ -168,6 +168,9 @@
         },
         created() {
             // 清空零星报销的Vuex
+
+            
+            console.log('获取token',sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT={
                 AAS301: '', //参保地统筹省编码
                 AAB301: '', //参保地统筹市编码
@@ -269,6 +272,9 @@
             }
         },
         methods: {
+            query1() {
+                console.log("query")
+            },
             hint(){
                 this.$toast("功能正在建设中");
             },
