@@ -507,8 +507,12 @@
                 
                 if ( tip != "339900" &&  tip != "331099") {
                     console.log("tiptiptiptiptiptip",tip);
+                    if(tipstr === null) {
+                       this.$toast("服务暂未开通")
+                    }else{
+                       this.$toast(tipstr + "服务暂未开通")
+                    }
                     
-                    this.$toast(tipstr + "服务暂未开通")
                     return;
                 }
 
@@ -516,8 +520,11 @@
                 // 医保账户 只有省本级能点
                 if (url == 'medicalInsuranceAccount' ) {
                     if (tip != '339900') {
-                           
-                        this.$toast(tipstr + "服务暂未开通")
+                        if(tipstr === null) {
+                       this.$toast("服务暂未开通")
+                    }else{
+                       this.$toast(tipstr + "服务暂未开通")
+                    }
                         return;
                     }
                 }
