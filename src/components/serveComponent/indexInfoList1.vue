@@ -313,7 +313,7 @@
                         onFail: function(error) {
                             console.log(error)
                             _this.$toast("请升级浙里办APP版本")
-                        }
+                        } 
                     })
                 })
             },
