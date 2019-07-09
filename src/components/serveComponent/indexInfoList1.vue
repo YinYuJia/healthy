@@ -76,19 +76,26 @@
         </div>
         <!-- banner -->
         <div class="banner">
-            <div class="swiper-container">
+            <!-- <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon13" @click="hint" /></div>
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                       
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon15" @click="hint" /></div>
+                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
                 </div>
-            </div>
+            </div> -->
+                    <div class="banner-svg">
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" class="left-svg" />
+                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" />
+                    </div>
+                <SearchInfoElseWhere ref="elseWhereElseWhere" :JD="lat" :WD="lng"  ></SearchInfoElseWhere>
+                <SearchInfoMedicalList ref="medicalList" ></SearchInfoMedicalList>
         </div>
         <!-- 轮播图 -->
-        <div class="carousel">
+        <div class="carousel"> 
             <swipe>
                 <swipe-item>
                     <svg-icon icon-class="serveComponent_icon16" /></swipe-item>
@@ -130,7 +137,10 @@
         data() {
            
             return {
-                 ifShow:true,
+                name:"",
+                lat:"",
+                lng:"",
+                ifShow:true,
                 tel: "0571-88808880",
                 imgurl: "",
                 hotMsg: [ //热点资讯
@@ -218,7 +228,6 @@
             // 获取当前城市信息
             this.$ep.selectLocalCity((data) => {
                 console.log('selectLocalCity成功回调',data)
-                            
             },(error)=> {
                 console.log('selectLocalCity失败回调',error)
             })
@@ -226,6 +235,12 @@
             
             this.$ep.locationGet((data) => {
                 console.log('locationGet成功回调',data)
+                let lat=data.latitude.toString();
+                let lng=data.longitude.toString();
+                this.lat=lat;
+                this.lng=lng;
+                console.log("lng",this.lng)
+                console.log("lat",this.lat)
             },(error)=> {
                 console.log('locationGet失败回调',error)
             })
@@ -335,6 +350,16 @@
                         }
                     })
                 })
+            },
+            //药品目录
+            medicalList(){
+                console.log(1)
+                this.$refs.medicalList.open();
+            },
+            //异地定点医院
+            elseWhereHospital(){
+                console.log(2)        
+                this.$refs.elseWhereElseWhere.open();         
             },
             yibaozhanghu() {
                 this.$toast("功能正在建设中")
@@ -611,7 +636,6 @@
         } // banner
         .banner {
             height: 2.96rem;
-            padding: .6rem 0;
             background: #FFF;
             .swiper-container {
                 height: 100%;
@@ -623,6 +647,14 @@
                             width: 100%;
                         }
                     }
+                }
+            }
+            .banner-svg{
+                display: flex;
+                height: 100%;
+                .svg-icon{
+                    height: 100%;
+                    width: 100%;
                 }
             }
         } // 轮播图

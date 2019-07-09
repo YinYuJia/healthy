@@ -60,6 +60,7 @@ import searchFeeResult from '@/components/serveComponent/personal/searchFee/sear
 import searchRecord from '@/components/serveComponent/personal/searchRecord/searchRecord'
 import searchTreat from '@/components/serveComponent/personal/searchTreat/searchTreat'
 import searchTreatResult from '@/components/serveComponent/personal/searchTreat/searchTreatResult'
+import medicalDetail from '@/components/serveComponent/medicalDetail'
 
 Vue.use(Router)
 
@@ -331,6 +332,11 @@ export default new Router({
       path: '/searchTreatResult',
       name: 'searchTreatResult',
       component: searchTreatResult
+    },
+    {
+      path: '/medicalDetail',
+      name: 'medicalDetail',
+      component: medicalDetail
     }
     // // 办事
     // {
