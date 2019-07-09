@@ -87,39 +87,37 @@
                         <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
                 </div>
             </div> -->
-                    <div class="banner-svg">
-                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" class="left-svg" />
-                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" />
-                    </div>
-                <SearchInfoElseWhere ref="elseWhereElseWhere" :JD="lat" :WD="lng"  ></SearchInfoElseWhere>
-                <SearchInfoMedicalList ref="medicalList" ></SearchInfoMedicalList>
+            <div class="bannerSvg">
+                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital"/>
+                <svg-icon icon-class="serveComponent_icon15" @click="medicalList"/>
+            </div>
+            <SearchInfoElseWhere ref="elseWhereElseWhere" :JD="lat" :WD="lng"  ></SearchInfoElseWhere>
+            <SearchInfoMedicalList ref="medicalList" ></SearchInfoMedicalList>
         </div>
         <!-- 轮播图 -->
         <div class="carousel"> 
-            <swipe>
-                <swipe-item>
-                    <svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                <!-- <swipe-item>
-                    <svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                <swipe-item>
-                    <svg-icon icon-class="serveComponent_icon15" /></swipe-item> -->
-            </swipe>
-        </div>
-        <div class="changeUserBtn" v-if="ifShow">
-            <div class="btn" @click="changeUsername(true)">更改用户名</div>
-            <div class="btn" @click="changeUserCode(true)">更改社保卡号</div>
+            <!-- <swipe>
+                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+            </swipe> -->
+            <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->   
-        <!-- <div class="hotMsg">
+        <div class="hotMsg">
             <div class="hotHeader">热点资讯</div>
             <div class="msgLine" v-for="(item,index) in hotMsg" :key="index">
                 <div class="textBox">
                     <div class="textInfo">{{item.text | msgLength}}</div>
                     <div class="dateInfo">{{item.date}}</div>
                 </div>
-                <div class="imgBox"></div>
+                <div class="imgBox"><img :src=item.src></div>
             </div>
-        </div> -->
+        </div>
+        <div class="changeUserBtn" v-if="ifShow">
+            <div class="btn" @click="changeUsername(true)">更改用户名</div>
+            <div class="btn" @click="changeUserCode(true)">更改社保卡号</div>
+        </div>
         <div class="bottomline">
             <p>本服务由浙江政务服务网提供</p>
             <p>服务咨询热线 : <span class="bottomSpan">{{tel}}</span> </p>
@@ -145,12 +143,24 @@
                 imgurl: "",
                 hotMsg: [ //热点资讯
                     {
-                        text: '“数字经济”：开启浙江经济增长新“大时代”',
-                        date: '2019-09-09'
+                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年5月底）',
+                        date: '2019-06-11',
+                        src: '../../../static/images/zhuanqu/01.png'
                     },
                     {
-                        text: '本式港澳通行证将失效！9图出入境证件办理全攻略',
-                        date: '2019-09-09'
+                        text: '2019年上半年省、市基本医疗保险协议定点医药机构名单公示',
+                        date: '2019-05-30',
+                        src: '../../../static/images/zhuanqu/02.png'
+                    },
+                    {
+                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年4月底）',
+                        date: '2019-05-15',
+                        src: '../../../static/images/zhuanqu/03.png'
+                    },
+                    {
+                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年4月25日）',
+                        date: '2019-04-25',
+                        src: '../../../static/images/zhuanqu/04.png'
                     }
                 ],
                 iconFlag: false,
@@ -643,6 +653,9 @@
         .banner {
             height: 2.96rem;
             background: #FFF;
+            padding: 0 .2rem;
+            display: flex;
+            align-items: center;
             .swiper-container {
                 height: 100%;
                 .swiper-wrapper {
@@ -655,25 +668,31 @@
                     }
                 }
             }
-            .banner-svg{
+            .bannerSvg{
+                width: 100%;
                 display: flex;
-                height: 100%;
+                align-items: center;
+                justify-content: space-around;
                 .svg-icon{
-                    height: 100%;
-                    width: 100%;
+                    height: 1.76rem;
+                    width: 3.28rem;
                 }
             }
         } // 轮播图
         .carousel {
-            height: 4.48rem;
-            padding-bottom: 2.48rem;
+            height: 2.48rem;
             background: #FFF;
+            padding-bottom: .48rem;
             .c-swipe {
                 height: 100%;
                 .svg-icon {
                     height: 100%;
                     width: 100%;
                 }
+            }
+            .svg-icon{
+                height: 100%;
+                width: 100%;
             }
         } // 热点资讯
         .hotMsg {
@@ -718,9 +737,11 @@
                     height: 1.6rem;
                     width: 2.2rem;
                     background: #EEE;
+                    border-radius: .05rem;
                     .img {
                         height: 100%;
-                        width: 100%
+                        width: 100%;
+                        border-radius: .05rem
                     }
                 }
             }
