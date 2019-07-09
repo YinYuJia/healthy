@@ -1,400 +1,99 @@
 <template>
-  <div class="SearchInfoPage" v-if="showSearch">
-    <!-- 标题 -->
-    <div class="Title" id="title">
-        <el-row>
-            <el-col :span="6">
-                <div class="BackIcon" @click="back()">
-                    <svg-icon icon-class="serveComponent_back" />
-                    <span>返回</span>
-                </div>
-            </el-col>
-            <el-col :span="12">
-                <div class="NameTitle">{{title}}</div>
-            </el-col>
-            <el-col :span="6">
-            </el-col> 
-        </el-row>
-    </div>
-    <!-- <div class="SearchContent" id="searchContent">
-      <div class="SearchBox">
-        <svg-icon icon-class="serveComponent_search"/>
-        <input class="InputContent" v-model="params.AAA102" :placeholder="'查找'+title">
-        <svg-icon v-if="params.AAA102.length>0" class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
-        <div class="SearchBtn" @click="search">搜索</div>
-      </div>
-    </div> -->
-    <div class="content1" :style="{height:'100%',fontSize:'16px'}">
-        <mt-loadmore
-          :bottom-method="loadBottom"
-          :bottom-all-loaded="allLoaded"
-          ref="loadmore"
-        >
-          <ul class="ListContent">
-            <li
-              class="List"
-              v-for="(item,index) in List"
-              :key="index"
-              @click="chooseHospital(item.AAA102,item.AAA103)"
-            >
-            <h4 class="name">{{ item && item.AKB021 }}</h4>
-            <div class="info">
-              <label>{{(item && item.AAE006 && item.AAE006 !== 'null') ? item.AAE006: '暂无' }}</label>
-              <span>距离{{item && item.AAE006}}km</span>
-            </div>
-            </li>
-          </ul>
-        </mt-loadmore>
-        <div class="footer" v-if="isShow">没有更多数据了~</div>
-    </div>
-  </div>
+	<div class="elseWhereHospital">
+		<div class="InfoLine" v-for="(item,index) in List" :key="index">
+			<div class="InfoBox">
+				<div class="HospitalName">{{item.hospital}}</div>
+				<div class="AddressName">{{item.address}}</div>
+				<div class="Btn">{{item.type}}</div>
+			</div>
+			<div class="distBox">{{item.dist}}</div>
+		</div>
+	</div>
 </template>
 
 <script>
-// import { nextTick } from 'q';
 export default {
-  data() {
-    return {
-      List: [],
-      smallReimForm: {}, // 零星报销对象
-      params: {
-        OUTNUMBER: 15,
-        PAGE: 1,
-      },
-      allLoaded: true,
-      showSearch: false,
-      heightTop:0,
-      height: 0,
-      isShow:false
-    };
-  },
-  filters:{
-    // tooLong: function(val){
-    //   if(val.length>20){
-    //     return val.substring(0,20)+'...';
-    //   }
-    //   return val;
-    // }
-  },
-  props: {
-    title:{
-        type: String,
-        default: "搜索"
-    },
-    JD:{
-      type:String,
-      default: ''
-    },
-    WD:{
-      type:String,
-      default: ''
-    }
-  },
-  watch:{
-
-  },
-  mounted() {
-    
-    // document.getElementById("SearchContent").offsetHeight
-    // document.getElementById("title").offsetHeight
-    //如果有保存医院列表就从session里获取，没有就发起请求
-    // let List = JSON.parse(sessionStorage.getItem("pointList"));
-    // let params = JSON.parse(sessionStorage.getItem("params"));
-
-    // // let start =JSON.parse(sessionStorage.getItem('start'))
-    // // console.log("start",start)
-    // // console.log("params",params)
-    
-
-    // if (List) {
-    //   this.List = List;
-    //   let pageNum=Math.ceil(this.List.length/params.pageSize);
-
-    //   this.params = params;
-    //     if(List[0].pages>pageNum){
-    //     this.allLoaded=false
-    //     }else{
-    //     this.allLoaded=true
-    //   }
-    // }
-    
-  },
-  created() {
-    // this.getPosition()
-    // this.$nextTick(() => {
-    //   document.body.addEventListener('touchmove',function(e){
-    //     e.preventDefault(); //阻止默认事件(上下滑动)
-    //   })\
-    // })
-  },
-  mounted () {
-    // document.body.addEventListener('touchmove', function (e) {
-    //     e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
-    // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
-  },
-  destroyed(){
-    window.removeEventListener('popstate', this.back, false);//false阻止默认事件
-  },
-  methods: {
-    fun(){
-    },
-    // getPosition(){
-    //     dd.ready({
-    //         developer: 'daip@dtdream.com',
-    //         usage: [
-    //             'dd.biz.navigation.get',
-    //         ],
-    //         remark: '获取经纬度'
-    //     }, function() {
-    //         dd.biz.navigation.get({
-    //             onSuccess: function(data) {
-    //                 console.log("经纬度",data)
-    //             },
-    //             onFail: function(error) {
-    //                 console.log(error)
-    //             } 
-    //         })
-    //     })
-    // },
-    // 获取医院列表
-    getList() {
-      console.log(8888888888)
-      // 封装数据
-      let params = this.formatSubmitData();
-      // 开始请求
-      this.$axios.post(this.epFn.ApiUrl()+"/H5/jy9024/distanceHospital",params).then(resData => {
-          console.log("成功信息11",resData)
-          console.log("返回成功信息", resData.LS_DS);
-          //   成功   1000
-          if (resData.enCode == 1000) {
-            
-            // this.$toast("提交成功");
-            if (resData.LS_DS.length > 0) {
-              this.List = [...this.List, ...resData.LS_DS];
-              let PAGE = Math.ceil(this.List.length / this.params.OUTNUMBER);
-              //向上取整
-              this.params.PAGE = PAGE;
-              // 总页数
-              if (resData.SPAGE > PAGE) {
-                this.params.PAGE += 1;
-                this.allLoaded = false;
-                sessionStorage.setItem("params", JSON.stringify(this.params));
-
-                // sessionStorage.setItem("pointList", JSON.stringify(this.List));
-              }else{
-                this.isShow = true
-              }
-              if(resData.SCOUNT<=15){
-                this.isShow = true
-                this.allLoaded = true;
-              }
-              sessionStorage.setItem("pointList", JSON.stringify(this.List));
-              sessionStorage.setItem("params", JSON.stringify(this.params));
-              // sessionStorage.setItem("params", JSON.stringify(this.params));
-            }else{
-                this.isShow = true
-            }
-          } else if (resData.enCode == 1001) {
-            //   失败  1001
-            this.$toast(resData.errmsg);
-            return;
-          } else {
-            this.$toast("业务出错");
-            return;
-          }
-        });
-    },
-    // deleteSearch(){
-    //   this.params.AAA102 = '';
-    //   this.getList();
-    // },
-    loadBottom() {
-        // 加载更多数据
-        console.log('加载')
-      if (!this.allLoaded) {
-            this.getList();
-      }
-        this.allLoaded = true;// 若数据已全部获取完毕
-        this.$refs.loadmore.onBottomLoaded();
-        
-    },
-    // 搜索
-    search() {
-      // if(this.params.AAA102){
-        this.isShow=false
-        this.allLoaded = true;
-        this.List = [];
-        this.params.PAGE = 1;
-        
-        this.getList();
-        console.log("清空List",this.List)
-      // }else{
-      //   this.$toast("请输入查询条件")
-      // }
-      
-    },
-    formatSubmitData() {
-      let submitForm = {};
-      submitForm.AAC002 = ""; 
-      submitForm.PAGE = this.params.PAGE; //查询页数
-      submitForm.AKA101 = this.params.AKA101; //医疗机构等级
-      submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
-      submitForm.JD = this.JD; //经度
-      submitForm.WD = this.WD; //纬度
-      submitForm.NAME = this.NAME; //医院名称
-      // submitForm.AAA102 = this.params.AAA102; //模糊查询
-      // submitForm.AAA100 = this.type; //机构参数
-      // submitForm.AAE013 = this.AAE013 //关联性类别码
-      // submitForm.AAA052 = this.AAA052  //关联性类别值
-      // 加入用户名和电子社保卡号
-      if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-        submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-        submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-      } else {
-        this.$toast("未获取到人员基本信息");
-      }
-      // 请求参数封装
-      const params = this.epFn.commonRequsetData(
-        this.$store.state.SET_NATIVEMSG.PublicHeader,
-        submitForm,
-        "9024"
-      );
-      return params;
-    },
-    open(){
-      this.allLoaded = true
-      this.showSearch = true;
-      this.params.PAGE = 1
-      this.getList();
-      if (window.history && window.history.pushState) {
-        history.pushState(null, null, document.URL);
-        window.addEventListener('popstate', this.back, false);//false阻止默认事件
-      }
-    },
-    back(){
-      this.List = []
-      this.showSearch = false;
-    },
-    chooseHospital(code, name) {
-        this.$emit('childrenClick',code,name);
-        this.List = []
-        this.showSearch = false
-    }
-  }
-};
+	data(){
+		return{
+			List:[
+				{
+					hospital: '桐君堂（武林馆）',
+					address: '杭州市上城区浣纱路261号',
+					type: '二级医院',
+					dist: '401.3m'
+				},
+				{
+					hospital: '杭州市中医院',
+					address: '杭州市上城区浣纱路261号',
+					type: '三级甲等',
+					dist: '558.0m'
+				},
+				{
+					hospital: '浙江中医药大学附属第二医院（浙江省新华医院）',
+					address: '杭州市上城区浣纱路261号',
+					type: '三级甲等',
+					dist: '1.7km'
+				},
+				{
+					hospital: '桐君堂（武林馆）',
+					address: '杭州市上城区浣纱路261号',
+					type: '二级医院',
+					dist: '401.3m'
+				}
+			]
+		}
+	}
+}
 </script>
 
 <style lang="less" scoped>
-.SearchInfoPage {
-  background: #FFF;
-  z-index: 999999;
-  position: fixed;
-  top: 0;
-  height: 100%;
-  .Title {
-    display: none;
-    height: .8rem;
-    background-color: white;
-    line-height: .8rem;
-    .BackIcon{
-        display: flex;
-        align-items: center;
-        color: #1492FF;
-        font-size: .32rem;
-        .svg-icon{
-            height: .5rem;
-            width: .5rem;
-        }
-    }
-    .NameTitle {
-        color: #000000;
-        letter-spacing: 0;
-        font-size: .36rem;
-    }
+.elseWhereHospital{
+	width: 100%;
+	height: auto;
+	background: #FFF;
+	padding: 0 .2rem;
+	.InfoLine{
+		height: 1.6rem;
+		display: flex;
+		justify-content: space-between;
+		border-bottom: .01rem solid #DDDDDD;
+		.InfoBox{
+			height: 100%;
+			width: 6.5rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			justify-content: space-around;
+			.HospitalName{
+				font-size: .28rem;
+				color: #000000;
+				letter-spacing: 0;
+				text-align: left;
+			}
+			.AddressName{
+				font-size: .24rem;
+				color: #999999;
+				letter-spacing: 0;
+				text-align: left;
+			}
+			.Btn{
+				height: .4rem;
+				line-height: .4rem;
+				width: 1.2rem;
+				background: #DCEFFF;
+				font-size: .24rem;
+				color: #1492FF;
+				letter-spacing: 0;
+				text-align: center;
+			}
+		}
+		.distBox{
+			line-height: 1.6rem;
+			font-size: .24rem;
+			color: #999999;
+			letter-spacing: 0;
+			text-align: right;
+		}
+	}
 }
-  .SearchContent {
-    height: 1.18rem;
-    width: 7.5rem;
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    .SearchBox {
-      position: relative;
-      height: 0.8rem;
-      width: 6.7rem;
-      padding: 0 0.15rem;
-      border: 0.01rem solid #1492ff;
-      border-radius: 0.05rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .svg-icon {
-        height: 0.5rem;
-        width: 0.5rem;
-      }
-      .InputContent {
-        height: 0.49rem;
-        width: 4.1rem;
-        font-size: 0.26rem;
-        border: none;
-        &::placeholder {
-          color: #c9c9c9;
-        }
-      }
-      .deleteIcon{
-        height: .4rem;
-        width: .4rem;
-        position: absolute;
-        right: 1.2rem;
-      }
-      .SearchBtn {
-        height: 0.49rem;
-        width: 0.99rem;
-        margin-left: .2rem;
-        background: #1492ff;
-        border-radius: 0.04rem;
-        color: white;
-        font-size: 0.26rem;
-        line-height: 0.49rem;
-        letter-spacing: 0;
-      }
-    }
-  }
-  .content1{
-    overflow: auto;
-    // position: fixed;
-    // top: 2rem;
-    // height: 100%;
-    .ListContent {
-      height: 100%;
-      width: 7.5rem;
-      background: #fff;
-      padding: 0 0.37rem;
-      .List {
-        height: 1.2rem;
-        font-size: 0.28rem;
-        color: #000;
-        letter-spacing: 0;
-        line-height: 1.2rem;
-        text-align: left;
-        border-bottom: 0.01rem solid #d5d5d5;
-        position: relative;
-        z-index: 100000;
-        &:last-child {
-          border-bottom: none;
-        }
-      }
-    }  
-  }
-  
-}
-.footer {
-  border-top: 0.01rem solid #d5d5d5;
-  padding: 8px 0;
-  background: white;
-  font-size: 14px;
-  text-align: center;
-}
-
 </style>
