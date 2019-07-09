@@ -173,7 +173,7 @@ export default {
               this.List = [...this.List, ...resData.LS_DS];
               let PAGE = Math.ceil(this.List.length / this.params.OUTNUMBER);
               //向上取整
-              this.params.PAGGE = PAGE;
+              this.params.PAGE = PAGE;
               // 总页数
               if (resData.SPAGE > PAGE) {
                 this.params.PAGE += 1;

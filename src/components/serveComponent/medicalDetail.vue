@@ -57,6 +57,7 @@ export default {
             background: white;
             .InfoLine{
                 height: 1.2rem;
+                width: 100%;
                 font-size: .28rem;
                 border-bottom: .01rem solid #D5D5D5;
                 .InfoName{
@@ -72,11 +73,11 @@ export default {
                     }
                 }
                 .InfoText{
-                    width: 100%;
+                    display:inline-block;
                     line-height: 1.2rem;
                     color: #000;
                     letter-spacing: 0;
-                    align-items: left;
+                    text-align: left;
                 }
                 &:last-child{
                     border-bottom: none;

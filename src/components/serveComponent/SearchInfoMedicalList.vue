@@ -36,7 +36,10 @@
               v-for="(item,index) in List"
               :key="index"
               @click="chooseHospital(item)"
-            >{{ item.AKA061}}</li>
+            >
+            <div class="medical-name">{{item.AKA061}}</div>
+            <div class="tag-item"><div class="item-tag  green">西药</div><div class="item-tag  blue">{{ item.AKA065}}</div></div>
+            </li>
           </ul>
         </mt-loadmore>
         <div class="footer" v-if="isShow">没有更多数据了~</div>
@@ -156,11 +159,11 @@ export default {
             // this.$toast("提交成功");
             if (resData.LS_DS.length > 0) {
               this.List = [...this.List, ...resData.LS_DS];
-              let PAGE = Math.ceil(this.List.length / this.params.pageSize);
+              let PAGE = Math.ceil(this.List.length / this.params.OUTNUMBER);
               //向上取整
-              this.params.PAGGE = PAGE;
+              this.params.PAGE = PAGE;
               // 总页数
-              if (resData.pages > PAGE) {
+              if (resData.SPAGE > PAGE) {
                 this.params.PAGE += 1;
                 this.allLoaded = false;
                 sessionStorage.setItem("params", JSON.stringify(this.params));
@@ -168,7 +171,7 @@ export default {
               }else{
                 this.isShow = true
               }
-              if(resData.pages<=15){
+              if(resData.SCOUNT<=15){
                 this.isShow = true
                 this.allLoaded = true;
               }
@@ -352,23 +355,53 @@ export default {
   }
   .content1{
     overflow: auto;
+    width: 7.5rem;
+    height: 100%;
+    background: #FFFFFF;
     // position: fixed;
     // top: 2rem;
     // height: 100%;
     .ListContent {
-      width: 7.5rem;
+      width:100%;
+      height:100%;
       background: #fff;
       padding: 0 0.37rem;
       .List {
+        width: 7.1rem;
         height: 1.2rem;
         font-size: 0.28rem;
         color: #000;
         letter-spacing: 0;
         line-height: 1.2rem;
         text-align: left;
-        border-bottom: 0.01rem solid #d5d5d5;
         &:last-child {
           border-bottom: none;
+        }
+        .tag-item{
+          display: flex;
+          height: .4rem;
+          line-height: .4rem; 
+          .item-tag{
+          width: .8rem;
+          height: .4rem;
+          }
+          .item-tag .green{
+            background: #ECFFF1;
+            border: 1px solid #26A88F;
+          }
+          .item-tag .blue{
+            background: #DCEFFF;
+            border: 1px solid #1492FF;
+          }
+        }
+        .medical-name{
+          width: 2rem;
+          height: .37rem;
+          line-height: .37rem;
+          font-family: MicrosoftYaHei;
+          font-size: .28rem;
+          color: #000000;
+          letter-spacing: 0;
         }
       }
     }  
