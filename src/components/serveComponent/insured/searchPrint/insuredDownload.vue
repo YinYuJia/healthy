@@ -41,22 +41,26 @@
                 var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                 console.log("是否为苹果设备",isiOS);
                 if ( isiOS ) {
+
                     window.location.href = _this.pdfUrl
 
                 }else{
-                    dd.ready({
-                    developer: 'daip@dtdream.com',
-                    usage: [
-                        'dd.biz.util.openLink',
-                    ],
-                    remark: '描述业务场景'
-                    }, function() {
-                        dd.biz.util.openLink({
-                            url: _this.pdfUrl,
-                            onSuccess: function(data) {},
-                            onFail: function(error) {}
-                        })
-                    })
+                    
+                    window.location.href = _this.pdfUrl
+
+                    // dd.ready({
+                    // developer: 'daip@dtdream.com',
+                    // usage: [
+                    //     'dd.biz.util.openLink',
+                    // ],
+                    // remark: '描述业务场景'
+                    // }, function() {
+                    //     dd.biz.util.openLink({
+                    //         url: _this.pdfUrl,
+                    //         onSuccess: function(data) {},
+                    //         onFail: function(error) {}
+                    //     })
+                    // })
                 }
 
             }
