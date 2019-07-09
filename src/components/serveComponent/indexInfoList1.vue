@@ -91,8 +91,6 @@
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital"/>
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList"/>
             </div>
-            <SearchInfoElseWhere ref="elseWhereElseWhere" :JD="lat" :WD="lng"  ></SearchInfoElseWhere>
-            <SearchInfoMedicalList ref="medicalList" ></SearchInfoMedicalList>
         </div>
         <!-- 轮播图 -->
         <div class="carousel"> 
@@ -370,12 +368,12 @@
             //药品目录
             medicalList(){
                 console.log(1)
-                this.$refs.medicalList.open();
+                this.$router.push('/SearchInfoMedicalList')        
             },
             //异地定点医院
             elseWhereHospital(){
                 console.log(2)        
-                this.$refs.elseWhereElseWhere.open();         
+                this.$router.push('/SearchInfoElseWhere')        
             },
             yibaozhanghu() {
                 this.$toast("功能正在建设中")

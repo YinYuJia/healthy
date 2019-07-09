@@ -7,8 +7,7 @@ import UserBaseInfo from '@/components/serveComponent/common/UserBaseInfo'
 import WorkProgress from '@/components/serveComponent/common/WorkProgress'
 import Success from '@/components/serveComponent/common/Success'
 import PhotoView from '@/components/serveComponent/common/PhotoView'
-import SearchInfoElseWhere from '@/components/serveComponent/SearchInfoElseWhere'
-import SearchInfoMedicalList from '@/components/serveComponent/SearchInfoMedicalList'
+
 
 
 function plugin(Vue) {
@@ -24,8 +23,6 @@ function plugin(Vue) {
     Vue.component('WorkProgress',WorkProgress);
     Vue.component('Success',Success);
     Vue.component('PhotoView',PhotoView);
-    Vue.component('SearchInfoElseWhere',SearchInfoElseWhere);
-    Vue.component('SearchInfoMedicalList',SearchInfoMedicalList);
 }
 
 export default plugin

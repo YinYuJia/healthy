@@ -61,6 +61,8 @@ import searchRecord from '@/components/serveComponent/personal/searchRecord/sear
 import searchTreat from '@/components/serveComponent/personal/searchTreat/searchTreat'
 import searchTreatResult from '@/components/serveComponent/personal/searchTreat/searchTreatResult'
 import medicalDetail from '@/components/serveComponent/medicalDetail'
+import SearchInfoElseWhere from '@/components/serveComponent/SearchInfoElseWhere'
+import SearchInfoMedicalList from '@/components/serveComponent/SearchInfoMedicalList'
 
 Vue.use(Router)
 
@@ -337,6 +339,16 @@ export default new Router({
       path: '/medicalDetail',
       name: 'medicalDetail',
       component: medicalDetail
+    },
+    {
+      path: '/searchInfoElseWhere',
+      name: 'SearchInfoElseWhere',
+      component: SearchInfoElseWhere
+    },
+    {
+      path: '/searchInfoMedicalList',
+      name: 'SearchInfoMedicalList',
+      component: SearchInfoMedicalList
     }
     // // 办事
     // {
