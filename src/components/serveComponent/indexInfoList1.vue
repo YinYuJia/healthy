@@ -78,8 +78,9 @@
         <div class="banner">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon13" @click="hint" /></div>
+                    <div class="swiper-slide" @click="query1">
+                        <svg-icon icon-class="serveComponent_icon13"/>
+                    </div>
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
                     <div class="swiper-slide">
@@ -158,6 +159,9 @@
         },
         created() {
             // 清空零星报销的Vuex
+
+            
+            console.log('获取token',sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT={
                 AAS301: '', //参保地统筹省编码
                 AAB301: '', //参保地统筹市编码
@@ -254,6 +258,9 @@
             }
         },
         methods: {
+            query1() {
+                console.log("query")
+            },
             hint(){
                 this.$toast("功能正在建设中");
             },
@@ -297,7 +304,7 @@
                     dd.biz.navigation.open({
                         pageId: 'card',
                         params:{
-                            id:"medicalPayCard",
+                            id:"socialCard",
                             functionType:2//1社保卡首页 2打开社保卡支付码 3打开社保卡关联页
                         },
                         onSuccess: function(data) {
