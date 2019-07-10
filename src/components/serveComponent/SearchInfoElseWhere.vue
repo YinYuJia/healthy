@@ -17,7 +17,7 @@
 						<div class="AddressName">{{item.AAE006||"暂无"}}</div>
 						<div class="Btn">{{item.AKA101|level()}}</div>
 					</div>
-					<div class="distBox">{{item.JL}}km</div>
+					<div class="distBox">{{item.JL|ifKL()}}</div>
 				</li>
 			</ul>
 			</mt-loadmore>

@@ -129,6 +129,15 @@ export function BKE569( val ) {
   }
   return obj[val]
  }
+ //异地定点医院医疗机构等级
+ export function ifKL( val ) {
+     console.log(val)
+     if ( val < 1) {
+       return Math.floor(val * 1000) + 'm'
+     }else{
+      return Math.floor(val * 100) / 100 + "km"
+     }
+ }
 /*退休类别过滤*/
 export function trtireType(value) {
   let str = "";
