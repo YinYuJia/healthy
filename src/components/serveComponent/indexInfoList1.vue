@@ -374,8 +374,13 @@
             elseWhereHospital(){
                 console.log(2)   
                 let item ={} 
-                item.lat=this.lat;    
-                item.lng=this.lng; 
+                if(this.lat==""&&this.lng==""){
+                    item.lat="30.274643833098636"
+                    item.lng="120.14708140897169"
+                }else{
+                    item.lat=this.lat;    
+                    item.lng=this.lng; 
+                }
                 console.log("item",item)   
                 this.$router.push({
                 path:"/SearchInfoElseWhere",//领取就医凭证
