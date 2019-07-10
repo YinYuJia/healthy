@@ -24,7 +24,7 @@
         <div class="SearchBtn" @click="search">搜索</div>
       </div>
     </div> -->
-    <div class="content1" :style="{fontSize:'16px'}">
+    <div class="content1" :style="{height:height,fontSize:'16px'}">
         <mt-loadmore
           :bottom-method="loadBottom"
           :bottom-all-loaded="allLoaded"
@@ -67,7 +67,9 @@ export default {
       allLoaded: true,
       heightTop:0,
       height: 0,
-      isShow:false
+      isShow:false,
+      lat:"",
+      lng:""
     };
   },
   filters:{
@@ -131,6 +133,7 @@ export default {
     
   },
   created() {
+      this.fun();
       this.getList();
 
     // this.$nextTick(() => {
@@ -149,8 +152,9 @@ export default {
   },
   methods: {
     fun(){
+      this.height = window.innerHeight+"px";
     },
-    // 获取医院列表
+    // 获取药品列表
     getList() {
       console.log(8888888888)
       // 封装数据
@@ -227,13 +231,10 @@ export default {
       
     },
     formatSubmitData() {
-      let submitForm = {};
-      submitForm.AAC002 = ""; 
+      let submitForm = {}; 
       submitForm.PAGE = this.params.PAGE; //查询页数
       submitForm.AKA101 = this.params.AKA101; //医疗机构等级
       submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
-      submitForm.JD = this.JD; //经度
-      submitForm.WD = this.WD; //纬度
       submitForm.NAME = this.NAME; //医院名称
       // submitForm.AAA102 = this.params.AAA102; //模糊查询
       // submitForm.AAA100 = this.type; //机构参数
@@ -368,7 +369,7 @@ export default {
       width:100%;
       height:100%;
       background: #fff;
-      padding: 0 0.37rem;
+      padding: 0 0.2rem;
       .List {
         display: flex;
         justify-content: space-between;
@@ -382,6 +383,7 @@ export default {
         text-align: left;
         align-items: center;
         padding:0 .2rem;
+        border-bottom: 1px solid #ddd; 
         &:last-child {
           border-bottom: none;
         }
@@ -417,7 +419,7 @@ export default {
             }
           }
           .medical-name{
-            width: 2rem;
+            width: 3rem;
             height: .37rem;
             line-height: .37rem;
             font-family: MicrosoftYaHei;

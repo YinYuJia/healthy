@@ -117,6 +117,18 @@ export function BKE258( val ) {
   }
   return obj[val]
  }
+ //异地定点医院医疗机构等级
+ export function level( val ) {
+  let obj = {
+    "X": "社区",
+    "0": "未定",
+    "1": "一级",
+    "2": "二级",
+    "3": "三级",
+    undefined: "暂无"
+  }
+  return obj[val]
+ }
 /*退休类别过滤*/
 export function trtireType(value) {
   let str = "";
