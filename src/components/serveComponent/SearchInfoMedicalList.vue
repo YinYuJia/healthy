@@ -39,7 +39,11 @@
             >
               <div class="list-left">
                   <div class="medical-name">{{item.AKA061}}</div>
-                  <div class="tag-item"><div class="item-tag green">西药</div><div class="item-tag blue">{{ item.AKA065}}</div></div>
+                  <div class="tag-item">
+                    <div class="item-tag green">西药</div>
+                    <div class="item-tag blue">{{ item.AKA065}}</div>
+                    <div class="item-tag pink">{{ item.AKA070}}</div>
+                  </div>
               </div>
               <div class="list-right">
                 <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
@@ -396,25 +400,39 @@ export default {
             height: .4rem;
             line-height: .4rem; 
             .item-tag{
-            width: .8rem;
+            
             height: .4rem;
             }
             .green{
+              width: 1.2rem;
               text-align: center;
-              background: #ECFFF1;
+
               font-family: FZLTXHKM;
+              background: #ECFFF1;
               font-size: .24rem;
               color: #26A88F;
               letter-spacing: 0;
               text-align: center;
             }
             .blue{
+              width: 1.2rem;
               margin-left: .15rem;
               text-align: center;
-              background: #DCEFFF;
               font-family: FZLTXHKM;
+              background: #DCEFFF;
               font-size: .24rem;
               color: #1492FF;
+              letter-spacing: 0;
+              text-align: center;
+            }
+            .pink{
+              width: 1.8rem;
+              margin-left: .15rem;
+              text-align: center;
+              font-family: FZLTXHKM;
+              background: #FFF1E2;
+              font-size: .24rem;
+              color: #FD9933;
               letter-spacing: 0;
               text-align: center;
             }

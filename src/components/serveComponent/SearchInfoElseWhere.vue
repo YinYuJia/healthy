@@ -15,7 +15,11 @@
 					<div class="InfoBox">
 						<div class="HospitalName">{{item.AKB021}}</div>
 						<div class="AddressName">{{item.AAE006||"暂无"}}</div>
-						<div class="Btn">{{item.AKA101|level()}}</div>
+						<div>
+              <div class="Btn">{{item.AKA101|level()}}</div>
+              <div class="Btn1" v-if="item.AKB100 != ''">{{item.AKB100|AKB100()}}</div>
+              <!-- <div class="Btn2">{{item.AKB100|AKB100()}}</div> -->
+            </div>
 					</div>
 					<div class="distBox">{{item.JL|ifKL()}}</div>
 				</li>
@@ -207,7 +211,7 @@ export default {
     border-bottom: 1px solid #ddd;
 		.InfoBox{
 			height: 100%;
-			width: 6.5rem;
+			width: 6rem;
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-start;
@@ -223,8 +227,22 @@ export default {
 				color: #999999;
 				letter-spacing: 0;
 				text-align: left;
-			}
+      }
+    
 			.Btn{
+        float: left;
+				height: .4rem;
+				line-height: .4rem;
+				width: 1.2rem;
+				background: #ECFFF1;
+				font-size: .24rem;
+				color: #26A88F;
+				letter-spacing: 0;
+        text-align: center;
+      }
+			.Btn1{
+        float: left;
+        margin-left: .1rem;
 				height: .4rem;
 				line-height: .4rem;
 				width: 1.2rem;
@@ -233,7 +251,20 @@ export default {
 				color: #1492FF;
 				letter-spacing: 0;
 				text-align: center;
-			}
+      }
+			.Btn2{
+        float: left;
+        margin-left: .1rem;
+				height: .4rem;
+				line-height: .4rem;
+				width: 1.2rem;
+				background: #FFF1E2;
+				font-size: .24rem;
+				color: #FD9933;
+				letter-spacing: 0;
+				text-align: center;
+      }
+      
 		}
 		.distBox{
 			line-height: 1.6rem;

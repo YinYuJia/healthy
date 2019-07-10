@@ -129,9 +129,19 @@ export function BKE569( val ) {
   }
   return obj[val]
  }
- //异地定点医院医疗机构等级
+ //医院等级
+ export function AKB100( val ) {
+  let obj = {
+    "9": "其他",
+    "0": "特等",
+    "1": "甲等",
+    "2": "乙等",
+    "3": "丙等",
+  }
+  return obj[val]
+ }
+ //距离
  export function ifKL( val ) {
-     console.log(val)
      if ( val < 1) {
        return Math.floor(val * 1000) + 'm'
      }else{
