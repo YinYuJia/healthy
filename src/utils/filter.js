@@ -110,9 +110,10 @@ export function BKE586 (val) {
 // 备案信息来源字典
 export function BKE569( val ) {
   let obj = {
-    "0": "中心备案",
-    "1": "网上申报",
-    "2": "App",
+    // "0": "中心备案",
+    "1": "掌上",
+    "2": "网上",
+    "3": "柜面",
     undefined: "暂无"
   }
   return obj[val]
