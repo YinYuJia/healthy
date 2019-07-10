@@ -1,12 +1,27 @@
 <template>
 	<div class="elseWhereHospital">
-		<div class="InfoLine" v-for="(item,index) in List" :key="index">
-			<div class="InfoBox">
-				<div class="HospitalName">{{item.hospital}}</div>
-				<div class="AddressName">{{item.address}}</div>
-				<div class="Btn">{{item.type}}</div>
-			</div>
-			<div class="distBox">{{item.dist}}</div>
+		<div class="content1" :style="{height:height,fontSize:'16px'}">
+			<mt-loadmore
+			:bottom-method="loadBottom"
+			:bottom-all-loaded="allLoaded"
+			ref="loadmore"
+			>
+			<ul class="ListContent">
+				<li
+				class="InfoLine"
+				v-for="(item,index) in List"
+				:key="index"
+				>
+					<div class="InfoBox">
+						<div class="HospitalName">{{item.AKB021}}</div>
+						<div class="AddressName">{{item.AAE006||"暂无"}}</div>
+						<div class="Btn">{{item.AKA101|level()}}</div>
+					</div>
+					<div class="distBox">{{item.JL}}km</div>
+				</li>
+			</ul>
+			</mt-loadmore>
+			<div class="footer" v-if="isShow">没有更多数据了~</div>
 		</div>
 	</div>
 </template>
@@ -15,48 +30,180 @@
 export default {
 	data(){
 		return{
-			List:[
-				{
-					hospital: '桐君堂（武林馆）',
-					address: '杭州市上城区浣纱路261号',
-					type: '二级医院',
-					dist: '401.3m'
-				},
-				{
-					hospital: '杭州市中医院',
-					address: '杭州市上城区浣纱路261号',
-					type: '三级甲等',
-					dist: '558.0m'
-				},
-				{
-					hospital: '浙江中医药大学附属第二医院（浙江省新华医院）',
-					address: '杭州市上城区浣纱路261号',
-					type: '三级甲等',
-					dist: '1.7km'
-				},
-				{
-					hospital: '桐君堂（武林馆）',
-					address: '杭州市上城区浣纱路261号',
-					type: '二级医院',
-					dist: '401.3m'
-				}
-			]
+			List:[],
+			smallReimForm: {}, // 零星报销对象
+			params: {
+				PAGE: 1,
+				OUTNUMBER:15,
+				AAA102: "",
+			},
+			allLoaded: true,
+			heightTop:0,
+			height: 0,
+      isShow:false,
+      lat:"",
+      lng:""
 		}
-	}
+	},
+	created() {
+      if(this.$route.query.param){
+          console.log("有传过来参数")
+          console.log("传参",this.$route.query.param)
+          this.lat=this.$route.query.param.lat
+          this.lng=this.$route.query.param.lng
+          console.log("lat",this.lat)
+          console.log("lng",this.lng)
+      }
+      this.fun();
+      this.getList();
+	},
+	destroyed(){
+    window.removeEventListener('popstate', this.back, false);//false阻止默认事件
+	},
+  methods: {
+    fun(){
+      this.height = window.innerHeight+"px";
+    },
+    // 获取药品列表
+    getList() {
+      console.log(8888888888)
+      // 封装数据
+      let params = this.formatSubmitData();
+      // 开始请求
+      this.$axios.post(this.epFn.ApiUrl()+"/H5/jy9024/distanceHospital",params).then(resData => {
+          console.log("返回成功信息11", resData);          
+          console.log("返回成功信息", resData.LS_DS);
+          //   成功   1000
+          if (resData.enCode == 1000) {
+            
+            // this.$toast("提交成功");
+            if (resData.LS_DS.length > 0) {
+              this.List = [...this.List, ...resData.LS_DS];
+              let PAGE = Math.ceil(this.List.length / this.params.OUTNUMBER);
+              //向上取整
+              this.params.PAGE = PAGE;
+              // 总页数
+              if (resData.SPAGE > PAGE) {
+                this.params.PAGE += 1;
+                this.allLoaded = false;
+                sessionStorage.setItem("params", JSON.stringify(this.params));
+                // sessionStorage.setItem("pointList", JSON.stringify(this.List));
+              }else{
+                this.isShow = true
+              }
+              if(resData.SCOUNT<=15){
+                this.isShow = true
+                this.allLoaded = true;
+              }
+              sessionStorage.setItem("pointList", JSON.stringify(this.List));
+              sessionStorage.setItem("params", JSON.stringify(this.params));
+              // sessionStorage.setItem("params", JSON.stringify(this.params));
+            }else{
+                this.isShow = true
+            }
+          } else if (resData.enCode == 1001) {
+            //   失败  1001
+            this.$toast(resData.msg);
+            return;
+          } else {
+            this.$toast("业务出错");
+            return;
+          }
+        });
+    },
+    loadBottom() {
+        // 加载更多数据
+        console.log('加载')
+      if (!this.allLoaded) {
+            this.getList();
+      }
+        this.allLoaded = true;// 若数据已全部获取完毕
+        this.$refs.loadmore.onBottomLoaded();
+        
+    },
+    // 搜索
+    search() {
+      // if(this.params.AAA102){
+        this.isShow=false
+        this.allLoaded = true;
+        this.List = [];
+        this.params.PAGE = 1;
+        
+        this.getList();
+        console.log("清空List",this.List)
+      // }else{
+      //   this.$toast("请输入查询条件")
+      // }
+      
+    },
+    formatSubmitData() {
+      let submitForm = {};
+      submitForm.PAGE = this.params.PAGE; //查询页数
+      submitForm.AKA101 = this.params.AKA101; //医疗机构等级
+      submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
+      submitForm.JD = this.lng;//经度
+      submitForm.WD = this.lat; //纬度
+      submitForm.NAME = this.NAME; //医院名称
+      // submitForm.AAA102 = this.params.AAA102; //模糊查询
+      // submitForm.AAA100 = this.type; //机构参数
+      // submitForm.AAE013 = this.AAE013 //关联性类别码
+      // submitForm.AAA052 = this.AAA052  //关联性类别值
+      // 加入用户名和电子社保卡号
+      if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
+        submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+        submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+      } else {
+        this.$toast("未获取到人员基本信息");
+      }
+      // 请求参数封装
+      const params = this.epFn.commonRequsetData(
+        this.$store.state.SET_NATIVEMSG.PublicHeader,
+        submitForm,
+        "9024"
+      );
+      return params;
+    },
+    open(){
+  //     this.allLoaded = true
+  //     // this.showSearch = true;
+  //     this.params.PAGE = 1
+  //     this.getList();
+  //     if (window.history && window.history.pushState) {
+  //       history.pushState(null, null, document.URL);
+  //       window.addEventListener('popstate', this.back, false);//false阻止默认事件
+  //     }
+    },
+    back(){
+      this.List = []
+      // this.showSearch = false;
+    },
+    // chooseHospital(item) {
+    //     this.List = []
+    //     // this.showSearch = false
+    //     this.$router.push({
+    //     path:"/medicalDetail",//领取就医凭证
+    //     query:{
+    //         param: item
+    //     }
+    //   });
+    // }
+  }  
 }
 </script>
 
 <style lang="less" scoped>
 .elseWhereHospital{
-	width: 100%;
-	height: auto;
+	height: 100%;
 	background: #FFF;
 	padding: 0 .2rem;
 	.InfoLine{
 		height: 1.6rem;
-		display: flex;
+    display: flex;
+	  background: #FFF;    
 		justify-content: space-between;
-		border-bottom: .01rem solid #DDDDDD;
+    border-bottom: .01rem solid #DDDDDD;
+    overflow: auto;
+    border-bottom: 1px solid #ddd;
 		.InfoBox{
 			height: 100%;
 			width: 6.5rem;
@@ -94,6 +241,13 @@ export default {
 			letter-spacing: 0;
 			text-align: right;
 		}
-	}
+  }
+  .footer {
+    border-top: 0.01rem solid #d5d5d5;
+    padding: 8px 0;
+    background: white;
+    font-size: 14px;
+    text-align: center;
+  }
 }
 </style>
