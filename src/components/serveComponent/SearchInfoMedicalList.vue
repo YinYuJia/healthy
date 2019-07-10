@@ -1,5 +1,5 @@
 <template>
-  <div class="SearchInfoPage" v-if="showSearch">
+  <div class="SearchInfoPage">
     <!-- 标题 -->
     <div class="Title" id="title">
         <el-row>
@@ -16,15 +16,15 @@
             </el-col> 
         </el-row>
     </div>
-    <div class="SearchContent" id="searchContent">
+    <!-- <div class="SearchContent" id="searchContent">
       <div class="SearchBox">
         <svg-icon icon-class="serveComponent_search"/>
         <input class="InputContent" v-model="params.AAA102" :placeholder="'查找'+title">
         <svg-icon v-if="params.AAA102.length>0" class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
         <div class="SearchBtn" @click="search">搜索</div>
       </div>
-    </div>
-    <div class="content1" :style="{height:height,fontSize:'16px'}">
+    </div> -->
+    <div class="content1" :style="{fontSize:'16px'}">
         <mt-loadmore
           :bottom-method="loadBottom"
           :bottom-all-loaded="allLoaded"
@@ -37,8 +37,13 @@
               :key="index"
               @click="chooseHospital(item)"
             >
-            <div class="medical-name">{{item.AKA061}}</div>
-            <div class="tag-item"><div class="item-tag  green">西药</div><div class="item-tag  blue">{{ item.AKA065}}</div></div>
+              <div class="list-left">
+                  <div class="medical-name">{{item.AKA061}}</div>
+                  <div class="tag-item"><div class="item-tag green">西药</div><div class="item-tag blue">{{ item.AKA065}}</div></div>
+              </div>
+              <div class="list-right">
+                <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+              </div>
             </li>
           </ul>
         </mt-loadmore>
@@ -60,7 +65,6 @@ export default {
         AAA102: "",
       },
       allLoaded: true,
-      showSearch: false,
       heightTop:0,
       height: 0,
       isShow:false
@@ -89,16 +93,16 @@ export default {
     }
   },
   watch:{
-    showSearch(){
-      if(this.showSearch){
-          this.$nextTick(()=>{
-            let heightTop =  document.getElementById("searchContent").offsetHeight + document.getElementById("title").offsetHeight
-            console.log(heightTop);
+    // showSearch(){
+    //   if(this.showSearch){
+    //       this.$nextTick(()=>{
+    //         let heightTop =  document.getElementById("searchContent").offsetHeight + document.getElementById("title").offsetHeight
+    //         console.log(heightTop);
             
-            this.height = window.innerHeight -heightTop + "px"
-          })
-      }
-    }
+    //         this.height = window.innerHeight -heightTop + "px"
+    //       })
+    //   }
+    // }
   },
   mounted() {
     
@@ -127,6 +131,8 @@ export default {
     
   },
   created() {
+      this.getList();
+
     // this.$nextTick(() => {
     //   document.body.addEventListener('touchmove',function(e){
     //     e.preventDefault(); //阻止默认事件(上下滑动)
@@ -191,10 +197,10 @@ export default {
           }
         });
     },
-    // deleteSearch(){
-    //   this.params.AAA102 = '';
-    //   this.getList();
-    // },
+    deleteSearch(){
+      this.params.AAA102 = '';
+      // this.getList();
+    },
     loadBottom() {
         // 加载更多数据
         console.log('加载')
@@ -249,22 +255,22 @@ export default {
       return params;
     },
     open(){
-      this.allLoaded = true
-      this.showSearch = true;
-      this.params.PAGE = 1
-      this.getList();
-      if (window.history && window.history.pushState) {
-        history.pushState(null, null, document.URL);
-        window.addEventListener('popstate', this.back, false);//false阻止默认事件
-      }
+  //     this.allLoaded = true
+  //     // this.showSearch = true;
+  //     this.params.PAGE = 1
+  //     this.getList();
+  //     if (window.history && window.history.pushState) {
+  //       history.pushState(null, null, document.URL);
+  //       window.addEventListener('popstate', this.back, false);//false阻止默认事件
+  //     }
     },
     back(){
       this.List = []
-      this.showSearch = false;
+      // this.showSearch = false;
     },
     chooseHospital(item) {
         this.List = []
-        this.showSearch = false
+        // this.showSearch = false
         this.$router.push({
         path:"/medicalDetail",//领取就医凭证
         query:{
@@ -279,9 +285,6 @@ export default {
 <style lang="less" scoped>
 .SearchInfoPage {
   background: #FFF;
-  z-index: 999;
-  position: fixed;
-  top: 0;
   height: 100%;
   .Title {
     display: none;
@@ -303,7 +306,7 @@ export default {
         letter-spacing: 0;
         font-size: .36rem;
     }
-}
+  }
   .SearchContent {
     height: 1.18rem;
     width: 7.5rem;
@@ -367,41 +370,66 @@ export default {
       background: #fff;
       padding: 0 0.37rem;
       .List {
+        display: flex;
+        justify-content: space-between;
         width: 7.1rem;
         height: 1.2rem;
+        line-height: 1.2rem;
         font-size: 0.28rem;
         color: #000;
         letter-spacing: 0;
         line-height: 1.2rem;
         text-align: left;
+        align-items: center;
+        padding:0 .2rem;
         &:last-child {
           border-bottom: none;
         }
-        .tag-item{
+        .list-left{
           display: flex;
-          height: .4rem;
-          line-height: .4rem; 
-          .item-tag{
-          width: .8rem;
-          height: .4rem;
+          flex-direction: column;
+          .tag-item{
+            display: flex;
+            height: .4rem;
+            line-height: .4rem; 
+            .item-tag{
+            width: .8rem;
+            height: .4rem;
+            }
+            .green{
+              text-align: center;
+              background: #ECFFF1;
+              font-family: FZLTXHKM;
+              font-size: .24rem;
+              color: #26A88F;
+              letter-spacing: 0;
+              text-align: center;
+            }
+            .blue{
+              margin-left: .15rem;
+              text-align: center;
+              background: #DCEFFF;
+              font-family: FZLTXHKM;
+              font-size: .24rem;
+              color: #1492FF;
+              letter-spacing: 0;
+              text-align: center;
+            }
           }
-          .item-tag .green{
-            background: #ECFFF1;
-            border: 1px solid #26A88F;
-          }
-          .item-tag .blue{
-            background: #DCEFFF;
-            border: 1px solid #1492FF;
+          .medical-name{
+            width: 2rem;
+            height: .37rem;
+            line-height: .37rem;
+            font-family: MicrosoftYaHei;
+            font-size: .28rem;
+            color: #000000;
+            letter-spacing: 0;
           }
         }
-        .medical-name{
-          width: 2rem;
-          height: .37rem;
-          line-height: .37rem;
-          font-family: MicrosoftYaHei;
-          font-size: .28rem;
-          color: #000000;
-          letter-spacing: 0;
+        .list-right{
+            width: 100%;
+            height: 100%;
+            text-align: right;
         }
       }
     }  
