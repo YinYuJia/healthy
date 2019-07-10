@@ -133,6 +133,7 @@ export default {
     
   },
   created() {
+      this.epFn.setTitle('药品目录')
       this.fun();
       this.getList();
 

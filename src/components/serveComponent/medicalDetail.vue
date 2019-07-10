@@ -39,6 +39,7 @@ export default {
         }
     },
     created () {
+        this.epFn.setTitle('药品目录')
         if(this.$route.query.param){
             console.log("有传过来参数")
             console.log("传参",this.$route.query.param)
