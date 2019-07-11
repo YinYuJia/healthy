@@ -379,7 +379,7 @@ export default {
         display: flex;
         justify-content: space-between;
         width: 7.1rem;
-        height: 1.2rem;
+        height: 100%;
         line-height: 1.2rem;
         font-size: 0.28rem;
         color: #000;
@@ -396,6 +396,7 @@ export default {
           display: flex;
           flex-direction: column;
           .tag-item{
+            padding-top: .12rem;
             display: flex;
             height: .4rem;
             line-height: .4rem; 
@@ -438,7 +439,7 @@ export default {
             }
           }
           .medical-name{
-            width: 3rem;
+            width: 100%;
             height: .37rem;
             line-height: .37rem;
             font-family: MicrosoftYaHei;
