@@ -42,7 +42,7 @@
                   <div class="tag-item">
                     <div class="item-tag green">西药</div>
                     <div class="item-tag blue">{{ item.AKA065}}</div>
-                    <div class="item-tag pink">{{ item.AKA070}}</div>
+                    <div class="item-tag pink" v-if = " item.AKA070 != '无' ">{{ item.AKA070}}</div>
                   </div>
               </div>
               <div class="list-right">
