@@ -113,6 +113,7 @@ export default {
             submitForm.AAE010 = this.form.AAE010.replace(/\s+/g,'');
             submitForm.AAE008 = this.form.AAE008;
             submitForm.AAE009 = this.form.AAE009;
+            submitForm.BKE520 = '1';
            
             
             // submitForm.LS_DS2 = [] 

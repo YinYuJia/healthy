@@ -69,7 +69,7 @@ export default {
                 AAE005: '', //手机号码,
 
                 BKZ019:'',//经办编号
-
+                BKE420:"1"
             },
             canSubmit: false,
         }
