@@ -108,7 +108,7 @@ export function BKE586 (val) {
 }
 
 // 备案信息来源字典
-export function BKE569( val ) {
+export function BKE520( val ) {
   let obj = {
     // "0": "中心备案",
     "1": "掌上",
