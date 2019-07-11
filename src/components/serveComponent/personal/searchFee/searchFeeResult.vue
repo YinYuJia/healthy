@@ -140,7 +140,6 @@ export default {
                 }
                 .InfoText{
                     width: 100%;
-                    vertical-align: center;
                     color: #000;
                     letter-spacing: 0;
                     text-align: left;
