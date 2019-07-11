@@ -55,7 +55,7 @@
                     <div class="InfoText"><input type="text" v-model="form.AKA121" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>就医疗程</span></div>
+                    <div class="InfoName"><span>就诊疗程</span></div>
                     <div class="InfoText">
                         <input @click="openTreatPicker()" type="text" v-model="BKE255VALUE" placeholder="请选择" readonly>
                     </div>
