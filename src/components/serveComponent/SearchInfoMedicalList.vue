@@ -16,14 +16,14 @@
             </el-col> 
         </el-row>
     </div>
-    <!-- <div class="SearchContent" id="searchContent">
+    <div class="SearchContent" id="searchContent">
       <div class="SearchBox">
         <svg-icon icon-class="serveComponent_search"/>
-        <input class="InputContent" v-model="params.AAA102" :placeholder="'查找'+title">
+        <input class="InputContent" v-model="NAME" :placeholder="'查找'+title">
         <svg-icon v-if="params.AAA102.length>0" class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
         <div class="SearchBtn" @click="search">搜索</div>
       </div>
-    </div> -->
+    </div>
     <div class="content1" :style="{height:height,fontSize:'16px'}">
         <mt-loadmore
           :bottom-method="loadBottom"
@@ -62,6 +62,7 @@ export default {
   data() {
     return {
       List: [],
+      NAME:"",
       smallReimForm: {}, // 零星报销对象
       params: {
         PAGE: 1,
@@ -227,7 +228,7 @@ export default {
         this.allLoaded = true;
         this.List = [];
         this.params.PAGE = 1;
-        
+        console.log("params.AAA102",this.params.AAA102)
         this.getList();
         console.log("清空List",this.List)
       // }else{
@@ -241,6 +242,7 @@ export default {
       submitForm.AKA101 = this.params.AKA101; //医疗机构等级
       submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
       submitForm.NAME = this.NAME; //医院名称
+      console.log('---submitForm.NAME---',submitForm.NAME)
       // submitForm.AAA102 = this.params.AAA102; //模糊查询
       // submitForm.AAA100 = this.type; //机构参数
       // submitForm.AAE013 = this.AAE013 //关联性类别码
@@ -395,6 +397,7 @@ export default {
         .list-left{
           display: flex;
           flex-direction: column;
+          width: 100%;
           .tag-item{
             padding-top: .12rem;
             display: flex;
