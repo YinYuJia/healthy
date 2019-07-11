@@ -231,9 +231,6 @@
                         if (resData.LS_DS.length > 0 && resData.LS_DS.length < 10) {
                             this.isShow = false;
                         }
-                        if (resData.LS_DS.length <= 0) {
-                            this.isShow = true;
-                        }
                         if (resData.LS_DS.length > 0) {
                             this.itemGroup = [...this.itemGroup, ...resData.LS_DS]
                             //向上取整
