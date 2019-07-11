@@ -322,10 +322,11 @@ export default {
 
 <style lang="less" scoped>
 .indexInfoListMore{
+    width: 100%;
     // 头部
     .infoListHeader{
         height: .94rem;
-        width: 7.5rem;
+        width: 100%;
         background: #FFF;
         position: fixed;
         z-index: 999;
