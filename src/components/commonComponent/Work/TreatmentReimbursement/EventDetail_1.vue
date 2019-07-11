@@ -163,7 +163,7 @@
 
 <style lang="less" scoped>
     .EventDetail {
-        width: 7.5rem; // 标题
+        width: 100%; // 标题
         .Title {
             height: .8rem;
             background-color: #05AEF0;
