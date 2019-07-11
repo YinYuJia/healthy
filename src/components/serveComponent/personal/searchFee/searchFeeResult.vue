@@ -13,7 +13,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName">医疗机构：</div>
-                    <div class="InfoText">{{item.AKB021 | tooLong}}</div>
+                    <div class="InfoText">{{item.AKB021}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName">总费用：</div>
@@ -61,13 +61,13 @@ export default {
         }
     },
     filters:{
-        tooLong(val){
-            if(val.length > 13){
-                 return val.slice(0,13) + '...';
-            }else{
-                return val;
-            }
-        }
+        // tooLong(val){
+        //     if(val.length > 13){
+        //          return val.slice(0,13) + '...';
+        //     }else{
+        //         return val;
+        //     }
+        // }
     },
     created () {
         this.epFn.setTitle('个人费用查询')
@@ -131,6 +131,7 @@ export default {
                 line-height: .8rem;
                 font-size: .28rem;
                 display: flex;
+                height: auto;
                 .InfoName{
                     width: 3rem;
                     color: #666;
@@ -139,6 +140,7 @@ export default {
                 }
                 .InfoText{
                     width: 100%;
+                    vertical-align: center;
                     color: #000;
                     letter-spacing: 0;
                     text-align: left;
