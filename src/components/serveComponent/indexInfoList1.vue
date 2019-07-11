@@ -33,14 +33,14 @@
         <div class="iconContent">
             <div class="iconList">
                 <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销',false)">
-                    <svg-icon v-if="0" icon-class="serveComponent_icon5" />
-                    <svg-icon v-if="1" icon-class="serveComponent_grey11" />
+                    <svg-icon v-if="1" icon-class="serveComponent_icon5" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey11" />
                     <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
                     <div class="text">零星报销</div>
                 </div>
                 <div class="iconBox" @click="showDetail('transferRenewing','关系转移接续')">
-                    <svg-icon v-if="0" icon-class="serveComponent_icon6" />
-                    <svg-icon v-if="1" icon-class="serveComponent_grey4" />
+                    <svg-icon v-if="1" icon-class="serveComponent_icon6" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey4" />
                     <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
                     <div class="text">医保转接</div>
                 </div>
