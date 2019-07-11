@@ -82,43 +82,46 @@
         </div>
         <!-- banner -->
         <div class="banner">
-            <div class="swiper-container">
+            <!-- <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon13" @click="hint" /></div>
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                       
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon16" @click="hint" /></div>
+                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
                 </div>
+            </div> -->
+            <div class="bannerSvg">
+                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital"/>
+                <svg-icon icon-class="serveComponent_icon15" @click="medicalList"/>
             </div>
         </div>
         <!-- 轮播图 -->
-        <div class="carousel">
-            <swipe>
-                <swipe-item>
-                    <svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                <!-- <swipe-item>
-                    <svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                <swipe-item>
-                    <svg-icon icon-class="serveComponent_icon15" /></swipe-item> -->
-            </swipe>
-        </div>
-        <div class="changeUserBtn" v-if="ifShow">
-            <div class="btn" @click="changeUsername(true)">更改用户名</div>
-            <div class="btn" @click="changeUserCode(true)">更改社保卡号</div>
+        <div class="carousel"> 
+            <!-- <swipe>
+                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+            </swipe> -->
+            <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->   
-        <!-- <div class="hotMsg">
+        <div class="hotMsg">
             <div class="hotHeader">热点资讯</div>
             <div class="msgLine" v-for="(item,index) in hotMsg" :key="index">
                 <div class="textBox">
                     <div class="textInfo">{{item.text | msgLength}}</div>
                     <div class="dateInfo">{{item.date}}</div>
                 </div>
-                <div class="imgBox"></div>
+                <div class="imgBox"><img :src=item.src></div>
             </div>
-        </div> -->
+        </div>
+        <div class="changeUserBtn" v-if="ifShow">
+            <div class="btn" @click="changeUsername(true)">更改用户名</div>
+            <div class="btn" @click="changeUserCode(true)">更改社保卡号</div>
+        </div>
         <div class="bottomline">
             <p>本服务由浙江政务服务网提供</p>
             <p>服务咨询热线 : <span class="bottomSpan">{{tel}}</span> </p>
@@ -136,17 +139,32 @@
         data() {
            
             return {
-                 ifShow:true,
+                name:"",
+                lat:"",
+                lng:"",
+                ifShow:true,
                 tel: "0571-88808880",
                 imgurl: "",
                 hotMsg: [ //热点资讯
                     {
-                        text: '“数字经济”：开启浙江经济增长新“大时代”',
-                        date: '2019-09-09'
+                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年5月底）',
+                        date: '2019-06-11',
+                        src: '../../../static/images/zhuanqu/01.png'
                     },
                     {
-                        text: '本式港澳通行证将失效！9图出入境证件办理全攻略',
-                        date: '2019-09-09'
+                        text: '2019年上半年省、市基本医疗保险协议定点医药机构名单公示',
+                        date: '2019-05-30',
+                        src: '../../../static/images/zhuanqu/02.png'
+                    },
+                    {
+                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年4月底）',
+                        date: '2019-05-15',
+                        src: '../../../static/images/zhuanqu/03.png'
+                    },
+                    {
+                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年4月25日）',
+                        date: '2019-04-25',
+                        src: '../../../static/images/zhuanqu/04.png'
                     }
                 ],
                 iconFlag: false,
@@ -164,6 +182,9 @@
         },
         created() {
             // 清空零星报销的Vuex
+
+            
+            console.log('获取token',sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT={
                 AAS301: '', //参保地统筹省编码
                 AAB301: '', //参保地统筹市编码
@@ -224,7 +245,6 @@
             // 获取当前城市信息
             this.$ep.selectLocalCity((data) => {
                 console.log('selectLocalCity成功回调',data)
-                            
             },(error)=> {
                 console.log('selectLocalCity失败回调',error)
             })
@@ -232,6 +252,12 @@
             
             this.$ep.locationGet((data) => {
                 console.log('locationGet成功回调',data)
+                let lat=data.latitude.toString();
+                let lng=data.longitude.toString();
+                this.lat=lat;
+                this.lng=lng;
+                console.log("lng",this.lng)
+                console.log("lat",this.lat)
             },(error)=> {
                 console.log('locationGet失败回调',error)
             })
@@ -260,6 +286,9 @@
             }
         },
         methods: {
+            query1() {
+                console.log("query")
+            },
             hint(){
                 this.$toast("功能正在建设中");
             },
@@ -303,7 +332,7 @@
                     dd.biz.navigation.open({
                         pageId: 'card',
                         params:{
-                            id:"medicalPayCard",
+                            id:"socialCard",
                             functionType:2//1社保卡首页 2打开社保卡支付码 3打开社保卡关联页
                         },
                         onSuccess: function(data) {
@@ -312,7 +341,7 @@
                         onFail: function(error) {
                             console.log(error)
                             _this.$toast("请升级浙里办APP版本")
-                        }
+                        } 
                     })
                 })
             },
@@ -341,6 +370,30 @@
                         }
                     })
                 })
+            },
+            //药品目录
+            medicalList(){
+                console.log(1)  
+                this.$router.push("/SearchInfoMedicalList");       
+            },
+            //异地定点医院
+            elseWhereHospital(){
+                console.log(2)   
+                let item ={} 
+                if(this.lat==""&&this.lng==""){
+                    item.lat="30.274643833098636"
+                    item.lng="120.14708140897169"
+                }else{
+                    item.lat=this.lat;    
+                    item.lng=this.lng; 
+                }
+                console.log("item",item)   
+                this.$router.push({
+                path:"/SearchInfoElseWhere",//领取就医凭证
+                query:{
+                    param: item
+                }
+                });       
             },
             yibaozhanghu() {
                 this.$toast("功能正在建设中")
@@ -474,8 +527,12 @@
                 
                 if ( tip != "339900" &&  tip != "331099") {
                     console.log("tiptiptiptiptiptip",tip);
+                    if(tipstr === null) {
+                       this.$toast("服务暂未开通")
+                    }else{
+                       this.$toast(tipstr + "服务暂未开通")
+                    }
                     
-                    this.$toast(tipstr + "服务暂未开通")
                     return;
                 }
 
@@ -483,8 +540,11 @@
                 // 医保账户 只有省本级能点
                 if (url == 'medicalInsuranceAccount' ) {
                     if (tip != '339900') {
-                           
-                        this.$toast(tipstr + "服务暂未开通")
+                        if(tipstr === null) {
+                       this.$toast("服务暂未开通")
+                    }else{
+                       this.$toast(tipstr + "服务暂未开通")
+                    }
                         return;
                     }
                 }
@@ -617,8 +677,10 @@
         } // banner
         .banner {
             height: 2.96rem;
-            padding: .6rem 0;
             background: #FFF;
+            padding: 0 .2rem;
+            display: flex;
+            align-items: center;
             .swiper-container {
                 height: 100%;
                 .swiper-wrapper {
@@ -631,17 +693,31 @@
                     }
                 }
             }
+            .bannerSvg{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                .svg-icon{
+                    height: 1.76rem;
+                    width: 3.28rem;
+                }
+            }
         } // 轮播图
         .carousel {
-            height: 4.48rem;
-            padding-bottom: 2.48rem;
+            height: 2.48rem;
             background: #FFF;
+            padding-bottom: .48rem;
             .c-swipe {
                 height: 100%;
                 .svg-icon {
                     height: 100%;
                     width: 100%;
                 }
+            }
+            .svg-icon{
+                height: 100%;
+                width: 100%;
             }
         } // 热点资讯
         .hotMsg {
@@ -686,9 +762,11 @@
                     height: 1.6rem;
                     width: 2.2rem;
                     background: #EEE;
+                    border-radius: .05rem;
                     .img {
                         height: 100%;
-                        width: 100%
+                        width: 100%;
+                        border-radius: .05rem
                     }
                 }
             }

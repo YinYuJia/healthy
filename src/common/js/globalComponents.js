@@ -8,10 +8,12 @@ import WorkProgress from '@/components/serveComponent/common/WorkProgress'
 import Success from '@/components/serveComponent/common/Success'
 import PhotoView from '@/components/serveComponent/common/PhotoView'
 
+
+
 function plugin(Vue) {
     if (plugin.installed) {
         return
-    }
+    } 
     Vue.component('Footer',Footer);
     Vue.component('ProgressDate',ProgressDate);
     Vue.component('SearchInfoPage',SearchInfoPage);
