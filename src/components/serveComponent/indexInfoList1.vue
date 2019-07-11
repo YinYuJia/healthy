@@ -570,13 +570,15 @@
 
 <style lang="less" scoped>
     .indexInfoList {
+        width: 100%;
         // 头部
         .indexHeader {
             height: 3.4rem;
             position: relative;
+            
             .svg-icon {
                 height: 3.4rem;
-                width: 7.5rem;
+                width: 100%;
             }
             .headerText {
                 position: absolute;
