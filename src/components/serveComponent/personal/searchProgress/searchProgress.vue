@@ -248,11 +248,11 @@
                                 console.log('pageNum', this.pageNum)
                                 this.allLoaded = false
                                 console.log(this.allLoaded)
-                            } else {
+                            }
+                        } else {
                                 // this.allLoaded=true
                                 this.isShow = true;
                             }
-                        }
                     } else if (resData.enCode == 1001) {
                         //   失败  1001
                         this.$toast(resData.msg);
