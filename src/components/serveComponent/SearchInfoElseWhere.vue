@@ -78,7 +78,16 @@ export default {
   methods: {
     deleteSearch(){
       this.NAME = '';
-      // this.getList();
+        this.isShow=false
+        this.allLoaded = true;
+        this.List = [];
+        this.params.PAGE = 1;
+        
+        this.getList();
+        console.log("清空List",this.List)
+      // }else{
+      //   this.$toast("请输入查询条件")
+      // }
     },
         search() {
       // if(this.params.AAA102){

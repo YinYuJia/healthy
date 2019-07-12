@@ -195,7 +195,12 @@ export default {
     },
     deleteSearch(){
       this.NAME = '';
-      this.getList();
+              this.isShow=false
+        this.allLoaded = true;
+        this.List = [];
+        this.params.PAGE = 1;
+        this.getList();
+        console.log("清空List",this.List)
     },
     loadBottom() {
         // 加载更多数据
@@ -214,7 +219,6 @@ export default {
         this.allLoaded = true;
         this.List = [];
         this.params.PAGE = 1;
-        console.log("params.AAA102",this.params.AAA102)
         this.getList();
         console.log("清空List",this.List)
       // }else{
