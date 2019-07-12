@@ -281,6 +281,12 @@ export default {
       }
     }
   }
+  .content1 {
+      overflow: auto;
+    width: 7.5rem;
+    height: 100%;
+    background: #FFFFFF;
+  }
 	.InfoLine{
 		height: 1.6rem;
     display: flex;
