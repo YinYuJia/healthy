@@ -200,6 +200,10 @@ export default {
           } else if (resData.enCode == 1001) {
             //   失败  1001
             this.$toast(resData.msg);
+            setTimeout( ()=> {
+                this.NAME = "";
+                this.getList()
+            },1500)
             return;
           } else {
             this.$toast("业务出错");

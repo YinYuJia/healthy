@@ -1,5 +1,14 @@
 <template>
 	<div class="elseWhereHospital">
+        <div class="SearchContent" id="searchContent">
+      <div class="SearchBox">
+        <svg-icon icon-class="serveComponent_search"/>
+        <input class="InputContent" v-model="NAME" :placeholder="'查找'">
+        <svg-icon class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
+        <div class="SearchBtn" @click="search">搜索</div>
+      </div>
+    </div>
+
 		<div class="content1" :style="{height:height,fontSize:'16px'}">
 			<mt-loadmore
 			:bottom-method="loadBottom"
@@ -34,6 +43,7 @@
 export default {
 	data(){
 		return{
+      NAME:"",
 			List:[],
 			smallReimForm: {}, // 零星报销对象
 			params: {
@@ -66,6 +76,24 @@ export default {
     window.removeEventListener('popstate', this.back, false);//false阻止默认事件
 	},
   methods: {
+    deleteSearch(){
+      this.NAME = '';
+      // this.getList();
+    },
+        search() {
+      // if(this.params.AAA102){
+        this.isShow=false
+        this.allLoaded = true;
+        this.List = [];
+        this.params.PAGE = 1;
+        
+        this.getList();
+        console.log("清空List",this.List)
+      // }else{
+      //   this.$toast("请输入查询条件")
+      // }
+      
+    },
     fun(){
       this.height = window.innerHeight+"px";
     },
@@ -109,6 +137,10 @@ export default {
           } else if (resData.enCode == 1001) {
             //   失败  1001
             this.$toast(resData.msg);
+            setTimeout( ()=> {
+                   this.NAME = "";
+                   this.getList()
+            },1500)
             return;
           } else {
             this.$toast("业务出错");
@@ -200,7 +232,57 @@ export default {
 .elseWhereHospital{
 	height: 100%;
 	background: #FFF;
-	padding: 0 .2rem;
+  padding: 0 .2rem;
+    .SearchContent {
+    height: 1.18rem;
+    // width: 7.5rem;
+    margin-bottom: 0.15rem;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    .SearchBox {
+      position: relative;
+      height: 0.8rem;
+      width: 6.7rem;
+      padding: 0 0.15rem;
+      border: 0.01rem solid #1492ff;
+      border-radius: 0.05rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .svg-icon {
+        height: 0.5rem;
+        width: 0.5rem;
+      }
+      .InputContent {
+        height: 0.49rem;
+        width: 4.1rem;
+        font-size: 0.26rem;
+        border: none;
+        &::placeholder {
+          color: #c9c9c9;
+        }
+      }
+      .deleteIcon{
+        height: .4rem;
+        width: .4rem;
+        position: absolute;
+        right: 1.2rem;
+      }
+      .SearchBtn {
+        height: 0.49rem;
+        width: 0.99rem;
+        margin-left: .2rem;
+        background: #1492ff;
+        border-radius: 0.04rem;
+        color: white;
+        font-size: 0.26rem;
+        line-height: 0.49rem;
+        letter-spacing: 0;
+      }
+    }
+  }
 	.InfoLine{
 		height: 1.6rem;
     display: flex;
