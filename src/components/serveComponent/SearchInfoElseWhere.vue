@@ -238,7 +238,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    position: relative;
+    // position: relative;
     .SearchBox {
       position: relative;
       height: 0.8rem;
@@ -282,8 +282,8 @@ export default {
     }
   }
   .content1 {
-      overflow: auto;
-    width: 7.5rem;
+    overflow: auto;
+    // width: 7.5rem;
     height: 100%;
     background: #FFFFFF;
   }
