@@ -1,26 +1,12 @@
 <template>
   <div class="SearchInfoPage">
     <!-- 标题 -->
-    <div class="Title" id="title">
-        <el-row>
-            <el-col :span="6">
-                <div class="BackIcon" @click="back()">
-                    <svg-icon icon-class="serveComponent_back" />
-                    <span>返回</span>
-                </div>
-            </el-col>
-            <el-col :span="12">
-                <div class="NameTitle">{{title}}</div>
-            </el-col>
-            <el-col :span="6">
-            </el-col> 
-        </el-row>
-    </div>
+
     <div class="SearchContent" id="searchContent">
       <div class="SearchBox">
         <svg-icon icon-class="serveComponent_search"/>
-        <input class="InputContent" v-model="NAME" :placeholder="'查找'+title">
-        <svg-icon v-if="params.AAA102.length>0" class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
+        <input class="InputContent" v-model="NAME" :placeholder="'查找'">
+        <svg-icon class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
         <div class="SearchBtn" @click="search">搜索</div>
       </div>
     </div>
@@ -200,10 +186,6 @@ export default {
           } else if (resData.enCode == 1001) {
             //   失败  1001
             this.$toast(resData.msg);
-            setTimeout( ()=> {
-                this.NAME = "";
-                this.getList()
-            },1500)
             return;
           } else {
             this.$toast("业务出错");
@@ -212,8 +194,8 @@ export default {
         });
     },
     deleteSearch(){
-      this.params.AAA102 = '';
-      // this.getList();
+      this.NAME = '';
+      this.getList();
     },
     loadBottom() {
         // 加载更多数据

@@ -137,10 +137,6 @@ export default {
           } else if (resData.enCode == 1001) {
             //   失败  1001
             this.$toast(resData.msg);
-            setTimeout( ()=> {
-                   this.NAME = "";
-                   this.getList()
-            },1500)
             return;
           } else {
             this.$toast("业务出错");
@@ -230,10 +226,11 @@ export default {
 
 <style lang="less" scoped>
 .elseWhereHospital{
-	height: 100%;
+	// height: 100%;
 	background: #FFF;
   padding: 0 .2rem;
     .SearchContent {
+
     height: 1.18rem;
     // width: 7.5rem;
     margin-bottom: 0.15rem;
@@ -241,6 +238,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    position: relative;
     .SearchBox {
       position: relative;
       height: 0.8rem;
