@@ -194,7 +194,11 @@ export default {
     },
     deleteSearch(){
       this.params.AAA102 = '';
-      this.getList();
+        this.isShow=false
+        this.allLoaded = true;
+        this.List = [];
+        this.params.pageNum = 1;
+        this.getList();
     },
     loadBottom() {
         // 加载更多数据
@@ -214,7 +218,6 @@ export default {
         this.List = [];
         this.params.pageNum = 1;
         this.getList();
-        console.log("清空List",this.List)
       // }else{
       //   this.$toast("请输入查询条件")
       // }
