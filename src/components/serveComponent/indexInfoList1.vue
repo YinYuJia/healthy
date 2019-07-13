@@ -601,9 +601,10 @@
             .headerPad {
                 position: absolute;
                 top: 2.3rem;
-                left: .2rem;
+                left: 50%;
+                transform: translateX(-50%);
                 height: 2.2rem;
-                width: 7.1rem;
+                width: 94%;
                 background: #FFFFFF;
                 border: 0 solid #E7EDF7;
                 box-shadow: 0 0 .28rem 0 rgba(0, 0, 0, 0.07);
@@ -637,12 +638,18 @@
             background: #FFF;
             padding: 1.8rem .2rem 0 .2rem;
             .iconList {
+                display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+                display: -moz-box; /* Firefox 17- */
+                display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+                display: -moz-flex; /* Firefox 18+ */
+                display: -ms-flexbox; /* IE 10 */
                 display: flex;
+
                 justify-content: space-around;
                 .iconBox {
                     position: relative;
                     height: 1.4rem;
-                    width: 1.4rem;
+                    width: 1.2rem;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
