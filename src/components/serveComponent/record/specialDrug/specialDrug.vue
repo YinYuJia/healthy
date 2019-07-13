@@ -194,7 +194,7 @@
     <Footer :canSubmit="canSubmit" @submit="submit()"></Footer>
     <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
     <!-- 就诊机构 -->
-    <SearchInfoPage ref="org" @childrenClick="orgClick"></SearchInfoPage>
+    <SearchInfoPage ref="org" type="AKB020_TZ" @childrenClick="orgClick"></SearchInfoPage>
     <!-- 疾病名称 -->
     <SearchInfoPage ref="species" :AAE013="AAE013One" :AAA052="AAA052One" type="AKA120" @childrenClick="speciesClick"></SearchInfoPage>
     <!-- 项目名称 -->

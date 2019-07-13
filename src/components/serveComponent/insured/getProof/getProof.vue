@@ -66,7 +66,7 @@
                 <div class="searchBtn" @click="openBank">点击查看银行网点</div>
             </div>
             <!-- 就诊机构 -->
-            <SearchInfoPage ref="org" type="AKB020_HZ"></SearchInfoPage>
+            <SearchInfoPage ref="org" type="AKB020_JY"></SearchInfoPage>
             <!-- 银行网点 -->
             <SearchInfoPage ref="bank" type="AAE008"></SearchInfoPage>
             <!-- 提示 -->
