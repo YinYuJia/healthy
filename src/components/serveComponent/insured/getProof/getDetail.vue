@@ -104,7 +104,7 @@ export default {
     computed:{
         type(){
             if(this.form.AAC050 == '1'){
-                return '变更';
+                return '更换';
             }else if(this.form.AAC050 == '2'){
                 return '补办';
             }
