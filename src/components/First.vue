@@ -144,6 +144,26 @@
     },
     // 生命周期发送请求
     created() {
+
+      const Obj = {
+        a:1,
+        b:2,
+        c:3
+      }
+
+      const Obj2 = Obj;
+
+      console.log('Obj',Obj)
+      
+      
+
+      const newObj = Object.assign({},Obj)
+      console.log("newObj",newObj)
+      Obj2.a = 5
+
+
+
+
       var abb1 = function(a,b) {
         return a+b
       }
@@ -160,6 +180,7 @@
       }
       console.log("---",Object.is('{}','{}'))
       console.log({}=={})
+
       // const _this = this
       // this.$axios.post('http://192.168.101.62:8001/test/json', {
       //   id: 1
