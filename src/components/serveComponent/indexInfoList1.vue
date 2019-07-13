@@ -601,9 +601,10 @@
             .headerPad {
                 position: absolute;
                 top: 2.3rem;
-                left: .2rem;
+                left: 50%;
+                transform: translateX(-50%);
                 height: 2.2rem;
-                width: 7.1rem;
+                width: 94%;
                 background: #FFFFFF;
                 border: 0 solid #E7EDF7;
                 box-shadow: 0 0 .28rem 0 rgba(0, 0, 0, 0.07);

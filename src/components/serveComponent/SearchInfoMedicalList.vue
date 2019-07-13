@@ -370,7 +370,7 @@ export default {
       .List {
         display: flex;
         justify-content: space-between;
-        width: 7.1rem;
+        width: 6.9rem;
         height: 100%;
         line-height: 1.2rem;
         font-size: 0.28rem;
@@ -385,13 +385,23 @@ export default {
           border-bottom: none;
         }
         .list-left{
-          display: flex;
-          flex-direction: column;
+          // display: flex;
+          // flex-direction: column;
           width: 100%;
+          .medical-name{
+            width: 7.1rem;
+            height: .37rem;
+            line-height: .37rem;
+            font-family: MicrosoftYaHei;
+            font-size: .28rem;
+            color: #000000;
+            letter-spacing: 0;
+          }
           .tag-item{
             padding-top: .12rem;
             display: flex;
             height: .4rem;
+            
             line-height: .4rem; 
             .item-tag{
             
@@ -431,15 +441,7 @@ export default {
               text-align: center;
             }
           }
-          .medical-name{
-            width: 100%;
-            height: .37rem;
-            line-height: .37rem;
-            font-family: MicrosoftYaHei;
-            font-size: .28rem;
-            color: #000000;
-            letter-spacing: 0;
-          }
+
         }
         .list-right{
             width: 100%;
