@@ -24,7 +24,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>护照号码:</span></div>
-                    <div class="InfoText">{{form.BKE260 | tuoMin(3,3)}}</div>
+                    <div class="InfoText">{{form.BKE260 | tuoMin(1,1)}}</div>
                 </div>
                 <!-- 进度时间 -->
                 <ProgressDate nameWidth="1.8rem"  :replyDate="form.AAE036"  :progressDate="form.BAE019"></ProgressDate>
