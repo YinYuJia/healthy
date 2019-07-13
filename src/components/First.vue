@@ -144,6 +144,26 @@
     },
     // 生命周期发送请求
     created() {
+
+      const Obj = {
+        a:1,
+        b:2,
+        c:3
+      }
+
+      const Obj2 = Obj;
+
+      console.log('Obj',Obj)
+      
+      
+
+      const newObj = Object.assign({},Obj)
+      console.log("newObj",newObj)
+      Obj2.a = 5
+
+
+
+
       var abb1 = function(a,b) {
         return a+b
       }
@@ -154,6 +174,13 @@
       console.log(abb2(5,6))
       console.log(abb2.apply(abb1,[5,6]))
       console.log(Math.max.apply(null,[1,2,3,4,5]))
+      const obj = {
+        a:1,
+        b:2
+      }
+      console.log("---",Object.is('{}','{}'))
+      console.log({}=={})
+
       // const _this = this
       // this.$axios.post('http://192.168.101.62:8001/test/json', {
       //   id: 1
@@ -171,15 +198,15 @@
       //     }
       // }, 1000)
 
-          this.$axios.get('/static/a.json').then((resData) => {
-            console.log(resData)
-          this.responseData = resData.data
-            console.log(this.responseData)
-          }
+          // this.$axios.get('/static/a.json').then((resData) => {
+          //   console.log(resData)
+          // this.responseData = resData.data
+          //   console.log(this.responseData)
+          // }
              
-          ).catch(function(error) {
-            console.log(error)
-          })
+          // ).catch(function(error) {
+          //   console.log(error)
+          // })
       this.$store.dispatch('SET_SELECTARRAY', this.epFn.ChinaJsonDatas())
       this.optionst = this.$store.state.SET_SELECTARRAY
     },

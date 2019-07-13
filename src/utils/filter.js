@@ -108,14 +108,46 @@ export function BKE586 (val) {
 }
 
 // 备案信息来源字典
-export function BKE258( val ) {
+export function BKE520( val ) {
   let obj = {
-    "0": "中心备案",
-    "1": "网上申报",
-    "2": "App",
+    // "0": "中心备案",
+    "1": "掌上",
+    "2": "网上",
+    "3": "柜面",
     undefined: "暂无"
   }
   return obj[val]
+ }
+ //异地定点医院医疗机构等级
+ export function level( val ) {
+  let obj = {
+    "X": "社区",
+    "0": "未定",
+    "1": "一级",
+    "2": "二级",
+    "3": "三级",
+    undefined: "暂无"
+  }
+  return obj[val]
+ }
+ //医院等级
+ export function AKB100( val ) {
+  let obj = {
+    "9": "其他",
+    "0": "特等",
+    "1": "甲等",
+    "2": "乙等",
+    "3": "丙等",
+  }
+  return obj[val]
+ }
+ //距离
+ export function ifKL( val ) {
+     if ( val < 1) {
+       return Math.floor(val * 1000) + 'm'
+     }else{
+      return Math.floor(val * 100) / 100 + "km"
+     }
  }
 /*退休类别过滤*/
 export function trtireType(value) {

@@ -108,6 +108,7 @@ export default {
         handleTypeConfirm(val){
             console.log(val);
             this.form.AKA078 = val.value;
+            sessionStorage.setItem('AKA078',val.value)
             this.AKA078VALUE = val.label;
         },
         // 选择就诊日期

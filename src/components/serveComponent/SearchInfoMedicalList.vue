@@ -1,26 +1,12 @@
 <template>
-  <div class="SearchInfoPage" v-if="showSearch">
+  <div class="SearchInfoPage">
     <!-- 标题 -->
-    <div class="Title" id="title">
-        <el-row>
-            <el-col :span="6">
-                <div class="BackIcon" @click="back()">
-                    <svg-icon icon-class="serveComponent_back" />
-                    <span>返回</span>
-                </div>
-            </el-col>
-            <el-col :span="12">
-                <div class="NameTitle">{{title}}</div>
-            </el-col>
-            <el-col :span="6">
-            </el-col> 
-        </el-row>
-    </div>
+
     <div class="SearchContent" id="searchContent">
       <div class="SearchBox">
         <svg-icon icon-class="serveComponent_search"/>
-        <input class="InputContent" v-model="params.AAA102" :placeholder="'查找'+title">
-        <svg-icon v-if="params.AAA102.length>0" class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
+        <input class="InputContent" v-model="NAME" :placeholder="'查找'">
+        <svg-icon class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
         <div class="SearchBtn" @click="search">搜索</div>
       </div>
     </div>
@@ -37,8 +23,17 @@
               :key="index"
               @click="chooseHospital(item)"
             >
-            <div class="medical-name">{{item.AKA061}}</div>
-            <div class="tag-item"><div class="item-tag  green">西药</div><div class="item-tag  blue">{{ item.AKA065}}</div></div>
+              <div class="list-left">
+                  <div class="medical-name">{{item.AKA061}}</div>
+                  <div class="tag-item">
+                    <div class="item-tag green">西药</div>
+                    <div class="item-tag blue">{{ item.AKA065}}</div>
+                    <div class="item-tag pink" v-if = " item.AKA070 != '无' ">{{ item.AKA070}}</div>
+                  </div>
+              </div>
+              <div class="list-right">
+                <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+              </div>
             </li>
           </ul>
         </mt-loadmore>
@@ -53,6 +48,7 @@ export default {
   data() {
     return {
       List: [],
+      NAME:"",
       smallReimForm: {}, // 零星报销对象
       params: {
         PAGE: 1,
@@ -60,10 +56,11 @@ export default {
         AAA102: "",
       },
       allLoaded: true,
-      showSearch: false,
       heightTop:0,
       height: 0,
-      isShow:false
+      isShow:false,
+      lat:"",
+      lng:""
     };
   },
   filters:{
@@ -89,16 +86,16 @@ export default {
     }
   },
   watch:{
-    showSearch(){
-      if(this.showSearch){
-          this.$nextTick(()=>{
-            let heightTop =  document.getElementById("searchContent").offsetHeight + document.getElementById("title").offsetHeight
-            console.log(heightTop);
+    // showSearch(){
+    //   if(this.showSearch){
+    //       this.$nextTick(()=>{
+    //         let heightTop =  document.getElementById("searchContent").offsetHeight + document.getElementById("title").offsetHeight
+    //         console.log(heightTop);
             
-            this.height = window.innerHeight -heightTop + "px"
-          })
-      }
-    }
+    //         this.height = window.innerHeight -heightTop + "px"
+    //       })
+    //   }
+    // }
   },
   mounted() {
     
@@ -127,6 +124,10 @@ export default {
     
   },
   created() {
+      this.epFn.setTitle('药品目录')
+      this.fun();
+      this.getList();
+
     // this.$nextTick(() => {
     //   document.body.addEventListener('touchmove',function(e){
     //     e.preventDefault(); //阻止默认事件(上下滑动)
@@ -143,8 +144,9 @@ export default {
   },
   methods: {
     fun(){
+      this.height = window.innerHeight+"px";
     },
-    // 获取医院列表
+    // 获取药品列表
     getList() {
       console.log(8888888888)
       // 封装数据
@@ -191,10 +193,15 @@ export default {
           }
         });
     },
-    // deleteSearch(){
-    //   this.params.AAA102 = '';
-    //   this.getList();
-    // },
+    deleteSearch(){
+      this.NAME = '';
+              this.isShow=false
+        this.allLoaded = true;
+        this.List = [];
+        this.params.PAGE = 1;
+        this.getList();
+        console.log("清空List",this.List)
+    },
     loadBottom() {
         // 加载更多数据
         console.log('加载')
@@ -212,7 +219,6 @@ export default {
         this.allLoaded = true;
         this.List = [];
         this.params.PAGE = 1;
-        
         this.getList();
         console.log("清空List",this.List)
       // }else{
@@ -221,14 +227,12 @@ export default {
       
     },
     formatSubmitData() {
-      let submitForm = {};
-      submitForm.AAC002 = ""; 
+      let submitForm = {}; 
       submitForm.PAGE = this.params.PAGE; //查询页数
       submitForm.AKA101 = this.params.AKA101; //医疗机构等级
       submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
-      submitForm.JD = this.JD; //经度
-      submitForm.WD = this.WD; //纬度
       submitForm.NAME = this.NAME; //医院名称
+      console.log('---submitForm.NAME---',submitForm.NAME)
       // submitForm.AAA102 = this.params.AAA102; //模糊查询
       // submitForm.AAA100 = this.type; //机构参数
       // submitForm.AAE013 = this.AAE013 //关联性类别码
@@ -249,22 +253,22 @@ export default {
       return params;
     },
     open(){
-      this.allLoaded = true
-      this.showSearch = true;
-      this.params.PAGE = 1
-      this.getList();
-      if (window.history && window.history.pushState) {
-        history.pushState(null, null, document.URL);
-        window.addEventListener('popstate', this.back, false);//false阻止默认事件
-      }
+  //     this.allLoaded = true
+  //     // this.showSearch = true;
+  //     this.params.PAGE = 1
+  //     this.getList();
+  //     if (window.history && window.history.pushState) {
+  //       history.pushState(null, null, document.URL);
+  //       window.addEventListener('popstate', this.back, false);//false阻止默认事件
+  //     }
     },
     back(){
       this.List = []
-      this.showSearch = false;
+      // this.showSearch = false;
     },
     chooseHospital(item) {
         this.List = []
-        this.showSearch = false
+        // this.showSearch = false
         this.$router.push({
         path:"/medicalDetail",//领取就医凭证
         query:{
@@ -279,9 +283,6 @@ export default {
 <style lang="less" scoped>
 .SearchInfoPage {
   background: #FFF;
-  z-index: 999;
-  position: fixed;
-  top: 0;
   height: 100%;
   .Title {
     display: none;
@@ -303,7 +304,7 @@ export default {
         letter-spacing: 0;
         font-size: .36rem;
     }
-}
+  }
   .SearchContent {
     height: 1.18rem;
     width: 7.5rem;
@@ -365,43 +366,85 @@ export default {
       width:100%;
       height:100%;
       background: #fff;
-      padding: 0 0.37rem;
+      padding: 0 0.2rem;
       .List {
+        display: flex;
+        justify-content: space-between;
         width: 7.1rem;
-        height: 1.2rem;
+        height: 100%;
+        line-height: 1.2rem;
         font-size: 0.28rem;
         color: #000;
         letter-spacing: 0;
         line-height: 1.2rem;
         text-align: left;
+        align-items: center;
+        padding:0 .2rem;
+        border-bottom: 1px solid #ddd; 
         &:last-child {
           border-bottom: none;
         }
-        .tag-item{
+        .list-left{
           display: flex;
-          height: .4rem;
-          line-height: .4rem; 
-          .item-tag{
-          width: .8rem;
-          height: .4rem;
+          flex-direction: column;
+          width: 100%;
+          .tag-item{
+            padding-top: .12rem;
+            display: flex;
+            height: .4rem;
+            line-height: .4rem; 
+            .item-tag{
+            
+            height: .4rem;
+            }
+            .green{
+              width: 1.2rem;
+              text-align: center;
+
+              font-family: FZLTXHKM;
+              background: #ECFFF1;
+              font-size: .24rem;
+              color: #26A88F;
+              letter-spacing: 0;
+              text-align: center;
+            }
+            .blue{
+              width: 1.2rem;
+              margin-left: .15rem;
+              text-align: center;
+              font-family: FZLTXHKM;
+              background: #DCEFFF;
+              font-size: .24rem;
+              color: #1492FF;
+              letter-spacing: 0;
+              text-align: center;
+            }
+            .pink{
+              width: 1.8rem;
+              margin-left: .15rem;
+              text-align: center;
+              font-family: FZLTXHKM;
+              background: #FFF1E2;
+              font-size: .24rem;
+              color: #FD9933;
+              letter-spacing: 0;
+              text-align: center;
+            }
           }
-          .item-tag .green{
-            background: #ECFFF1;
-            border: 1px solid #26A88F;
-          }
-          .item-tag .blue{
-            background: #DCEFFF;
-            border: 1px solid #1492FF;
+          .medical-name{
+            width: 100%;
+            height: .37rem;
+            line-height: .37rem;
+            font-family: MicrosoftYaHei;
+            font-size: .28rem;
+            color: #000000;
+            letter-spacing: 0;
           }
         }
-        .medical-name{
-          width: 2rem;
-          height: .37rem;
-          line-height: .37rem;
-          font-family: MicrosoftYaHei;
-          font-size: .28rem;
-          color: #000000;
-          letter-spacing: 0;
+        .list-right{
+            width: 100%;
+            height: 100%;
+            text-align: right;
         }
       }
     }  

@@ -18,7 +18,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>备案来源：</span></div>
-                    <div class="InfoText">{{item.BKE258 | BKE258()}}</div>
+                    <div class="InfoText">{{item.BKE520 | BKE520()}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>备案期限：</span></div>
@@ -37,7 +37,7 @@ export default {
                 // AAZ267:"",//备案号
                 // AKA083:"",//备案类型
                 // AAE016:"",//审核状态
-                // BKE258:"",//备案来源
+                // BKE520:"",//备案来源
                 // AAE031:"",//备案期限
             },
             List:[] 

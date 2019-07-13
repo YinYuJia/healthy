@@ -367,13 +367,27 @@
             },
             //药品目录
             medicalList(){
-                console.log(1)
-                this.$router.push('/SearchInfoMedicalList')        
+                console.log(1)  
+                this.$router.push("/SearchInfoMedicalList");       
             },
             //异地定点医院
             elseWhereHospital(){
-                console.log(2)        
-                this.$router.push('/SearchInfoElseWhere')        
+                console.log(2)   
+                let item ={} 
+                if(this.lat==""&&this.lng==""){
+                    item.lat="30.274643833098636"
+                    item.lng="120.14708140897169"
+                }else{
+                    item.lat=this.lat;    
+                    item.lng=this.lng; 
+                }
+                console.log("item",item)   
+                this.$router.push({
+                path:"/SearchInfoElseWhere",//领取就医凭证
+                query:{
+                    param: item
+                }
+                });       
             },
             yibaozhanghu() {
                 this.$toast("功能正在建设中")
@@ -507,8 +521,12 @@
                 
                 if ( tip != "339900" &&  tip != "331099") {
                     console.log("tiptiptiptiptiptip",tip);
+                    if(tipstr === null) {
+                       this.$toast("服务暂未开通")
+                    }else{
+                       this.$toast(tipstr + "服务暂未开通")
+                    }
                     
-                    this.$toast(tipstr + "服务暂未开通")
                     return;
                 }
 
@@ -516,8 +534,11 @@
                 // 医保账户 只有省本级能点
                 if (url == 'medicalInsuranceAccount' ) {
                     if (tip != '339900') {
-                           
-                        this.$toast(tipstr + "服务暂未开通")
+                        if(tipstr === null) {
+                       this.$toast("服务暂未开通")
+                    }else{
+                       this.$toast(tipstr + "服务暂未开通")
+                    }
                         return;
                     }
                 }
@@ -549,13 +570,15 @@
 
 <style lang="less" scoped>
     .indexInfoList {
+        width: 100%;
         // 头部
         .indexHeader {
             height: 3.4rem;
             position: relative;
+            
             .svg-icon {
                 height: 3.4rem;
-                width: 7.5rem;
+                width: 100%;
             }
             .headerText {
                 position: absolute;
@@ -614,12 +637,18 @@
             background: #FFF;
             padding: 1.8rem .2rem 0 .2rem;
             .iconList {
+                display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+                display: -moz-box; /* Firefox 17- */
+                display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+                display: -moz-flex; /* Firefox 18+ */
+                display: -ms-flexbox; /* IE 10 */
                 display: flex;
+
                 justify-content: space-around;
                 .iconBox {
                     position: relative;
                     height: 1.4rem;
-                    width: 1.4rem;
+                    width: 1.2rem;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
