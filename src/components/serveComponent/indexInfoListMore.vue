@@ -125,14 +125,14 @@
                             <svg-icon icon-class="serveComponent_icon_20" />
                             <div class="text">备案信息</div>
                         </div>
-                        <div class="iconBox">
+                        <!-- <div class="iconBox">
                             <svg-icon icon-class="serveComponent_icon_hosipital" />
                             <div class="text">定点医院</div>
                         </div>
                         <div class="iconBox">
                             <svg-icon icon-class="serveComponent_icon_drugstore" />
                             <div class="text">定点药店</div>
-                        </div>
+                        </div> -->
                         <div class="iconBox"></div>
                     </div>
                 </div>
