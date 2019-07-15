@@ -134,6 +134,8 @@
                             <div class="text">定点药店</div>
                         </div> -->
                         <div class="iconBox"></div>
+                        <div class="iconBox"></div>
+                        <div class="iconBox"></div>
                     </div>
                 </div>
             </div>
