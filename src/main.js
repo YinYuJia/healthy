@@ -156,7 +156,7 @@ function ApiUrl() {
   }
 }
 
-console.log('------欢迎进入医保专区首页main.js------')
+console.log('------欢迎进入APP首页main.js---20190715__01---')
 
 import Vconsole from 'vconsole';
 var vConsole = new Vconsole()
