@@ -219,6 +219,8 @@ export default {
                     }
                 }
                 let params = this.formatSubmitData();
+                console.log('----params----',params)
+
                 this.$axios.post( this.epFn.ApiUrl() +  '/h5/jy1008/transactionVoucher', params.params)
                 .then((resData) => {
 
@@ -241,6 +243,7 @@ export default {
             let submitForm = Object.assign({}, this.form)
             // let submitForm = JSON.parse(JSON.stringify(this.form)); //深拷贝
             // 加入用户名和电子社保卡号
+            submitForm.BKE520 = "1"
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
