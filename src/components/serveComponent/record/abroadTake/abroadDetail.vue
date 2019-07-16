@@ -8,23 +8,23 @@
             <div class="MailInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地:</span></div>
-                    <div class="InfoText">{{AAB301000}}</div>
+                    <div class="InfoText"><span>{{AAB301000}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>出境日期:</span></div>
-                    <div class="InfoText">{{form.AAE030}}</div>
+                    <div class="InfoText"><span>{{form.AAE030}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟回国日期:</span></div>
-                    <div class="InfoText">{{form.AAE031}}</div>
+                    <div class="InfoText"><span>{{form.AAE031}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>取药机构:</span></div>
-                    <div class="InfoText">{{form.AKB020VALUE}}</div>
+                    <div class="InfoText"><span>{{form.AKB020VALUE}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>护照号码:</span></div>
-                    <div class="InfoText">{{form.BKE260 | tuoMin(1,1)}}</div>
+                    <div class="InfoText"><span>{{form.BKE260 | tuoMin(1,1)}}</span></div>
                 </div>
                 <!-- 进度时间 -->
                 <ProgressDate nameWidth="1.8rem"  :replyDate="form.AAE036"  :progressDate="form.BAE019"></ProgressDate>
@@ -217,29 +217,35 @@ export default {
             margin-top: .15rem;
             background: white;
             .InfoLine{
-                height: 1.2rem;
+                // height: 1.2rem;
                 position: relative;
-                font-size: .28rem;
                 display: flex;
+                font-size: .28rem;
+                padding: .44rem 0;
                 border-bottom: .01rem solid #D5D5D5;
                 .InfoName{
-                    width: 1.8rem;
-                    line-height: 1.2rem;
+                    width: 2.2rem;
                     text-align: left;
                     span{
-                        height: .6rem;
-                        line-height: .6rem;
+                        line-height: .4rem;
                         color: #666;
                         letter-spacing: 0;
                     }
                 }
                 .InfoText{
-                    width: 5.1rem;
-                    color: #000;
-                    line-height: 1.2rem;
+                    height: auto;
+                    width: 5rem;
+                    letter-spacing: 0;
                     display: flex;
                     position: relative;
                     align-items: center;
+                    span{
+                        height: auto;
+                        line-height: .4rem;
+                        color: #000;
+                        letter-spacing: 0;
+                        text-align: left;
+                    }
                 }
                 &:last-child{
                     border-bottom: none;
