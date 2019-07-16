@@ -30,7 +30,7 @@
             </div>
         </div>
         <!-- 图标列表 -->
-        <div class="iconContent">
+        <div class="iconContent" >
             <div class="iconList">
                 <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
                     <svg-icon icon-class="serveComponent_icon5" />
@@ -133,6 +133,7 @@
         data() {
            
             return {
+                provice:false,
                 name:"",
                 lat:"",
                 lng:"",
@@ -634,7 +635,7 @@
             }
         } // 图标区域
         .iconContent {
-            height: 4.74rem;
+            // height: 4.74rem;
             background: #FFF;
             padding: 1.8rem .2rem 0 .2rem;
             .iconList {
