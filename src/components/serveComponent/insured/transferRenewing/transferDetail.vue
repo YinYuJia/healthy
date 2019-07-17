@@ -111,12 +111,13 @@ export default {
                     console.log("form",this.form)
                     if(this.form.AAQ027VALUE==undefined){
                         this.AAA027000=this.form.AAS027VALUE+this.form.AAA027VALUE
-                    }
-                    if(this.form.AAB027VALUE==undefined){
-                        this.AAA027000=this.form.AAS027VALUE+this.form.AAQ027VALUE
+                    }else{
+                        this.AAA027000=this.form.AAS027VALUE+this.form.AAA027VALUE+this.form.AAQ027VALUE
                     }
                     if(this.form.AAQ301VALUE==undefined){
                         this.AAB301000=this.form.AAS301VALUE+this.form.AAB301VALUE
+                    }else{
+                        this.AAB301000=this.form.AAS301VALUE+this.form.AAB301VALUE+this.form.AAQ301VALUE
                     }
                     this.handleNumber = resData.LS_DS_07.BKZ019
                     // this.$toast("提交成功");
