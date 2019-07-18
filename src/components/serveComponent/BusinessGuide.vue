@@ -107,11 +107,87 @@ export default {
             activeIndex: 1
         }
     },
+    created () {
+        console.log("1111",this.$route.query.param)
+    },     
     methods:{
         changeIndex(index){
             this.activeIndex = index;
+        },
+        getList() {
+            console.log(8888888888)
+            // 封装数据
+            let params = this.formatSubmitData();
+            // 开始请求
+            this.$axios.post(this.epFn.ApiUrl()+"/H5/jy9024/distanceHospital",params).then(resData => {
+                console.log("返回成功信息11", resData);          
+                console.log("返回成功信息", resData.LS_DS);
+                //   成功   1000
+                if (resData.enCode == 1000) {
+                    
+                    // this.$toast("提交成功");
+                    if (resData.LS_DS.length > 0) {
+                    this.List = [...this.List, ...resData.LS_DS];
+                    let PAGE = Math.ceil(this.List.length / this.params.OUTNUMBER);
+                    //向上取整
+                    this.params.PAGE = PAGE;
+                    // 总页数
+                    if (resData.SPAGE > PAGE) {
+                        this.params.PAGE += 1;
+                        this.allLoaded = false;
+                        sessionStorage.setItem("params", JSON.stringify(this.params));
+                        // sessionStorage.setItem("pointList", JSON.stringify(this.List));
+                    }else{
+                        this.isShow = true
+                    }
+                    if(resData.SCOUNT<=15){
+                        this.isShow = true
+                        this.allLoaded = true;
+                    }
+                    sessionStorage.setItem("pointList", JSON.stringify(this.List));
+                    sessionStorage.setItem("params", JSON.stringify(this.params));
+                    // sessionStorage.setItem("params", JSON.stringify(this.params));
+                    }else{
+                        this.isShow = true
+                    }
+                } else if (resData.enCode == 1001) {
+                    //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                } else {
+                    this.$toast("业务出错");
+                    return;
+                }
+            });
+        },
+        formatSubmitData() {
+        let submitForm = {};
+        submitForm.PAGE = this.params.PAGE; //查询页数
+        submitForm.AKA101 = this.params.AKA101; //医疗机构等级
+        submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
+        submitForm.JD = this.lng;//经度
+        submitForm.WD = this.lat; //纬度
+        submitForm.NAME = this.NAME; //医院名称
+        // submitForm.AAA102 = this.params.AAA102; //模糊查询
+        // submitForm.AAA100 = this.type; //机构参数
+        // submitForm.AAE013 = this.AAE013 //关联性类别码
+        // submitForm.AAA052 = this.AAA052  //关联性类别值
+        // 加入用户名和电子社保卡号
+        if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
+            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+        } else {
+            this.$toast("未获取到人员基本信息");
         }
-    }
+        // 请求参数封装
+        const params = this.epFn.commonRequsetData(
+            this.$store.state.SET_NATIVEMSG.PublicHeader,
+            submitForm,
+            "9024"
+        );
+        return params;
+        },
+    },
 }
 </script>
 

@@ -66,8 +66,9 @@ export default {
         form: {
             handler: function(val) {
                 if(val.BKE100!=""){
-                    let reg=/[\u4E00-\u9FA5]/g
+                    // let reg=/[\u4E00-\u9FA5]/g
                     // let reg=/[0-9a-zA-Z]/
+                    let reg=/^\w*\w+$/
                     if(!reg.test(val.BKE100)){
                         this.form.BKE100='';
                         this.$toast('发票号码只可填写数字和字母，请确认后重新填写')
