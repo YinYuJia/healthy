@@ -194,6 +194,8 @@
             </div>
         </div>
       </div>
+      <!-- 办事指南 -->
+      <GuideIcon AGA002="330800253004"></GuideIcon>
       <!-- 按钮 -->
       <Footer :canSubmit="canSubmit" @submit="submit()"></Footer>
     </div>

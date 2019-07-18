@@ -75,6 +75,8 @@
                 <div class="HintText">为保证您的正常领取，请务必填写正确、完整的邮递信息。具体送达时间以实际邮递情况为准。</div>
             </div>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330800122043"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>

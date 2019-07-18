@@ -45,6 +45,8 @@
                 <div class="HintText">手机号码将用于您事项办结后的消息通知，请您准确填写。</div>
             </div>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="331400512001"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>
