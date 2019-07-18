@@ -77,6 +77,8 @@
             </div>
         </div>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330800253002"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>

@@ -25,6 +25,8 @@
                 <div class="HintText">请依照您的实际变更情况，修改以上内容。</div>
             </div>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="331400501005"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>
