@@ -83,12 +83,21 @@ export default {
                     this.canSubmit = false;
                 }
             },
+
             deep: true
         },
     },
     created() {
         this.epFn.setTitle('零星报销')
         this.form = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
+        console.log("1188888",this.form)
+        // if(this.form.AKA078=="1"){
+        //     this.AKA078VALUE="门诊"
+        // }else if(this.form.AKA078=="3"){
+        //     this.AKA078VALUE="住院"
+        // }
+        console.log("111",sessionStorage.getItem('AKA078VALUE'))
+        this.AKA078VALUE=sessionStorage.getItem('AKA078VALUE')
     },
     methods: {
         // 选择就诊医院
@@ -110,6 +119,8 @@ export default {
             this.form.AKA078 = val.value;
             sessionStorage.setItem('AKA078',val.value)
             this.AKA078VALUE = val.label;
+            sessionStorage.setItem('AKA078VALUE',val.label)
+
         },
         // 选择就诊日期
         openTimePicker(){

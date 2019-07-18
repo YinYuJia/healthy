@@ -30,7 +30,7 @@
             <!-- 列表信息 -->
             <div class="GetInfo">
                 <div class="InfoLine">
-                    <div class="InfoName"><span>类型：</span></div>
+                    <div class="InfoName"><span>业务类型：</span></div>
                     <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="AAC050VALUE" placeholder="请选择" readonly></div>
                 </div>
                 <div class="InfoLine">

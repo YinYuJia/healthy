@@ -8,12 +8,12 @@
             @confirm="chooseInsured"
             >
         </SelectCity>
-        <mt-datetime-picker
+        <!-- <mt-datetime-picker
             type="date"
             ref="startPicker"
             v-model="dateVal"
             @confirm="handleStartConfirm">
-        </mt-datetime-picker>
+        </mt-datetime-picker> -->
         <SelectCity 
             :type="1"
             ref="relatePicker"
@@ -54,7 +54,8 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>开始日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div>
+                        <!-- <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div> -->
+                        <div class="InfoText">{{form.AAE030}}</div> 
                     </div>
                 </div>
             </div>
@@ -81,7 +82,7 @@
                     BKZ019:""//经办编号
                 },
                 AAE144VALUE: '',
-                dateVal: new Date(), //默认绑定的时间
+                dateVal:"", //默认绑定的时间
                 canSubmit: false,
                 relationList: [{
                         value: '1',
@@ -100,9 +101,11 @@
         },
         created() {
             this.epFn.setTitle('家庭共济备案')
-
-                       let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
-           let GinsengLandName = sessionStorage.getItem("GinsengLandName")
+            let val=new Date();
+            this.dateVal=this.util.formatDate(val,'yyyy-MM-dd');
+            this.form.AAE030=this.dateVal;
+            let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
+            let GinsengLandName = sessionStorage.getItem("GinsengLandName")
 
            console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
            this.AAB301000 = GinsengLandName
@@ -137,15 +140,15 @@
             this.form.AAS301 =val.code[0]; //参保地省
             this.form.AAB301 =val.code[1]; //参保地市
             },
-            // 选择开始日期
-            openStartPicker(){
-                this.$refs.startPicker.open();
-            },
-            handleStartConfirm(val){
-                let date = this.util.formatDate(val,'yyyy-MM-dd');
-                this.form.AAE030 = date;
-                console.log(this.form.AAE030);
-            },
+            // // 选择开始日期
+            // openStartPicker(){
+            //     this.$refs.startPicker.open();
+            // },
+            // handleStartConfirm(val){
+            //     let date = this.util.formatDate(val,'yyyy-MM-dd');
+            //     this.form.AAE030 = date;
+            //     console.log(this.form.AAE030);
+            // },
             // 选择月数
             openRelatePicker(){
                 this.$refs.relatePicker.open();
@@ -196,6 +199,7 @@
             formatSubmitData(){
                 let submitForm ={}
                      // 日期传换成Number
+                    // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
                     submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
                     submitForm.BAC003=this.form.BAC003,//被授权人姓名
                     submitForm.BAC002=this.form.BAC002,//被授权人身份证

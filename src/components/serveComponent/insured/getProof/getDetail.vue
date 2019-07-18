@@ -8,7 +8,7 @@
             <!-- 信息 -->
             <div class="ReportInfo">
                 <div class="InfoLine">
-                    <div class="InfoName"><span>类型:</span></div>
+                    <div class="InfoName"><span>业务类型:</span></div>
                     <div class="InfoText">{{type}}</div>
                 </div>
                 <div class="InfoLine">

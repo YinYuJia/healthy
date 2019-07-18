@@ -78,7 +78,7 @@ export default {
         this.epFn.setTitle('医保转移接续')
         let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
         let GinsengLandName = sessionStorage.getItem("GinsengLandName")
-
+        this.getMailInfo();
         console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
         this.form.AAB301000 = GinsengLandName
         this.form.AAB301 = GinsengLandCode
@@ -165,8 +165,7 @@ export default {
                                 this.$toast('业务出错');
                                 return;
                             }
-                })
-                
+                        })
             }
         },
         formatSubmitData(){
@@ -183,6 +182,35 @@ export default {
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1017");
             return params;
+        },
+       // 获取邮寄信息
+        getMailInfo(){
+            let submitForm = {}
+            // 加入电子社保卡号
+            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
+                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            }else {
+                this.$toast("未获取到人员基本信息");
+            }
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
+            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                     if(resData.AAE005.length > 11){
+                         this.form.AAE005 = '';
+                         this.$toast('请输入正确的手机号码')
+                     }else{
+                         this.form.AAE005 = resData.AAE005  //手机号码
+                     }
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    // this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
         }
     }
 }

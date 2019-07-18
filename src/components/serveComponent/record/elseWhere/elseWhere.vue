@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>转往地市</span></div>
+                    <div class="InfoName"><span>前往城市</span></div>
                     <div class="InfoText">
                         <input @click="openCityPicker" type="text" v-model="AAS011000" placeholder="请选择" readonly>
                     </div>
@@ -97,15 +97,15 @@ export default {
     data() {
         return {
             // 提交信息   
-                AAS011000:"",//参保地
-                AAB301000:"",//申请地
+                AAS011000:"",//前往城市
+                AAB301000:"",//参保地
             form: {
 
                 AAE030: '', //离杭日期
                 AAE031: '', //回杭日期
-                AAS011: '', //申请地省
-                AAE011: '', //申请市
-                AAQ011: '', //申请地区
+                AAS011: '', //前往城市省
+                AAE011: '', //前往城市市
+                AAQ011: '', //前往城市地区
                 AAE004: '', //联系人
                 AKC030: '', //申请原因
                 AAE006: '', //详细地址 
