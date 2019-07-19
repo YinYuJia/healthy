@@ -55,8 +55,9 @@ export default {
 
 <style lang="less" scoped>
 .infoRecord{
+    width: 100%;
     .Content {
-        height: 7.5rem;
+        width: 100%;
         margin-bottom: 1.4rem;
         padding: 1.66rem 0 2.1rem 0;
         background: #FFF;

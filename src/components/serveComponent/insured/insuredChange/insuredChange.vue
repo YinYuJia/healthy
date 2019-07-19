@@ -165,12 +165,13 @@ export default {
 
 <style lang="less" scoped>
 .insuredChange{
+    width: 100%;
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
         .ChangeInfo{
             height: 4rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

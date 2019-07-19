@@ -88,9 +88,10 @@ export default {
 
 <style lang="less" scoped>
 .searchRecord{
+    width: 100%;
     .Content{
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-bottom: .3rem;
             background: white;

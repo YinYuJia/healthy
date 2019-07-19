@@ -196,12 +196,13 @@ export default {
 
 <style lang="less" scoped>
 .infoRecord{
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
             height: 3.6rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine {

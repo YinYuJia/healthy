@@ -227,12 +227,13 @@
 
 <style lang="less" scoped>
 .familyAid {
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
             height: 6rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine {
@@ -277,6 +278,9 @@
 </style>
 
 <style>
+.picker-items{
+    width: 100%;
+}
 .familyAid .el-input__prefix,
 .el-input__suffix {
     display: none;

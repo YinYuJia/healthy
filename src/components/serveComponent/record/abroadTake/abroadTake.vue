@@ -326,12 +326,13 @@
 
 <style lang="less" scoped>
 .abroadTake {
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
             height: 6rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine {
@@ -416,32 +417,11 @@
             }
         }
     }
-    .Footer {
-        height: 1.2rem;
-        width: 7.5rem;
-        background: white;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        z-index: 199;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .Btn {
-            height: .8rem;
-            width: 6.9rem;
-            background-image: linear-gradient(-90deg, rgb(142, 214, 253) 0%, rgb(173, 201, 255) 100%);
-            border-radius: 40px;
-            text-align: center;
-            line-height: 0.8rem;
-            font-family: PingFangSC-Regular;
-            font-size: .36rem;
-            color: #FFFFFF;
-            letter-spacing: 0;
-        }
-        .active {
-            background-image: linear-gradient(-90deg, #35B8FD 0%, #4E8DFF 100%);
-        }
-    }
+}
+</style>
+
+<style>
+.picker-items{
+    width: 100%;
 }
 </style>

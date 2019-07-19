@@ -310,6 +310,7 @@ export default {
 
 <style lang="less" scoped>
 .invoiceInfo {
+    width: 100%;
     .Content {
         height: 100%;
         padding: 0 .4rem;
@@ -497,7 +498,7 @@ export default {
     // 底部
     .Footer {
         height: 1.31rem;
-        width: 7.5rem;
+        width: 100%;
         padding: 0 .2rem;
         box-sizing: border-box;
         position: fixed;

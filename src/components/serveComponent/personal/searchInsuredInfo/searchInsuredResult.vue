@@ -88,6 +88,7 @@ export default {
 
 <style lang="less" scoped>
 .searchInsuredResult{
+    width: 100%;
     .Content{
         padding: 0 .28rem;
         .padContent{
