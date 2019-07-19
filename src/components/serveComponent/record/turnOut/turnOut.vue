@@ -14,6 +14,12 @@
             v-model="dateVal"
             @confirm="handleStartConfirm">
         </mt-datetime-picker>
+        <mt-datetime-picker
+            type="date"
+            ref="endPicker"
+            v-model="end"
+            @confirm="handleEndConfirm">
+        </mt-datetime-picker>
         <SelectCity  
             :type="3"
             ref="cityPicker"
@@ -44,7 +50,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束日期</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.AAE031" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly ></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转往地市</span></div>
@@ -87,7 +93,8 @@
 <script>
     export default {
         data() {
-            return {   
+            return {  
+                end:"",//结束时间
                 imgUrl:'',       
                 picArr: [],//附件集合
                 AAS027000:"",//参保地
@@ -253,8 +260,17 @@
             },
             handleStartConfirm(val){
                 this.getEndDate(val);
+                this.end=val
                 let date = this.util.formatDate(val,'yyyy-MM-dd');
                 this.form.AAE030 = date;
+            },
+            // 选择结束日期
+            openEndPicker(){
+                this.$refs.endPicker.open();
+            },
+            handleEndConfirm(val){
+                let date = this.util.formatDate(val,'yyyy-MM-dd');
+                this.form.AAE031 = date;
             },
             // 计算90天后日期
             getEndDate(val){

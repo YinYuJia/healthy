@@ -19,7 +19,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>发票金额：</span></div>
-                    <div class="InfoText"><input type="text" @input="clearNoNum" v-model="form.AKC264" placeholder="请输入"></div>
+                    <div class="InfoText"><input type="tel" @input="clearNoNum" v-model="form.AKC264" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>发票日期：</span></div>
@@ -65,6 +65,22 @@ export default {
     watch: {
         form: {
             handler: function(val) {
+                if(val.BKE100!=""){
+                    // let reg=/[\u4E00-\u9FA5]/g
+                    // let reg=/[0-9a-zA-Z]/
+                    let reg=/^\w*\w+$/
+                    if(!reg.test(val.BKE100)){
+                        this.form.BKE100='';
+                        this.$toast('发票号码只可填写数字和字母，请确认后重新填写')
+                    }
+                }
+                if(val.AKC264!=""){
+                    let bb=/\d/
+                    if(!bb.test(val.AKC264)){
+                        this.form.AKC264='';
+                        this.$toast('发票金额只可填数字，请确认后重新填写')
+                    }
+                }
                 // 判断不为空
                 if (val.BKE100 != '' && val.AKC264 != '' && val.AAE036 != '' && val.photoId !='') {
                     this.canSubmit = true;

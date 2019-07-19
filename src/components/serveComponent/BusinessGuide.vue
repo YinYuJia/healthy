@@ -12,87 +12,67 @@
             <div class="ListInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理部门:</span></div>
-                    <div class="InfoText"><span>XXXXX部</span></div>
-                </div>
-                <div class="InfoLine">
-                    <div class="InfoName"><span>办事对象:</span></div>
-                    <div class="InfoText"><span>参保人</span></div>
+                    <div class="InfoText"><span>{{form.entrustedDept}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法定期限:</span></div>
-                    <div class="InfoText"><span>10 天</span></div>
-                </div>
-                <div class="InfoLine">
-                    <div class="InfoName"><span>承诺期限:</span></div>
-                    <div class="InfoText"><span>5 天</span></div>
+                    <div class="InfoText"><span>{{form.statutoryDeadline}}天</span></div>
                 </div>
             </div>
             <div class="ListInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>权力事项类型:</span></div>
-                    <div class="InfoText"><span>参保服务</span></div>
+                    <div class="InfoText"><span>{{form.matType}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>权力来源:</span></div>
-                    <div class="InfoText"><span>来源名称信息</span></div>
+                    <div class="InfoText"><span>{{form.rightSource}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>责任处(科)室:</span></div>
-                    <div class="InfoText"><span>XX科室</span></div>
+                    <div class="InfoText"><span>{{form.leadDept}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理地址:</span></div>
-                    <div class="InfoText"><span>地址信息地址信息地址信息地址信息</span></div>
+                    <div class="InfoText"><span>{{form.entrustedDept}}</span></div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>受理事件:</span></div>
-                    <div class="InfoText"><span>2019-09-31</span></div>
+                    <div class="InfoName"><span>受理时间:</span></div>
+                    <div class="InfoText"><span>{{form.acceptdate}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>办件类型:</span></div>
-                    <div class="InfoText"><span>人工办理</span></div>
+                    <div class="InfoText"><span>{{form.rightAttribute}}</span></div>
                 </div>
             </div>
             <div class="ListInfo">
                 <div class="InfoLine">
-                    <div class="InfoName"><span>申请条件:</span></div>
-                    <div class="InfoText"><span>条件信息描述条件信息描述条件信息描述条件信息描述条件信息描述条件</span></div>
-                </div>
-                <div class="InfoLine">
-                    <div class="InfoName"><span>申请限制:</span></div>
-                    <div class="InfoText"><span>限制说明限制说明限制说明限制说明限制说明限制说明限制说明限制说明</span></div>
-                </div>
-                <div class="InfoLine">
                     <div class="InfoName"><span>办事流程:</span></div>
-                    <div class="InfoText"><span>流程说明流程说明流程说明流程说明流程说明流程说明流程说明流程</span></div>
-                </div>
-                <div class="InfoLine">
-                    <div class="InfoName"><span>收费情况:</span></div>
-                    <div class="InfoText"><span>免费</span></div>
+                    <div class="InfoText"><span>{{form.transactProcess}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法定依据:</span></div>
-                    <div class="InfoText"><span>法定依据内容法定依据内容法定依据内容法定依据内容法定依据</span></div>
+                    <div class="InfoText"><span>{{form.matSettingBasis}}</span></div>
                 </div>
             </div>
         </div>
         <div class="Content" v-if="activeIndex == 2">
-            <div class="ListInfo">
+                <div class="ListInfo"  v-for="(item,index) in itemArr" :key="index">
                 <div class="InfoLine">
                     <div class="InfoName"><span>材料名称:</span></div>
-                    <div class="InfoText"><span>材料名称</span></div>
+                    <div class="InfoText"><span>{{item.materialName}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>材料描述:</span></div>
-                    <div class="InfoText"><span>描述内容描述内容描述内容</span></div>
+                    <div class="InfoText"><span>{{item.materialNecessityDesc}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>材料要求:</span></div>
-                    <div class="InfoText"><span>要求内容要求内容要求内容要求内容要求内容要求内容要求内容</span></div>
+                    <div class="InfoText"><span>{{item.materialDetailRequires}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>备注:</span></div>
-                    <div class="InfoText"><span>备注信息备注信息备注信息备注信息备注信息备注信息备注信息备注信息备注信息</span></div>
+                    <div class="InfoText"><span>{{item.memo}}</span></div>
                 </div>
             </div>
         </div>
@@ -103,15 +83,91 @@
 export default {
     data(){
         return{
-            title: '基本医疗保险参保人员医疗费用零星报销',
-            activeIndex: 1
+            title:"",
+            activeIndex: 1,
+            AGA002:"",//子项编码
+            form:{},
+            itemArr:[],
+            SDK:""
         }
     },
+    created () {
+        let msg = '';
+        let sdkTitle='';
+        switch(this.$route.query.param){
+            case '330800122043': msg = '领取基本医疗保险就医凭证',sdkTitle="领取就医凭证"; break; //领取就医凭证
+            case '331400501005': msg = '基本医疗保险职工参保信息变更登记',sdkTitle="参保信息变更"; break; //参保信息变更
+            case '331400512001': msg = '基本医疗保险关系转移',sdkTitle="医保转移接续"; break; //关系转移接续
+            case '330800253013': msg = '基本医疗保险参保人员异地就医备案',sdkTitle="异地就医"; break; //异地就医
+            case '330800253002': msg = '基本医疗保险参保人员转外就医备案',sdkTitle="转外就医"; break; //转外就医
+            case '330800253001': msg = '基本医疗保险参保人员出国（境）带药备案',sdkTitle="出国带药"; break; //出国带药
+            case '330800253023': msg = '基本医疗保险参保人员历年账户家庭共济备案',sdkTitle="家庭共济"; break; //家庭共济
+            case '330800253003': msg = '基本医疗保险参保人员特治特药备案',sdkTitle="特治特药"; break; //特治特药
+            case '330800253004': msg = '基本医疗保险参保人员享受规定（特殊慢性）病种待遇备案',sdkTitle="规定病种（慢病）"; break; //规定病种（慢病）
+            case '330600007019': msg = '基本医疗参保人员医疗费用零星报销',sdkTitle="零星报销"; break; //零星报销
+            case '330800123004': msg = '基本医疗保险视同缴费年限核定',sdkTitle="缴费年限"; break; //缴费年限
+        }
+        this.title=msg;
+        this.SDK=sdkTitle
+        this.epFn.setTitle(this.SDK)
+        if(this.$route.query.param){
+            this.AGA002=this.$route.query.param;
+            this.request();
+        }
+    },     
     methods:{
         changeIndex(index){
             this.activeIndex = index;
-        }
-    }
+        },
+        request() {
+            console.log(8888888888)
+            // 封装数据
+            let params = this.formatSubmitData();
+            // 开始请求
+            this.$axios.post(this.epFn.ApiUrl()+"/H5/jy9014/queryItem",params).then(resData => {
+                console.log("返回成功信息", resData);                  
+                //   成功   1000
+                if (resData.enCode == 1000) {
+                    // this.form={...this.form,...resData.LS_DS2[]}
+                    if(resData.LS_DS1[0]!=undefined){
+                        this.itemArr=[...this.itemArr,...resData.LS_DS1]
+                    }
+                    if(resData.LS_DS0[0]!=undefined){
+                        this.form={...this.form,...resData.LS_DS0[0]}
+                    }
+                    // this.title=this.form.AGA004;
+                } else if (resData.enCode == 1001) {
+                    //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                } else {
+                    this.$toast("业务出错");
+                    return;
+                }
+            });
+        },
+        formatSubmitData() {
+            let submitForm = {};
+            submitForm.matCode = this.AGA002; //子项编码
+            submitForm.matName = ""; //子项编码
+            
+
+            // 加入用户名和电子社保卡号
+            // if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
+            //     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+            //     submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            // } else {
+            //     this.$toast("未获取到人员基本信息");
+            // }
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(
+                this.$store.state.SET_NATIVEMSG.PublicHeader,
+                submitForm,
+                "9014"
+            );
+            return params;
+        },
+    },
 }
 </script>
 
