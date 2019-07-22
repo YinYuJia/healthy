@@ -22,11 +22,11 @@
             <div class="ListInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>权力事项类型:</span></div>
-                    <div class="InfoText"><span>{{form.matType}}</span></div>
+                    <div class="InfoText"><span>{{form.matType|matType}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>权力来源:</span></div>
-                    <div class="InfoText"><span>{{form.rightSource}}</span></div>
+                    <div class="InfoText"><span>{{form.rightSource|rightSource}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>责任处(科)室:</span></div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>办件类型:</span></div>
-                    <div class="InfoText"><span>{{form.rightAttribute}}</span></div>
+                    <div class="InfoText"><span>{{form.rightAttribute|rightAttribute}}</span></div>
                 </div>
             </div>
             <div class="ListInfo">
