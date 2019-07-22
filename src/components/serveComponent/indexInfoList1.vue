@@ -1,5 +1,14 @@
 <template>
     <div class="indexInfoList">
+        <!-- 提示 -->
+        <div class="Hint">
+            <div class="HintContent">
+                <p class="HintText">
+                    <i class="el-icon-warning" style="color:#ff6204"></i>
+                    温馨提示: 当前专区正处于试运营阶段，业务尚未对外开放，推荐暂时使用其他平台
+                </p>
+            </div>
+        </div>
         <!-- 头部 -->
         <div class="indexHeader">
             <svg-icon icon-class="serveComponent_background" />
@@ -166,6 +175,10 @@
             }
         },
         mounted() {
+            // 跑马灯效果
+            setTimeout(()=>{
+                this.srcollLine()
+            },500)
             new Swiper('.swiper-container', {
                 slidesPerView: 2.15, //显示的范围
                 spaceBetween: -8, //间隔大小
@@ -177,8 +190,6 @@
         },
         created() {
             // 清空零星报销的Vuex
-
-            
             console.log('获取token',sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT={
                 AAS301: '', //参保地统筹省编码
@@ -281,6 +292,39 @@
             }
         },
         methods: {
+            // 跑马灯效果
+            srcollLine(){
+                let [box, content, text] = [
+                    document.querySelector('.Hint'),
+                    document.querySelector('.HintContent'),
+                    document.querySelector('.HintText')
+                ];
+                let [textWidth, boxWidth] = [
+                    text.offsetWidth,
+                    box.offsetWidth
+                ];
+                if(boxWidth > textWidth){ 
+                    return false
+                }
+                content.innerHTML += content.innerHTML;
+                document.querySelector('.HintText').classList.add('padding');
+                // 更新
+                textWidth = document.querySelector('.HintText').offsetWidth;
+                this.toScrollLeft(textWidth,box);
+            },
+            toScrollLeft(textWidth,box){ 
+                //  如果文字长度大于滚动条距离，则递归拖动
+                if(textWidth > box.scrollLeft){
+                    box.scrollLeft++
+                    setTimeout(()=>{
+                        this.toScrollLeft(textWidth,box);
+                    },20);
+                }
+                else{
+                    box.scrollLeft = 0;
+                    this.toScrollLeft(textWidth,box);
+                }
+            },
             query1() {
                 console.log("query")
             },
@@ -572,6 +616,26 @@
 <style lang="less" scoped>
     .indexInfoList {
         width: 100%;
+        .Hint{
+            width: 100%;
+            padding: 0 .3rem;
+            font-size: .26rem;
+            color: #000000;
+            text-align: left;
+            background: #fbdedb;
+            color: #ff6204;
+            white-space: nowrap;
+            overflow: hidden;
+            .HintContent{
+                p{
+                    display:inline-block;
+                    line-height: .6rem;
+                }
+                .padding{
+                    padding-right: 100%;
+                }
+            }
+        }
         // 头部
         .indexHeader {
             height: 3.4rem;
