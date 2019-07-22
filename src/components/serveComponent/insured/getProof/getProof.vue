@@ -300,11 +300,12 @@ export default {
 
 <style lang="less" scoped>
 .getProof{
+    width: 100%;
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
         .GetInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{
@@ -340,7 +341,7 @@ export default {
             }
         }
         .MailInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .28rem;
             margin-top: .27rem;
             background: white;
@@ -403,10 +404,10 @@ export default {
             }
         }
         .searchPlace{
-            width: 7.5rem;
+            width: 100%;
             .searchBtn{
                 height: .8rem;
-                width: 7.1rem;
+                width: 90%;
                 margin: auto;
                 margin-top: .18rem;
                 border-radius: .05rem;

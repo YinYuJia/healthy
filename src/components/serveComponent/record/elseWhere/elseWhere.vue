@@ -336,12 +336,13 @@ export default {
 
 <style lang="less" scoped>
 .elseWhere {
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
             height: 10rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine {
@@ -397,6 +398,9 @@ export default {
 </style>
 
 <style>
+    .picker-items{
+        width: 100%;
+    }
     .elseWhere .el-date-editor.el-input,
     .el-date-editor.el-input__inner {
         width: 160px;

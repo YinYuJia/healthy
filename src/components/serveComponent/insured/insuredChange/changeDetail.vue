@@ -166,10 +166,11 @@ export default {
 
 <style lang="less" scoped>
 .changeDetail{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .MailInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

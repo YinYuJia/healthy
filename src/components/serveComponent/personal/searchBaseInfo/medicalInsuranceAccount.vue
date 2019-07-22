@@ -106,9 +106,10 @@ export default {
 
 <style lang="less" scoped>
 .searchBaseInfo{
+    width: 100%;
     .Content{
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

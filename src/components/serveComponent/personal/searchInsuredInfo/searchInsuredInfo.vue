@@ -117,10 +117,11 @@ export default {
 
 <style lang="less" scoped>
 .searchInsuredInfo{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

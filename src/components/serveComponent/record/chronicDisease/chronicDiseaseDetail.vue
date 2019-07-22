@@ -279,10 +279,11 @@ export default {
 
 <style lang="less" scoped>
 .chronicDiseaseDetail{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{
@@ -316,7 +317,7 @@ export default {
         }
         .MailInfo{
             height: 4rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-top: .15rem;
             background: white;
@@ -361,10 +362,10 @@ export default {
             }
         }
         .searchPlace{
-            width: 7.5rem;
+            width: 100%;
             .searchBtn{
                 height: .8rem;
-                width: 7.1rem;
+                width: 90%;
                 margin: auto;
                 margin-top: .18rem;
                 border-radius: .05rem;

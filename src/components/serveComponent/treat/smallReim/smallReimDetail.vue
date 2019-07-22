@@ -494,9 +494,10 @@ export default {
 
 <style lang="less" scoped>
 .smallReimDetial{
+    width: 100%;
     .secondTitle{
         height: .8rem;
-        width: 7.5rem;
+        width: 100%;
         padding-top: .1rem;
         background: #FFF;
         font-size: .32rem;
@@ -507,7 +508,7 @@ export default {
     .Content{
         margin-bottom: 1.6rem;
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-top: .15rem;
             background: white;

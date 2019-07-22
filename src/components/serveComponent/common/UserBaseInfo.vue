@@ -34,7 +34,7 @@ export default {
 
 <style lang="less" scoped>
 .UserBaseInfo{
-    width: 7.5rem;
+    width: 100%;
     height: 1.8rem;
     display: flex;
     align-items: center;

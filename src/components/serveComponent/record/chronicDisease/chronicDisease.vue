@@ -560,11 +560,12 @@ export default {
 
 <style lang="less" scoped>
 .chronicDisease {
+  width: 100%;
   .Content {
     height: 100%;
     margin-bottom: 1.4rem;
     .ListInfo {
-      width: 7.5rem;
+      width: 100%;
       padding: 0 0.28rem;
       background: white;
       .InfoLine {
@@ -610,7 +611,7 @@ export default {
       }
     }
     .MailInfo {
-      width: 7.5rem;
+      width: 100%;
       padding: 0 0.3rem;
       margin-top: 0.27rem;
       background: white;
@@ -677,10 +678,10 @@ export default {
       }
     }
     .searchPlace{
-      width: 7.5rem;
+      width: 100%;
       .searchBtn{
         height: .8rem;
-        width: 7.1rem;
+        width: 90%;
         margin: auto;
         margin-top: .18rem;
         border-radius: .05rem;
@@ -762,6 +763,9 @@ export default {
 </style>
 
 <style>
+.picker-items{
+    width: 100%;
+}
 .chronicDisease .el-input__prefix,
 .el-input__suffix {
   display: none;

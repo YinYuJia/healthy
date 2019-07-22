@@ -293,18 +293,19 @@
 
 <style lang="less" scoped>
     .searchProgress {
+        width: 100%;
         overflow: auto;
         font-size: 0.32rem;
         .IndexMenu {
             height: 1.2rem;
-            width: 7.5rem;
+            width: 100%;
             background: #FFF;
             display: flex;
             align-items: center;
             justify-content: center;
             .MenuLine {
                 height: .62rem;
-                width: 6.9rem;
+                width: 95%;
                 background: #FFFFFF;
                 border: 1px solid #1492FF;
                 border-radius: .05rem;
@@ -334,7 +335,7 @@
             }
         }
         .ListInfo {
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .37rem;
             background: white;
             .ListLine {

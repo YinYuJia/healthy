@@ -631,11 +631,12 @@ export default {
 
 <style lang="less" scoped>
 .specialDrug {
+  width: 100%;
   .Content {
     height: 100%;
     margin-bottom: 1.4rem;
     .ReportInfo {
-      width: 7.5rem;
+      width: 100%;
       padding: 0 0.3rem;
       background: white;
       .InfoLine {
@@ -729,6 +730,9 @@ export default {
 </style>
 
 <style>
+.picker-items{
+    width: 100%;
+}
 .specialDrug .el-input__prefix,
 .el-input__suffix {
   display: none;

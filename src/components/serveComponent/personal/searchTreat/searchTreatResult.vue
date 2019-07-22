@@ -70,6 +70,7 @@ export default {
 
 <style lang="less" scoped>
 .searchTreatResult{
+    width: 100%;
     .Content{
         padding: 0 .28rem;
         .padContent{

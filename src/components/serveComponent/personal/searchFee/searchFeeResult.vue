@@ -118,6 +118,7 @@ export default {
 
 <style lang="less" scoped>
 .searchFeeResult{
+    width: 100%;
     .Content{
         padding: 0 .28rem;
         .padContent{

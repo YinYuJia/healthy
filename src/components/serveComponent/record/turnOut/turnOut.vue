@@ -358,12 +358,13 @@
 
 <style lang="less" scoped>
 .turnOut {
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
             height: 7.2rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine {
@@ -451,6 +452,9 @@
 </style>
 
 <style>
+.picker-items{
+    width: 100%;
+}
 .turnOut .el-input__prefix,
 .el-input__suffix {
     display: none;

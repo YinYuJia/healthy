@@ -155,12 +155,13 @@ export default {
 
 <style lang="less" scoped>
 .searchPrint{
+    width: 100%;
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
         .SearchInfo{
             height:2.4rem;
-            width: 7.5rem;
+            width: 100%;
             background: white;
             padding: 0 .3rem;
             .InfoLine {

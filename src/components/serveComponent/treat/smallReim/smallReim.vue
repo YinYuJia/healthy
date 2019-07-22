@@ -223,12 +223,13 @@ export default {
 
 <style lang="less" scoped>
 .smallReim {
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
             height: 3.6rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin: .15rem 0 0 0;
             background: white;
@@ -273,6 +274,9 @@ export default {
 </style>
 
 <style>
+    .picker-items{
+        width: 100%;
+    }
     .smallReim .el-date-editor.el-input,
     .el-date-editor.el-input__inner {
         width: 160px;
