@@ -27,7 +27,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>收款开户行:</span></div>
-                    <div class="InfoText"><span>{{form3.AAE008}}</span></div>
+                    <div class="InfoText"><span>{{form3.AAE008}}王企鹅王企鹅王企鹅王企鹅请问阿达萨达萨达</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>收款开户名:</span></div>
@@ -517,30 +517,29 @@ export default {
                 position: relative;
                 display: flex;
                 font-size: .28rem;
+                padding: .44rem 0;
                 border-bottom: .01rem solid #D5D5D5;
                 .InfoName{
                     width: 2.2rem;
-                    line-height: 1.2rem;
                     text-align: left;
                     span{
-                        height: .6rem;
-                        line-height: .6rem;
+                        line-height: .4rem;
                         color: #666;
                         letter-spacing: 0;
                     }
                 }
                 .InfoText{
+                    height: auto;
                     width: 5rem;
-                    line-height: 1.2rem;
                     letter-spacing: 0;
                     display: flex;
                     position: relative;
                     align-items: center;
                     span{
-                        height: .6rem;
-                        line-height: .6rem;
+                        line-height: .4rem;
                         color: #000;
                         letter-spacing: 0;
+                        text-align: left;
                     }
                 }
                 .active{
