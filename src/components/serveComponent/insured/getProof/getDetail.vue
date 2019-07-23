@@ -37,13 +37,8 @@
                 <div class="searchBtn" v-if="form.AAC050 == '1'">点击查看附近可领取的银行网点</div>
             </div> -->
             <div class="searchPlace" v-if="form.BKA077 == '0'">
-                <div class="searchBtn" @click="openHospital">点击查看领取网点</div>
-                <div class="searchBtn" @click="openBank">点击查看银行网点</div>
+                <div class="searchBtn" @click="openSite">点击查看附近的网点</div>
             </div>
-            <!-- 就诊机构 -->
-            <SearchInfoPage ref="org" type="AKB020_JY"></SearchInfoPage>
-            <!-- 银行网点 -->
-            <SearchInfoPage ref="bank" type="AAE008"></SearchInfoPage>
         </div>
         <Success :flag="successFlag"></Success>
         <!-- 底部 -->
@@ -135,12 +130,8 @@ export default {
         //     });
         // },
         // 打开医院列表
-        openHospital(){
-            this.$refs.org.open();
-        },
-        // 打开银行列表
-        openBank(){
-            this.$refs.bank.open();
+        openSite(){
+            this.$router.push('/nearbySite');
         },
         request(){
             let params=this.formatSubmitData();

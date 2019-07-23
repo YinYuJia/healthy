@@ -15,6 +15,7 @@ import First from '@/components/First';
 // import EventDetail from '@/components/commonComponent/Work/TreatmentReimbursement/EventDetail_1'
 import getProof from '@/components/serveComponent/insured/getProof/getProof'
 import getDetail from '@/components/serveComponent/insured/getProof/getDetail'
+import nearbySite from '@/components/serveComponent/common/NearbySite'
 import insuredChange from '@/components/serveComponent/insured/insuredChange/insuredChange'
 import changeDetail from '@/components/serveComponent/insured/insuredChange/changeDetail'
 import searchPrint from '@/components/serveComponent/insured/searchPrint/searchPrint'
@@ -109,6 +110,11 @@ export default new Router({
       path: '/getDetail',
       name: 'getDetail',
       component: getDetail
+    },
+    {
+      path: '/nearbySite',
+      name: 'nearbySite',
+      component: nearbySite
     },
     {
       path: '/insuredChange',

@@ -62,13 +62,8 @@
                 </div>
             </div>
             <div class="searchPlace" v-if="!showMail">
-                <div class="searchBtn" @click="openHospital">点击查看领取网点</div>
-                <div class="searchBtn" @click="openBank">点击查看银行网点</div>
+                <div class="searchBtn" @click="openSite">点击查看附近的网点</div>
             </div>
-            <!-- 就诊机构 -->
-            <SearchInfoPage ref="org" type="AKB020_JY"></SearchInfoPage>
-            <!-- 银行网点 -->
-            <SearchInfoPage ref="bank" type="AAE008"></SearchInfoPage>
             <!-- 提示 -->
             <div class="Hint" v-if="showMail">
                 <div class="HintTitle"><i class="el-icon-warning" style="color:#05AEF0"></i>温馨提示</div>
@@ -197,6 +192,10 @@ export default {
             this.form.BKA077 = val.value;
             this.BKA077VALUE = val.label;
         },
+        // 查看附近网点
+        openSite(){
+            this.$router.push('/nearbySite');
+        },
         submit(){
             // if(this.showMail == true){
             //     if(!this.util.checkPhone(this.form.AAE005)){
@@ -255,14 +254,6 @@ export default {
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'1008');
             return {params,submitForm};
-        },
-        // 打开医院列表
-        openHospital(){
-            this.$refs.org.open();
-        },
-        // 打开银行列表
-        openBank(){
-            this.$refs.bank.open();
         },
         // 获取邮寄信息
         getMailInfo(){
