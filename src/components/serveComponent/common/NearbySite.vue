@@ -13,7 +13,7 @@
                         <span class="Hospital">{{item.AAA103}}</span>
                         <span class="Address">{{item.addr}}</span>
                         <span class="Address" v-if="item.office">{{item.office}}</span>
-                        <span class="Address" v-if="item.phone">{{item.phone}}</span>
+                        <a class="Address" v-if="item.phone" :href="`tel:${item.phone}`">{{item.phone}}</a>
                     </div>
                     <div class="Distance"><span>0m</span></div>
                 </li>
@@ -55,7 +55,7 @@ export default {
                     this.pointList = [...this.pointList, ...resData.LS_DS];
                     for (let i = 0; i < this.pointList.length; i++) {
                         let mesString = this.pointList[i].AAA105;
-                        this.pointList[i].phone = mesString.split(',')[0];
+                        this.pointList[i].phone =mesString.split(',')[0];
                         this.pointList[i].addr = mesString.split(',')[1];
                         this.pointList[i].office = mesString.split(',')[2];
                     }
