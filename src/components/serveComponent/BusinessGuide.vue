@@ -34,7 +34,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理地址:</span></div>
-                    <div class="InfoText"><span>{{form.acceptAddress}}</span></div>
+                    <div class="InfoText"><span v-html="form.acceptAddress"></span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理时间:</span></div>
