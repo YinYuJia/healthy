@@ -276,7 +276,7 @@ export default {
             opacity: 0.45;
             font-family: PingFangSC-Regular;
             font-size: .24rem;
-            color: #000000;
+            color: red;
             text-align: left;
             .HintTitle{
                 i{
