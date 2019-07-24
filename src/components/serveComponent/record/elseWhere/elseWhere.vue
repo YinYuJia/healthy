@@ -304,6 +304,7 @@ export default {
         formatSubmitData(){
             let submitForm = Object.assign({}, this.form);
             // 日期传换成Number
+            submitForm.BKE520 = "1"
             submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030).toString();
             submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031).toString();
             // submitForm.AAS301 = this.form.AAS301//申请地省
