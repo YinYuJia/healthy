@@ -34,8 +34,8 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理地址:</span></div>
-                    <div class="InfoText"><span>{{form.entrustedDept}}</span></div>
-                </div>
+                    <div class="InfoText"><span>{{form.acceptAddress}}</span></div>
+                </div> 
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理时间:</span></div>
                     <div class="InfoText"><span>{{form.acceptdate}}</span></div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法定依据:</span></div>
-                    <div class="InfoText"><span>{{form.matSettingBasis}}</span></div>
+                    <div class="InfoText"><span class="htmlSpan" html(form.matSettingBasis)></span></div>
                 </div>
             </div>
         </div>
@@ -144,6 +144,7 @@ export default {
                     if(resData.LS_DS0[0]!=undefined){
                         this.form={...this.form,...resData.LS_DS0[0]}
                     }
+                    console.log(this.form.matSettingBasis)
                     // this.title=this.form.AGA004;
                 } else if (resData.enCode == 1001) {
                     //   失败  1001
@@ -270,6 +271,7 @@ export default {
                     }
                     span{
                         height: auto;
+                        width: 100%;
                         line-height: .4rem;
                         color: #000;
                         letter-spacing: 0;
