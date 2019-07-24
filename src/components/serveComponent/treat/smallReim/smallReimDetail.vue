@@ -219,6 +219,12 @@ export default {
                                     This.$toast("未获取到人员基本信息");
                                 }
                                 // 加入子项编码
+                                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                                // if(AKA078=='1'){
+                                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
+                                // }else if(AKA078=='3'){
+                                //     submitForm.AGA002 = '给付-00007-019-02'//住院
+                                // }
                                 submitForm.AGA002 = '330600007019'
                                 submitForm.photoList = data.picPath[0]
                                 submitForm.PTX001 = '2'
@@ -319,6 +325,12 @@ export default {
         // 封装提交参数
         formatSubmitForm(){
             let submitForm = {
+                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                // if(AKA078=='1'){
+                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
+                // }else if(AKA078=='3'){
+                //     submitForm.AGA002 = '给付-00007-019-02'//住院
+                // }
                 AGA002: '330600007019',
                 BKZ019:this.$route.query.param||"",
                 AAC003: this.$store.state.SET_NATIVEMSG.names,
@@ -378,6 +390,12 @@ export default {
         },
         formatSubmitData(){
                 let submitForm = {}
+                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                // if(AKA078=='1'){
+                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
+                // }else if(AKA078=='3'){
+                //     submitForm.AGA002 = '给付-00007-019-02'//住院
+                // }
                 submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
                 submitForm.BKZ019=this.$route.query.param||""
@@ -394,6 +412,12 @@ export default {
         },
         formatSubmitData1(){
                 let submitForm = {}
+                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                // if(AKA078=='1'){
+                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
+                // }else if(AKA078=='3'){
+                //     submitForm.AGA002 = '给付-00007-019-02'//住院
+                // }
                 submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -449,6 +473,12 @@ export default {
         },
         formatSubmitData2(){
                 let submitForm = {}
+                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                // if(AKA078=='1'){
+                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
+                // }else if(AKA078=='3'){
+                //     submitForm.AGA002 = '给付-00007-019-02'//住院
+                // }
                 submitForm.AGA002 =  "330600007019";
                 // submitForm.debugTest=  "true";
                 //从进度查询页面进入接收传参
@@ -474,6 +504,12 @@ export default {
         },
         sunmitFormatSubmitData(){
                 let submitForm = {}
+                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                // if(AKA078=='1'){
+                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
+                // }else if(AKA078=='3'){
+                //     submitForm.AGA002 = '给付-00007-019-02'//住院
+                // }
                 submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
