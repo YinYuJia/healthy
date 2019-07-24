@@ -186,7 +186,7 @@ export default {
     width: 100%;
     .businessHead{
         height: .63rem;
-        width: 7.5rem;
+        width: 100%;
         text-align: center;
         font-size: .32rem;
         line-height: .63rem;
@@ -196,7 +196,7 @@ export default {
     }
     .businessMenu {
         height: 1.2rem;
-        width: 7.5rem;
+        width: 100%;
         background: #FFF;
         display: flex;
         align-items: center;
@@ -235,7 +235,7 @@ export default {
     .Content{
         margin-bottom: 1.6rem;
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-top: .15rem;
             background: white;
