@@ -206,6 +206,7 @@
                 hospitalName: '', //就诊医院
                 AKB020: '', //医院编码
                 AKA078: '', //就诊类型
+                AKA078VALUE: '', //就诊类型中文
                 AAE030: '' //就诊日期
             }
             this.$store.dispatch('SET_SMALL_REIM_1',SET_SMALL_REIM_1)
