@@ -453,6 +453,7 @@ export default {
       // alert(name)
     },
     submit() {
+      sessionStorage.setItem('BKE253',this.form.BKE253)
       if (this.canSubmit == false) {
         this.$toast("信息未填写完整");
         return false;
