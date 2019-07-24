@@ -108,12 +108,11 @@ export default {
             let submitForm2 = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_2));
             console.log(this.$store.state.SET_SMALL_REIM_SUBMIT,'this.$store.state.SET_SMALL_REIM_SUBMIT');
             console.log(this.$store.state.SET_SMALL_REIM_1,'this.$store.state.SET_SMALL_REIM_1');
-            console.log(this.$store.state.SET_SMALL_REIM_2,'this.$store.state.SET_SMALL_REIM_2');
-            
+            console.log(this.$store.state.SET_SMALL_REIM_2,'this.$store.state.SET_SMALL_REIM_2');        
             submitForm.AAE010 = this.form.AAE010.replace(/\s+/g,'');
             submitForm.AAE008 = this.form.AAE008;
             submitForm.AAE009 = this.form.AAE009;
-            submitForm.BKE520 = '1';
+            submitForm.BKE520 = "1"
             submitForm.AKA078 = sessionStorage.getItem('AKA078');
             
             

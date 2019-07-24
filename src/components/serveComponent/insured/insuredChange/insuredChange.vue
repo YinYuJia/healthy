@@ -123,6 +123,7 @@ export default {
         },
         formatSubmitData(){
             let submitForm = {}
+            submitForm.BKE520 = "1"
             submitForm.AAE005 =  this.form.AAE005;            
             submitForm.AAE006 =  this.form.AAE006;
             submitForm.AAE007 =  this.form.AAE007;
