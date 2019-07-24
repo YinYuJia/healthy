@@ -259,6 +259,7 @@ export default {
         },
         // 提交
         submit() {
+            sessionStorage.setItem('AKC030',this.form.AKC030)//储存当前的申请原因
             if (this.canSubmit == false) {
                 this.$toast('信息未填写完整');
                 return false;

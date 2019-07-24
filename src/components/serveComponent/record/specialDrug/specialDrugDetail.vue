@@ -177,8 +177,15 @@ export default {
             })
         },
         formatSubmitData(){
-            let submitForm = {}
-            console.log(submitForm)
+                let submitForm = {}
+                console.log(submitForm)
+                // let BKE253=sessionStorage.getItem('BKE253')
+                // console.log("BKE253",BKE253)
+                // if(BKE253=="1"){   
+                //     submitForm.AGA002 =  "确认-00253-003-02";
+                // }else if(BKE253=='2'){
+                //     submitForm.AGA002 =  "确认-00253-003-01";
+                // }
                 submitForm.AGA002 =  "330800253003";
                 // submitForm.debugTest=  "true";
                 submitForm.BKZ019=this.$route.query.param||""
@@ -227,7 +234,14 @@ export default {
             })
         },
         formatSubmitData1(){
-            let submitForm = {}
+                let submitForm = {}
+                // let BKE253=sessionStorage.getItem('BKE253')
+                // console.log("BKE253",BKE253)
+                // if(BKE253=="1"){   
+                //     submitForm.AGA002 =  "确认-00253-003-02";
+                // }else if(BKE253=='2'){
+                //     submitForm.AGA002 =  "确认-00253-003-01";
+                // }
                 submitForm.AGA002 =  "330800253003";
                 // submitForm.debugTest=  "true";
                 //从进度查询页面进入接收传参
