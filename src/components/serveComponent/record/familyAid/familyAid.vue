@@ -200,18 +200,19 @@
             },
             formatSubmitData(){
                 let submitForm ={}
-                     // 日期传换成Number
-                    // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
-                    submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
-                    submitForm.BAC003=this.form.BAC003,//被授权人姓名
-                    submitForm.BAC002=this.form.BAC002,//被授权人身份证
-                    submitForm.AAE144=this.form.AAE144,//绑定关系
-                    submitForm.AAS301=this.form.AAS301//参保地省
-                    submitForm.AAB301=this.form.AAB301//参保地市
-                    submitForm.AAQ301=this.form.AAQ301//参保地区
-                    submitForm.BKZ019=this.form.BKZ019//经办编号
-                    submitForm.AAE031='20991230'
-                    // submitForm.debugTest=  "true";
+                // 日期传换成Number
+                // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
+                submitForm.BKE520 = "1"
+                submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
+                submitForm.BAC003=this.form.BAC003,//被授权人姓名
+                submitForm.BAC002=this.form.BAC002,//被授权人身份证
+                submitForm.AAE144=this.form.AAE144,//绑定关系
+                submitForm.AAS301=this.form.AAS301//参保地省
+                submitForm.AAB301=this.form.AAB301//参保地市
+                submitForm.AAQ301=this.form.AAQ301//参保地区
+                submitForm.BKZ019=this.form.BKZ019//经办编号
+                submitForm.AAE031='20991230'
+                // submitForm.debugTest=  "true";
 
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {

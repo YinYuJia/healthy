@@ -118,25 +118,6 @@ export default {
                 }
             })
         },
-        formatSubmitData(){
-            let submitForm = {}
-            console.log(submitForm)
-                submitForm.AGA002 =  "330800253023";
-                // submitForm.debugTest=  "true";
-                submitForm.BKZ019=this.$route.query.param||""
-            // 加入用户名和电子社保卡号
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                
-                this.$toast("未获取到人员基本信息");
-            }
-            
-            // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
-            return params;
-        },
         request1(){
 
             let params=this.formatSubmitData1();
@@ -164,8 +145,29 @@ export default {
                 }
             })
         },
+        formatSubmitData(){
+            let submitForm = {}
+            console.log(submitForm)
+            // submitForm.AGA002 =  "确认-00253-023";
+            submitForm.AGA002 =  "330800253023";
+            // submitForm.debugTest=  "true";
+            submitForm.BKZ019=this.$route.query.param||""
+            // 加入用户名和电子社保卡号
+            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
+                submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            }else {
+                
+                this.$toast("未获取到人员基本信息");
+            }
+            
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
+            return params;
+        },
         formatSubmitData1(){
                 let submitForm = {}
+                // submitForm.AGA002 =  "确认-00253-023";
                 submitForm.AGA002 =  "330800253023";
                 // submitForm.debugTest=  "true";
                 //从进度查询页面进入接收传参

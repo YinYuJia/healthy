@@ -168,6 +168,7 @@ export default new Vuex.Store({  // 暴露与new vuex
           hospitalName: '', //就诊医院
           AKB020: '', //医院编码
           AKA078: '', //就诊类型
+          AKA078VALUE: '', //就诊类型中文
           AAE030: '' //就诊日期
         },
         SET_SMALL_REIM_2:{

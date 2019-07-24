@@ -156,7 +156,7 @@ export default {
            this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
            console.log('this.form.AAS301',this.form.AAS301)
            console.log('this.form.AAB301',this.form.AAB301)
-
+           this.getMailInfo();
            
                                 
 
@@ -259,6 +259,7 @@ export default {
         },
         // 提交
         submit() {
+            sessionStorage.setItem('AKC030',this.form.AKC030)//储存当前的申请原因
             if (this.canSubmit == false) {
                 this.$toast('信息未填写完整');
                 return false;
@@ -303,6 +304,7 @@ export default {
         formatSubmitData(){
             let submitForm = Object.assign({}, this.form);
             // 日期传换成Number
+            submitForm.BKE520 = "1"
             submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030).toString();
             submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031).toString();
             // submitForm.AAS301 = this.form.AAS301//申请地省
@@ -329,6 +331,30 @@ export default {
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1012");
             console.log("params444444444444444444444",params)
             return params;
+        },
+        // 获取手机号码信息
+        getMailInfo(){
+            let submitForm = {}
+            // 加入电子社保卡号
+            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
+            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                     if(resData.AAE005.length > 11){
+                         this.form.AAE005 = '';
+                     }else{
+                         this.form.AAE005 = resData.AAE005  //手机号码
+                     }
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    // this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
         }
     }
 }

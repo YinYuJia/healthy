@@ -18,6 +18,8 @@ import getDetail from '@/components/serveComponent/insured/getProof/getDetail'
 import nearbySite from '@/components/serveComponent/common/NearbySite'
 import insuredChange from '@/components/serveComponent/insured/insuredChange/insuredChange'
 import changeDetail from '@/components/serveComponent/insured/insuredChange/changeDetail'
+import legalChange from '@/components/serveComponent/insured/legalChange/legalChange'
+import legalChangeDetail from '@/components/serveComponent/insured/legalChange/legalChangeDetail'
 import searchPrint from '@/components/serveComponent/insured/searchPrint/searchPrint'
 import insuredDownload from '@/components/serveComponent/insured/searchPrint/insuredDownload'
 import transferRenewing from '@/components/serveComponent/insured/transferRenewing/transferRenewing'
@@ -125,6 +127,16 @@ export default new Router({
       path: '/changeDetail',
       name: 'changeDetail',
       component: changeDetail
+    },
+    {
+      path: '/legalChange',
+      name: 'legalChange',
+      component: legalChange
+    },
+    {
+      path: '/legalChangeDetail',
+      name: 'legalChangeDetail',
+      component: legalChangeDetail
     },
     {
       path: '/searchPrint',
