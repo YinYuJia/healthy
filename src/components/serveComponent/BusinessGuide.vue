@@ -34,8 +34,8 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理地址:</span></div>
-                    <div class="InfoText"><span>{{form.acceptAddress}}</span></div>
-                </div> 
+                    <div class="InfoText"><span>{{form.entrustedDept}}</span></div>
+                </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理时间:</span></div>
                     <div class="InfoText"><span>{{form.acceptdate}}</span></div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法定依据:</span></div>
-                    <div class="InfoText"><span class="htmlSpan" html(form.matSettingBasis)></span></div>
+                    <div class="InfoText"><span class="htmlSpan" v-html="form.matSettingBasis"></span></div>
                 </div>
             </div>
         </div>
