@@ -28,26 +28,26 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地</span></div>
                     <div class="InfoText">
-                         <div class="InfoText"><input  type="text" v-model="AAB301000" placeholder="请选择" readonly></div>
+                         <div class="InfoText"><input  type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>出境日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div>
+                        <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟回国日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly></div>
+                        <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>取药机构</span></div>
                     <div class="InfoText">
                         <!-- @click="gotoTakeDrug()" -->
-                        <div class="InfoText"><input type="text" @click="chooseHospital" v-model="form.AKB020Name" placeholder="请选择" readonly></div>
+                        <div class="InfoText"><input type="text" @click="chooseHospital" v-model="form.AKB020Name" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">

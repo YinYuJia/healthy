@@ -2,14 +2,14 @@
     <div class="insuredChange">
         <Title :title="'医保转移接续'" :backRouter="'/'"></Title>
         <!-- MintUI弹出框区域 -->
-        <SelectCity 
+        <SelectCity
             :type="3"
             ref="outCityPicker"
             :onlyZJ="true"
             @confirm="chooseOutCity"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="3"
             ref="inCityPicker"
             :onlyZJ="true"
@@ -25,13 +25,13 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>转出地</span></div>
                     <div class="InfoText">
-                         <div class="InfoText"><input @click="openOutCityPicker" type="text" v-model="form.AAA027000" placeholder="请选择" readonly></div>
+                         <div class="InfoText"><input @click="openOutCityPicker" type="text" v-model="form.AAA027000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转入地</span></div>
                     <div class="InfoText">
-                         <div class="InfoText"><input @click="openInCityPicker" type="text" v-model="form.AAB301000" placeholder="请选择" readonly></div>
+                         <div class="InfoText"><input @click="openInCityPicker" type="text" v-model="form.AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -63,7 +63,7 @@ export default {
                 AAA027:"",//转出地市
                 AAQ027:"",//转入地区
 
-                AAS301:"", //转入地省code                
+                AAS301:"", //转入地省code
                 AAB301:"",//转入地市
                 AAQ301:"",//转入地区
                 AAB301000:"",
@@ -113,7 +113,7 @@ export default {
                 },
 
             deep:true
-       } 
+       }
     },
     methods:{
         // 选择转出地
@@ -179,7 +179,7 @@ export default {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装

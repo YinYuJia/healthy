@@ -9,7 +9,7 @@
             :endDate="endDate"
             @confirm="handleTimeConfirm">
         </mt-datetime-picker>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="typePicker"
             :propArr="typeArr"
@@ -26,15 +26,15 @@
             <div class="ReportInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊医院：</span></div>
-                    <div class="InfoText"><input @click="chooseHospital()" type="text" v-model="form.hospitalName" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="chooseHospital()" type="text" v-model="form.hospitalName" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊类型：</span></div>
-                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="form.AKA078VALUE" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="form.AKA078VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊日期：</span></div>
-                    <div class="InfoText"><input @click="openTimePicker()" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openTimePicker()" type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
             </div>
         </div>
@@ -130,8 +130,8 @@ export default {
                 let params = this.formatSubmitData();
                 console.log(params);
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1026/getInvoice', params).then((resData) => {
-                    console.log('返回成功信息',resData) 
-                    //   成功   1000 
+                    console.log('返回成功信息',resData)
+                    //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         if(resData.hasOwnProperty('LS_DS1')){
                             if(resData.LS_DS1.length>0){
@@ -159,7 +159,7 @@ export default {
                         }else{
                             this.$store.dispatch('IS_INVOICE',false)
                         }
-                        
+
                         let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
                         let GinsengLandName = sessionStorage.getItem("GinsengLandName")
                         let submitForm = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_SUBMIT));
@@ -190,7 +190,7 @@ export default {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装

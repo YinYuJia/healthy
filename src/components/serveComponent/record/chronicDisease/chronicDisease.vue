@@ -34,6 +34,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -48,6 +49,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -64,6 +66,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -80,6 +83,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
               <svg-icon v-if="this.form.AKA1211 != ''" icon-class="serveComponent_delete" @click="deleteText(2)"/>
             </div>
           </div>
@@ -97,6 +101,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
               <svg-icon v-if="this.form.AKA1212 != ''" icon-class="serveComponent_delete" @click="deleteText(3)"/>
             </div>
           </div>
@@ -112,6 +117,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -128,6 +134,7 @@
                 ></el-option>
               </el-select> -->
               <input @click="openTypePicker()" type="text" v-model="BKE247VALUE" placeholder="请选择" readonly>
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
         </div>
