@@ -414,7 +414,7 @@ export default {
         this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
             //   成功   1000
             if ( resData.enCode == 1000 ) {
-                  this.form.AAE011 = resData.AAE009 //收件人
+                  this.form.AAE011 = this.$store.state.SET_NATIVEMSG.name
                   if(resData.AAE005.length > 11){
                       this.form.AAE005 = '';
                   }else{
@@ -657,7 +657,7 @@ export default {
             align-items: center;
           }
           textarea {
-            width: 4rem;
+            width: 5rem;
             height: 0.84rem;
             font-size: 0.3rem;
             opacity: 0.85;

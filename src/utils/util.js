@@ -44,6 +44,7 @@ function checkPhone(phoneStr){
     }
     return true;
   }
+
 // 检验姓名
 function checkName(name){
     var reg = /[0-9]/;

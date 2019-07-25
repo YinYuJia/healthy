@@ -218,7 +218,7 @@ export default {
                         align-items: center;
                     }
                     textarea{
-                        width: 4rem;
+                        width: 5rem;
                         height: .84rem;
                         font-size: .3rem;
                         opacity: 0.85;
