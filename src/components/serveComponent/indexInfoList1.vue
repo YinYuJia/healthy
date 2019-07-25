@@ -200,6 +200,7 @@
                 AAE010: '', //收款银行账号
                 BKC013: '', //发票张数
                 AKB020: '', //机构编码（医院编码）
+                AAE005: '',//手机号码
             }
             this.$store.dispatch('SET_SMALL_REIM_SUBMIT',SET_SMALL_REIM_SUBMIT)
             let SET_SMALL_REIM_1={

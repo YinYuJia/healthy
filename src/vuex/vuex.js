@@ -163,6 +163,7 @@ export default new Vuex.Store({  // 暴露与new vuex
           AAE010: '', //收款银行账号
           BKC013: '', //发票张数
           AKB020: '', //机构编码（医院编码）
+          AAE005: '',//手机号码
         },
         SET_SMALL_REIM_1:{
           hospitalName: '', //就诊医院

@@ -218,7 +218,7 @@ export default {
                         this.$toast('请填写正确的手机号码');
                         return false;
                     }
-                }else if(this.form.AAE005&&this.form.BKA077=='1'&&this.form.AAE005.length==7||this.form.AAE005&&this.form.BKA077=='1'&&this.form.AAE005.length==8){
+                }else if(this.form.AAE005&&this.form.BKA077=='1'&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
                     if(!this.util.checkHomePhone(this.form.AAE005)){
                         this.$toast('请填写正确的电话号码');
                         return false;

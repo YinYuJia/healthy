@@ -83,11 +83,14 @@ export default {
     },
     methods:{
         submit(){
-            if(this.form.AAE005){
+            if(this.form.AAE005&&this.form.AAE005.length==11){
                 if(!this.util.checkPhone(this.form.AAE005)){
                     this.$toast('请填写正确的手机号码');
                     return false;
                 }
+            }else{
+                    this.$toast('请确认填写的号码位数是否正确');
+                    return false;
             }
             if(this.form.AAE007){
                 if(!this.util.postOffic(this.form.AAE007)){
