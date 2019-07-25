@@ -17,7 +17,11 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开户名：</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.AAE009" placeholder="请输入" readonly></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE009" placeholder="请输入"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>手机号码：</span></div>
+                    <div class="InfoText"><input type="tel" v-model="form.AAE005" placeholder="请输入"></div>
                 </div>
             </div>
             <!-- 提示 -->
@@ -39,6 +43,7 @@ export default {
                 AAE010: '', //银行账户
                 AAE008: '', //开户行
                 AAE009: '', //开户名
+                AAE005: '',//手机号码
                 LS_DS1:[],
             },
             canSubmit: false,
@@ -62,7 +67,7 @@ export default {
         form: {
             handler: function(val) {
                 // 判断不为空
-                if (val.AAE010 != '' && val.AAE008 != '' && val.AAE009 != '') {
+                if (val.AAE010 != '' && val.AAE008 != '' && val.AAE009 != ''&& val.AAE005!='') {
                     this.canSubmit = true;
                 } else {
                     this.canSubmit = false;
@@ -84,6 +89,20 @@ export default {
                 this.$toast("未填写完整");
                 return false;
             }else{
+                if(this.form.AAE005&&this.form.AAE005.length==11){
+                    if(!this.util.checkPhone(this.form.AAE005)){
+                        this.$toast('请填写正确的手机号码');
+                        return false;
+                    }
+                }else if(this.form.AAE005&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+                    if(!this.util.checkHomePhone(this.form.AAE005)){
+                        this.$toast('请填写正确的电话号码');
+                        return false;
+                    }
+                }else{
+                    this.$toast('请确认填写的号码位数是否正确');
+                    return false;
+                }
                 let params = this.formatSubmitForm();
                 console.log(params);
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1019/info', params).then((resData) => {
@@ -112,6 +131,7 @@ export default {
             submitForm.AAE010 = this.form.AAE010.replace(/\s+/g,'');
             submitForm.AAE008 = this.form.AAE008;
             submitForm.AAE009 = this.form.AAE009;
+            submitForm.AAE005 = this.form.AAE005;
             submitForm.BKE520 = "1"
             submitForm.AKA078 = sessionStorage.getItem('AKA078');
             
@@ -175,9 +195,11 @@ export default {
              this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
+                    console.log(resData.AAE005)
                      this.form.AAE010 = resData.AAE010 //银行账户
                      this.form.AAE008 = resData.AAE008  //开户行
-                    //  this.form.AAE009 = resData.AAE009   //开户名
+                     this.form.AAE009 = resData.AAE009   //开户名
+                     this.form.AAE005 = resData.AAE005   //手机号码
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     // this.$toast(resData.msg);
@@ -200,7 +222,7 @@ export default {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
-            height: 3.6rem;
+            height: auto;
             width: 100%;
             padding: 0 .3rem;
             background: white;
