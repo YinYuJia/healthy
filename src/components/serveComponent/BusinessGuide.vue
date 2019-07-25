@@ -34,7 +34,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理地址:</span></div>
-                    <div class="InfoText"><span>{{form.entrustedDept}}</span></div>
+                    <div class="InfoText"><span id="ADDRESS"></span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理时间:</span></div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法定依据:</span></div>
-                    <div class="InfoText"><span>{{form.matSettingBasis}}</span></div>
+                    <div class="InfoText"><span id="HTML" class="htmlSpan"></span></div>
                 </div>
             </div>
         </div>
@@ -144,6 +144,13 @@ export default {
                     if(resData.LS_DS0[0]!=undefined){
                         this.form={...this.form,...resData.LS_DS0[0]}
                     }
+                    console.log(this.form.matSettingBasis)
+                    let ADDRESS=this.form.acceptAddress;
+                    let HTML=this.form.matSettingBasis;
+                    let Basistext=this.removeAllSpace(HTML)
+                    let Addresstext=this.removeAllSpace(ADDRESS);
+                    document.getElementById("HTML").innerHTML =Basistext;
+                    document.getElementById("ADDRESS").innerHTML =Addresstext;
                     // this.title=this.form.AGA004;
                 } else if (resData.enCode == 1001) {
                     //   失败  1001
@@ -154,6 +161,10 @@ export default {
                     return;
                 }
             });
+        },
+        //去除空格
+        removeAllSpace(str) {
+        return str.replace(/\s+/g, "");
         },
         formatSubmitData() {
             let submitForm = {};
@@ -270,10 +281,18 @@ export default {
                     }
                     span{
                         height: auto;
+                        width: 100%;
                         line-height: .4rem;
                         color: #000;
                         letter-spacing: 0;
                         text-align: left;
+                    }
+                    .htmlSpan{
+                        width: 100%;
+                        word-wrap: break-word;word-break: break-all;overflow: hidden;
+                        span{
+                            width: 100%;
+                        }
                     }
                 }
                 &:last-child{

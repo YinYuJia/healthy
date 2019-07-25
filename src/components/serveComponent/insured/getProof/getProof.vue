@@ -3,20 +3,20 @@
         <!-- 标题 -->
         <Title :title="'领取就医凭证'" :backRouter="'/'"></Title>
         <!-- MintUI弹出区域 -->
-        <SelectCity 
+        <SelectCity
             :type="3"
             ref="cityPicker"
             @confirm="chooseCity"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="typePicker"
             :propArr="AAC050s"
             @confirm="handleTypeConfirm"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="wayPicker"
             :propArr="BKA077s"
@@ -96,7 +96,7 @@ export default {
             AAC050s: [
                 {value: '1',label: '更换'},
                 {value: '2',label: '补办'}
-            ], 
+            ],
             BKA077s: [
                 {value: '0',label: '自取'},
                 {value: '1',label: '邮寄'}
@@ -136,7 +136,7 @@ export default {
     created(){
         // this.form = this.$store.state.SET_INSURED_PROOF;
         // 获取位置
-        // let This = this 
+        // let This = this
         // if(this.$isSdk){
         //     dd.ready({
         //         developer: 'daip@dtdream.com',
@@ -268,7 +268,7 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
-                     this.form.AAE011 = resData.AAE009 //收件人
+                     this.form.AAE011 = this.$store.state.SET_NATIVEMSG.name
                      if(resData.AAE005.length > 11){
                          this.form.AAE005 = '';
                      }else{
@@ -375,6 +375,7 @@ export default {
                         align-items: center;
                     }
                     textarea{
+                        width: 5rem;
                         height: .84rem;
                         font-size: .3rem;
                         color: #000000;
@@ -418,7 +419,7 @@ export default {
             opacity: 0.45;
             font-family: PingFangSC-Regular;
             font-size: .24rem;
-            color: #000000;
+            color: #f00;
             text-align: left;
             .HintTitle{
                 i{

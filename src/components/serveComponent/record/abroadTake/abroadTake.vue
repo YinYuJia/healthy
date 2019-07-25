@@ -2,7 +2,7 @@
     <div class="abroadTake">
         <Title :title="'出国带药备案'" :backRouter="'/'"></Title>
         <!-- MintUI弹出框区域 -->
-        <SelectCity 
+        <SelectCity
             :type="2"
             ref="insuredPicker"
             @confirm="chooseInsured"
@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        
+
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <!-- 办事指南 -->
         <GuideIcon AGA002="330800253001"></GuideIcon>
@@ -121,7 +121,7 @@
            console.log('this.form.AAB301',this.form.AAB301)
             // this.form = this.$store.state.SET_ABROADTAKE_OPERATION;
             // this.form.AAC003 = this.$store.state.SET_NATIVEMSG.name
-            // this.form.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;  
+            // this.form.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             // this.form.AAB301000 = this.$store.state.SET_USER_DETAILINFO.regionName
             // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
         },
@@ -227,7 +227,7 @@
                                     submitForm.PTX001 = '2';
                                     const params = _this.epFn.commonRequsetData(_this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
                                     _this.$axios.post(_this.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
-                                        console.log('返回成功信息',resData) 
+                                        console.log('返回成功信息',resData)
                                         //   成功   1000
                                         if ( resData.enCode == 1000 ) {
                                             // 页面中添加照片
@@ -258,7 +258,7 @@
                 console.log('删除后',this.form.photoIdList);
             },
             submit() {
-                
+
 
             if (this.canSubmit == false) {
                 this.$toast('信息未填写完整');
@@ -283,7 +283,7 @@
                                 this.$router.push("/abroadDetail");
                             }else if (resData.enCode == 1001 ) {
                             //   失败  1001
-                              
+
                                 this.$toast(resData.msg);
                                 return;
                             }else{
@@ -291,7 +291,7 @@
                                 return;
                             }
                 })
-                
+
             }
         },
         formatSubmitData(){
@@ -313,7 +313,7 @@
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装
@@ -377,6 +377,7 @@
             background: #FFF;
             margin: .16rem 0 1.4rem 0;
             padding: .37rem .4rem;
+            color: #f00;
             .uploadList{
                 margin-top: .1rem;
                 font-size: .28rem;
@@ -411,7 +412,7 @@
             }
             .uploadHint{
                 font-size: .28rem;
-                color: #000000;
+                color: #f00;
                 letter-spacing: 0;
                 text-align: left;
             }
