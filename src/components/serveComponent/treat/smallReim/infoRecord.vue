@@ -56,7 +56,7 @@ export default {
         console.log('submitForm',this.$store.state.SET_SMALL_REIM_SUBMIT);
         console.log("SET_SMALL_REIM_2",this.$store.state.SET_SMALL_REIM_2)
         this.getUserInfo();
-        this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name || "许肖军"
+        this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name //|| 许肖军 332625197501010910
     },
     watch:{
         form: {
