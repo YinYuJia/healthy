@@ -10,7 +10,7 @@
         v-model="dateVal"
         @confirm="handleStartConfirm"
       ></mt-datetime-picker>
-      <SelectCity 
+      <SelectCity
         :type="1"
         ref="typePicker"
         :propArr="option"
@@ -199,7 +199,7 @@
       <!-- 按钮 -->
       <Footer :canSubmit="canSubmit" @submit="submit()"></Footer>
     </div>
-    
+
     <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
     <!-- 规定病种 -->
     <SearchInfoPage ref="species" type="AKA035"  @childrenClick="speciesClick"></SearchInfoPage>
@@ -220,7 +220,7 @@ export default {
   data() {
     return {
       imgUrl:'',
-      picArr: [],//附件集合 
+      picArr: [],//附件集合
       AAB301000: "", //参保地
       form: {
         AAS301: "", //参保地省编码
@@ -272,10 +272,10 @@ export default {
         //   邮寄
         if (val.BKE247 == "2") {
           this.showMail = true;
-           if ( 
-              val.AAS301 != ''&& val.AKA035 != ''&& 
-              val.AKA120 != ''&& val.AAE030 != ''&& 
-              val.AAE011 != ''&& val.AAE005 != ''&& 
+           if (
+              val.AAS301 != ''&& val.AKA035 != ''&&
+              val.AKA120 != ''&& val.AAE030 != ''&&
+              val.AAE011 != ''&& val.AAE005 != ''&&
               val.AAE006 != ''&& val.photoIdList.length>0
             ) {
                 this.canSubmit = true
@@ -283,7 +283,7 @@ export default {
                 this.canSubmit = false
             }
         } else {
-            if ( 
+            if (
               val.AAS301 != '' && val.AKA035 != '' &&
               val.AKA120 != ''  && val.AAE030 != ''&&
               this.AAB301000 !=""&& this.picArr.length>0
@@ -303,12 +303,12 @@ export default {
       }else{
         this.disabledOne = false
         if(val!=oldVal){
-          this.form.AKA120= "" 
-          this.form.AKA121= "" 
-          this.form.AKA1201= "" 
-          this.form.AKA1211= "" 
-          this.form.AKA1202= "" 
-          this.form.AKA1212= "" 
+          this.form.AKA120= ""
+          this.form.AKA121= ""
+          this.form.AKA1201= ""
+          this.form.AKA1211= ""
+          this.form.AKA1202= ""
+          this.form.AKA1212= ""
         }
       }
     }
@@ -329,7 +329,7 @@ export default {
         // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
     },
   methods: {
-    
+
     // 查看大图
     showBigPhoto(val){
         this.imgUrl = val;
@@ -505,13 +505,13 @@ export default {
                       console.log(data.picPath[0],'请求图片成功');
                       if(data.result){
                           // This.$store.dispatch('SET_ENCLOSURE',This.picArr)
-                          let submitForm = {}; 
+                          let submitForm = {};
                           // 加入用户名和电子社保卡号
                           if (This.$store.state.SET_NATIVEMSG.name !== undefined ) {
                               submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
                               submitForm.AAE135 = This.$store.state.SET_NATIVEMSG.idCard;
                           }else {
-                              
+
                               This.$toast("未获取到人员基本信息");
                           }
                           // 加入子项编码
@@ -521,7 +521,7 @@ export default {
                           const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
                           // 图片上传后台
                           This.$axios.post(This.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
-                              console.log('返回成功信息',resData) 
+                              console.log('返回成功信息',resData)
                               //   成功   1000
                               if ( resData.enCode == 1000 ) {
                                   // 获取图片
@@ -541,12 +541,12 @@ export default {
                   onFail: function(error) {
                       this.$toast(error)
                       console.log("请求图片失败",error);
-                      
+
                   }
               })
       })
       }
-      
+
   },
   // 删除图片
   deletePic(item,index){
@@ -720,6 +720,7 @@ export default {
         background: #FFF;
         margin: .16rem 0 1.4rem 0;
         padding: .37rem .4rem;
+        color: #f00;
         .uploadList{
             margin-top: .1rem;
             font-size: .28rem;
@@ -754,7 +755,7 @@ export default {
         }
         .uploadHint{
             font-size: .28rem;
-            color: #000000;
+            color: #f00;
             letter-spacing: 0;
             text-align: left;
         }

@@ -18,7 +18,7 @@
       @confirm="handleEndConfirm"
     ></mt-datetime-picker>
     <!-- 项目类型 -->
-    <SelectCity 
+    <SelectCity
         :type="1"
         ref="projectTypePicker"
         :propArr="typeList"
@@ -26,7 +26,7 @@
         >
     </SelectCity>
     <!-- 特质特药类型 -->
-    <SelectCity 
+    <SelectCity
         :type="1"
         ref="drugPicker"
         :propArr="drugList"
@@ -34,7 +34,7 @@
         >
     </SelectCity>
     <!-- 用药时期 -->
-    <SelectCity 
+    <SelectCity
         :type="1"
         ref="drugTimePicker"
         :propArr="drugTimeList"
@@ -81,11 +81,11 @@
             <span>特治特药类型</span>
           </div>
           <div class="InfoText">
-            <input 
-              @click="openDrugPicker()" 
-              type="text" v-model="BKE228VALUE" 
-              placeholder="请选择" 
-              readonly 
+            <input
+              @click="openDrugPicker()"
+              type="text" v-model="BKE228VALUE"
+              placeholder="请选择"
+              readonly
               :disabled="oneDisabled"
               :class="{disabledInput:oneDisabled}"
               >
@@ -96,13 +96,13 @@
             <span>疾病名称</span>
           </div>
           <div class="InfoText">
-            <input 
-              type="text" 
-              @click="species" 
-              v-model="form.AKA121" 
-              :class="{disabledInput:twoDisabled}" 
-              :disabled="twoDisabled" 
-              readonly 
+            <input
+              type="text"
+              @click="species"
+              v-model="form.AKA121"
+              :class="{disabledInput:twoDisabled}"
+              :disabled="twoDisabled"
+              readonly
               placeholder="请选择">
           </div>
         </div>
@@ -217,7 +217,7 @@ export default {
       AAE013One:'',
       AAE013Two:'',
       AAA052One:'',
-      AAA052Two:'',       
+      AAA052Two:'',
       AAB301000: "",
       form: {
         AAS301: "", //参保地
@@ -281,9 +281,9 @@ export default {
      */
     // this.getSelect('AKB020')
     this.getSelect('BKE253')
-    
+
     this.getSelect('BKE248')
-    
+
   },
   destroyed(){
     // window.removeEventListener('popstate', this.fun, false);//false阻止默认事件
@@ -321,8 +321,8 @@ export default {
             this.form.AAE031 = "";
           }
         }
-        
-        
+
+
       },
       deep: true
     },
@@ -342,7 +342,7 @@ export default {
             this.BKE228VALUE = "";
           }
         }
-      
+
     },
     'form.BKE228'(val,oldVal){
        // 特治特药类型
@@ -351,7 +351,7 @@ export default {
         this.threeDisabled = true
         this.form.AKA121 = ""
         this.form.AKE001 = ""
-          
+
       }else{
         // 获取疾病名称和项目名称
         this.twoDisabled = false
@@ -362,7 +362,7 @@ export default {
           this.AAE013Two = 'BKE228'
 
           this.AAA052One = val
-          
+
           this.AAA052Two = val
           this.form.AKA121=""
           this.form.AKE002=""
@@ -462,12 +462,12 @@ export default {
         // this.$router.push("/specialDrugDetail");
         let params = this.formatSubmitData();
         console.log(params);
-        
+
         this.$axios
           .post(this.epFn.ApiUrl() + "/h5/jy1023/specialTreat", params)
           .then(resData => {
             if (resData.enCode == "1000") {
-              
+
               this.$store.dispatch("SET_SPECIAL_DRUG", this.form);
               this.$router.push("/specialDrugDetail");
             }else{
@@ -517,7 +517,7 @@ export default {
           if (resData.enCode == "1000") {
               if(val == 'AKB020'){
                 console.log(5555555555,resData.LS_DS);
-                
+
                 // this.hospitalList = resData.LS_DS
                 return
               }
@@ -577,13 +577,13 @@ export default {
                     onSuccess: function(data) {
                         if(data.result){
                             // This.$store.dispatch('SET_ENCLOSURE',This.picArr)
-                            let submitForm = {}; 
+                            let submitForm = {};
                             // 加入用户名和电子社保卡号
                             if (This.$store.state.SET_NATIVEMSG.name !== undefined ) {
                                 submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
                                 submitForm.AAE135 = This.$store.state.SET_NATIVEMSG.idCard;
                             }else {
-                                
+
                                 This.$toast("未获取到人员基本信息");
                             }
                             // 加入子项编码
@@ -593,7 +593,7 @@ export default {
                             const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
                             // 图片上传后台
                             This.$axios.post(This.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
-                                console.log('返回成功信息',resData) 
+                                console.log('返回成功信息',resData)
                                 //   成功   1000
                                 if ( resData.enCode == 1000 ) {
                                     // 获取图片
@@ -613,12 +613,12 @@ export default {
                     onFail: function(error) {
                         this.$toast(error)
                         console.log("请求图片失败",error);
-                        
+
                     }
                 })
         })
         }
-        
+
     },
     // 删除图片
     deletePic(item,index){
@@ -685,6 +685,7 @@ export default {
         background: #FFF;
         margin: .16rem 0 1.4rem 0;
         padding: .37rem .4rem;
+        color: #f00;
         .uploadList{
             margin-top: .1rem;
             font-size: .28rem;
@@ -719,7 +720,7 @@ export default {
         }
         .uploadHint{
             font-size: .28rem;
-            color: #000000;
+            color: #f00;
             letter-spacing: 0;
             text-align: left;
         }
