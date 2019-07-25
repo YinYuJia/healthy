@@ -140,10 +140,16 @@ export default {
                     this.$toast('请填写正确的手机号码');
                     return false;
                 }
-            }else{
+            }else if(this.form.AAE005&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+                    if(!this.util.checkHomePhone(this.form.AAE005)){
+                        this.$toast('请填写正确的电话号码');
+                        return false;
+                    }
+                }else if(this.form.AAE005&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
                     this.$toast('请确认填写的号码位数是否正确');
                     return false;
             }
+
             if (this.canSubmit == false) {
                 this.$toast('信息未填写完整');
                 return false;
@@ -198,12 +204,7 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
-                     if(resData.AAE005.length > 11){
-                         this.form.AAE005 = '';
-                         this.$toast('请输入正确的手机号码')
-                     }else{
-                         this.form.AAE005 = resData.AAE005  //手机号码
-                     }
+                    this.form.AAE005 = resData.AAE005  //手机号码
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     // this.$toast(resData.msg);
