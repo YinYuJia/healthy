@@ -1,13 +1,13 @@
 <template>
     <div class="searchPrint">
         <!-- 弹出框内容 -->
-        <SelectCity 
+        <SelectCity
             :type="2"
             ref="insuredPicker"
             @confirm="chooseInsured"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="monthPicker"
             :propArr="options"
@@ -24,7 +24,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地</span></div>
                     <div class="InfoText">
-                         <div class="InfoText"><input type="text" v-model="AAB301000" placeholder="请选择" readonly></div>
+                         <div class="InfoText"><input type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -125,12 +125,12 @@ export default {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                     submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
                 }else {
-                    // 
+                    //
                     this.$toast("未获取到人员基本信息");
                 }
                 // 暂时删除参保地
                 // delete submitForm.AAB301
-                
+
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'1011');
                 console.log('submitForm--------------',params)
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1011/QueryInsurance', params)
@@ -138,9 +138,9 @@ export default {
                         console.log(resData);
 
                         sessionStorage.setItem("searchPrintData",JSON.stringify(resData))
-                        
+
                         if(resData.enCode==1000){
-                            
+
                             this.$router.push('/insuredDownload');
                         }else if(resData.enCode==1001){
                             this.$toast(resData.msg)

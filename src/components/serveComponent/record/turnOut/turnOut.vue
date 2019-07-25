@@ -42,19 +42,19 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地</span></div>
 
-                    <div class="InfoText"><input  type="text" v-model="AAS027000" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input  type="text" v-model="AAS027000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开始日期</span></div>
-                    <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束日期</span></div>
-                    <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly ></div>
+                    <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly ><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转往地市</span></div>
-                    <div class="InfoText"><input @click="openCityPicker" type="text" v-model="AAB301000" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openCityPicker" type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>疾病名称</span></div>
@@ -63,7 +63,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊疗程</span></div>
                     <div class="InfoText">
-                        <input @click="openTreatPicker()" type="text" v-model="BKE255VALUE" placeholder="请选择" readonly>
+                        <input @click="openTreatPicker()" type="text" v-model="BKE255VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
             </div>

@@ -16,19 +16,19 @@
             v-model="dateVal"
             @confirm="handleEndConfirm">
         </mt-datetime-picker>
-        <SelectCity 
+        <SelectCity
             :type="2"
             ref="insuredPicker"
             @confirm="chooseInsured"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="3"
             ref="cityPicker"
             @confirm="chooseCity"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="reasonPicker"
             :propArr="reportReason"
@@ -44,25 +44,25 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地</span></div>
                     <div class="InfoText">
-                        <input  type="text" v-model="AAB301000" placeholder="请选择" readonly>
+                        <input  type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟离杭日期</span></div>
                     <div class="InfoText">
-                        <input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly>
+                        <input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>回杭日期</span></div>
                     <div class="InfoText">
-                        <input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly>
+                        <input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>前往城市</span></div>
                     <div class="InfoText">
-                        <input @click="openCityPicker" type="text" v-model="AAS011000" placeholder="请选择" readonly>
+                        <input @click="openCityPicker" type="text" v-model="AAS011000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -74,7 +74,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>申请原因</span></div>
                     <div class="InfoText">
-                        <input @click="openReasonPicker()" type="text" v-model="AKC030VALUE" placeholder="请选择" readonly>
+                        <input @click="openReasonPicker()" type="text" v-model="AKC030VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -98,7 +98,7 @@
 export default {
     data() {
         return {
-            // 提交信息   
+            // 提交信息
                 AAS011000:"",//前往城市
                 AAB301000:"",//参保地
             form: {
@@ -110,11 +110,11 @@ export default {
                 AAQ011: '', //前往城市地区
                 AAE004: '', //联系人
                 AKC030: '', //申请原因
-                AAE006: '', //详细地址 
+                AAE006: '', //详细地址
                 AAE005: '', //联系电话
                 AAB301: '',//参保地市
                 AAS301: '',//参保地省
-                
+
                 // AAQ301: '',//参保地区
             },
             startDate: new Date(),
@@ -150,12 +150,14 @@ export default {
         let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
         let GinsengLandName = sessionStorage.getItem("GinsengLandName")
 
-        console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
-        this.AAB301000 = GinsengLandName
-        this.form.AAB301 = GinsengLandCode
-        this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
-        console.log('this.form.AAS301',this.form.AAS301)
-        console.log('this.form.AAB301',this.form.AAB301)
+console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
+           this.AAB301000 = GinsengLandName
+           this.form.AAB301 = GinsengLandCode
+           this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
+           console.log('this.form.AAS301',this.form.AAS301)
+           console.log('this.form.AAB301',this.form.AAB301)
+           this.getMailInfo();
+
         // this.form = this.$store.state.SET_ELSEWHERE_OPERATION;
         this.$store.dispatch('SET_SELECTARRAY', this.epFn.ChinaJsonDatas());
         this.optionList = this.$store.state.SET_SELECTARRAY;
@@ -169,8 +171,8 @@ export default {
         form: {
             handler: function(val) {
                 // 判断不为空
-                if (val.AAE030 != '' && val.AAE031 != '' && val.AAS011 != '' 
-                 && val.AAE011 != '' && val.AAE006 != '' 
+                if (val.AAE030 != '' && val.AAE031 != '' && val.AAS011 != ''
+                 && val.AAE011 != '' && val.AAE006 != ''
                  && val.AKC030 != '' && val.AAE004 != '' && val.AAE005 != ''
                  && val.AAS301 != '' && val.AAB301 != '') {
                     this.canSubmit = true;
@@ -292,9 +294,9 @@ export default {
                                 this.$toast('业务出错');
                                 return;
                             }
-                    
+
                 })
-                
+
             }
         },
         formatSubmitData(){
@@ -309,7 +311,7 @@ export default {
             // submitForm.AAS011=  this.form.AAS011 //参保地省
             // submitForm.AAE011=  this.form.AAE011 //参保地市
             // submitForm.AAQ011=  this.form.AAQ011 //参保地区
-            // submitForm.AAE006=  this.form.AAE006 //详细地址 
+            // submitForm.AAE006=  this.form.AAE006 //详细地址
             // submitForm.AKC030=  this.form.AKC030 //申请原因
             // submitForm.AAE004=  this.form.AAE004 //联系人
             // submitForm.AAE005=  this.form.AAE005 //联系电话
@@ -319,7 +321,7 @@ export default {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装

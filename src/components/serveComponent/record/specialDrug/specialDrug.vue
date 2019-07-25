@@ -58,6 +58,7 @@
               placeholder="请选择"
               readonly
             >
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -65,7 +66,7 @@
             <span>就诊机构</span>
           </div>
           <div class="InfoText">
-            <input type="text" @click="org" v-model="form.AKB020Name" readonly placeholder="请选择">
+            <input type="text" @click="org" v-model="form.AKB020Name" readonly placeholder="请选择"><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -73,7 +74,7 @@
             <span>项目类型</span>
           </div>
           <div class="InfoText">
-            <input @click="openProjectTypePicker()" type="text" v-model="BKE253VALUE" placeholder="请选择" readonly>
+            <input @click="openProjectTypePicker()" type="text" v-model="BKE253VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -89,6 +90,7 @@
               :disabled="oneDisabled"
               :class="{disabledInput:oneDisabled}"
               >
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -104,6 +106,7 @@
               :disabled="twoDisabled"
               readonly
               placeholder="请选择">
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -120,6 +123,7 @@
               ></el-option>
             </el-select> -->
             <input @click="openDrugTimePicker()" type="text" v-model="BKE248VALUE" placeholder="请选择" readonly>
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -128,6 +132,7 @@
           </div>
           <div class="InfoText">
             <input type="text" @click="project" :class="{disabledInput:threeDisabled}" v-model="form.AKE002" :disabled="threeDisabled" placeholder="请选择" readonly>
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -158,6 +163,7 @@
               placeholder="请选择"
               readonly
             >
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -172,6 +178,7 @@
               placeholder="请选择"
               readonly
             >
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
       </div>
