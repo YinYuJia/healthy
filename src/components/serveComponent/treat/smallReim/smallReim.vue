@@ -30,7 +30,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊类型：</span></div>
-                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="AKA078VALUE" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="form.AKA078VALUE" placeholder="请选择" readonly></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊日期：</span></div>
@@ -57,9 +57,9 @@ export default {
                 hospitalName: '', //医院名称
                 AKB020: '', //医院编码
                 AKA078: '', //就诊类型
+                AKA078VALUE: '', //就诊类型中文
                 AAE030: '', //就诊日期
             },
-            AKA078VALUE: '', //就诊类型中文
             dateVal: new Date(), //默认绑定的时间
             endDate: new Date(), //最晚选择时间
             canSubmit: false,
@@ -79,7 +79,7 @@ export default {
         form: {
             handler: function(val) {
                 // 判断不为空
-                if (val.AKB020 != '' && val.AKA078 != '' && val.AAE030 != '') {
+                if (val.AKB020 != '' && val.AKA078 != '' && val.AAE030 != '' && val.AKB078VALUE != '') {
                     this.canSubmit = true;
                 } else {
                     this.canSubmit = false;
@@ -93,20 +93,11 @@ export default {
         this.epFn.setTitle('零星报销')
         this.form = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
         console.log("1188888",this.form)
-        // if(this.form.AKA078=="1"){
-        //     this.AKA078VALUE="门诊"
-        // }else if(this.form.AKA078=="3"){
-        //     this.AKA078VALUE="住院"
-        // }
-        console.log("111",sessionStorage.getItem('AKA078VALUE'))
-        this.AKA078VALUE=sessionStorage.getItem('AKA078VALUE')
     },
     methods: {
         // 选择就诊医院
         chooseHospital(){
             this.$refs.hospita.open();
-            // this.$store.dispatch('SET_SMALL_REIM_1', this.form);
-            // this.$router.push('/searchHospital');
         },
         hospitaClick(code,name){
             this.form.hospitalName = name
@@ -117,12 +108,8 @@ export default {
             this.$refs.typePicker.open();
         },
         handleTypeConfirm(val){
-            console.log(val);
+            this.form.AKA078VALUE = val.label;
             this.form.AKA078 = val.value;
-            sessionStorage.setItem('AKA078',val.value)
-            this.AKA078VALUE = val.label;
-            sessionStorage.setItem('AKA078VALUE',val.label)
-
         },
         // 选择就诊日期
         openTimePicker(){
@@ -134,13 +121,6 @@ export default {
         },
         // 提交
         submit(){
-            // 暂时可跳转
-            // this.$store.dispatch('SET_SMALL_REIM_2');
-            // let submitForm = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_SUBMIT));
-            // submitForm.AKB020 = this.form.AKB020;
-            // this.$store.dispatch('SET_SMALL_REIM_SUBMIT', submitForm);
-            // this.$store.dispatch('SET_SMALL_REIM_1', this.form);
-            // this.$router.push("/invoiceInfo");
             if(!this.canSubmit){
                 this.$toast('信息未填写完整');
                 return false;

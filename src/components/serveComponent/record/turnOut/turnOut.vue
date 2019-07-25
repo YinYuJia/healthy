@@ -333,7 +333,7 @@
                 let submitForm = JSON.parse(JSON.stringify(this.form));
                 // 日期传换成Number
                 console.log(this.form);
-
+                submitForm.BKE520 = "1"
                 submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030);
                 submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031);
                 submitForm.photoIdList =  this.form.photoIdList.join(',');//照片ID数组

@@ -123,8 +123,8 @@ export default {
         },
         formatSubmitData(){
             let submitForm = {}
-            submitForm.AAE005 =  this.form.AAE005;
-            submitForm.AAE006 =  this.form.AAE006;
+			submitForm.BKE520 = "1"
+            submitForm.AAE005 =  this.form.AAE005;              submitForm.AAE006 =  this.form.AAE006;
             submitForm.AAE007 =  this.form.AAE007;
             submitForm.BKZ019 =  this.form.BKZ019;
             // submitForm.debugTest ="true"
@@ -142,7 +142,7 @@ export default {
         },
         formatSubmitData1(){
             let submitForm = {}
-            submitForm.AAE005 =  this.form.AAE005;
+            submitForm.AAE005 =  this.form.AAE005;   
             submitForm.AAE006 =  this.form.AAE006;
             submitForm.AAE007 =  this.form.AAE007;
             submitForm.BKZ019 =  this.form.BKZ019;

@@ -13,7 +13,7 @@
                         <span class="Hospital">{{item.AAA103}}</span>
                         <span class="Address">{{item.addr}}</span>
                         <span class="Address" v-if="item.office">{{item.office}}</span>
-                        <span class="Address" v-if="item.phone">{{item.phone}}</span>
+                        <a class="Address" v-if="item.phone" :href="`tel:${item.phone}`">{{item.phone}}</a>
                     </div>
                     <div class="Distance"><span>0m</span></div>
                 </li>
@@ -28,10 +28,13 @@ export default {
         return{
             activeIndex: 1,
             pointList: [],
+            longitude: 0, //经度
+            latitude: 0, //纬度
         };
     },
     created(){
-        this.getList('AKB020_JY'); //默认取医院网点
+        this.getSite();
+        // this.getList('AKB020_JY'); //默认取医院网点
     },
     methods:{
         changeIndex(index){
@@ -42,6 +45,26 @@ export default {
                 this.getList('AAE008');
             }
         },
+        getSite(){
+            let _this = this;
+            dd.ready({
+                developer: 'daip@dtdream.com',
+                usage: [
+                    'dd.device.location.get',
+                ],
+                remark: '获取坐标'
+                }, 
+                function() {
+                dd.device.location.get ({
+                    onSuccess: function(data) {
+                        _this.longitude = data.longitude;
+                        _this.latitude = data.latitude;
+                        _this.getList('AKB020_JY');
+                    },
+                    onFail: function(error) {}
+                })
+            })
+        },
         // 请求列表
         getList(type) {
             this.pointList = [];
@@ -49,17 +72,15 @@ export default {
             let params = this.formatSubmitData(type);
             // 开始请求
             this.$axios.post(this.epFn.ApiUrl() + "/h5/jy2001/optionInformationList", params).then(resData => {
-                console.log("返回成功信息医院列表搜索", resData);
                 //   成功   1000
                 if (resData.enCode == 1000) {
                     this.pointList = [...this.pointList, ...resData.LS_DS];
                     for (let i = 0; i < this.pointList.length; i++) {
                         let mesString = this.pointList[i].AAA105;
-                        this.pointList[i].phone = mesString.split(',')[0];
+                        this.pointList[i].phone =mesString.split(',')[0];
                         this.pointList[i].addr = mesString.split(',')[1];
                         this.pointList[i].office = mesString.split(',')[2];
                     }
-                    console.log(this.pointList);
                 } else if (resData.enCode == 1001) {
                     return;
                 } else {

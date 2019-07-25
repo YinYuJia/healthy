@@ -453,6 +453,7 @@ export default {
       // alert(name)
     },
     submit() {
+      sessionStorage.setItem('BKE253',this.form.BKE253)
       if (this.canSubmit == false) {
         this.$toast("信息未填写完整");
         return false;
@@ -478,6 +479,7 @@ export default {
     // 提交信息封装
     formatSubmitData() {
       let submitForm = Object.assign({}, this.form);
+      submitForm.BKE520 = "1"
       submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
       submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031)
       submitForm.photoIdList = this.form.photoIdList.join(',');//照片ID数组

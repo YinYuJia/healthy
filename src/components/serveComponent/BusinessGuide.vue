@@ -34,7 +34,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理地址:</span></div>
-                    <div class="InfoText"><span>{{form.entrustedDept}}</span></div>
+                    <div class="InfoText"><span id="ADDRESS"></span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理时间:</span></div>
@@ -48,11 +48,11 @@
             <div class="ListInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>办事流程:</span></div>
-                    <div class="InfoText"><span>{{form.transactProcess}}</span></div>
+                    <div class="InfoText"><img :src="form.transactProcess"  @click="showBigPhoto(form.transactProcess)" /></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法定依据:</span></div>
-                    <div class="InfoText"><span>{{form.matSettingBasis}}</span></div>
+                    <div class="InfoText"><span id="HTML" class="htmlSpan"></span></div>
                 </div>
             </div>
         </div>
@@ -76,13 +76,17 @@
                 </div>
             </div>
         </div>
+        
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
     </div>
 </template>
 
 <script>
+import PhotoView from '../serveComponent/common/PhotoView'
 export default {
     data(){
         return{
+            imgUrl:"",
             title:"",
             activeIndex: 1,
             AGA002:"",//子项编码
@@ -103,7 +107,7 @@ export default {
             case '330800253001': msg = '基本医疗保险参保人员出国（境）带药备案',sdkTitle="出国带药"; break; //出国带药
             case '330800253023': msg = '基本医疗保险参保人员历年账户家庭共济备案',sdkTitle="家庭共济"; break; //家庭共济
             case '330800253003': msg = '基本医疗保险参保人员特治特药备案',sdkTitle="特治特药"; break; //特治特药
-            case '330800253004': msg = '基本医疗保险参保人员享受规定（特殊慢性）病种待遇备案',sdkTitle="规定病种（慢病）"; break; //规定病种（慢病）
+            case '330800253004': msg = '基本医疗保险参保人员规定（特殊慢性）病种备案',sdkTitle="规定病种（慢病）"; break; //规定病种（慢病）
             case '330600007019': msg = '基本医疗参保人员医疗费用零星报销',sdkTitle="零星报销"; break; //零星报销
             case '330800123004': msg = '基本医疗保险视同缴费年限核定',sdkTitle="缴费年限"; break; //缴费年限
         }
@@ -116,6 +120,11 @@ export default {
         }
     },     
     methods:{
+        // 查看大图
+        showBigPhoto(val){
+            this.imgUrl = val;
+            this.$refs.photo.open();
+        },
         changeIndex(index){
             this.activeIndex = index;
         },
@@ -135,6 +144,13 @@ export default {
                     if(resData.LS_DS0[0]!=undefined){
                         this.form={...this.form,...resData.LS_DS0[0]}
                     }
+                    console.log(this.form.matSettingBasis)
+                    let ADDRESS=this.form.acceptAddress;
+                    let HTML=this.form.matSettingBasis;
+                    let Basistext=this.removeAllSpace(HTML)
+                    let Addresstext=this.removeAllSpace(ADDRESS);
+                    document.getElementById("HTML").innerHTML =Basistext;
+                    document.getElementById("ADDRESS").innerHTML =Addresstext;
                     // this.title=this.form.AGA004;
                 } else if (resData.enCode == 1001) {
                     //   失败  1001
@@ -145,6 +161,10 @@ export default {
                     return;
                 }
             });
+        },
+        //去除空格
+        removeAllSpace(str) {
+        return str.replace(/\s+/g, "");
         },
         formatSubmitData() {
             let submitForm = {};
@@ -256,12 +276,23 @@ export default {
                     display: flex;
                     position: relative;
                     align-items: center;
+                    img{
+                        width: 100%;
+                    }
                     span{
                         height: auto;
+                        width: 100%;
                         line-height: .4rem;
                         color: #000;
                         letter-spacing: 0;
                         text-align: left;
+                    }
+                    .htmlSpan{
+                        width: 100%;
+                        word-wrap: break-word;word-break: break-all;overflow: hidden;
+                        span{
+                            width: 100%;
+                        }
                     }
                 }
                 &:last-child{

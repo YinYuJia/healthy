@@ -184,8 +184,7 @@ export default {
                             console.log(data.picPath[0],'请求图片成功');
                             if(data.result){
                                 // 获取图片
-
-                                let submitForm = {};
+								  let submitForm = {}; 
                                  // 加入用户名和电子社保卡号
                                 if (This.$store.state.SET_NATIVEMSG.name !== undefined ) {
                                     submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
@@ -194,6 +193,12 @@ export default {
 
                                     This.$toast("未获取到人员基本信息");
                                 }
+                                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                                // if(AKA078=='1'){
+                                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
+                                // }else if(AKA078=='3'){
+                                //     submitForm.AGA002 = '给付-00007-019-02'//住院
+                                // }
                                 // 加入子项编码
                                 submitForm.AGA002 = '330600007019'
                                 submitForm.photoList = data.picPath[0]
@@ -322,7 +327,6 @@ export default {
                 letter-spacing: 0;
                 text-align: left;
                 padding-top: .4rem;
-                color: green;
             }
             .invoiceList{
                 height: 3.3rem;
