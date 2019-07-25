@@ -78,17 +78,13 @@ export default {
     },
     created () {
         this.epFn.setTitle('医保转移接续')
-        let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
-        let GinsengLandName = sessionStorage.getItem("GinsengLandName")
         this.getMailInfo();
-        console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
-        this.form.AAB301000 = GinsengLandName
-        this.form.AAB301 = GinsengLandCode
-        this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
-        console.log('aaaaaaaaa',this.form.AAA027000);
-        // this.form = this.$store.state.SET_TRANSFERRENEWING_OPERATION;
-        // this.form.AAC003 = this.$store.state.SET_NATIVEMSG.name|| "许肖军"
-        // this.form.AAE135 = this.$store.state.SET_NATIVEMSG.idCard|| "332625197501010910"
+        // let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
+        // let GinsengLandName = sessionStorage.getItem("GinsengLandName")
+        // console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
+        // this.form.AAB301000 = GinsengLandName
+        // this.form.AAB301 = GinsengLandCode
+        // this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
     },
     watch: {
        form:{
