@@ -99,7 +99,7 @@ export default {
                         this.$toast('请填写正确的电话号码');
                         return false;
                     }
-                }else if(this.form.AAE005&&(this.form.AAE005.length==7||this.form.AAE005.length==8||this.form.AAE005.length!=11)){
+                }else if(this.form.AAE005&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
                     this.$toast('请确认填写的号码位数是否正确');
                     return false;
                 }
