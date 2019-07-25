@@ -17,7 +17,7 @@
                             <span class="textName">发票号</span>
                             <span class="textInfo active">{{item.BKE100}}</span>
                         </div>
-                       
+
                         <div class="textLine">
                             <span class="textName">总费用</span>
                             <span class="textInfo">{{item.AKC264}}</span>
@@ -66,7 +66,7 @@
                 <svg-icon @click="uploadImg" icon-class="serveComponent_upload" />
             </div>
         </div>
-        
+
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <!-- 按钮 -->
         <footer class="Footer">
@@ -88,7 +88,7 @@ export default {
         return {
             // 提交信息
             form: {
-                
+
             },
             imgUrl:'',
             canSubmit: false, //是否可以提交
@@ -111,24 +111,24 @@ export default {
     },
     created() {
         console.log(33333,this.$store.state.SET_SMALL_REIM_2);
-        this.picArrNum = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_2.invoicesImg));    
+        this.picArrNum = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_2.invoicesImg));
         this.hasInvoice = this.$store.state.IS_INVOICE
         this.epFn.setTitle('零星报销')
-        
-        
+
+
         // 获取VUEX信息
         this.invoices = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_2.eleInvoices));
         console.log('发票信息',this.invoices);
-        
+
         // 附件集合
         this.picArr = JSON.parse(JSON.stringify(this.$store.state.SET_ENCLOSURE));
         // 封装发票
-        
-        
+
+
         console.log(this.invoices,'55555');
         // 有电子发票信息
         if(this.hasInvoice){
-           
+
             if(!this.invoices[0].hasOwnProperty('selected')){
                  this.invoices.forEach((val)=>{
                     val.selected = true;
@@ -184,14 +184,14 @@ export default {
                             console.log(data.picPath[0],'请求图片成功');
                             if(data.result){
                                 // 获取图片
-                                
-                                let submitForm = {}; 
+
+                                let submitForm = {};
                                  // 加入用户名和电子社保卡号
                                 if (This.$store.state.SET_NATIVEMSG.name !== undefined ) {
                                     submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
                                     submitForm.AAE135 = This.$store.state.SET_NATIVEMSG.idCard;
                                 }else {
-                                    
+
                                     This.$toast("未获取到人员基本信息");
                                 }
                                 // 加入子项编码
@@ -220,12 +220,12 @@ export default {
                         onFail: function(error) {
                             this.$toast(error)
                             console.log("请求图片失败",error);
-                            
+
                         }
                     })
             })
             }
-            
+
         },
         // 删除图片
         deletePic(item,index){
@@ -291,17 +291,17 @@ export default {
                 submitForm.BKC013 = this.invoiceCount.count;
                 submitForm.AKC264 = this.invoiceCount.price;
                 this.$store.dispatch('SET_SMALL_REIM_SUBMIT', submitForm);
-                
+
                 let SET_SMALL_REIM_2 = this.$store.state.SET_SMALL_REIM_2
                 SET_SMALL_REIM_2.eleInvoices = this.invoices
                 SET_SMALL_REIM_2.invoicesImg = this.picArrNum
                 console.log(this.picArrNum);
-                
+
                 this.$store.dispatch('SET_SMALL_REIM_2',SET_SMALL_REIM_2)
                 console.log('要提交的发票信息',this.$store.state.SET_SMALL_REIM_2.eleInvoices);
-                
+
                 this.$router.push('/infoRecord');
-               
+
             }
         },
     }
@@ -319,10 +319,10 @@ export default {
         .invoiceContent{
             .invoiceHint{
                 font-size: .28rem;
-                color: #000;
                 letter-spacing: 0;
                 text-align: left;
                 padding-top: .4rem;
+                color: green;
             }
             .invoiceList{
                 height: 3.3rem;
@@ -384,7 +384,7 @@ export default {
         .manualContent{
             .invoiceHint{
                 font-size: .28rem;
-                color: #000;
+                color: red;
                 letter-spacing: 0;
                 text-align: left;
                 padding-top: .4rem;
@@ -490,7 +490,7 @@ export default {
         }
         .uploadHint{
             font-size: .28rem;
-            color: #000000;
+            color: #f00;
             letter-spacing: 0;
             text-align: left;
         }

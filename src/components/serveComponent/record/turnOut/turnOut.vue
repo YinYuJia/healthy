@@ -2,7 +2,7 @@
     <div class="turnOut">
         <Title :title="'转外就医备案'" :backRouter="'/'"></Title>
         <!-- MintUI弹出框区域 -->
-        <SelectCity 
+        <SelectCity
             :type="2"
             ref="insuredPicker"
             @confirm="chooseInsured"
@@ -20,13 +20,13 @@
             v-model="end"
             @confirm="handleEndConfirm">
         </mt-datetime-picker>
-        <SelectCity  
+        <SelectCity
             :type="3"
             ref="cityPicker"
             @confirm="chooseCity"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="treatPicker"
             :propArr="treatment"
@@ -93,9 +93,9 @@
 <script>
     export default {
         data() {
-            return {  
+            return {
                 end:"",//结束时间
-                imgUrl:'',       
+                imgUrl:'',
                 picArr: [],//附件集合
                 AAS027000:"",//参保地
                 AAB301000: "",//转往地市
@@ -136,7 +136,7 @@
            this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
            console.log('this.form.AAS027',this.form.AAS027)
            console.log('this.form.AAB027',this.form.AAB027)
-            
+
             // this.form.AAA301000 = this.$store.state.SET_USER_DETAILINFO.regionName
             // // this.form.AAA301000 = "杭州"
             // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
@@ -191,13 +191,13 @@
                                 console.log(data.picPath[0],'请求图片成功');
                                 if(data.result){
                                     // This.$store.dispatch('SET_ENCLOSURE',This.picArr)
-                                    let submitForm = {}; 
+                                    let submitForm = {};
                                     // 加入用户名和电子社保卡号
                                     if (This.$store.state.SET_NATIVEMSG.name !== undefined ) {
                                         submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
                                         submitForm.AAE135 = This.$store.state.SET_NATIVEMSG.idCard;
                                     }else {
-                                        
+
                                         This.$toast("未获取到人员基本信息");
                                     }
                                     // 加入子项编码
@@ -207,7 +207,7 @@
                                     const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
                                     // 图片上传后台
                                     This.$axios.post(This.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
-                                        console.log('返回成功信息',resData) 
+                                        console.log('返回成功信息',resData)
                                         //   成功   1000
                                         if ( resData.enCode == 1000 ) {
                                             // 获取图片
@@ -230,12 +230,12 @@
                             onFail: function(error) {
                                 this.$toast(error)
                                 console.log("请求图片失败",error);
-                                
+
                             }
                         })
                 })
                 }
-                
+
             },
             // 删除图片
             deletePic(item,index){
@@ -286,7 +286,7 @@
             },
             chooseCity(val){
                 console.log(val);
-                
+
                 this.AAB301000= val.name;
                 this.form.AAS027=val.code[0]
                 this.form.AAB027=val.code[1]
@@ -326,7 +326,7 @@
                             return;
                         }
                     })
-                    
+
                 }
             },
             formatSubmitData(){
@@ -345,7 +345,7 @@
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                     submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
                 }else {
-                    
+
                     this.$toast("未获取到人员基本信息");
                 }
                 // 请求参数封装
@@ -408,6 +408,7 @@
             background: #FFF;
             margin: .16rem 0 1.4rem 0;
             padding: .37rem .4rem;
+            color: #f00;
             .uploadList{
                 margin-top: .1rem;
                 font-size: .28rem;
@@ -442,7 +443,7 @@
             }
             .uploadHint{
                 font-size: .28rem;
-                color: #000000;
+                color: #f00;
                 letter-spacing: 0;
                 text-align: left;
             }
