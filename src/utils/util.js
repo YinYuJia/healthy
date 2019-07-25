@@ -41,10 +41,20 @@ function checkPhone(phoneStr){
     var phone = phoneStr
     if(!(/^1[3456789]\d{9}$/.test(phone))){ 
         return false; 
+    }else{
+        return true;
     }
-    return true;
+    
   }
-
+//电话号码校验
+function checkHomePhone(phoneStr){ 
+    var phone = phoneStr
+    if(!(/\d{7,8}/.test(phone))){ 
+        return false; 
+    }else{
+        return true;
+    }
+}
 // 检验姓名
 function checkName(name){
     var reg = /[0-9]/;
@@ -125,6 +135,7 @@ export default{
     DateToNumber,
     NumberToDate,
     checkPhone,
+    checkHomePhone,
     checkName,
     idCard,
     postOffic,

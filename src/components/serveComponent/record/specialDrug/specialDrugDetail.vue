@@ -13,7 +13,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊机构:</span></div>
-                    <div class="InfoText">{{form.AKB020VALUE}}</div>
+                    <div class="InfoText">{{form.AKB020Name}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>项目类型:</span></div>
@@ -100,7 +100,8 @@ export default {
                 BKE252: "", //实际使用量
                 AKB063: "", //备案天数
                 AAE030: "", //开始日期
-                AAE031: "" //结束日期
+                AAE031: "", //结束日期
+                AKB020Name:""//就诊机构名称
             },
             AAB301000: "",
             arr: [
