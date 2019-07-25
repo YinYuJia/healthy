@@ -441,17 +441,17 @@ export default {
 
     submit() {
       if (this.form.AAE005&&this.form.AAE005.length==11&&this.showMail==true) {
-        if (!this.util.checkPhone(this.form.AAE005)) {
-          this.$toast("请填写正确的手机号码");
-          return false;
-        }
+          if (!this.util.checkPhone(this.form.AAE005)) {
+            this.$toast("请填写正确的手机号码");
+            return false;
+          }
       }else if(this.form.AAE005&&this.showMail==true&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
-        if (!this.util.checkHomePhone(this.form.AAE005)) {
-          this.$toast("请填写正确的电话号码");
-          return false;
-        }
-      }else{
-          this.$toast("请确认填写的号码位数是否正确");
+          if(!this.util.checkHomePhone(this.form.AAE005)){
+              this.$toast('请填写正确的电话号码');
+              return false;
+          }
+      }else if(this.form.AAE005&&this.showMail==true&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
+          this.$toast('请确认填写的号码位数是否正确');
           return false;
       }
 
