@@ -31,11 +31,13 @@
             <div class="GetInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>业务类型：</span></div>
-                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="AAC050VALUE" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="AAC050VALUE" placeholder="请选择" readonly>
+                      <svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>领取方式：</span></div>
-                    <div class="InfoText"><input @click="openWayPicker()" type="text" v-model="BKA077VALUE" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openWayPicker()" type="text" v-model="BKA077VALUE" placeholder="请选择" readonly>
+                      <svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
             </div>
             <!-- 邮递信息 -->
