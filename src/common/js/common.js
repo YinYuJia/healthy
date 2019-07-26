@@ -1,8 +1,10 @@
 // 中国省市县ArrayData
 import ChinaJson from './ChinaArray'
-import addressList from './address'
-import zjAddress from './zjAddress'
-import tzAddress from './tzAddress'
+import addressList from './address' //所有地区
+import zjAddress from './zjAddress' //浙江地区
+import tzAddress from './tzAddress' //台州地区
+import excludeZj from './excludeZj' //浙江以外地区
+import excludeProvince from './excludeProvince' //排除省本级
 import  Vuex from '../../vuex/vuex' 
 export default {
     // 登录方法
@@ -212,5 +214,11 @@ export default {
     },
     tzAddress: function(){
       return tzAddress;
+    },
+    excludeZj: function(){
+      return excludeZj;
+    },
+    excludeProvince: function(){
+      return excludeProvince;
     }
 }
