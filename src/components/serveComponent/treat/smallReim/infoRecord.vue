@@ -62,13 +62,13 @@ export default {
         console.log('submitForm',this.$store.state.SET_SMALL_REIM_SUBMIT);
         console.log("SET_SMALL_REIM_2",this.$store.state.SET_SMALL_REIM_2)
         this.getUserInfo();
-        // this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name //|| 许肖军 332625197501010910
+        this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name //|| 许肖军 332625197501010910
     },
     watch:{
         form: {
             handler: function(val) {
                 // 判断不为空
-                if (val.AAE010 != '' && val.AAE008 != '' && val.AAE009 != ''&& val.AAE005!='') {
+                if (val.AAE010 != '' && val.BAC048 != '' && val.AAE009 != ''&& val.AAE005!='') {
                     this.canSubmit = true;
                 } else {
                     this.canSubmit = false;
@@ -198,7 +198,7 @@ export default {
                 if ( resData.enCode == 1000 ) {
                     console.log(resData.AAE005)
                      this.form.AAE010 = resData.AAE010 //银行账户
-                     this.form.BAC048 = resData.AAE008  //开户行
+                     this.form.BAC048 = resData.BAC048  //开户行
                      this.form.AAE009 = resData.AAE009   //开户名
                      this.form.AAE005 = resData.AAE005   //手机号码
                 }else if (resData.enCode == 1001 ) {
