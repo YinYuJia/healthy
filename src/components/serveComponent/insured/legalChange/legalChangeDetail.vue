@@ -62,11 +62,89 @@ export default {
         return{
             currentStep: 1,
             successFlag: 1,
+            form:{},
         }
     },
     created(){
     },
-    methods:{}
+    methods:{
+        // 事项进度查询
+        request(){
+            let params=this.formatSubmitData();
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1009/getRecord', params).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {  
+                    if (resData.LS_DS.length > 0 ) {
+                       this.currentStep = Number(resData.LS_DS[0].BOD037) 
+                    }else{
+                        this.$toast("暂无状态信息")
+                    }
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        formatSubmitData(){
+            let submitForm ={}
+            submitForm.AGA002 =  "331400501005";
+            submitForm.BKZ019=this.$route.query.param||""
+            // 加入用户名和电子社保卡号
+            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
+            return params;
+        },
+        // 信息回显
+        request1(){
+            let params=this.formatSubmitData1();
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1016/info', params).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {  
+                    // this.List=[...this.List,...resData.LS_DS_05]
+                    // this.form={...this.form,...this.List[0]}
+                    let LS=resData.LS_DS_05
+                    this.form={...this.form,...LS}
+                    console.log("form",this.form)
+                    this.handleNumber = resData.LS_DS_05.BKZ019
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        formatSubmitData1(){
+            let submitForm = {}
+            console.log(submitForm)
+            submitForm.AGA002 =  "331400501005";
+            //从进度查询页面进入接收传参
+            if(this.$route.query.param){
+                submitForm.lx="1";
+                submitForm.BKZ019=this.$route.query.param
+            }else{
+                submitForm.lx="2";
+                submitForm.BKZ019="";
+            }
+            // 加入用户名和电子社保卡号
+            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
+            return params;
+        },
+    }
 }
 </script>
 
