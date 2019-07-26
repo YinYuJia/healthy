@@ -92,7 +92,7 @@ export default {
         },
         formatSubmitData(){
             let submitForm ={}
-            submitForm.AGA002 =  "331400501005";
+            submitForm.AGA002 =  "";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -107,9 +107,7 @@ export default {
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1016/info', params).then((resData) => {
                 console.log('返回成功信息',resData)
                 //   成功   1000
-                if ( resData.enCode == 1000 ) {  
-                    // this.List=[...this.List,...resData.LS_DS_05]
-                    // this.form={...this.form,...this.List[0]}
+                if ( resData.enCode == 1000 ) {
                     let LS=resData.LS_DS_05
                     this.form={...this.form,...LS}
                     console.log("form",this.form)
@@ -127,7 +125,7 @@ export default {
         formatSubmitData1(){
             let submitForm = {}
             console.log(submitForm)
-            submitForm.AGA002 =  "331400501005";
+            submitForm.AGA002 =  "";
             //从进度查询页面进入接收传参
             if(this.$route.query.param){
                 submitForm.lx="1";
