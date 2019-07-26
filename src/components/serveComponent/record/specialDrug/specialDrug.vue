@@ -594,7 +594,12 @@ export default {
                                 This.$toast("未获取到人员基本信息");
                             }
                             // 加入子项编码
-                            submitForm.AGA002 = '330800253003'
+                            if(this.form.BKE253=='1'){
+                              submitForm.AGA002 =  "确认-00253-003-02";
+                            }else if(this.form.BKE253=='2'){
+                              submitForm.AGA002 =  "确认-00253-003-01";
+                            }
+                            // submitForm.AGA002 = '330800253003'
                             submitForm.photoList = data.picPath[0]
                             submitForm.PTX001 = '2'
                             const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');

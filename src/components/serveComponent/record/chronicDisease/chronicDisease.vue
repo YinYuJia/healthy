@@ -166,7 +166,7 @@
           </div>
         </div>
         <div class="searchPlace" v-if="!showMail">
-          <div class="searchBtn" @click="openHospital">点击查看领取网点</div>
+          <div class="searchBtn" @click="openSite">点击查看领取网点</div>
         </div>
         <!-- 就诊机构 -->
         <SearchInfoPage ref="org" type="AKB020_JY"></SearchInfoPage>
@@ -434,9 +434,9 @@ export default {
             }
         })
     },
-    // 打开医院列表
-    openHospital(){
-      this.$refs.org.open();
+    // 查看附近网点
+    openSite(){
+        this.$router.push('/nearbySite');
     },
 
     submit() {
@@ -526,7 +526,8 @@ export default {
                               This.$toast("未获取到人员基本信息");
                           }
                           // 加入子项编码
-                          submitForm.AGA002 = '330800253004'
+                          // submitForm.AGA002 = '330800253004'
+                          submitForm.AGA002 = '确认-00253-004-01'
                           submitForm.photoList = data.picPath[0]
                           submitForm.PTX001 = '2'
                           const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');

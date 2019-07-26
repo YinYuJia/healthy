@@ -156,7 +156,6 @@ console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
            this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
            console.log('this.form.AAS301',this.form.AAS301)
            console.log('this.form.AAB301',this.form.AAB301)
-           this.getMailInfo();
 
         // this.form = this.$store.state.SET_ELSEWHERE_OPERATION;
         this.$store.dispatch('SET_SELECTARRAY', this.epFn.ChinaJsonDatas());

@@ -8,23 +8,23 @@
             <div class="MailInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地:</span></div>
-                    <div class="InfoText"><span>{{AAB301000}}</span></div>
+                    <div class="InfoText">{{AAB301000}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>出境日期:</span></div>
-                    <div class="InfoText"><span>{{form.AAE030}}</span></div>
+                    <div class="InfoText">{{form.AAE030}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟回国日期:</span></div>
-                    <div class="InfoText"><span>{{form.AAE031}}</span></div>
+                    <div class="InfoText">{{form.AAE031}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>取药机构:</span></div>
-                    <div class="InfoText"><span>{{form.AKB020VALUE}}</span></div>
+                    <div class="InfoText">{{form.AKB020VALUE}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>护照号码:</span></div>
-                    <div class="InfoText"><span>{{form.BKE260 | tuoMin(1,1)}}</span></div>
+                    <div class="InfoText">{{form.BKE260 | tuoMin(1,1)}}</div>
                 </div>
                 <!-- 进度时间 -->
                 <ProgressDate nameWidth="1.8rem"  :replyDate="form.AAE036"  :progressDate="form.BAE019"></ProgressDate>
@@ -162,8 +162,8 @@ export default {
         },
         formatSubmitData(){
             let submitForm ={}
-            // submitForm.AGA002 =  "确认-00253-001";
-            submitForm.AGA002 =  "330800253001";
+            submitForm.AGA002 =  "确认-00253-001";
+            // submitForm.AGA002 =  "330800253001";
                 // submitForm.debugTest=  "true";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
@@ -180,8 +180,8 @@ export default {
         },
         formatSubmitData1(){
             let submitForm = {}
-            // submitForm.AGA002 =  "确认-00253-001";
-            submitForm.AGA002 =  "330800253001";
+            submitForm.AGA002 =  "确认-00253-001";
+            // submitForm.AGA002 =  "330800253001";
             // submitForm.debugTest=  "true";
             if(this.$route.query.param){
                 submitForm.lx="1";
@@ -237,18 +237,15 @@ export default {
                 }
                 .InfoText{
                     height: auto;
-                    width: 5rem;
+                    width: 6rem;
                     letter-spacing: 0;
                     display: flex;
                     position: relative;
                     align-items: center;
-                    span{
-                        height: auto;
-                        line-height: .4rem;
-                        color: #000;
-                        letter-spacing: 0;
-                        text-align: left;
-                    }
+                    line-height: .4rem;
+                    color: #000;
+                    letter-spacing: 0;
+                    text-align: left;
                 }
                 &:last-child{
                     border-bottom: none;
