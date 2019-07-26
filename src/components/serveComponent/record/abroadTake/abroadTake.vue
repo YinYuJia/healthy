@@ -34,7 +34,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>出境日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                        <div class="InfoText"><input type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -124,6 +124,8 @@
             // this.form.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             // this.form.AAB301000 = this.$store.state.SET_USER_DETAILINFO.regionName
             // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
+            // 默认开始日期
+            this.form.AAE030 = this.util.formatDate(new Date(),'yyyy-MM-dd');
         },
         watch: {
             form: {

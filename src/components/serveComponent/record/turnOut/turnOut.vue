@@ -47,7 +47,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开始日期</span></div>
-                    <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束日期</span></div>
@@ -149,6 +149,9 @@
             // // this.form.AAA301000 = "杭州"
             // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
             // this.form.AAB301 = "12344"
+            // 默认开始日期
+            this.form.AAE030 = this.util.formatDate(new Date(),'yyyy-MM-dd');
+            this.getEndDate(new Date());
         },
         watch: {
             form: {
