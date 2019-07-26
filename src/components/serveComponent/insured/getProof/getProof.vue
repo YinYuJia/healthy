@@ -215,11 +215,19 @@ export default {
                 this.$toast('信息未填写完整');
                 return false;
             }else{
-                if(this.form.AAE005){
+                if(this.form.AAE005&&this.form.AAE005.length==11&&this.form.BKA077=='1'){
                     if(!this.util.checkPhone(this.form.AAE005)){
                         this.$toast('请填写正确的手机号码');
                         return false;
                     }
+                }else if(this.form.AAE005&&this.form.BKA077=='1'&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+                    if(!this.util.checkHomePhone(this.form.AAE005)){
+                        this.$toast('请填写正确的电话号码');
+                        return false;
+                    }
+                }else if(this.form.AAE005&&this.form.BKA077=='1'&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
+                    this.$toast('请确认填写的号码位数是否正确');
+                    return false;
                 }
                 let params = this.formatSubmitData();
                 console.log('----params----',params)
@@ -270,7 +278,7 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
-                     this.form.AAE011 = this.$store.state.SET_NATIVEMSG.name
+                    this.form.AAE011 = resData.AAE009 //收件人
                      if(resData.AAE005.length > 11){
                          this.form.AAE005 = '';
                      }else{

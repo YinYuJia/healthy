@@ -17,7 +17,7 @@ export default {
         if(process.env.NODE_ENV == 'development') {
           // return 'http://47.98.48.185:9000/api'  //服务器185 对应后端203
           return 'http://47.98.234.226:8000/api/api'  //服务器226   对应后端206
-          // return 'http://192.168.1.189:13030' //吴学文
+          // return 'http://192.168.1.199:13030' //吴学文
         }else{
           return ''
         }
