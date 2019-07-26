@@ -30,7 +30,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法人代表电话：</span></div>
-                    <div class="InfoText"><input v-model="form.BKE280" type="tel" maxlength="11" placeholder="请输入"></div>
+                    <div class="InfoText"><input v-model="form.BKE280" type="tel" maxlength="10" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员姓名：</span></div>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员电话：</span></div>
-                    <div class="InfoText"><input v-model="form.BKE283" type="tel" maxlength="11" placeholder="请输入"></div>
+                    <div class="InfoText"><input v-model="form.BKE283" type="tel" maxlength="10" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员所在部门：</span></div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>邮箱：</span></div>
-                    <div class="InfoText"><input v-model="form.AAE005" type="text" placeholder="请输入"></div>
+                    <div class="InfoText"><input v-model="form.AAE005" type="text" maxlength="10" placeholder="请输入"></div>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@ export default {
     data(){
         return{
             form:{
-                AAB001: '', //单位编码
+                AAB001: '03C', //单位编码
                 AAE007: '', //单位邮编
                 AAE006: '', //单位地址
                 address: '', //选择的地址
@@ -73,6 +73,7 @@ export default {
                 BKE283: '', //专管员电话
                 BKB225: '', //专管员部门
                 AAE005: '', //单位邮箱
+                BKZ019: '', //经办编号暂为空
                 BKE520: '1' //数据来源 掌上
             },
             canSubmit: false,
@@ -111,8 +112,32 @@ export default {
                 this.$toast("邮箱格式不正确");
                 return false;
             }
-            this.$router.push('/legalChangeDetail');
-        }
+            let params = this.formatSubmitData();
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1035/getRecord', params).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+            // this.$router.push('/legalChangeDetail');
+        },
+        formatSubmitData(){
+            let submitForm = Object.assign({},this.form);
+            // 加入用户名和电子社保卡号
+            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
+            return params;
+        },
     }
 }
 </script>

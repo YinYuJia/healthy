@@ -66,6 +66,8 @@ export default {
         }
     },
     created(){
+        this.request();
+        this.request1();
     },
     methods:{
         // 事项进度查询
@@ -74,7 +76,7 @@ export default {
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1009/getRecord', params).then((resData) => {
                 console.log('返回成功信息',resData)
                 //   成功   1000
-                if ( resData.enCode == 1000 ) {  
+                if ( resData.enCode == 1000 ) {
                     if (resData.LS_DS.length > 0 ) {
                        this.currentStep = Number(resData.LS_DS[0].BOD037) 
                     }else{
@@ -108,10 +110,7 @@ export default {
                 console.log('返回成功信息',resData)
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
-                    let LS=resData.LS_DS_05
-                    this.form={...this.form,...LS}
-                    console.log("form",this.form)
-                    this.handleNumber = resData.LS_DS_05.BKZ019
+
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);
