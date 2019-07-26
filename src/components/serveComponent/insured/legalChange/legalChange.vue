@@ -106,6 +106,11 @@ export default {
             if(this.canSubmit == false){
                 return false;
             }
+            // 检验邮箱格式
+            if(!this.util.checkMail(this.form.AAE005)){
+                this.$toast("邮箱格式不正确");
+                return false;
+            }
             this.$router.push('/legalChangeDetail');
         }
     }

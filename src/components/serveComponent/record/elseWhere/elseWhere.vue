@@ -24,6 +24,7 @@
         </SelectCity>
         <SelectCity
             :type="3"
+            :excludeProvince="excludeProvince"
             ref="cityPicker"
             @confirm="chooseCity"
             >
@@ -122,6 +123,7 @@ export default {
             optionList: [], //存放城市数据
             canSubmit: false,
             dateVal: new Date(), //默认绑定的时间
+            excludeProvince: false, //排除省本级
             reportReason: [{
                     value: '1',
                     label: '退休异地安置'
@@ -150,13 +152,16 @@ export default {
         let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
         let GinsengLandName = sessionStorage.getItem("GinsengLandName")
 
-console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
-           this.AAB301000 = GinsengLandName
-           this.form.AAB301 = GinsengLandCode
-           this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
-           console.log('this.form.AAS301',this.form.AAS301)
-           console.log('this.form.AAB301',this.form.AAB301)
-
+        console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
+        this.AAB301000 = GinsengLandName
+        this.form.AAB301 = GinsengLandCode
+        this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
+        console.log('this.form.AAS301',this.form.AAS301)
+        console.log('this.form.AAB301',this.form.AAB301)
+        //  排除省本级
+        if(this.form.AAB301 == '339900'){
+            this.excludeProvince = true;
+        }
         // this.form = this.$store.state.SET_ELSEWHERE_OPERATION;
         this.$store.dispatch('SET_SELECTARRAY', this.epFn.ChinaJsonDatas());
         this.optionList = this.$store.state.SET_SELECTARRAY;

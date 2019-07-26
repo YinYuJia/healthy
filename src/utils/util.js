@@ -55,6 +55,11 @@ function checkHomePhone(phoneStr){
         return true;
     }
 }
+// 邮箱检验
+function checkMail(value){
+    var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+    return reg.test(value);
+}
 // 检验姓名
 function checkName(name){
     var reg = /[0-9]/;
@@ -140,4 +145,5 @@ export default{
     idCard,
     postOffic,
     passPort,
+    checkMail,
 }

@@ -23,7 +23,8 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>发票日期：</span></div>
-                    <div class="InfoText"><input @click="openTimePicker()" type="text" v-model="form.AAE036" placeholder="请输入" readonly></div>
+                    <div class="InfoText"><input @click="openTimePicker()" type="text" v-model="form.AAE036" placeholder="请选择" readonly>
+                      <svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
             </div>
             <!-- 需要补充信息 -->
@@ -35,7 +36,7 @@
                 </div>
             </div>
         </div>
-        
+
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <!-- 按钮 -->
         <Footer :canSubmit="canSubmit" :btnText="'添加发票'" @submit="submit()"></Footer>
@@ -94,15 +95,15 @@ export default {
     methods:{
         clearNoNum(e){
             // console.log(e.target.value.toString().length);
-            
-            
-            this.form.AKC264 = e.target.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符   
-            this.form.AKC264 = e.target.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的   
-            this.form.AKC264 = e.target.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
-            this.form.AKC264 = e.target.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数   
-            if(e.target.value.indexOf(".")< 0 && e.target.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额  
-                this.form.AKC264= parseFloat(e.target.value);  
-            } 
+
+
+            this.form.AKC264 = e.target.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+            this.form.AKC264 = e.target.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+            this.form.AKC264 = e.target.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+            this.form.AKC264 = e.target.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数
+            if(e.target.value.indexOf(".")< 0 && e.target.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+                this.form.AKC264= parseFloat(e.target.value);
+            }
             if(e.target.value.toString().length>10){
                 this.form.AKC264 = this.form.AKC264.toString().slice(0,10)
             }
@@ -141,18 +142,18 @@ export default {
                     console.log('ready')
                     dd.device.notification.chooseImage ({
                         onSuccess: function(data) {
-                            
+
                             console.log(data.picPath[0],'请求图片成功');
                             if(data.result){
                                 // 获取图片
-                                
-                                let submitForm = {}; 
+
+                                let submitForm = {};
                                  // 加入用户名和电子社保卡号
                                 if (This.$store.state.SET_NATIVEMSG.name !== undefined ) {
                                     submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
                                     submitForm.AAE135 = This.$store.state.SET_NATIVEMSG.idCard;
                                 }else {
-                                    
+
                                     This.$toast("未获取到人员基本信息");
                                 }
                                 let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
@@ -172,7 +173,7 @@ export default {
                                 const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
                                 // /h5/jy2006/updPhoto
                                 This.$axios.post(This.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
-                                    console.log('返回成功信息',resData) 
+                                    console.log('返回成功信息',resData)
                                     //   成功   1000
                                     if ( resData.enCode == 1000 ) {
                                         // 获取图片
@@ -192,12 +193,12 @@ export default {
                         onFail: function(error) {
                             This.$toast(error)
                             console.log("请求图片失败",error);
-                            
+
                         }
                     })
             })
             }
-            
+
         },
         submit(){
             // if(this.canSubmit &&this.form.photoId){
@@ -210,24 +211,24 @@ export default {
                 // let submitForm = JSON.parse(JSON.stringify(this.form));
                 // let SET_SMALL_REIM_2 = this.$store.state.SET_SMALL_REIM_2
                 // console.log(this.$store.state.SET_SMALL_REIM_2,'this.$store.state.SET_SMALL_REIM_2');
-                
+
                 // SET_SMALL_REIM_2.eleInvoices.push(submitForm)
                 // this.$store.dispatch('SET_SMALL_REIM_2',SET_SMALL_REIM_2)
                 // this.$router.push('invoiceInfo')
                 // 暂留结束
                 let params = this.formatSubmitData();
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2003/info', params).then((resData) => {
-                    console.log('返回成功信息',resData) 
+                    console.log('返回成功信息',resData)
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         // if(resData.BKE521==1){
                         //     this.$toast("该发票未找到，请填写正确的信息")
                         //     return
                         // }
-                    
+
                         let submitForm = JSON.parse(JSON.stringify(this.form));
                         let SET_SMALL_REIM_2 = this.$store.state.SET_SMALL_REIM_2
-                        
+
                         SET_SMALL_REIM_2.eleInvoices.push(submitForm)
                         this.$store.dispatch('SET_SMALL_REIM_2',SET_SMALL_REIM_2)
                         this.$router.push('invoiceInfo')
@@ -240,8 +241,8 @@ export default {
                         return;
                     }
                 })
-                
-                
+
+
             }
         },
         // 封装提交的数据
@@ -255,7 +256,7 @@ export default {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装
