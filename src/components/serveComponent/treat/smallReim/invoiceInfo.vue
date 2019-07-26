@@ -111,7 +111,7 @@ export default {
     },
     created() {
         console.log(33333,this.$store.state.SET_SMALL_REIM_2);
-        this.picArrNum = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_2.invoicesImg));
+        this.picArrNum = this.$store.state.SET_SMALL_REIM_2.invoicesImg;
         this.hasInvoice = this.$store.state.IS_INVOICE
         this.epFn.setTitle('零星报销')
 
@@ -193,7 +193,7 @@ export default {
 
                                     This.$toast("未获取到人员基本信息");
                                 }
-                                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                                let AKA078=This.$store.state.SET_SMALL_REIM_1.AKA078;
                                 if(AKA078=='1'){
                                     submitForm.AGA002 ='给付-00007-019-01'//门诊
                                 }else if(AKA078=='3'){

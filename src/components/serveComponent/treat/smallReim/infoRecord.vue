@@ -134,7 +134,7 @@ export default {
             submitForm.AAE009 = this.form.AAE009;
             submitForm.AAE005 = this.form.AAE005;
             submitForm.BKE520 = "1"
-            submitForm.AKA078 = sessionStorage.getItem('AKA078');
+            submitForm.AKA078 = this.$store.state.SET_SMALL_REIM_1.AKA078
             
             
             // submitForm.LS_DS2 = [] 
