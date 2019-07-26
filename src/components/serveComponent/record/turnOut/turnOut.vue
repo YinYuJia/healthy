@@ -55,7 +55,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转出医院</span></div>
-                    <div class="InfoText"><input @click="openCityPicker" type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                    <div class="InfoText"><input @click="chooseHospital()" type="text" v-model="AKB020VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转往地市</span></div>
@@ -92,6 +92,7 @@
         <GuideIcon AGA002="330800253002"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <SearchInfoPage ref="hospital" type="AKB020_ZW" @childrenClick="hospitalClick" title="选择医院"></SearchInfoPage>
     </div>
 </template>
 
@@ -110,6 +111,7 @@
                     AAS301: "", //参保地省
                     AAB301: "", //参保地市
                     AAQ301: "", //参保地区
+                    AKB020: "", //转出医院编码
                     AAS027:"",	//转往省
                     AAB027:"",	//转往市
                     AAQ027:"",  //转往区
@@ -119,6 +121,7 @@
                     BKZ019:""
                 },
                 BKE255VALUE: '',
+                AKB020VALUE: '', //转出医院
                 canSubmit: false,
                 dateVal: new Date(), //默认绑定的时间
                 treatment: [
@@ -151,7 +154,7 @@
             form: {
                 handler: function(val) {
                     // 判断不为空
-                    if (this.AAS027000 != '' && this.AAB301000 != '' && val.AAE030 != '' && val.AAE031 != '' && val.AKA121 != '' && val.BKE255 != '' &&val.photoIdList.length>0 ) {
+                    if (this.AAS027000 != '' && this.AAB301000 != '' && val.AAE030 != '' && val.AAE031 != '' && val.AKB020 != '' && val.AKA121 != '' && val.BKE255 != '' &&val.photoIdList.length>0 ) {
                         this.canSubmit = true;
                     } else {
                         this.canSubmit = false;
@@ -171,6 +174,14 @@
             },
         },
         methods: {
+            // 选择转出医院
+            chooseHospital(){
+                this.$refs.hospital.open();
+            },
+            hospitalClick(code,name){
+                this.AKB020VALUE = name
+                this.form.AKB020 = code
+            },
             // 查看大图
             showBigPhoto(val){
                 this.imgUrl = val;
@@ -369,7 +380,7 @@
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
-            height: 7.2rem;
+            height: auto;
             width: 100%;
             padding: 0 .3rem;
             background: white;
