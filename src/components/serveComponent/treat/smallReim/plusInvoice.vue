@@ -23,7 +23,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>发票日期：</span></div>
-                    <div class="InfoText"><input @click="openTimePicker()" type="text" v-model="form.AAE036" placeholder="请输入" readonly>
+                    <div class="InfoText"><input @click="openTimePicker()" type="text" v-model="form.AAE036" placeholder="请选择" readonly>
                       <svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
             </div>
