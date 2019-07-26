@@ -2,7 +2,6 @@
     <div class="smallReimDetial">
         <!-- 标题 -->
         <Title :title="'零星报销'" :backRouter="'/reportComplete'"></Title>
-        <div class="secondTitle">基本医疗保险参保人员医疗费用零星报销</div>
         <!-- 办事进度 -->
         <WorkProgress :currentStep="currentStep" :progress="arr"></WorkProgress>
         
