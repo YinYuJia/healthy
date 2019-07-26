@@ -54,6 +54,10 @@
                     <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly ><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
+                    <div class="InfoName"><span>转出医院</span></div>
+                    <div class="InfoText"><input @click="openCityPicker" type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                </div>
+                <div class="InfoLine">
                     <div class="InfoName"><span>转往地市</span></div>
                     <div class="InfoText"><input @click="openCityPicker" type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
@@ -202,7 +206,8 @@
                                         This.$toast("未获取到人员基本信息");
                                     }
                                     // 加入子项编码
-                                    submitForm.AGA002 = '330800253002'
+                                    // submitForm.AGA002 = '330800253002'
+                                    submitForm.AGA002 = '确认-00253-002'
                                     submitForm.photoList = data.picPath[0]
                                     submitForm.PTX001 = '2'
                                     const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');

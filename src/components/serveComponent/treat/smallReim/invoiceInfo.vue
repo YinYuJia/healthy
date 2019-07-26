@@ -193,14 +193,14 @@ export default {
 
                                     This.$toast("未获取到人员基本信息");
                                 }
-                                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
-                                // if(AKA078=='1'){
-                                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
-                                // }else if(AKA078=='3'){
-                                //     submitForm.AGA002 = '给付-00007-019-02'//住院
-                                // }
+                                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                                if(AKA078=='1'){
+                                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                                }else if(AKA078=='3'){
+                                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                                }
                                 // 加入子项编码
-                                submitForm.AGA002 = '330600007019'
+                                // submitForm.AGA002 = '330600007019'
                                 submitForm.photoList = data.picPath[0]
                                 submitForm.PTX001 = '2'
                                 const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');

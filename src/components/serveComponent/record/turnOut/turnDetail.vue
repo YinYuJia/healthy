@@ -179,8 +179,8 @@ export default {
         formatSubmitData(){
             let submitForm ={}
             console.log(submitForm)
-                // submitForm.AGA002 =  "确认-00253-002";
-            submitForm.AGA002 =  "330800253002";
+                submitForm.AGA002 =  "确认-00253-002";
+             // submitForm.AGA002 =  "330800253002";
                 // submitForm.debugTest=  "true";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
@@ -198,8 +198,8 @@ export default {
         },
         formatSubmitData1(){
                 let submitForm ={}
-                // submitForm.AGA002 =  "确认-00253-002";
-                submitForm.AGA002 =  "330800253002";
+                submitForm.AGA002 =  "确认-00253-002";
+                // submitForm.AGA002 =  "330800253002";
                 // submitForm.debugTest=  "true";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){

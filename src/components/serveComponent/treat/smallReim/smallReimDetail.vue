@@ -27,7 +27,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>收款开户行:</span></div>
-                    <div class="InfoText"><span>{{form3.AAE008}}王企鹅王企鹅王企鹅王企鹅请问阿达萨达萨达</span></div>
+                    <div class="InfoText"><span>{{form3.AAE008}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>收款开户名:</span></div>
@@ -134,12 +134,10 @@ export default {
             this.successFlag = 2;
         }
         this.epFn.setTitle('零星报销')
-        let params = this.formatSubmitForm();
         this.request()
         
         this.request2()
         this.needSubmitInfo();  //判断是否需要提交资料
-        console.log(params);
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', this.back, false);//false阻止默认事件
@@ -219,13 +217,13 @@ export default {
                                     This.$toast("未获取到人员基本信息");
                                 }
                                 // 加入子项编码
-                                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
-                                // if(AKA078=='1'){
-                                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
-                                // }else if(AKA078=='3'){
-                                //     submitForm.AGA002 = '给付-00007-019-02'//住院
-                                // }
-                                submitForm.AGA002 = '330600007019'
+                                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                                if(AKA078=='1'){
+                                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                                }else if(AKA078=='3'){
+                                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                                }
+                                // submitForm.AGA002 = '330600007019'
                                 submitForm.photoList = data.picPath[0]
                                 submitForm.PTX001 = '2'
                                 const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
@@ -322,24 +320,6 @@ export default {
                 }
             })
         },
-        // 封装提交参数
-        formatSubmitForm(){
-            let submitForm = {
-                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
-                // if(AKA078=='1'){
-                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
-                // }else if(AKA078=='3'){
-                //     submitForm.AGA002 = '给付-00007-019-02'//住院
-                // }
-                AGA002: '330600007019',
-                BKZ019:this.$route.query.param||"",
-                AAC003: this.$store.state.SET_NATIVEMSG.names,
-                AAE135: this.$store.state.SET_NATIVEMSG.idCard
-            }
-            // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'1009');
-            return params;
-        },
         request(){
             let params=this.formatSubmitData();
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1009/getRecord', params).then((resData) => {
@@ -390,13 +370,13 @@ export default {
         },
         formatSubmitData(){
                 let submitForm = {}
-                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
-                // if(AKA078=='1'){
-                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
-                // }else if(AKA078=='3'){
-                //     submitForm.AGA002 = '给付-00007-019-02'//住院
-                // }
-                submitForm.AGA002 =  "330600007019";
+                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                if(AKA078=='1'){
+                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                }else if(AKA078=='3'){
+                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                }
+                // submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
                 submitForm.BKZ019=this.$route.query.param||""
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -412,13 +392,13 @@ export default {
         },
         formatSubmitData1(){
                 let submitForm = {}
-                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
-                // if(AKA078=='1'){
-                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
-                // }else if(AKA078=='3'){
-                //     submitForm.AGA002 = '给付-00007-019-02'//住院
-                // }
-                submitForm.AGA002 =  "330600007019";
+                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                if(AKA078=='1'){
+                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                }else if(AKA078=='3'){
+                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                }
+                // submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -473,13 +453,13 @@ export default {
         },
         formatSubmitData2(){
                 let submitForm = {}
-                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
-                // if(AKA078=='1'){
-                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
-                // }else if(AKA078=='3'){
-                //     submitForm.AGA002 = '给付-00007-019-02'//住院
-                // }
-                submitForm.AGA002 =  "330600007019";
+                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                if(AKA078=='1'){
+                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                }else if(AKA078=='3'){
+                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                }
+                // submitForm.AGA002 =  "330600007019";
                 // submitForm.debugTest=  "true";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
@@ -504,13 +484,13 @@ export default {
         },
         sunmitFormatSubmitData(){
                 let submitForm = {}
-                // let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
-                // if(AKA078=='1'){
-                //     submitForm.AGA002 ='给付-00007-019-01'//门诊
-                // }else if(AKA078=='3'){
-                //     submitForm.AGA002 = '给付-00007-019-02'//住院
-                // }
-                submitForm.AGA002 =  "330600007019";
+                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                if(AKA078=='1'){
+                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                }else if(AKA078=='3'){
+                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                }
+                // submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;

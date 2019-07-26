@@ -178,9 +178,9 @@ export default {
         },
         formatSubmitData(){  
             let submitForm ={}
-            submitForm.AGA002 =  "330800122043";
-            // submitForm.AGA002 =  "确认-00122-043";
-            // submitForm.debugTest =  "true";
+            // submitForm.AGA002 =  "330800122043";
+            submitForm.AGA002 =  "确认-00122-043";
+            submitForm.debugTest =  "true";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -196,9 +196,9 @@ export default {
         },
         formatSubmitData1(){
             let submitForm = {}
-                submitForm.AGA002 =  "330800122043";
-                // submitForm.AGA002 =  "确认-00122-043";                
-                // submitForm.debugTest=  "true";
+                // submitForm.AGA002 =  "330800122043";
+                submitForm.AGA002 =  "确认-00122-043";                
+                submitForm.debugTest=  "true";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
                     submitForm.lx="1";

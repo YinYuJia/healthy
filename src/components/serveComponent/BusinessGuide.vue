@@ -168,8 +168,8 @@ export default {
         },
         formatSubmitData() {
             let submitForm = {};
-            submitForm.matCode = this.AGA002; //子项编码
-            submitForm.matName = ""; //子项编码
+            submitForm.matCode = this.AGA002; //权力编码
+            submitForm.matName = ""; //权力名称
             
 
             // 加入用户名和电子社保卡号

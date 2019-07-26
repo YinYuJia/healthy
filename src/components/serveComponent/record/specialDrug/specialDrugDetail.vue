@@ -180,14 +180,14 @@ export default {
         formatSubmitData(){
                 let submitForm = {}
                 console.log(submitForm)
-                // let BKE253=sessionStorage.getItem('BKE253')
-                // console.log("BKE253",BKE253)
-                // if(BKE253=="1"){   
-                //     submitForm.AGA002 =  "确认-00253-003-02";
-                // }else if(BKE253=='2'){
-                //     submitForm.AGA002 =  "确认-00253-003-01";
-                // }
-                submitForm.AGA002 =  "330800253003";
+                let BKE253=sessionStorage.getItem('BKE253')
+                console.log("BKE253",BKE253)
+                if(BKE253=="1"){   
+                    submitForm.AGA002 =  "确认-00253-003-02";
+                }else if(BKE253=='2'){
+                    submitForm.AGA002 =  "确认-00253-003-01";
+                }
+                // submitForm.AGA002 =  "330800253003";
                 // submitForm.debugTest=  "true";
                 submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
@@ -236,14 +236,14 @@ export default {
         },
         formatSubmitData1(){
                 let submitForm = {}
-                // let BKE253=sessionStorage.getItem('BKE253')
-                // console.log("BKE253",BKE253)
-                // if(BKE253=="1"){   
-                //     submitForm.AGA002 =  "确认-00253-003-02";
-                // }else if(BKE253=='2'){
-                //     submitForm.AGA002 =  "确认-00253-003-01";
-                // }
-                submitForm.AGA002 =  "330800253003";
+                let BKE253=sessionStorage.getItem('BKE253')
+                console.log("BKE253",BKE253)
+                if(BKE253=="1"){   
+                    submitForm.AGA002 =  "确认-00253-003-02";
+                }else if(BKE253=='2'){
+                    submitForm.AGA002 =  "确认-00253-003-01";
+                }
+                // submitForm.AGA002 =  "330800253003";
                 // submitForm.debugTest=  "true";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
@@ -287,20 +287,22 @@ export default {
                 border-bottom: .01rem solid #D5D5D5;
                 .InfoName{
                     width: 2rem;
-                    line-height: 1.2rem;
                     text-align: left;
+                    line-height: 1.2rem;
                     span{
-                        height: .6rem;
-                        line-height: .6rem;
+                        height: .4rem;
+                        line-height: .4rem;
                         letter-spacing: 0;
                         color: #666;
                     }
                 }
                 .InfoText{
-                    line-height: 1.2rem;
+                    width: 5rem;
                     display: flex;
                     position: relative;
                     align-items: center;
+                    text-align: left;
+                    line-height: .4rem;
                     color: #000;
                 }
                 &:last-child{

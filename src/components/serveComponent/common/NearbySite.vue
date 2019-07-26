@@ -30,6 +30,8 @@ export default {
             pointList: [],
             longitude: 0, //经度
             latitude: 0, //纬度
+            AKB021:"",//医疗机构名称
+            AAE009:""//银行名称
         };
     },
     created(){
@@ -40,9 +42,9 @@ export default {
         changeIndex(index){
             this.activeIndex = index;
             if(index == 1){
-                this.getList('AKB020_JY');
+                this.getList9001();
             }else{
-                this.getList('AAE008');
+                this.getList9002();
             }
         },
         getSite(){
@@ -59,28 +61,54 @@ export default {
                     onSuccess: function(data) {
                         _this.longitude = data.longitude;
                         _this.latitude = data.latitude;
-                        _this.getList('AKB020_JY');
+                        _this.getList9001();
                     },
                     onFail: function(error) {}
                 })
             })
         },
         // 请求列表
-        getList(type) {
+        getList9001() {
             this.pointList = [];
             // 封装数据
-            let params = this.formatSubmitData(type);
+            let params = this.formatSubmitData();
             // 开始请求
-            this.$axios.post(this.epFn.ApiUrl() + "/h5/jy2001/optionInformationList", params).then(resData => {
+            this.$axios.post(this.epFn.ApiUrl() + "/h5/9001/getRecord", params).then(resData => {
                 //   成功   1000
+                console.log("resData",resData)
                 if (resData.enCode == 1000) {
-                    this.pointList = [...this.pointList, ...resData.LS_DS];
-                    for (let i = 0; i < this.pointList.length; i++) {
-                        let mesString = this.pointList[i].AAA105;
-                        this.pointList[i].phone =mesString.split(',')[0];
-                        this.pointList[i].addr = mesString.split(',')[1];
-                        this.pointList[i].office = mesString.split(',')[2];
-                    }
+                    console.log('成功')
+                    // this.pointList = [...this.pointList, ...resData.LS_DS];
+                    // for (let i = 0; i < this.pointList.length; i++) {
+                    //     let mesString = this.pointList[i].AAA105;
+                    //     this.pointList[i].phone =mesString.split(',')[0];
+                    //     this.pointList[i].addr = mesString.split(',')[1];
+                    //     this.pointList[i].office = mesString.split(',')[2];
+                    // }
+                } else if (resData.enCode == 1001) {
+                    return;
+                } else {
+                    return;
+                }
+            });
+        },
+        getList9002() {
+            this.pointList = [];
+            // 封装数据
+            let params = this.formatSubmitData();
+            // 开始请求
+            this.$axios.post(this.epFn.ApiUrl() + "/h5/9002/getRecord", params).then(resData => {
+                //   成功   1000
+                console.log("resData",resData)
+                if (resData.enCode == 1000) {
+                    console.log('成功')
+                    // this.pointList = [...this.pointList, ...resData.LS_DS];
+                    // for (let i = 0; i < this.pointList.length; i++) {
+                    //     let mesString = this.pointList[i].AAA105;
+                    //     this.pointList[i].phone =mesString.split(',')[0];
+                    //     this.pointList[i].addr = mesString.split(',')[1];
+                    //     this.pointList[i].office = mesString.split(',')[2];
+                    // }
                 } else if (resData.enCode == 1001) {
                     return;
                 } else {
@@ -89,19 +117,28 @@ export default {
             });
         },
         // 请求封装
-        formatSubmitData(type) {
+        formatSubmitData() {
             let submitForm = {};
-            submitForm.AAA102 = ''; //模糊查询
-            submitForm.pageNum = 1; //页码
-            submitForm.pageSize = 10000; //每页条数
-            submitForm.AAE013 = '' //关联性类别码
-            submitForm.AAA052 = '' //关联性类别值
-            submitForm.AAA100 = type; //机构参数
+            submitForm.JD=this.longitude;
+            submitForm.WD=this.latitude;
+            submitForm.AKB021=this.AKB021;
             // 加入用户名和电子社保卡号
             submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
             submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm, "2001");
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm, "9001");
+            return params;
+        },
+        formatSubmitData1() {
+            let submitForm = {};
+            submitForm.JD=this.longitude;
+            submitForm.WD=this.latitude;
+            submitForm.AAE009=this.AAE009;
+            // 加入用户名和电子社保卡号
+            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm, "9002");
             return params;
         },
     }

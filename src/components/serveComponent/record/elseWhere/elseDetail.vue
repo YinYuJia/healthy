@@ -171,23 +171,23 @@ export default {
                 console.log(submitForm)
                 let AKC030=sessionStorage.getItem('AKC030')
                 console.log("申请原因",AKC030)
-                // if(AKC030=='1'){
-                //     console.log(1)
-                //     submitForm.AGA002="确认-00253-013-01";
-                // }else if(AKC030=='2'){
-                //     console.log(2)
-                //     submitForm.AGA002="确认-00253-013-02";
-                // }else if(AKC030=='3'){
-                //     console.log(3)
-                //     submitForm.AGA002="确认-00253-013-04";
-                // }else if(AKC030=='4'){
-                //     console.log(4)
-                //     submitForm.AGA002="确认-00253-013-03";
-                // }else if(AKC030=='5'){
-                //     console.log(5)
-                //     submitForm.AGA002="确认-00253-013-04";
-                // }
-                submitForm.AGA002 =  "330800253013";
+                if(AKC030=='1'){
+                    console.log(1)
+                    submitForm.AGA002="确认-00253-013-01";
+                }else if(AKC030=='2'){
+                    console.log(2)
+                    submitForm.AGA002="确认-00253-013-02";
+                }else if(AKC030=='3'){
+                    console.log(3)
+                    submitForm.AGA002="确认-00253-013-04";
+                }else if(AKC030=='4'){
+                    console.log(4)
+                    submitForm.AGA002="确认-00253-013-03";
+                }else if(AKC030=='5'){
+                    console.log(5)
+                    submitForm.AGA002="确认-00253-013-04";
+                }
+                // submitForm.AGA002 =  "330800253013";
                 // submitForm.debugTest=  "true";
                 submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
@@ -207,23 +207,23 @@ export default {
                 let submitForm = {}
                 let AKC030=sessionStorage.getItem('AKC030')
                 console.log("申请原因",AKC030)
-                // if(AKC030=='1'){
-                //     console.log(1)
-                //     submitForm.AGA002="确认-00253-013-01";
-                // }else if(AKC030=='2'){
-                //     console.log(2)
-                //     submitForm.AGA002="确认-00253-013-02";
-                // }else if(AKC030=='3'){
-                //     console.log(3)
-                //     submitForm.AGA002="确认-00253-013-04";
-                // }else if(AKC030=='4'){
-                //     console.log(4)
-                //     submitForm.AGA002="确认-00253-013-03";
-                // }else if(AKC030=='5'){
-                //     console.log(5)
-                //     submitForm.AGA002="确认-00253-013-04";
-                // }
-                submitForm.AGA002 =  "330800253013";
+                if(AKC030=='1'){
+                    console.log(1)
+                    submitForm.AGA002="确认-00253-013-01";
+                }else if(AKC030=='2'){
+                    console.log(2)
+                    submitForm.AGA002="确认-00253-013-02";
+                }else if(AKC030=='3'){
+                    console.log(3)
+                    submitForm.AGA002="确认-00253-013-04";
+                }else if(AKC030=='4'){
+                    console.log(4)
+                    submitForm.AGA002="确认-00253-013-03";
+                }else if(AKC030=='5'){
+                    console.log(5)
+                    submitForm.AGA002="确认-00253-013-04";
+                }
+                // submitForm.AGA002 =  "330800253013";
                 // submitForm.debugTest=  "true";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
