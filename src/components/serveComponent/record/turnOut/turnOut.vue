@@ -172,6 +172,17 @@
                             this.form.AAQ027="";
                         }
                     }
+                    // 判断时间间隔
+                    if (val.AAE030 != '' && val.AAE031 != '') {
+                    let AAE030 = new Date(val.AAE030);
+                    let AAE031 = new Date(val.AAE031);
+                    let month = 24 * 3600 * 1000 * 30;
+                    let gap = AAE031 - AAE030;
+                    if (gap <= 0) {
+                        this.$toast('结束日期需大于开始日期');
+                        this.form.AAE031 = '';
+                    }
+                }
                 },
                 deep: true
             },
