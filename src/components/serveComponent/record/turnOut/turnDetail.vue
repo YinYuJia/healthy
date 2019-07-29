@@ -259,7 +259,7 @@ export default {
                 .InfoText{
                     width: 5.1rem;
                     color: #000;
-                    line-height: 1.2rem;
+                    text-align: left;
                     display: flex;
                     position: relative;
                     align-items: center;
