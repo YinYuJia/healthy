@@ -284,6 +284,10 @@ export default {
                      }else{
                          this.form.AAE005 = resData.AAE005  //手机号码
                      }
+                     if(this.form.AAE011==''){
+                         this.form.AAE011=this.$store.state.SET_NATIVEMSG.name;
+                     }
+                     
                      this.form.AAE006 = resData.AAE006   //详细地址
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001

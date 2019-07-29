@@ -94,6 +94,11 @@ export default {
     },
     created() {
         this.epFn.setTitle('零星报销')
+        //初始化电子发票
+        let arr={};
+        arr.eleInvoices=[];//电子发票信息
+        arr.invoicesImg=[], //附件信息信息  图片id
+        this.$store.dispatch('SET_SMALL_REIM_2',arr)
         // console.log("form",JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1)))
         // this.form = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
         // console.log("1188888",this.form)

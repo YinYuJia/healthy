@@ -367,8 +367,6 @@
                 submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031);
                 submitForm.photoIdList =  this.form.photoIdList.join(',');//照片ID数组
                 submitForm.BKZ019 =  this.form.BKZ019;//经办编号
-                // submitForm.debugTest=  "true";
-                // submitForm.dibuger =  "true";
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;

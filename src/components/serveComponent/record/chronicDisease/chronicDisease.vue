@@ -487,7 +487,6 @@ export default {
       } else {
         this.$toast("未获取到人员基本信息");
       }
-      // submitForm.debugTest = "true"
       // 请求参数封装
       const params = this.epFn.commonRequsetData(
         this.$store.state.SET_NATIVEMSG.PublicHeader,

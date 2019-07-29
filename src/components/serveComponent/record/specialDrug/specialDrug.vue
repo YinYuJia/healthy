@@ -500,7 +500,6 @@ export default {
       } else {
         this.$toast("未获取到人员基本信息");
       }
-      // submitForm.debugTest = "true";
       // 请求参数封装
       const params = this.epFn.commonRequsetData(
         this.$store.state.SET_NATIVEMSG.PublicHeader,
@@ -594,9 +593,9 @@ export default {
                                 This.$toast("未获取到人员基本信息");
                             }
                             // 加入子项编码
-                            if(this.form.BKE253=='1'){
+                            if(This.form.BKE253=='1'){
                               submitForm.AGA002 =  "确认-00253-003-02";
-                            }else if(this.form.BKE253=='2'){
+                            }else if(This.form.BKE253=='2'){
                               submitForm.AGA002 =  "确认-00253-003-01";
                             }
                             // submitForm.AGA002 = '330800253003'

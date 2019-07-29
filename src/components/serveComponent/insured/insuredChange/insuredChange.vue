@@ -127,10 +127,10 @@ export default {
         formatSubmitData(){
             let submitForm = {}
 			submitForm.BKE520 = "1"
-            submitForm.AAE005 =  this.form.AAE005;              submitForm.AAE006 =  this.form.AAE006;
+            submitForm.AAE005 =  this.form.AAE005;              
+            submitForm.AAE006 =  this.form.AAE006;
             submitForm.AAE007 =  this.form.AAE007;
             submitForm.BKZ019 =  this.form.BKZ019;
-            // submitForm.debugTest ="true"
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -149,7 +149,6 @@ export default {
             submitForm.AAE006 =  this.form.AAE006;
             submitForm.AAE007 =  this.form.AAE007;
             submitForm.BKZ019 =  this.form.BKZ019;
-            // submitForm.debugTest ="true"
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;

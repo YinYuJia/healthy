@@ -177,7 +177,6 @@ export default {
         },
         formatSubmitData(){
             let submitForm = Object.assign({},this.form);
-            // submitForm.debugTest="true"
             // 加入用户名和电子社保卡号
             submitForm.BKE420 = "1"
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {

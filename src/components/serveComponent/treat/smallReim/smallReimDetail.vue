@@ -459,7 +459,6 @@ export default {
                     submitForm.AGA002 = '给付-00007-019-02'//住院
                 }
                 // submitForm.AGA002 =  "330600007019";
-                // submitForm.debugTest=  "true";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
                     submitForm.lx="1";

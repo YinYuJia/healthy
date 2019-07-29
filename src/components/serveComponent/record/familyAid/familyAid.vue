@@ -212,7 +212,6 @@
                 submitForm.AAQ301=this.form.AAQ301//参保地区
                 submitForm.BKZ019=this.form.BKZ019//经办编号
                 submitForm.AAE031='20991230'
-                // submitForm.debugTest=  "true";
 
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {

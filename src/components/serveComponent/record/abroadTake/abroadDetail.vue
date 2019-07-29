@@ -164,7 +164,6 @@ export default {
             let submitForm ={}
             submitForm.AGA002 =  "确认-00253-001";
             // submitForm.AGA002 =  "330800253001";
-                // submitForm.debugTest=  "true";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -182,7 +181,6 @@ export default {
             let submitForm = {}
             submitForm.AGA002 =  "确认-00253-001";
             // submitForm.AGA002 =  "330800253001";
-            // submitForm.debugTest=  "true";
             if(this.$route.query.param){
                 submitForm.lx="1";
                 submitForm.BKZ019=this.$route.query.param

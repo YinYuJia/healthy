@@ -27,6 +27,7 @@
                             <span class="textInfo">{{item.AAE036}}</span>
                         </div>
                     </div>
+                    <div class="PhotoBox"><img :src="item.BKE554" @click="showBigPhoto(item.BKE554)"/></div>
                 </div>
             </div>
             <!-- 手动添加发票信息 -->
@@ -356,7 +357,7 @@ export default {
                 }
                 .textBox{
                     height: 2rem;
-                    width: 5rem;
+                    width: 3rem;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
@@ -381,6 +382,15 @@ export default {
                 }
                 &:last-child{
                     border-bottom: none;
+                }
+                .PhotoBox{
+                    height: 2rem;
+                    width: 2rem;
+                    background: #DDD;
+                    img{
+                        height: 100%;
+                        width: 100%;
+                    }
                 }
             }
         }

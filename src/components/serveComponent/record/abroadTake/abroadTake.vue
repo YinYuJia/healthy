@@ -17,7 +17,7 @@
         <mt-datetime-picker
             type="date"
             ref="endPicker"
-            v-model="dateVal"
+            v-model="end"
             @confirm="handleEndConfirm">
         </mt-datetime-picker>
         <div class="Content">
@@ -40,7 +40,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟回国日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                        <div class="InfoText"><input type="text" v-model="form.AAE031" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -87,6 +87,7 @@
     export default {
         data() {
             return {
+                end:"",
                 imgUrl:'',
                 picArr: [],//附件集合
                 AAB301000: '', //参保地
@@ -126,6 +127,7 @@
             // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
             // 默认开始日期
             this.form.AAE030 = this.util.formatDate(new Date(),'yyyy-MM-dd');
+            this.getEndDate(new Date());
         },
         watch: {
             form: {
@@ -185,6 +187,7 @@
                 this.$refs.startPicker.open();
             },
             handleStartConfirm(val){
+                this.getEndDate(val)
                 let date = this.util.formatDate(val,'yyyy-MM-dd');
                 this.form.AAE030 = date;
             },
@@ -194,6 +197,14 @@
             },
             handleEndConfirm(val){
                 let date = this.util.formatDate(val,'yyyy-MM-dd');
+                this.form.AAE031 = date;
+            },
+            // 计算90天后日期
+            getEndDate(val){
+                let start = val.getTime();
+                let end = start + (24*3600*90*1000);
+                let date = this.util.formatDate(new Date(end),'yyyy-MM-dd');
+                console.log(date);
                 this.form.AAE031 = date;
             },
             // 上传图片
@@ -310,7 +321,6 @@
             submitForm.BKE260 =  this.form.BKE260;//护照号码
             submitForm.photoIdList =  this.form.photoIdList.join(',');//照片ID数组
             submitForm.BKZ019 =  this.form.BKZ019;//经办编号
-            // submitForm.debugTest=  "true";
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
