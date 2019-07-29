@@ -21,7 +21,7 @@
             @confirm="handleEndConfirm">
         </mt-datetime-picker>
         <SelectCity
-            :type="3"
+            :type="2"
             :excludeZj="true"
             ref="cityPicker"
             @confirm="chooseCity"
@@ -317,11 +317,9 @@
             },
             chooseCity(val){
                 console.log(val);
-
                 this.AAB301000= val.name;
                 this.form.AAS027=val.code[0]
                 this.form.AAB027=val.code[1]
-                this.form.AAQ027=val.code[2]
             },
             // 选择就医疗程
             openTreatPicker(){

@@ -78,8 +78,11 @@ export default {
     watch:{
         form: {
             handler: function(val) {
+                if(val.AKA078VALUE){
+                    console.log(val.AKA078VALUE)
+                }
                 // 判断不为空
-                if (val.AKB020 != '' && val.AKA078 != '' && val.AAE030 != '' && val.AKB078VALUE != '') {
+                if (val.AKB020 != '' && val.AKA078 != '' && val.AAE030 != '' && val.AKA078VALUE != '') {
                     this.canSubmit = true;
                 } else {
                     this.canSubmit = false;
@@ -91,7 +94,11 @@ export default {
     },
     created() {
         this.epFn.setTitle('零星报销')
-        this.form = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
+        // console.log("form",JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1)))
+        // this.form = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
+        // console.log("1188888",this.form)
+        console.log("form",this.$store.state.SET_SMALL_REIM_1)
+        this.form =this.$store.state.SET_SMALL_REIM_1;
         console.log("1188888",this.form)
     },
     methods: {
