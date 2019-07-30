@@ -193,8 +193,8 @@
                 this.$refs.hospital.open();
             },
             hospitalClick(code,name){
-                console.log(code)
-                console.log(code)
+                console.log("code",code)
+                console.log("name",name)
                 this.AKB020VALUE = name
                 this.form.AKB020 = code
             },
