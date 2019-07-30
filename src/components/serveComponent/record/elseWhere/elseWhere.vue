@@ -24,8 +24,8 @@
         </SelectCity>
         <SelectCity
             :type="3"
-            :excludeProvince="excludeProvince"
             ref="cityPicker"
+            :excludeZj="true"
             @confirm="chooseCity"
             >
         </SelectCity>

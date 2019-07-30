@@ -124,6 +124,10 @@ export default {
         },
         formatSubmitForm(){
             let submitForm = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_SUBMIT));
+            if(submitForm.AAB301=='339900'){
+                submitForm.AAB301='330100'
+            }
+            //如果统筹区为省本级则改变为330100
             let submitForm1 = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
             let submitForm2 = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_2));
             console.log(this.$store.state.SET_SMALL_REIM_SUBMIT,'this.$store.state.SET_SMALL_REIM_SUBMIT');
