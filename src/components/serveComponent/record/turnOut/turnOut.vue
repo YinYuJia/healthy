@@ -51,7 +51,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束日期</span></div>
-                    <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly ><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE031" placeholder="请选择" readonly ><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转出医院</span></div>
@@ -193,6 +193,8 @@
                 this.$refs.hospital.open();
             },
             hospitalClick(code,name){
+                console.log("code",code)
+                console.log("name",name)
                 this.AKB020VALUE = name
                 this.form.AKB020 = code
             },

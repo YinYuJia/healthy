@@ -19,6 +19,10 @@
                     <div class="InfoText">{{form.AAE031}}</div>
                 </div>
                 <div class="InfoLine">
+                    <div class="InfoName"><span>转出医院:</span></div>
+                    <div class="InfoText">{{form.AKB020Name}}</div>
+                </div>
+                <div class="InfoLine">
                     <div class="InfoName"><span>转往地市:</span></div>
                     <div class="InfoText">{{AAB301000}}</div>
                 </div>
@@ -255,7 +259,7 @@ export default {
                 .InfoText{
                     width: 5.1rem;
                     color: #000;
-                    line-height: 1.2rem;
+                    text-align: left;
                     display: flex;
                     position: relative;
                     align-items: center;

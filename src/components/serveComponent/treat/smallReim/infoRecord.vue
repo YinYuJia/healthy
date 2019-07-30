@@ -17,7 +17,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开户名：</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.AAE009" placeholder="请输入"></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE009" placeholder="请输入" readonly></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>手机号码：</span></div>
@@ -42,7 +42,7 @@ export default {
             form:{
                 AAE010: '', //银行账户
                 AAE008: '', //开户行
-                AAE009: '', //开户名
+                AAE009: '',//开户名值
                 AAE005: '',//手机号码
                 BAC048: '',//开户行中文
                 LS_DS1:[],
@@ -62,7 +62,7 @@ export default {
         console.log('submitForm',this.$store.state.SET_SMALL_REIM_SUBMIT);
         console.log("SET_SMALL_REIM_2",this.$store.state.SET_SMALL_REIM_2)
         this.getUserInfo();
-        this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name //|| 许肖军 332625197501010910
+        // this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name //|| 许肖军 332625197501010910
     },
     watch:{
         form: {
@@ -200,7 +200,18 @@ export default {
                      this.form.AAE010 = resData.AAE010 //银行账户
                      this.form.BAC048 = resData.BAC048  //开户行
                      this.form.AAE009 = resData.AAE009   //开户名
+                     console.log(this.form.AAE009=="")
+                     if(this.form.AAE009==""){
+                         console.log('执行1')
+                        if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
+                            this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name;
+                         console.log('执行2')
+
+                        }
+                     }
+
                      this.form.AAE005 = resData.AAE005   //手机号码
+                     console.log("手机号码",this.form.AAE005)
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     // this.$toast(resData.msg);

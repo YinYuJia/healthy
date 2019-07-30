@@ -17,7 +17,7 @@
         <mt-datetime-picker
             type="date"
             ref="endPicker"
-            v-model="end"
+            v-model="dateVal"
             @confirm="handleEndConfirm">
         </mt-datetime-picker>
         <div class="Content">
@@ -40,7 +40,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟回国日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input type="text" v-model="form.AAE031" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                        <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -197,14 +197,6 @@
             },
             handleEndConfirm(val){
                 let date = this.util.formatDate(val,'yyyy-MM-dd');
-                this.form.AAE031 = date;
-            },
-            // 计算90天后日期
-            getEndDate(val){
-                let start = val.getTime();
-                let end = start + (24*3600*90*1000);
-                let date = this.util.formatDate(new Date(end),'yyyy-MM-dd');
-                console.log(date);
                 this.form.AAE031 = date;
             },
             // 上传图片

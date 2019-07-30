@@ -73,6 +73,7 @@ export default {
                 {value: '1',label: '门诊'},
                 {value: '3',label: '住院'}
             ],
+            ifClear:true
         }
     },
     watch:{
@@ -102,8 +103,22 @@ export default {
         // console.log("form",JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1)))
         // this.form = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
         // console.log("1188888",this.form)
-        console.log("form",this.$store.state.SET_SMALL_REIM_1)
-        this.form =this.$store.state.SET_SMALL_REIM_1;
+        this.isClear=sessionStorage.getItem('isClear')
+        console.log('clear',this.isClear)
+        if(this.isClear=='true'){
+            console.log("form",this.$store.state.SET_SMALL_REIM_1)
+            let arr1={};
+            arr1.hospitalName='', //就诊医院
+            arr1.AKB020='', //医院编码
+            arr1.AKA078='', //就诊类型
+            arr1.AKA078VALUE='', //就诊类型中文
+            arr1.AAE030='' //就诊日期
+            this.form ={...this.form,...arr1};
+        }else{
+            console.log(111)
+            this.form=JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1))
+        }
+
         console.log("1188888",this.form)
     },
     methods: {
@@ -120,6 +135,7 @@ export default {
             this.$refs.typePicker.open();
         },
         handleTypeConfirm(val){
+            console.log(val)
             this.form.AKA078VALUE = val.label;
             this.form.AKA078 = val.value;
         },
@@ -180,6 +196,9 @@ export default {
                         submitForm.AAB301 = GinsengLandCode;
                         this.$store.dispatch('SET_SMALL_REIM_SUBMIT', submitForm);
                         this.$store.dispatch('SET_SMALL_REIM_1', this.form);
+                        sessionStorage.setItem('treatItemShow',true)
+                        this.isClear=false;
+                        sessionStorage.setItem('isClear',this.isClear)
                         this.$router.push("/invoiceInfo");
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001

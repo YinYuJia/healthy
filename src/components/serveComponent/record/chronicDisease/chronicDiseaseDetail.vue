@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="searchPlace" v-if="form.BKE247 == '1'">
-                <div class="searchBtn" @click="openHospital">点击查看领取网点</div>
+                <div class="searchBtn" @click="openSite">点击查看领取网点</div>
             </div>
             <!-- 就诊机构 -->
             <SearchInfoPage ref="org" type="AKB020_HZ"></SearchInfoPage>
@@ -141,8 +141,8 @@ export default {
             // this.$router.push('/')
         },
         // 打开医院列表
-        openHospital(){
-            this.$refs.org.open();
+        openSite(){
+            this.$router.push('/nearbySite');
         },
         //
         // 撤销提醒
