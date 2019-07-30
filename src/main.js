@@ -165,7 +165,6 @@ export default vConsole;
 // 1  网新恩普包  2  浙理办包
 Vue.prototype.$build = "1"
 
-const isShow = false
 
 dd.ready({
   developer: 'daip@dtdream.com',
@@ -178,8 +177,8 @@ dd.ready({
   dd.biz.user.getUserType({ 
       onSuccess: (data) => {
           console.log("data获取用户类型",data)
-          
-          if (isShow ) {
+          const isShow = false
+          if ( isShow ) {
              if( data.userType == '0' || data.userType == '1' ) {
                 user()
              }else if ( data.userType == '2') {
@@ -203,13 +202,12 @@ console.log('ddddddd',dd)
 // 1 个人登录 2 法人登录
 
 
-if ( isShow ) {
   function user() {
-    Vue.prototype.$isUserLogin = '1'
+    // Vue.prototype.$isUserLogin = '1'
     router.beforeEach((to, from, next) => {
   
       const code = 'yibaozs';
-      console.log()
+      console.log('code',code)
       // var ticket = paramStr("ticket") || "8afac0cc6b84c4aa016b8e7fb4662798-ticket";
       var ticket = paramStr("ticket");
        console.log('ticket-------------',ticket)
@@ -282,7 +280,7 @@ if ( isShow ) {
     Vue.prototype.$isUserLogin = '2'
   }
 
-}
+
 
 
 
