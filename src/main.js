@@ -180,7 +180,6 @@ dd.ready({
           console.log("data获取用户类型",data)
           
           if (isShow ) {
-               
              if( data.userType == '0' || data.userType == '1' ) {
                 user()
              }else if ( data.userType == '2') {
@@ -189,6 +188,7 @@ dd.ready({
           }else{
             console.log('没有做单点登录对接')
           }
+
       },
       onFail: function(error) {
         console.log("data获取用户类型",error)
