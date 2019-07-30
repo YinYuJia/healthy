@@ -11,7 +11,24 @@
                 <li class="InfoLine" v-for="(item,index) in pointList" :key="index">
                     <div class="InfoName">
                         <span class="Hospital">{{item.AKB021}}</span>
-                        <span class="Address">{{item.AAE006}}<a class="Phone" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a></span>
+                        <div class="Msg">
+                            <div class="IconImg">
+                                <svg-icon icon-class="keshi"/>
+                            </div>
+                            <span class="Address">
+                                {{item.AAE006}}                            
+                                <div class="IconImg" v-if="isPhone">
+                                <svg-icon icon-class="dianhua"/>
+                                </div>
+                                <a class="Phone" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a>
+                            </span>
+                        </div>
+                        <div class="Server" v-if="isShow">                   
+                            <div class="IconImg">
+                                <svg-icon icon-class="dizhi"/>
+                            </div>
+                            <span class="Hospital">{{item.AAE055}}</span>
+                        </div>
                         <!-- <span class="Address" v-if="item.office">{{item.office}}</span>
                         <span class="Address"><a class="Address" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a></span> -->
                     </div>
@@ -33,6 +50,8 @@ export default {
             AKB021:"",//医疗机构名称
             AAE006:"",//地址
             JL:"",//距离
+            isShow:false,
+            isPhone:false,
         };
     },
     created(){
@@ -86,6 +105,8 @@ export default {
                 if (resData.enCode == 1000) {
                     console.log('成功')
                     this.pointList=[...this.pointList,...resData.LS_DS];
+                    this.isShow=true;
+                    this.isPhone=false;
                     console.log("9001",this.pointList)
                     // this.pointList = [...this.pointList, ...resData.LS_DS];
                     // for (let i = 0; i < this.pointList.length; i++) {
@@ -113,6 +134,8 @@ export default {
                     console.log('成功')
                     this.pointList=[...this.pointList,...resData.LS_DS];
                     console.log("9002",this.pointList)
+                    this.isShow=false;
+                    this.isPhone=true;
                     // this.pointList = [...this.pointList, ...resData.LS_DS];
                     // for (let i = 0; i < this.pointList.length; i++) {
                     //     let mesString = this.pointList[i].AAA105;
@@ -220,19 +243,53 @@ export default {
                         color: #000000;
                         letter-spacing: 0;
                     }
-                    .Address{
-                        margin-top: .1rem;
-                        font-size: .24rem;
-                        color: #999999;
-                        letter-spacing: 0;
+                    .Msg{
+                        width: 5.8rem;
+                        line-height: .5rem;
+                        .IconImg{
+                            width: .3rem;
+                            height: .3rem;
+                            display: inline-block;
+                            .svg-icon{
+                                display:block;
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                        .Address{
+                            display: inline-block;
+                            font-size: .24rem;
+                            color: #999999;
+                            letter-spacing: 0;
+                            .Phone{
+                                margin-top: .1rem;
+                                margin-left: .1rem;
+                                font-size: .24rem;
+                                color: #999999;
+                                letter-spacing: 0;
+                            }
+                        }
                     }
-                    .Phone{
-                        margin-top: .1rem;
-                        margin-left: .1rem;
-                        font-size: .24rem;
-                        color: #999999;
-                        letter-spacing: 0;
+                    .Server{
+                        line-height: .5rem;
+                        .IconImg{
+                            width: .3rem;
+                            height: .3rem;
+                            display: inline-block;
+                            .svg-icon{
+                                display:block;
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                        .Hospital{
+                            margin-top: .1rem;
+                            font-size: .24rem;
+                            color: #999999;
+                            letter-spacing: 0;
+                        }
                     }
+
                 }
                 .Distance{
                     display: flex;

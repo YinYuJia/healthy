@@ -211,6 +211,7 @@ export default {
                      }
 
                      this.form.AAE005 = resData.AAE005   //手机号码
+                     console.log("手机号码",this.form.AAE005)
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     // this.$toast(resData.msg);
