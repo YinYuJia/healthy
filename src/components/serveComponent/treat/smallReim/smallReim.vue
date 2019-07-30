@@ -114,6 +114,7 @@ export default {
             arr1.AKA078VALUE='', //就诊类型中文
             arr1.AAE030='' //就诊日期
             this.form ={...this.form,...arr1};
+            console.log('初始化了form的数据',this.form)
         }else{
             console.log(111)
             this.form=JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1))

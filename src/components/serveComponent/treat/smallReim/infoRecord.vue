@@ -68,7 +68,7 @@ export default {
         form: {
             handler: function(val) {
                 // 判断不为空
-                if (val.AAE010 != '' && val.BAC048 != '' && val.AAE009 != ''&& val.AAE005!='') {
+                if (val.AAE010 != '' && val.AAE008 != '' && val.AAE009 != ''&& val.AAE005!='') {
                     this.canSubmit = true;
                 } else {
                     this.canSubmit = false;

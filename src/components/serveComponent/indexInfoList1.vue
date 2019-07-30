@@ -172,6 +172,7 @@
                     }
                 ],
                 iconFlag: false,
+                isClear:true
             }
         },
         mounted() {
@@ -189,7 +190,7 @@
             })
         },
         created() {
-            sessionStorage.setItem('isClear',true)
+            sessionStorage.setItem('isClear',this.isClear)
             // 清空零星报销的Vuex
             console.log('获取token',sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT={
