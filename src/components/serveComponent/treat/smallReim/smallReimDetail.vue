@@ -36,6 +36,10 @@
                     <div class="InfoName"><span>收款银行账号:</span></div>
                     <div class="InfoText"><span>{{form3.AAE010|tuoMin(1,1)}}</span></div>
                 </div>
+               <div class="InfoLine">
+                    <div class="InfoName"><span>手机号码:</span></div>
+                    <div class="InfoText"><span>{{form3.AAE005|tuoMin(3,4)}}</span></div>
+                </div>
             </div>
             <!-- 发票信息 -->
             <div class="invoiceContent" v-if="!invoiceComplete">

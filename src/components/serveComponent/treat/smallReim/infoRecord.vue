@@ -13,7 +13,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开户行：</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.BAC048" placeholder="请输入"></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE008" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开户名：</span></div>
@@ -44,7 +44,7 @@ export default {
                 AAE008: '', //开户行
                 AAE009: '',//开户名值
                 AAE005: '',//手机号码
-                BAC048: '',//开户行中文
+                // BAC048: '',//开户行中文
                 LS_DS1:[],
             },
             canSubmit: false,
@@ -130,7 +130,7 @@ export default {
             console.log(this.$store.state.SET_SMALL_REIM_1,'this.$store.state.SET_SMALL_REIM_1');
             console.log(this.$store.state.SET_SMALL_REIM_2,'this.$store.state.SET_SMALL_REIM_2');        
             submitForm.AAE010 = this.form.AAE010.replace(/\s+/g,'');
-            submitForm.AAE008 = this.form.BAC048;
+            submitForm.AAE008 = this.form.AAE008;
             submitForm.AAE009 = this.form.AAE009;
             submitForm.AAE005 = this.form.AAE005;
             submitForm.BKE520 = "1"
@@ -198,7 +198,7 @@ export default {
                 if ( resData.enCode == 1000 ) {
                     console.log(resData.AAE005)
                      this.form.AAE010 = resData.AAE010 //银行账户
-                     this.form.BAC048 = resData.BAC048  //开户行
+                     this.form.AAE008 = resData.BAC048  //开户行
                      this.form.AAE009 = resData.AAE009   //开户名
                      console.log(this.form.AAE009=="")
                      if(this.form.AAE009==""){
