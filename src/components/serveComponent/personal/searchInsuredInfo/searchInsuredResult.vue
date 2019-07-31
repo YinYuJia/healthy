@@ -68,7 +68,6 @@ export default {
                 submitForm.AAB301 = this.form.AAB301//申请地市
                 submitForm.AAQ301 = this.form.AAQ301//申请地区
                 submitForm.AAE091 = this.form.AAE091.toString()//缴费月数
-                // submitForm.debugTest=  "true";
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -88,6 +87,7 @@ export default {
 
 <style lang="less" scoped>
 .searchInsuredResult{
+    width: 100%;
     .Content{
         padding: 0 .28rem;
         .padContent{

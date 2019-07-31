@@ -68,7 +68,6 @@ export default {
     methods: {
      formatSubmitData(){
             let submitForm ={};
-            // submitForm.debugTest=  "true";
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -88,9 +87,10 @@ export default {
 
 <style lang="less" scoped>
 .searchRecord{
+    width: 100%;
     .Content{
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-bottom: .3rem;
             background: white;

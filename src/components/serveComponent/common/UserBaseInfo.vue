@@ -1,6 +1,6 @@
 <template>
     <!-- 用户基本信息 -->
-    <div class="UserBaseInfo">
+    <div class="UserBaseInfo" v-show="false">
         <div class="UserPhoto"><svg-icon icon-class="serveComponent_userIcon" /></div>
         <div class="UserInfo">
             <div class="UserName">{{form.name|tuoMin(0,2)}}</div>
@@ -34,7 +34,8 @@ export default {
 
 <style lang="less" scoped>
 .UserBaseInfo{
-    width: 7.5rem;
+    display: none;
+    width: 100%;
     height: 1.8rem;
     display: flex;
     align-items: center;

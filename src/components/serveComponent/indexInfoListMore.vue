@@ -125,14 +125,16 @@
                             <svg-icon icon-class="serveComponent_icon_20" />
                             <div class="text">备案信息</div>
                         </div>
-                        <div class="iconBox">
+                        <!-- <div class="iconBox">
                             <svg-icon icon-class="serveComponent_icon_hosipital" />
                             <div class="text">定点医院</div>
                         </div>
                         <div class="iconBox">
                             <svg-icon icon-class="serveComponent_icon_drugstore" />
                             <div class="text">定点药店</div>
-                        </div>
+                        </div> -->
+                        <div class="iconBox"></div>
+                        <div class="iconBox"></div>
                         <div class="iconBox"></div>
                     </div>
                 </div>
@@ -365,6 +367,7 @@ export default {
         padding: 0 .2rem;
         margin-top: .94rem;
         .iconList{
+            
             .listHeader{
                 height: .8rem;
                 line-height: .8rem;
@@ -375,14 +378,26 @@ export default {
                 font-weight: bold;
             }
             .iconContent{
+                width: 7.6rem;
+                display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+                display: -moz-box; /* Firefox 17- */
+                display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+                display: -moz-flex; /* Firefox 18+ */
+                display: -ms-flexbox; /* IE 10 */
                 display: flex;
                 justify-content: space-around;
                 flex-wrap: wrap;
-                padding: .2rem 0 .44rem 0;
+                padding: .2rem 0.7rem .44rem 0;
                 .iconBox{
                     position: relative;
                     height: 1.4rem;
                     width: 1.7rem;
+                                    display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+                display: -moz-box; /* Firefox 17- */
+                display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+                display: -moz-flex; /* Firefox 18+ */
+                display: -ms-flexbox; /* IE 10 */
+                display: flex;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;

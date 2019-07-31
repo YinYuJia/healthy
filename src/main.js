@@ -156,22 +156,60 @@ function ApiUrl() {
   }
 }
 
-console.log('------欢迎进入医保专区首页main.js------')
-
-import Vconsole from 'vconsole';
-var vConsole = new Vconsole()
-export default vConsole;
+console.log('------欢迎进入APP首页main.js---20190715__01---')
+// console.log(localStorage.getItem('Ip'))
+// import Vconsole from 'vconsole';
+// var vConsole = new Vconsole()
+// export default vConsole;
 
 // 1  网新恩普包  2  浙理办包
 Vue.prototype.$build = "1"
 
 const isShow = false
+// dd.ready({
+//   developer: 'daip@dtdream.com',
+//   usage: [
+//       'dd.biz.user.getUserType',
+//   ],
+//   remark: '获取用户登录类型'
+//   }, 
+//   function() {
+//   dd.biz.user.getUserType({ 
+//       onSuccess: (data) => {
+//           console.log("data获取用户类型",data)
+//           const isShow = true
+//           if ( isShow ) {
+//              if( data.userType == '0' || data.userType == '1' ) {
+//                console.log(11)
 
-if (isShow ) {
+//                 user()
+//              }else if ( data.userType == '2') {
+//                 faren()
+//              }
+//           }else{
+//             console.log('没有做单点登录对接')
+//           }
+//       },
+//       onFail: function(error) {
+//         console.log("data获取用户类型",error)
+//       } 
+//   })
+// })
+
+
+
+console.log('ddddddd',dd)
+
+// 1 个人登录 2 法人登录
+
+if ( isShow ) {
+  console.log(2)
+
+  // Vue.prototype.$isUserLogin = '1'
   router.beforeEach((to, from, next) => {
-  
+
     const code = 'yibaozs';
-    console.log()
+    console.log('code',code)
     // var ticket = paramStr("ticket") || "8afac0cc6b84c4aa016b8e7fb4662798-ticket";
     var ticket = paramStr("ticket");
      console.log('ticket-------------',ticket)
@@ -183,11 +221,11 @@ if (isShow ) {
             "token":token,
             "tradeCode":"2005"
             }).then(result2=>{
+                  console.log(6)
                   console.log('result2-----------------',result2)
                     if ( result2.result == "0") {
                       sessionStorage.setItem("userName",result2.username)
                       sessionStorage.setItem("idCard",result2.idnum)
-                      
                       console.log('userName',result2.username)
                       console.log('idCard',result2.idnum)
                       next()
@@ -199,7 +237,7 @@ if (isShow ) {
         }else{
           if (ticket != "" && ticket != undefined && ticket != null) {
 
-            console.log(11111111111111111111111111111111111111111111111)
+                  console.log(4)
                   axios.post(ApiUrl()+"/H5/jy2004/info" , {
                     "st":ticket,
                     "tradeCode":"2004"
@@ -218,6 +256,7 @@ if (isShow ) {
                       "token":result0.token,
                       "tradeCode":"2005"
                       }).then(result1=>{
+                          console.log(5)
                           console.log('result1------------------',result1)
                              if ( result1.result == "0") {
                               sessionStorage.setItem("userName",result1.username)
@@ -232,12 +271,22 @@ if (isShow ) {
                       })
                   });
           } else {
-            console.log("授权侵入")
-            window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode="+ code + "&goto=" + window.location.href;
+            console.log(3)
+
+            window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode="+ code ;
           }
         }
 })
+
 }
+   
+
+  function faren() {
+    console.log('-----法人登录-------')
+    Vue.prototype.$isUserLogin = '2'
+  }
+
+
 
 
 

@@ -38,6 +38,8 @@
                 </div>
             </div>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330800123004"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>
@@ -179,6 +181,7 @@ export default {
         },
         formatSubmitData(){
             let submitForm = JSON.parse(JSON.stringify(this.form)); //深拷贝
+            submitForm.BKE520 = "1"
             submitForm.AKC412 =  this.form.AKC412;
             submitForm.BAC213 =  this.form.BAC213;
             submitForm.AAE041 =  this.form.AAE041;

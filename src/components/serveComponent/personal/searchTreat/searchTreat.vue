@@ -125,7 +125,6 @@ export default {
             // 日期传换成Number
             submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030);
             submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031);
-            // submitForm.debugTest ="true"
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -144,10 +143,11 @@ export default {
 
 <style lang="less" scoped>
 .searchTreat{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

@@ -46,9 +46,10 @@ export default {
 
 <style lang="less" scoped>
 .SearchHospital{
+    width: 100%;
     .SearchContent{
         height: 1.18rem;
-        width: 7.5rem;
+        width: 100%;
         background: #FFF;
         display: flex;
         justify-content: center;
@@ -88,7 +89,7 @@ export default {
         }
     }
     .ListContent{
-        width: 7.5rem;
+        width: 100%;
         background: #FFF;
         padding: 0 .37rem;
         .List{

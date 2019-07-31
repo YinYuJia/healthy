@@ -2,7 +2,7 @@
     <div class="abroadTake">
         <Title :title="'出国带药备案'" :backRouter="'/'"></Title>
         <!-- MintUI弹出框区域 -->
-        <SelectCity 
+        <SelectCity
             :type="2"
             ref="insuredPicker"
             @confirm="chooseInsured"
@@ -28,26 +28,26 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地</span></div>
                     <div class="InfoText">
-                         <div class="InfoText"><input  type="text" v-model="AAB301000" placeholder="请选择" readonly></div>
+                         <div class="InfoText"><input  type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>出境日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div>
+                        <div class="InfoText"><input type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟回国日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly></div>
+                        <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>取药机构</span></div>
                     <div class="InfoText">
                         <!-- @click="gotoTakeDrug()" -->
-                        <div class="InfoText"><input type="text" @click="chooseHospital" v-model="form.AKB020Name" placeholder="请选择" readonly></div>
+                        <div class="InfoText"><input type="text" @click="chooseHospital" v-model="form.AKB020Name" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -72,11 +72,13 @@
                 </div>
             </div>
         </div>
-        
+
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330800253001"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
-    <SearchInfoPage ref="hospita" @childrenClick="hospitaClick" title="取药机构"></SearchInfoPage>
+    <SearchInfoPage ref="hospita" type="AKB020_DY" @childrenClick="hospitaClick" title="取药机构"></SearchInfoPage>
 
     </div>
 </template>
@@ -85,6 +87,7 @@
     export default {
         data() {
             return {
+                end:"",
                 imgUrl:'',
                 picArr: [],//附件集合
                 AAB301000: '', //参保地
@@ -119,9 +122,12 @@
            console.log('this.form.AAB301',this.form.AAB301)
             // this.form = this.$store.state.SET_ABROADTAKE_OPERATION;
             // this.form.AAC003 = this.$store.state.SET_NATIVEMSG.name
-            // this.form.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;  
+            // this.form.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             // this.form.AAB301000 = this.$store.state.SET_USER_DETAILINFO.regionName
             // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
+            // 默认开始日期
+            this.form.AAE030 = this.util.formatDate(new Date(),'yyyy-MM-dd');
+            this.getEndDate(new Date());
         },
         watch: {
             form: {
@@ -181,6 +187,7 @@
                 this.$refs.startPicker.open();
             },
             handleStartConfirm(val){
+                this.getEndDate(val)
                 let date = this.util.formatDate(val,'yyyy-MM-dd');
                 this.form.AAE030 = date;
             },
@@ -220,12 +227,13 @@
                                         _this.$toast("未获取到人员基本信息");
                                     }
                                     // 加入子项编码
-                                    submitForm.AGA002 = '330800253001';
+                                    // submitForm.AGA002 = '330800253001';
+                                    submitForm.AGA002 = '确认-00253-001';
                                     submitForm.photoList = data.picPath[0];
                                     submitForm.PTX001 = '2';
                                     const params = _this.epFn.commonRequsetData(_this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
                                     _this.$axios.post(_this.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
-                                        console.log('返回成功信息',resData) 
+                                        console.log('返回成功信息',resData)
                                         //   成功   1000
                                         if ( resData.enCode == 1000 ) {
                                             // 页面中添加照片
@@ -256,7 +264,7 @@
                 console.log('删除后',this.form.photoIdList);
             },
             submit() {
-                
+
 
             if (this.canSubmit == false) {
                 this.$toast('信息未填写完整');
@@ -281,7 +289,7 @@
                                 this.$router.push("/abroadDetail");
                             }else if (resData.enCode == 1001 ) {
                             //   失败  1001
-                              
+
                                 this.$toast(resData.msg);
                                 return;
                             }else{
@@ -289,13 +297,13 @@
                                 return;
                             }
                 })
-                
+
             }
         },
         formatSubmitData(){
             let submitForm = {};
             // 日期传换成Number
-
+            submitForm.BKE520 = "1"
             submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030);
             submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031);
             submitForm.AAS301 =  this.form.AAS301;//参保地省
@@ -305,13 +313,12 @@
             submitForm.BKE260 =  this.form.BKE260;//护照号码
             submitForm.photoIdList =  this.form.photoIdList.join(',');//照片ID数组
             submitForm.BKZ019 =  this.form.BKZ019;//经办编号
-            // submitForm.debugTest=  "true";
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装
@@ -324,12 +331,13 @@
 
 <style lang="less" scoped>
 .abroadTake {
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
             height: 6rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine {
@@ -374,6 +382,7 @@
             background: #FFF;
             margin: .16rem 0 1.4rem 0;
             padding: .37rem .4rem;
+            color: #f00;
             .uploadList{
                 margin-top: .1rem;
                 font-size: .28rem;
@@ -408,38 +417,17 @@
             }
             .uploadHint{
                 font-size: .28rem;
-                color: #000000;
+                color: #f00;
                 letter-spacing: 0;
                 text-align: left;
             }
         }
     }
-    .Footer {
-        height: 1.2rem;
-        width: 7.5rem;
-        background: white;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        z-index: 199;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .Btn {
-            height: .8rem;
-            width: 6.9rem;
-            background-image: linear-gradient(-90deg, rgb(142, 214, 253) 0%, rgb(173, 201, 255) 100%);
-            border-radius: 40px;
-            text-align: center;
-            line-height: 0.8rem;
-            font-family: PingFangSC-Regular;
-            font-size: .36rem;
-            color: #FFFFFF;
-            letter-spacing: 0;
-        }
-        .active {
-            background-image: linear-gradient(-90deg, #35B8FD 0%, #4E8DFF 100%);
-        }
-    }
+}
+</style>
+
+<style>
+.picker-items{
+    width: 100%;
 }
 </style>

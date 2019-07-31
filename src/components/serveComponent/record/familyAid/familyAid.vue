@@ -2,19 +2,19 @@
     <div class="familyAid">
         <Title :title="'家庭共济备案'" :backRouter="'/'"></Title>
         <!-- MintUI弹出框区域 -->
-        <SelectCity 
+        <SelectCity
             :type="2"
             ref="insuredPicker"
             @confirm="chooseInsured"
             >
         </SelectCity>
-        <mt-datetime-picker
+        <!-- <mt-datetime-picker
             type="date"
             ref="startPicker"
             v-model="dateVal"
             @confirm="handleStartConfirm">
-        </mt-datetime-picker>
-        <SelectCity 
+        </mt-datetime-picker> -->
+        <SelectCity
             :type="1"
             ref="relatePicker"
             :propArr="relationList"
@@ -30,7 +30,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地</span></div>
                     <div class="InfoText">
-                         <div class="InfoText"><input  type="text" v-model="AAB301000" placeholder="请选择" readonly></div>
+                         <div class="InfoText"><input  type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -48,17 +48,20 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>绑定关系</span></div>
                     <div class="InfoText">
-                        <input @click="openRelatePicker()" type="text" v-model="AAE144VALUE" placeholder="请选择" readonly>
+                        <input @click="openRelatePicker()" type="text" v-model="AAE144VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开始日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div>
+                        <!-- <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div> -->
+                        <div class="InfoText">{{form.AAE030}}</div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330800253023"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>
@@ -81,7 +84,7 @@
                     BKZ019:""//经办编号
                 },
                 AAE144VALUE: '',
-                dateVal: new Date(), //默认绑定的时间
+                dateVal:"", //默认绑定的时间
                 canSubmit: false,
                 relationList: [{
                         value: '1',
@@ -100,9 +103,11 @@
         },
         created() {
             this.epFn.setTitle('家庭共济备案')
-
-                       let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
-           let GinsengLandName = sessionStorage.getItem("GinsengLandName")
+            let val=new Date();
+            this.dateVal=this.util.formatDate(val,'yyyy-MM-dd');
+            this.form.AAE030=this.dateVal;
+            let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
+            let GinsengLandName = sessionStorage.getItem("GinsengLandName")
 
            console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
            this.AAB301000 = GinsengLandName
@@ -137,15 +142,15 @@
             this.form.AAS301 =val.code[0]; //参保地省
             this.form.AAB301 =val.code[1]; //参保地市
             },
-            // 选择开始日期
-            openStartPicker(){
-                this.$refs.startPicker.open();
-            },
-            handleStartConfirm(val){
-                let date = this.util.formatDate(val,'yyyy-MM-dd');
-                this.form.AAE030 = date;
-                console.log(this.form.AAE030);
-            },
+            // // 选择开始日期
+            // openStartPicker(){
+            //     this.$refs.startPicker.open();
+            // },
+            // handleStartConfirm(val){
+            //     let date = this.util.formatDate(val,'yyyy-MM-dd');
+            //     this.form.AAE030 = date;
+            //     console.log(this.form.AAE030);
+            // },
             // 选择月数
             openRelatePicker(){
                 this.$refs.relatePicker.open();
@@ -170,7 +175,7 @@
                 this.$toast('信息未填写完整');
                 return false;
             }else{
-                
+
                 // 封装数据
                 let params = this.formatSubmitData();
                 // 开始请求
@@ -191,28 +196,29 @@
                     }
                 })
             }
-                
+
             },
             formatSubmitData(){
                 let submitForm ={}
-                     // 日期传换成Number
-                    submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
-                    submitForm.BAC003=this.form.BAC003,//被授权人姓名
-                    submitForm.BAC002=this.form.BAC002,//被授权人身份证
-                    submitForm.AAE144=this.form.AAE144,//绑定关系
-                    submitForm.AAS301=this.form.AAS301//参保地省
-                    submitForm.AAB301=this.form.AAB301//参保地市
-                    submitForm.AAQ301=this.form.AAQ301//参保地区
-                    submitForm.BKZ019=this.form.BKZ019//经办编号
-                    submitForm.AAE031='20190625'
-                    // submitForm.debugTest=  "true";
+                // 日期传换成Number
+                // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
+                submitForm.BKE520 = "1"
+                submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
+                submitForm.BAC003=this.form.BAC003,//被授权人姓名
+                submitForm.BAC002=this.form.BAC002,//被授权人身份证
+                submitForm.AAE144=this.form.AAE144,//绑定关系
+                submitForm.AAS301=this.form.AAS301//参保地省
+                submitForm.AAB301=this.form.AAB301//参保地市
+                submitForm.AAQ301=this.form.AAQ301//参保地区
+                submitForm.BKZ019=this.form.BKZ019//经办编号
+                submitForm.AAE031='20991230'
 
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                     submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
                 }else {
-                    
+
                     this.$toast("未获取到人员基本信息");
                 }
                 // 请求参数封装
@@ -225,12 +231,13 @@
 
 <style lang="less" scoped>
 .familyAid {
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
             height: 6rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine {
@@ -275,6 +282,9 @@
 </style>
 
 <style>
+.picker-items{
+    width: 100%;
+}
 .familyAid .el-input__prefix,
 .el-input__suffix {
     display: none;

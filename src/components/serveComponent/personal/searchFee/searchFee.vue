@@ -25,12 +25,14 @@
                     <div class="InfoName"><span>开始日期：</span></div>
                     <div class="InfoText">
                         <input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly>
+                      <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束日期：</span></div>
                     <div class="InfoText">
                         <input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly>
+                      <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
             </div>
@@ -77,7 +79,7 @@ export default {
                     let gap = AAE031 - AAE030;
                     if (gap <=0) {
                         this.$toast('结束日期必须大于开始日期');
-                        this.form.AAE031 = '';      
+                        this.form.AAE031 = '';
                     }
                 }
             },
@@ -119,7 +121,7 @@ export default {
                 if (gap > year) {
                     this.$toast('时间跨度不得超过一年');
                     this.form.AAE031 = '';
-                    return false;  
+                    return false;
                 }
             }
             if (this.canSubmit == false) {
@@ -127,7 +129,7 @@ export default {
                 return false;
             } else {
                 this.$store.dispatch('SET_SEARCHFEE_OPERATION', this.form);
-                this.$router.push('/searchFeeResult')      
+                this.$router.push('/searchFeeResult')
             }
         },
 
@@ -137,10 +139,11 @@ export default {
 
 <style lang="less" scoped>
 .searchFee{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

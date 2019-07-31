@@ -92,7 +92,7 @@ export default {
 <style lang="less" scoped>
 .invoiceDetail{
     .ListInfo{
-        width: 7.5rem;
+        width: 100%;
         padding: 0 .3rem;
         margin-top: .15rem;
         background: white;

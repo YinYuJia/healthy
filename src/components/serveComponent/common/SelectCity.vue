@@ -58,6 +58,14 @@ export default {
         onlyTZ:{
             type: Boolean,
             default: false
+        },
+        excludeZj:{
+            type: Boolean,
+            default: false
+        },
+        excludeProvince:{
+            type: Boolean,
+            default: false
         }
     },
     data(){
@@ -140,6 +148,16 @@ export default {
                 this.fullCity[0].values = this.epFn.tzAddress();
                 this.fullCity[0].defaultIndex=0;
                 this.insuredCity[0].defaultIndex=0;
+            }else if(this.excludeZj){
+                this.insuredCity[0].values = this.epFn.excludeZj();
+                this.fullCity[0].values = this.epFn.excludeZj();
+                this.fullCity[0].defaultIndex = 0;
+                this.insuredCity[0].defaultIndex = 0;
+            }else if(this.excludeProvince){
+                this.insuredCity[0].values = this.epFn.excludeProvince();
+                this.fullCity[0].values = this.epFn.excludeProvince();
+                this.fullCity[0].defaultIndex = 10;
+                this.insuredCity[0].defaultIndex = 10;
             }else{
                 this.insuredCity[0].values = this.epFn.addressList();
                 this.fullCity[0].values = this.epFn.addressList();

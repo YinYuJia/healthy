@@ -2,7 +2,6 @@
     <div class="smallReimDetial">
         <!-- 标题 -->
         <Title :title="'零星报销'" :backRouter="'/reportComplete'"></Title>
-        <div class="secondTitle">基本医疗保险参保人员医疗费用零星报销</div>
         <!-- 办事进度 -->
         <WorkProgress :currentStep="currentStep" :progress="arr"></WorkProgress>
         
@@ -36,6 +35,10 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>收款银行账号:</span></div>
                     <div class="InfoText"><span>{{form3.AAE010|tuoMin(1,1)}}</span></div>
+                </div>
+               <div class="InfoLine">
+                    <div class="InfoName"><span>手机号码:</span></div>
+                    <div class="InfoText"><span>{{form3.AAE005|tuoMin(3,4)}}</span></div>
                 </div>
             </div>
             <!-- 发票信息 -->
@@ -134,12 +137,10 @@ export default {
             this.successFlag = 2;
         }
         this.epFn.setTitle('零星报销')
-        let params = this.formatSubmitForm();
         this.request()
         
         this.request2()
         this.needSubmitInfo();  //判断是否需要提交资料
-        console.log(params);
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', this.back, false);//false阻止默认事件
@@ -219,7 +220,13 @@ export default {
                                     This.$toast("未获取到人员基本信息");
                                 }
                                 // 加入子项编码
-                                submitForm.AGA002 = '330600007019'
+                                let AKA078=This.$store.state.SET_SMALL_REIM_1.AKA078
+                                if(AKA078=='1'){
+                                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                                }else if(AKA078=='3'){
+                                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                                }
+                                // submitForm.AGA002 = '330600007019'
                                 submitForm.photoList = data.picPath[0]
                                 submitForm.PTX001 = '2'
                                 const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
@@ -316,18 +323,6 @@ export default {
                 }
             })
         },
-        // 封装提交参数
-        formatSubmitForm(){
-            let submitForm = {
-                AGA002: '330600007019',
-                BKZ019:this.$route.query.param||"",
-                AAC003: this.$store.state.SET_NATIVEMSG.names,
-                AAE135: this.$store.state.SET_NATIVEMSG.idCard
-            }
-            // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'1009');
-            return params;
-        },
         request(){
             let params=this.formatSubmitData();
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1009/getRecord', params).then((resData) => {
@@ -378,7 +373,13 @@ export default {
         },
         formatSubmitData(){
                 let submitForm = {}
-                submitForm.AGA002 =  "330600007019";
+                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                if(AKA078=='1'){
+                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                }else if(AKA078=='3'){
+                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                }
+                // submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
                 submitForm.BKZ019=this.$route.query.param||""
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -394,7 +395,13 @@ export default {
         },
         formatSubmitData1(){
                 let submitForm = {}
-                submitForm.AGA002 =  "330600007019";
+                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                if(AKA078=='1'){
+                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                }else if(AKA078=='3'){
+                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                }
+                // submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -449,8 +456,13 @@ export default {
         },
         formatSubmitData2(){
                 let submitForm = {}
-                submitForm.AGA002 =  "330600007019";
-                // submitForm.debugTest=  "true";
+                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                if(AKA078=='1'){
+                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                }else if(AKA078=='3'){
+                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                }
+                // submitForm.AGA002 =  "330600007019";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
                     submitForm.lx="1";
@@ -474,7 +486,13 @@ export default {
         },
         sunmitFormatSubmitData(){
                 let submitForm = {}
-                submitForm.AGA002 =  "330600007019";
+                let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
+                if(AKA078=='1'){
+                    submitForm.AGA002 ='给付-00007-019-01'//门诊
+                }else if(AKA078=='3'){
+                    submitForm.AGA002 = '给付-00007-019-02'//住院
+                }
+                // submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -494,9 +512,10 @@ export default {
 
 <style lang="less" scoped>
 .smallReimDetial{
+    width: 100%;
     .secondTitle{
         height: .8rem;
-        width: 7.5rem;
+        width: 100%;
         padding-top: .1rem;
         background: #FFF;
         font-size: .32rem;
@@ -507,7 +526,7 @@ export default {
     .Content{
         margin-bottom: 1.6rem;
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-top: .15rem;
             background: white;
@@ -516,30 +535,29 @@ export default {
                 position: relative;
                 display: flex;
                 font-size: .28rem;
+                padding: .44rem 0;
                 border-bottom: .01rem solid #D5D5D5;
                 .InfoName{
                     width: 2.2rem;
-                    line-height: 1.2rem;
                     text-align: left;
                     span{
-                        height: .6rem;
-                        line-height: .6rem;
+                        line-height: .4rem;
                         color: #666;
                         letter-spacing: 0;
                     }
                 }
                 .InfoText{
+                    height: auto;
                     width: 5rem;
-                    line-height: 1.2rem;
                     letter-spacing: 0;
                     display: flex;
                     position: relative;
                     align-items: center;
                     span{
-                        height: .6rem;
-                        line-height: .6rem;
+                        line-height: .4rem;
                         color: #000;
                         letter-spacing: 0;
+                        text-align: left;
                     }
                 }
                 .active{

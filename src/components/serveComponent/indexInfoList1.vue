@@ -1,5 +1,14 @@
 <template>
     <div class="indexInfoList">
+        <!-- 提示 -->
+        <div class="Hint">
+            <div class="HintContent">
+                <p class="HintText">
+                    <i class="el-icon-warning" style="color:#ff6204"></i>
+                    温馨提示: 当前专区正处于试运营阶段，业务尚未对外开放，推荐暂时使用其他平台
+                </p>
+            </div>
+        </div>
         <!-- 头部 -->
         <div class="indexHeader">
             <svg-icon icon-class="serveComponent_background" />
@@ -30,7 +39,7 @@
             </div>
         </div>
         <!-- 图标列表 -->
-        <div class="iconContent">
+        <div class="iconContent" >
             <div class="iconList">
                 <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销',false)">
                     <svg-icon v-if="1" icon-class="serveComponent_icon5" />
@@ -135,6 +144,7 @@
         data() {
            
             return {
+                provice:false,
                 name:"",
                 lat:"",
                 lng:"",
@@ -164,9 +174,14 @@
                     }
                 ],
                 iconFlag: false,
+                isClear:true
             }
         },
         mounted() {
+            // 跑马灯效果
+            setTimeout(()=>{
+                this.srcollLine()
+            },500)
             new Swiper('.swiper-container', {
                 slidesPerView: 2.15, //显示的范围
                 spaceBetween: -8, //间隔大小
@@ -177,9 +192,9 @@
             })
         },
         created() {
+            // this.getMatterInfo()
+            sessionStorage.setItem('isClear',this.isClear)
             // 清空零星报销的Vuex
-
-            
             console.log('获取token',sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT={
                 AAS301: '', //参保地统筹省编码
@@ -190,12 +205,14 @@
                 AAE010: '', //收款银行账号
                 BKC013: '', //发票张数
                 AKB020: '', //机构编码（医院编码）
+                AAE005: '',//手机号码
             }
             this.$store.dispatch('SET_SMALL_REIM_SUBMIT',SET_SMALL_REIM_SUBMIT)
             let SET_SMALL_REIM_1={
                 hospitalName: '', //就诊医院
                 AKB020: '', //医院编码
                 AKA078: '', //就诊类型
+                AKA078VALUE: '', //就诊类型中文
                 AAE030: '' //就诊日期
             }
             this.$store.dispatch('SET_SMALL_REIM_1',SET_SMALL_REIM_1)
@@ -282,6 +299,49 @@
             }
         },
         methods: {
+            //动态获取是想信息
+            getMatterInfo() {
+                let params = {
+                    "areaId": 339900 ,
+                }
+              this.$axios.post("/ApiUrl/ybapp/home/selectHomeConfigList", params).then((resData) => {
+                    console.log('返回成功信息', resData)
+
+                })
+            },
+            // 跑马灯效果
+            srcollLine(){
+                let [box, content, text] = [
+                    document.querySelector('.Hint'),
+                    document.querySelector('.HintContent'),
+                    document.querySelector('.HintText')
+                ];
+                let [textWidth, boxWidth] = [
+                    text.offsetWidth,
+                    box.offsetWidth
+                ];
+                if(boxWidth > textWidth){ 
+                    return false
+                }
+                content.innerHTML += content.innerHTML;
+                document.querySelector('.HintText').classList.add('padding');
+                // 更新
+                textWidth = document.querySelector('.HintText').offsetWidth;
+                this.toScrollLeft(textWidth,box);
+            },
+            toScrollLeft(textWidth,box){ 
+                //  如果文字长度大于滚动条距离，则递归拖动
+                if(textWidth > box.scrollLeft){
+                    box.scrollLeft++
+                    setTimeout(()=>{
+                        this.toScrollLeft(textWidth,box);
+                    },20);
+                }
+                else{
+                    box.scrollLeft = 0;
+                    this.toScrollLeft(textWidth,box);
+                }
+            },
             query1() {
                 console.log("query")
             },
@@ -573,6 +633,26 @@
 <style lang="less" scoped>
     .indexInfoList {
         width: 100%;
+        .Hint{
+            width: 100%;
+            padding: 0 .3rem;
+            font-size: .26rem;
+            color: #000000;
+            text-align: left;
+            background: #fbdedb;
+            color: #ff6204;
+            white-space: nowrap;
+            overflow: hidden;
+            .HintContent{
+                p{
+                    display:inline-block;
+                    line-height: .6rem;
+                }
+                .padding{
+                    padding-right: 100%;
+                }
+            }
+        }
         // 头部
         .indexHeader {
             height: 3.4rem;
@@ -603,9 +683,10 @@
             .headerPad {
                 position: absolute;
                 top: 2.3rem;
-                left: .2rem;
+                left: 50%;
+                transform: translateX(-50%);
                 height: 2.2rem;
-                width: 7.1rem;
+                width: 94%;
                 background: #FFFFFF;
                 border: 0 solid #E7EDF7;
                 box-shadow: 0 0 .28rem 0 rgba(0, 0, 0, 0.07);
@@ -635,16 +716,22 @@
             }
         } // 图标区域
         .iconContent {
-            height: 4.74rem;
+            // height: 4.74rem;
             background: #FFF;
             padding: 1.8rem .2rem 0 .2rem;
             .iconList {
+                display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+                display: -moz-box; /* Firefox 17- */
+                display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+                display: -moz-flex; /* Firefox 18+ */
+                display: -ms-flexbox; /* IE 10 */
                 display: flex;
+
                 justify-content: space-around;
                 .iconBox {
                     position: relative;
                     height: 1.4rem;
-                    width: 1.4rem;
+                    width: 1.2rem;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;

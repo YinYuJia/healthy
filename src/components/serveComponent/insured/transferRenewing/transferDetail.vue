@@ -111,12 +111,13 @@ export default {
                     console.log("form",this.form)
                     if(this.form.AAQ027VALUE==undefined){
                         this.AAA027000=this.form.AAS027VALUE+this.form.AAA027VALUE
-                    }
-                    if(this.form.AAB027VALUE==undefined){
-                        this.AAA027000=this.form.AAS027VALUE+this.form.AAQ027VALUE
+                    }else{
+                        this.AAA027000=this.form.AAS027VALUE+this.form.AAA027VALUE+this.form.AAQ027VALUE
                     }
                     if(this.form.AAQ301VALUE==undefined){
                         this.AAB301000=this.form.AAS301VALUE+this.form.AAB301VALUE
+                    }else{
+                        this.AAB301000=this.form.AAS301VALUE+this.form.AAB301VALUE+this.form.AAQ301VALUE
                     }
                     this.handleNumber = resData.LS_DS_07.BKZ019
                     // this.$toast("提交成功");
@@ -132,8 +133,8 @@ export default {
         },
         formatSubmitData(){  
             let submitForm ={}
-            submitForm.AGA002 =  "331400512001";
-            // submitForm.debugTest =  "true";
+            // submitForm.AGA002 =  "331400512001";
+            submitForm.AGA002 =  "公共服务-00512-001";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -150,8 +151,8 @@ export default {
         formatSubmitData1(){
             let submitForm = {}
             console.log(submitForm)
-                submitForm.AGA002 =  "331400512001";
-                // submitForm.debugTest=  "true";
+                // submitForm.AGA002 =  "331400512001";
+                submitForm.AGA002 =  "公共服务-00512-001";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
                     submitForm.lx="1";
@@ -179,10 +180,11 @@ export default {
 
 <style lang="less" scoped>
 .changeDetail{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .MailInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

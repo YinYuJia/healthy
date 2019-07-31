@@ -2,14 +2,14 @@
     <div class="insuredChange">
         <Title :title="'医保转移接续'" :backRouter="'/'"></Title>
         <!-- MintUI弹出框区域 -->
-        <SelectCity 
+        <SelectCity
             :type="3"
             ref="outCityPicker"
             :onlyZJ="true"
             @confirm="chooseOutCity"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="3"
             ref="inCityPicker"
             :onlyZJ="true"
@@ -25,13 +25,13 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>转出地</span></div>
                     <div class="InfoText">
-                         <div class="InfoText"><input @click="openOutCityPicker" type="text" v-model="form.AAA027000" placeholder="请选择" readonly></div>
+                         <div class="InfoText"><input @click="openOutCityPicker" type="text" v-model="form.AAA027000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转入地</span></div>
                     <div class="InfoText">
-                         <div class="InfoText"><input @click="openInCityPicker" type="text" v-model="form.AAB301000" placeholder="请选择" readonly></div>
+                         <div class="InfoText"><input @click="openInCityPicker" type="text" v-model="form.AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -45,6 +45,8 @@
                 <div class="HintText">手机号码将用于您事项办结后的消息通知，请您准确填写。</div>
             </div>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="331400512001"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>
@@ -61,7 +63,7 @@ export default {
                 AAA027:"",//转出地市
                 AAQ027:"",//转入地区
 
-                AAS301:"", //转入地省code                
+                AAS301:"", //转入地省code
                 AAB301:"",//转入地市
                 AAQ301:"",//转入地区
                 AAB301000:"",
@@ -76,17 +78,13 @@ export default {
     },
     created () {
         this.epFn.setTitle('医保转移接续')
-        let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
-        let GinsengLandName = sessionStorage.getItem("GinsengLandName")
-
-        console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
-        this.form.AAB301000 = GinsengLandName
-        this.form.AAB301 = GinsengLandCode
-        this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
-        console.log('aaaaaaaaa',this.form.AAA027000);
-        // this.form = this.$store.state.SET_TRANSFERRENEWING_OPERATION;
-        // this.form.AAC003 = this.$store.state.SET_NATIVEMSG.name|| "许肖军"
-        // this.form.AAE135 = this.$store.state.SET_NATIVEMSG.idCard|| "332625197501010910"
+        this.getMailInfo();
+        // let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
+        // let GinsengLandName = sessionStorage.getItem("GinsengLandName")
+        // console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
+        // this.form.AAB301000 = GinsengLandName
+        // this.form.AAB301 = GinsengLandCode
+        // this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
     },
     watch: {
        form:{
@@ -111,7 +109,7 @@ export default {
                 },
 
             deep:true
-       } 
+       }
     },
     methods:{
         // 选择转出地
@@ -137,12 +135,21 @@ export default {
             console.log(val.code);
         },
         submit(){
-            if(this.form.AAE005){
+            if(this.form.AAE005&&this.form.AAE005.length==11){
                 if(!this.util.checkPhone(this.form.AAE005)){
                     this.$toast('请填写正确的手机号码');
                     return false;
                 }
+            }else if(this.form.AAE005&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+                    if(!this.util.checkHomePhone(this.form.AAE005)){
+                        this.$toast('请填写正确的电话号码');
+                        return false;
+                    }
+                }else if(this.form.AAE005&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
+                    this.$toast('请确认填写的号码位数是否正确');
+                    return false;
             }
+
             if (this.canSubmit == false) {
                 this.$toast('信息未填写完整');
                 return false;
@@ -165,24 +172,47 @@ export default {
                                 this.$toast('业务出错');
                                 return;
                             }
-                })
-                
+                        })
             }
         },
         formatSubmitData(){
             let submitForm = Object.assign({},this.form);
-            // submitForm.debugTest="true"
             // 加入用户名和电子社保卡号
+            submitForm.BKE420 = "1"
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1017");
             return params;
+        },
+       // 获取邮寄信息
+        getMailInfo(){
+            let submitForm = {}
+            // 加入电子社保卡号
+            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
+                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            }else {
+                this.$toast("未获取到人员基本信息");
+            }
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
+            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                    this.form.AAE005 = resData.AAE005  //手机号码
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    // this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
         }
     }
 }
@@ -190,12 +220,13 @@ export default {
 
 <style lang="less" scoped>
 .insuredChange{
+    width: 100%;
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo{
             height: 3.6rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{
@@ -245,7 +276,7 @@ export default {
             opacity: 0.45;
             font-family: PingFangSC-Regular;
             font-size: .24rem;
-            color: #000000;
+            color: red;
             text-align: left;
             .HintTitle{
                 i{

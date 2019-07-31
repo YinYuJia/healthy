@@ -1,29 +1,15 @@
 <template>
   <div class="SearchInfoPage">
     <!-- 标题 -->
-    <div class="Title" id="title">
-        <el-row>
-            <el-col :span="6">
-                <div class="BackIcon" @click="back()">
-                    <svg-icon icon-class="serveComponent_back" />
-                    <span>返回</span>
-                </div>
-            </el-col>
-            <el-col :span="12">
-                <div class="NameTitle">{{title}}</div>
-            </el-col>
-            <el-col :span="6">
-            </el-col> 
-        </el-row>
-    </div>
-    <!-- <div class="SearchContent" id="searchContent">
+
+    <div class="SearchContent" id="searchContent">
       <div class="SearchBox">
         <svg-icon icon-class="serveComponent_search"/>
-        <input class="InputContent" v-model="params.AAA102" :placeholder="'查找'+title">
-        <svg-icon v-if="params.AAA102.length>0" class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
+        <input class="InputContent" v-model="NAME" :placeholder="'查找'">
+        <svg-icon class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
         <div class="SearchBtn" @click="search">搜索</div>
       </div>
-    </div> -->
+    </div>
     <div class="content1" :style="{height:height,fontSize:'16px'}">
         <mt-loadmore
           :bottom-method="loadBottom"
@@ -62,6 +48,7 @@ export default {
   data() {
     return {
       List: [],
+      NAME:"",
       smallReimForm: {}, // 零星报销对象
       params: {
         PAGE: 1,
@@ -207,8 +194,13 @@ export default {
         });
     },
     deleteSearch(){
-      this.params.AAA102 = '';
-      // this.getList();
+      this.NAME = '';
+              this.isShow=false
+        this.allLoaded = true;
+        this.List = [];
+        this.params.PAGE = 1;
+        this.getList();
+        console.log("清空List",this.List)
     },
     loadBottom() {
         // 加载更多数据
@@ -227,7 +219,6 @@ export default {
         this.allLoaded = true;
         this.List = [];
         this.params.PAGE = 1;
-        
         this.getList();
         console.log("清空List",this.List)
       // }else{
@@ -241,6 +232,7 @@ export default {
       submitForm.AKA101 = this.params.AKA101; //医疗机构等级
       submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
       submitForm.NAME = this.NAME; //医院名称
+      console.log('---submitForm.NAME---',submitForm.NAME)
       // submitForm.AAA102 = this.params.AAA102; //模糊查询
       // submitForm.AAA100 = this.type; //机构参数
       // submitForm.AAE013 = this.AAE013 //关联性类别码
@@ -378,7 +370,7 @@ export default {
       .List {
         display: flex;
         justify-content: space-between;
-        width: 7.1rem;
+        width: 6.9rem;
         height: 100%;
         line-height: 1.2rem;
         font-size: 0.28rem;
@@ -393,12 +385,23 @@ export default {
           border-bottom: none;
         }
         .list-left{
-          display: flex;
-          flex-direction: column;
+          // display: flex;
+          // flex-direction: column;
+          width: 100%;
+          .medical-name{
+            width: 7.1rem;
+            height: .37rem;
+            line-height: .37rem;
+            font-family: MicrosoftYaHei;
+            font-size: .28rem;
+            color: #000000;
+            letter-spacing: 0;
+          }
           .tag-item{
             padding-top: .12rem;
             display: flex;
             height: .4rem;
+            
             line-height: .4rem; 
             .item-tag{
             
@@ -438,15 +441,7 @@ export default {
               text-align: center;
             }
           }
-          .medical-name{
-            width: 100%;
-            height: .37rem;
-            line-height: .37rem;
-            font-family: MicrosoftYaHei;
-            font-size: .28rem;
-            color: #000000;
-            letter-spacing: 0;
-          }
+
         }
         .list-right{
             width: 100%;

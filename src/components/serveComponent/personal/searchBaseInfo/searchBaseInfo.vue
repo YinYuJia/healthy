@@ -120,7 +120,6 @@ export default {
        // 提交
         formatSubmitData(){
             let submitForm ={};
-            // submitForm.debugTest=  "true";
             // 加入用户名和电子社保卡号
 
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -140,9 +139,10 @@ export default {
 
 <style lang="less" scoped>
 .searchBaseInfo{
+    width: 100%;
     .Content{
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

@@ -25,6 +25,8 @@
                 <div class="HintText">请依照您的实际变更情况，修改以上内容。</div>
             </div>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="331400501005"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>
@@ -76,16 +78,19 @@ export default {
                         this.$toast('业务出错');
                         return;
                     }
-            
+
         })
     },
     methods:{
         submit(){
-            if(this.form.AAE005){
+            if(this.form.AAE005&&this.form.AAE005.length==11){
                 if(!this.util.checkPhone(this.form.AAE005)){
                     this.$toast('请填写正确的手机号码');
                     return false;
                 }
+            }else{
+                    this.$toast('请确认填写的号码位数是否正确');
+                    return false;
             }
             if(this.form.AAE007){
                 if(!this.util.postOffic(this.form.AAE007)){
@@ -93,7 +98,7 @@ export default {
                     return false;
                 }
             }
-            
+
             if(this.canSubmit == false){
                 this.$toast('信息未填写完整');
                 return false;
@@ -121,17 +126,17 @@ export default {
         },
         formatSubmitData(){
             let submitForm = {}
-            submitForm.AAE005 =  this.form.AAE005;            
+			submitForm.BKE520 = "1"
+            submitForm.AAE005 =  this.form.AAE005;              
             submitForm.AAE006 =  this.form.AAE006;
             submitForm.AAE007 =  this.form.AAE007;
             submitForm.BKZ019 =  this.form.BKZ019;
-            // submitForm.debugTest ="true"
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装
@@ -140,17 +145,16 @@ export default {
         },
         formatSubmitData1(){
             let submitForm = {}
-            submitForm.AAE005 =  this.form.AAE005;            
+            submitForm.AAE005 =  this.form.AAE005;   
             submitForm.AAE006 =  this.form.AAE006;
             submitForm.AAE007 =  this.form.AAE007;
             submitForm.BKZ019 =  this.form.BKZ019;
-            // submitForm.debugTest ="true"
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装
@@ -163,12 +167,13 @@ export default {
 
 <style lang="less" scoped>
 .insuredChange{
+    width: 100%;
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
         .ChangeInfo{
             height: 4rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{
@@ -214,7 +219,7 @@ export default {
                         align-items: center;
                     }
                     textarea{
-                        width: 4rem;
+                        width: 5rem;
                         height: .84rem;
                         font-size: .3rem;
                         opacity: 0.85;
@@ -234,7 +239,7 @@ export default {
             opacity: 0.45;
             font-family: PingFangSC-Regular;
             font-size: .24rem;
-            color: #000000;
+            color: #f00;
             text-align: left;
             .HintTitle{
                 i{

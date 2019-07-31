@@ -1,8 +1,10 @@
 // 中国省市县ArrayData
 import ChinaJson from './ChinaArray'
-import addressList from './address'
-import zjAddress from './zjAddress'
-import tzAddress from './tzAddress'
+import addressList from './address' //所有地区
+import zjAddress from './zjAddress' //浙江地区
+import tzAddress from './tzAddress' //台州地区
+import excludeZj from './excludeZj' //浙江以外地区
+import excludeProvince from './excludeProvince' //排除省本级
 import  Vuex from '../../vuex/vuex' 
 export default {
     // 登录方法
@@ -15,8 +17,9 @@ export default {
         // return 'http://10.85.159.203:13030' // 吴学文
         console.log('process.env.NODE_ENV',process.env.NODE_ENV)
         if(process.env.NODE_ENV == 'development') {
-          return 'http://47.98.48.185:8000/api'  //服务器
-          // return 'http://192.168.1.189:13030' //吴学文
+          // return 'http://47.98.48.185:9000/api'  //服务器185 对应后端203
+          return 'http://47.98.234.226:8000/api/api'  //服务器226   对应后端206
+          // return 'http://192.168.1.199:13030' //吴学文
         }else{
           return ''
         }
@@ -211,5 +214,11 @@ export default {
     },
     tzAddress: function(){
       return tzAddress;
+    },
+    excludeZj: function(){
+      return excludeZj;
+    },
+    excludeProvince: function(){
+      return excludeProvince;
     }
 }

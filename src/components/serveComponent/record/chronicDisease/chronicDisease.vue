@@ -10,7 +10,7 @@
         v-model="dateVal"
         @confirm="handleStartConfirm"
       ></mt-datetime-picker>
-      <SelectCity 
+      <SelectCity
         :type="1"
         ref="typePicker"
         :propArr="option"
@@ -34,6 +34,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -48,6 +49,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -64,6 +66,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -80,6 +83,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
               <svg-icon v-if="this.form.AKA1211 != ''" icon-class="serveComponent_delete" @click="deleteText(2)"/>
             </div>
           </div>
@@ -97,6 +101,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
               <svg-icon v-if="this.form.AKA1212 != ''" icon-class="serveComponent_delete" @click="deleteText(3)"/>
             </div>
           </div>
@@ -112,6 +117,7 @@
                 placeholder="请选择"
                 readonly
               >
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -128,6 +134,7 @@
                 ></el-option>
               </el-select> -->
               <input @click="openTypePicker()" type="text" v-model="BKE247VALUE" placeholder="请选择" readonly>
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
         </div>
@@ -159,10 +166,10 @@
           </div>
         </div>
         <div class="searchPlace" v-if="!showMail">
-          <div class="searchBtn" @click="openHospital">点击查看领取网点</div>
+          <div class="searchBtn" @click="openSite">点击查看领取网点</div>
         </div>
         <!-- 就诊机构 -->
-        <SearchInfoPage ref="org" type="AKB020_HZ"></SearchInfoPage>
+        <SearchInfoPage ref="org" type="AKB020_JY"></SearchInfoPage>
         <!-- 提示 -->
         <div class="Hint" v-if="showMail">
           <div class="HintTitle">
@@ -194,10 +201,12 @@
             </div>
         </div>
       </div>
+      <!-- 办事指南 -->
+      <GuideIcon AGA002="330800253004"></GuideIcon>
       <!-- 按钮 -->
       <Footer :canSubmit="canSubmit" @submit="submit()"></Footer>
     </div>
-    
+
     <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
     <!-- 规定病种 -->
     <SearchInfoPage ref="species" type="AKA035"  @childrenClick="speciesClick"></SearchInfoPage>
@@ -218,7 +227,7 @@ export default {
   data() {
     return {
       imgUrl:'',
-      picArr: [],//附件集合 
+      picArr: [],//附件集合
       AAB301000: "", //参保地
       form: {
         AAS301: "", //参保地省编码
@@ -270,10 +279,10 @@ export default {
         //   邮寄
         if (val.BKE247 == "2") {
           this.showMail = true;
-           if ( 
-              val.AAS301 != ''&& val.AKA035 != ''&& 
-              val.AKA120 != ''&& val.AAE030 != ''&& 
-              val.AAE011 != ''&& val.AAE005 != ''&& 
+           if (
+              val.AAS301 != ''&& val.AKA035 != ''&&
+              val.AKA120 != ''&& val.AAE030 != ''&&
+              val.AAE011 != ''&& val.AAE005 != ''&&
               val.AAE006 != ''&& val.photoIdList.length>0
             ) {
                 this.canSubmit = true
@@ -281,7 +290,7 @@ export default {
                 this.canSubmit = false
             }
         } else {
-            if ( 
+            if (
               val.AAS301 != '' && val.AKA035 != '' &&
               val.AKA120 != ''  && val.AAE030 != ''&&
               this.AAB301000 !=""&& this.picArr.length>0
@@ -301,12 +310,12 @@ export default {
       }else{
         this.disabledOne = false
         if(val!=oldVal){
-          this.form.AKA120= "" 
-          this.form.AKA121= "" 
-          this.form.AKA1201= "" 
-          this.form.AKA1211= "" 
-          this.form.AKA1202= "" 
-          this.form.AKA1212= "" 
+          this.form.AKA120= ""
+          this.form.AKA121= ""
+          this.form.AKA1201= ""
+          this.form.AKA1211= ""
+          this.form.AKA1202= ""
+          this.form.AKA1212= ""
         }
       }
     }
@@ -327,7 +336,7 @@ export default {
         // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
     },
   methods: {
-    
+
     // 查看大图
     showBigPhoto(val){
         this.imgUrl = val;
@@ -413,11 +422,10 @@ export default {
             //   成功   1000
             if ( resData.enCode == 1000 ) {
                   this.form.AAE011 = resData.AAE009 //收件人
-                  if(resData.AAE005.length > 11){
-                      this.form.AAE005 = '';
-                  }else{
-                      this.form.AAE005 = resData.AAE005  //手机号码
+                  if(this.form.AAE011==''){
+                      this.form.AAE011=this.$store.state.SET_NATIVEMSG.name;
                   }
+                  this.form.AAE005 = resData.AAE005  //手机号码
                   this.form.AAE006 = resData.AAE006   //详细地址
             }else if (resData.enCode == 1001 ) {
             //   失败  1001
@@ -429,17 +437,25 @@ export default {
             }
         })
     },
-    // 打开医院列表
-    openHospital(){
-      this.$refs.org.open();
+    // 查看附近网点
+    openSite(){
+        this.$router.push('/nearbySite');
     },
 
     submit() {
-      if (this.showMail == true) {
-        if (!this.util.checkPhone(this.form.AAE005)) {
-          this.$toast("请填写正确的手机号码");
+      if (this.form.AAE005&&this.form.AAE005.length==11&&this.showMail==true) {
+          if (!this.util.checkPhone(this.form.AAE005)) {
+            this.$toast("请填写正确的手机号码");
+            return false;
+          }
+      }else if(this.form.AAE005&&this.showMail==true&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+          if(!this.util.checkHomePhone(this.form.AAE005)){
+              this.$toast('请填写正确的电话号码');
+              return false;
+          }
+      }else if(this.form.AAE005&&this.showMail==true&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
+          this.$toast('请确认填写的号码位数是否正确');
           return false;
-        }
       }
 
       if (this.canSubmit == false) {
@@ -463,6 +479,7 @@ export default {
     // 提交信息封装
     formatSubmitData() {
       let submitForm = Object.assign({}, this.form);
+      submitForm.BKE520 = "1"
       submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030);
       submitForm.photoIdList = this.form.photoIdList.join(',');
       // let submitForm = JSON.parse(JSON.stringify(this.form)); //深拷贝
@@ -473,7 +490,6 @@ export default {
       } else {
         this.$toast("未获取到人员基本信息");
       }
-      // submitForm.debugTest = "true"
       // 请求参数封装
       const params = this.epFn.commonRequsetData(
         this.$store.state.SET_NATIVEMSG.PublicHeader,
@@ -502,23 +518,24 @@ export default {
                       console.log(data.picPath[0],'请求图片成功');
                       if(data.result){
                           // This.$store.dispatch('SET_ENCLOSURE',This.picArr)
-                          let submitForm = {}; 
+                          let submitForm = {};
                           // 加入用户名和电子社保卡号
                           if (This.$store.state.SET_NATIVEMSG.name !== undefined ) {
                               submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
                               submitForm.AAE135 = This.$store.state.SET_NATIVEMSG.idCard;
                           }else {
-                              
+
                               This.$toast("未获取到人员基本信息");
                           }
                           // 加入子项编码
-                          submitForm.AGA002 = '330800253004'
+                          // submitForm.AGA002 = '330800253004'
+                          submitForm.AGA002 = '确认-00253-004-01'
                           submitForm.photoList = data.picPath[0]
                           submitForm.PTX001 = '2'
                           const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
                           // 图片上传后台
                           This.$axios.post(This.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
-                              console.log('返回成功信息',resData) 
+                              console.log('返回成功信息',resData)
                               //   成功   1000
                               if ( resData.enCode == 1000 ) {
                                   // 获取图片
@@ -538,12 +555,12 @@ export default {
                   onFail: function(error) {
                       this.$toast(error)
                       console.log("请求图片失败",error);
-                      
+
                   }
               })
       })
       }
-      
+
   },
   // 删除图片
   deletePic(item,index){
@@ -558,11 +575,12 @@ export default {
 
 <style lang="less" scoped>
 .chronicDisease {
+  width: 100%;
   .Content {
     height: 100%;
     margin-bottom: 1.4rem;
     .ListInfo {
-      width: 7.5rem;
+      width: 100%;
       padding: 0 0.28rem;
       background: white;
       .InfoLine {
@@ -608,7 +626,7 @@ export default {
       }
     }
     .MailInfo {
-      width: 7.5rem;
+      width: 100%;
       padding: 0 0.3rem;
       margin-top: 0.27rem;
       background: white;
@@ -653,7 +671,7 @@ export default {
             align-items: center;
           }
           textarea {
-            width: 4rem;
+            width: 5rem;
             height: 0.84rem;
             font-size: 0.3rem;
             opacity: 0.85;
@@ -675,10 +693,10 @@ export default {
       }
     }
     .searchPlace{
-      width: 7.5rem;
+      width: 100%;
       .searchBtn{
         height: .8rem;
-        width: 7.1rem;
+        width: 90%;
         margin: auto;
         margin-top: .18rem;
         border-radius: .05rem;
@@ -716,6 +734,7 @@ export default {
         background: #FFF;
         margin: .16rem 0 1.4rem 0;
         padding: .37rem .4rem;
+        color: #f00;
         .uploadList{
             margin-top: .1rem;
             font-size: .28rem;
@@ -750,7 +769,7 @@ export default {
         }
         .uploadHint{
             font-size: .28rem;
-            color: #000000;
+            color: #f00;
             letter-spacing: 0;
             text-align: left;
         }
@@ -760,6 +779,9 @@ export default {
 </style>
 
 <style>
+.picker-items{
+    width: 100%;
+}
 .chronicDisease .el-input__prefix,
 .el-input__suffix {
   display: none;

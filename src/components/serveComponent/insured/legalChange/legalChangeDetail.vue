@@ -1,0 +1,200 @@
+<template>
+    <div class="legalChangeDetail">
+        <Title :title="'参保信息变更'" :backRouter="'/insuredChange'"></Title>
+        <div class="Content">
+            <!-- 办事进度 -->
+            <WorkProgress :currentStep="currentStep"></WorkProgress>
+            <!-- 邮递信息 -->
+            <div class="MailInfo">
+                <div class="InfoLine">
+                    <div class="InfoName"><span>单位邮编:</span></div>
+                    <div class="InfoText"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>单位地址:</span></div>
+                    <div class="InfoText"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>住址详情:</span></div>
+                    <div class="InfoText"><textarea ></textarea></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>单位电话:</span></div>
+                    <div class="InfoText"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>法人代表电话:</span></div>
+                    <div class="InfoText"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>专管员姓名:</span></div>
+                    <div class="InfoText"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>专管员电话:</span></div>
+                    <div class="InfoText"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>专管员所在部门:</span></div>
+                    <div class="InfoText"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>法人代表电话:</span></div>
+                    <div class="InfoText"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>邮箱:</span></div>
+                    <div class="InfoText"></div>
+                </div>
+                <!-- 进度时间 -->
+                <ProgressDate  replyDate=""  progressDate=""></ProgressDate>
+            </div>
+        </div>
+        <Success :flag="successFlag"></Success>
+        <!-- 底部 -->
+        <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" @edit="edit()"></Footer>
+    </div>
+</template>
+
+<script>
+export default {
+    data(){
+        return{
+            currentStep: 1,
+            successFlag: 1,
+            form:{},
+        }
+    },
+    created(){
+        this.request();
+        this.request1();
+    },
+    methods:{
+        // 事项进度查询
+        request(){
+            let params=this.formatSubmitData();
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1009/getRecord', params).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                    if (resData.LS_DS.length > 0 ) {
+                       this.currentStep = Number(resData.LS_DS[0].BOD037) 
+                    }else{
+                        this.$toast("暂无状态信息")
+                    }
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        formatSubmitData(){
+            let submitForm ={}
+            submitForm.AGA002 =  "";
+            submitForm.BKZ019=this.$route.query.param||""
+            // 加入用户名和电子社保卡号
+            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
+            return params;
+        },
+        // 信息回显
+        request1(){
+            let params=this.formatSubmitData1();
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1016/info', params).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        formatSubmitData1(){
+            let submitForm = {}
+            console.log(submitForm)
+            submitForm.AGA002 =  "";
+            //从进度查询页面进入接收传参
+            if(this.$route.query.param){
+                submitForm.lx="1";
+                submitForm.BKZ019=this.$route.query.param
+            }else{
+                submitForm.lx="2";
+                submitForm.BKZ019="";
+            }
+            // 加入用户名和电子社保卡号
+            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
+            return params;
+        },
+    }
+}
+</script>
+
+<style lang="less" scoped>
+.legalChangeDetail{
+    width: 100%;
+    .Content{
+        margin-bottom: 1.4rem;
+        .MailInfo{
+            width: 100%;
+            padding: 0 .3rem;
+            background: white;
+            .InfoLine{
+                height: 1.2rem;
+                position: relative;
+                font-size: .28rem;
+                display: flex;
+                border-bottom: .01rem solid #D5D5D5;
+                .InfoName{
+                    width: 2.2rem;
+                    line-height: 1.2rem;
+                    text-align: left;
+                    span{
+                        height: .6rem;
+                        line-height: .6rem;
+                        letter-spacing: 0;
+                        color: #666;
+                    }
+                }
+                .InfoText{
+                    line-height: 1.2rem;
+                    display: flex;
+                    position: relative;
+                    align-items: center;
+                    color: #000;
+                }
+                &:nth-child(3){
+                    height: 1.6rem;
+                    .InfoText{
+                        height: 1.6rem;
+                        textarea{
+                            border: none;
+                            width: 5rem;
+                            line-height: .45rem;
+                            color: #000;
+                        }
+                    }
+                }
+                &:last-child{
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+}
+</style>

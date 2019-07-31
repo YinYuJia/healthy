@@ -78,16 +78,18 @@ export default {
 .Footer {
     user-select:none;
     height: 1.31rem;
-    width: 7.5rem;
+    width: 100%;
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: 199;
     display: flex;
     justify-content: center;
+    padding: 0 0.2rem;
+    box-sizing: border-box;
     .SubmitBtn {
         height: 1.05rem;
-        width: 7.1rem;
+        width: 100%;
         border-radius: .05rem;
         line-height: 1.05rem;
         background: #F2F2F2;;
@@ -106,7 +108,7 @@ export default {
 .SecondFooter {
     display: none;
     height: 1.31rem;
-    width: 7.5rem;
+    width: 100%;
     padding: 0 .2rem;
     box-sizing: border-box;
     position: fixed;
@@ -119,7 +121,7 @@ export default {
         justify-content: space-between;
         .ResetBtn {
             height: 1.05rem;
-            width: 7.1rem;
+            width: 100%;
             border-radius: .05rem;
             line-height: 1.05rem;
             background: #FFF;;

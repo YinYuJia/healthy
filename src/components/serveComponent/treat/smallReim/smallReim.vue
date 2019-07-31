@@ -9,7 +9,7 @@
             :endDate="endDate"
             @confirm="handleTimeConfirm">
         </mt-datetime-picker>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="typePicker"
             :propArr="typeArr"
@@ -26,18 +26,20 @@
             <div class="ReportInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊医院：</span></div>
-                    <div class="InfoText"><input @click="chooseHospital()" type="text" v-model="form.hospitalName" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="chooseHospital()" type="text" v-model="form.hospitalName" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊类型：</span></div>
-                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="AKA078VALUE" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="form.AKA078VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊日期：</span></div>
-                    <div class="InfoText"><input @click="openTimePicker()" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openTimePicker()" type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
             </div>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330600007019"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit="canSubmit" :btnText="'下一步'" @submit="submit()"></Footer>
     <SearchInfoPage ref="hospita" type="AKB020_SP" @childrenClick="hospitaClick" title="选择医院"></SearchInfoPage>
@@ -55,9 +57,9 @@ export default {
                 hospitalName: '', //医院名称
                 AKB020: '', //医院编码
                 AKA078: '', //就诊类型
+                AKA078VALUE: '', //就诊类型中文
                 AAE030: '', //就诊日期
             },
-            AKA078VALUE: '', //就诊类型中文
             dateVal: new Date(), //默认绑定的时间
             endDate: new Date(), //最晚选择时间
             canSubmit: false,
@@ -71,31 +73,59 @@ export default {
                 {value: '1',label: '门诊'},
                 {value: '3',label: '住院'}
             ],
+            ifClear:true
         }
     },
     watch:{
         form: {
             handler: function(val) {
+                if(val.AKA078VALUE){
+                    console.log(val.AKA078VALUE)
+                }
                 // 判断不为空
-                if (val.AKB020 != '' && val.AKA078 != '' && val.AAE030 != '') {
+                if (val.AKB020 != '' && val.AKA078 != '' && val.AAE030 != '' && val.AKA078VALUE != '') {
                     this.canSubmit = true;
                 } else {
                     this.canSubmit = false;
                 }
             },
+
             deep: true
         },
     },
     created() {
         this.epFn.setTitle('零星报销')
-        this.form = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
+        //初始化电子发票
+        let arr={};
+        arr.eleInvoices=[];//电子发票信息
+        arr.invoicesImg=[], //附件信息信息  图片id
+        this.$store.dispatch('SET_SMALL_REIM_2',arr)
+        // console.log("form",JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1)))
+        // this.form = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
+        // console.log("1188888",this.form)
+        this.isClear=sessionStorage.getItem('isClear')
+        console.log('clear',this.isClear)
+        if(this.isClear=='true'){
+            console.log("form",this.$store.state.SET_SMALL_REIM_1)
+            let arr1={};
+            arr1.hospitalName='', //就诊医院
+            arr1.AKB020='', //医院编码
+            arr1.AKA078='', //就诊类型
+            arr1.AKA078VALUE='', //就诊类型中文
+            arr1.AAE030='' //就诊日期
+            this.form ={...this.form,...arr1};
+            console.log('初始化了form的数据',this.form)
+        }else{
+            console.log(111)
+            this.form=JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1))
+        }
+
+        console.log("1188888",this.form)
     },
     methods: {
         // 选择就诊医院
         chooseHospital(){
             this.$refs.hospita.open();
-            // this.$store.dispatch('SET_SMALL_REIM_1', this.form);
-            // this.$router.push('/searchHospital');
         },
         hospitaClick(code,name){
             this.form.hospitalName = name
@@ -106,10 +136,9 @@ export default {
             this.$refs.typePicker.open();
         },
         handleTypeConfirm(val){
-            console.log(val);
+            console.log(val)
+            this.form.AKA078VALUE = val.label;
             this.form.AKA078 = val.value;
-            sessionStorage.setItem('AKA078',val.value)
-            this.AKA078VALUE = val.label;
         },
         // 选择就诊日期
         openTimePicker(){
@@ -121,13 +150,6 @@ export default {
         },
         // 提交
         submit(){
-            // 暂时可跳转
-            // this.$store.dispatch('SET_SMALL_REIM_2');
-            // let submitForm = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_SUBMIT));
-            // submitForm.AKB020 = this.form.AKB020;
-            // this.$store.dispatch('SET_SMALL_REIM_SUBMIT', submitForm);
-            // this.$store.dispatch('SET_SMALL_REIM_1', this.form);
-            // this.$router.push("/invoiceInfo");
             if(!this.canSubmit){
                 this.$toast('信息未填写完整');
                 return false;
@@ -137,25 +159,25 @@ export default {
                 let params = this.formatSubmitData();
                 console.log(params);
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1026/getInvoice', params).then((resData) => {
-                    console.log('返回成功信息',resData) 
-                    //   成功   1000 
+                    console.log('返回成功信息',resData)
+                    //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         if(resData.hasOwnProperty('LS_DS1')){
                             if(resData.LS_DS1.length>0){
                                 let arr = resData.LS_DS1
-                                if(resData.LS_DS1.length>0){
-                                    for(let i=0;i<arr.length;i++){
-                                        arr[i].BKA102 = arr[i].eInvoiceCode
-                                        arr[i].BKE100 = arr[i].eInvoiceNum
-                                        arr[i].BKA104 = arr[i].invoicePartyName
-                                        arr[i].BKA105 = arr[i].payerPartyName
-                                        arr[i].AKC264 = arr[i].amount
-                                        arr[i].AAE036 = arr[i].eInvoiceDate
-                                        // resData.LS_DS1.AAE036 = resData.LS_DS1.eInvoiceStatus
-                                        arr[i].BKE554 = resData.LS_DS1.invoiceFileURL
-                                    }
-                                    console.log('发票信息',arr);
-                                }
+                                // if(resData.LS_DS1.length>0){
+                                //     for(let i=0;i<arr.length;i++){
+                                //         arr[i].BKA102 = arr[i].BKA102
+                                //         arr[i].BKE100 = arr[i].BKE100
+                                //         arr[i].BKA104 = arr[i].BKA104
+                                //         arr[i].BKA105 = arr[i].BKA105
+                                //         arr[i].AKC264 = arr[i].AKC264
+                                //         arr[i].AAE036 = arr[i].AAE036
+                                //         // resData.LS_DS1.AAE036 = resData.LS_DS1.eInvoiceStatus
+                                //         arr[i].BKE554 = arr[i].BKE554
+                                //     }
+                                //     console.log('发票信息',arr);
+                                // }
                                 let SET_SMALL_REIM_2 = this.$store.state.SET_SMALL_REIM_2
                                 SET_SMALL_REIM_2.eleInvoices = arr
                                 this.$store.dispatch('SET_SMALL_REIM_2', SET_SMALL_REIM_2);
@@ -166,7 +188,7 @@ export default {
                         }else{
                             this.$store.dispatch('IS_INVOICE',false)
                         }
-                        
+
                         let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
                         let GinsengLandName = sessionStorage.getItem("GinsengLandName")
                         let submitForm = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_SUBMIT));
@@ -175,6 +197,9 @@ export default {
                         submitForm.AAB301 = GinsengLandCode;
                         this.$store.dispatch('SET_SMALL_REIM_SUBMIT', submitForm);
                         this.$store.dispatch('SET_SMALL_REIM_1', this.form);
+                        sessionStorage.setItem('treatItemShow',true)
+                        this.isClear=false;
+                        sessionStorage.setItem('isClear',this.isClear)
                         this.$router.push("/invoiceInfo");
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
@@ -197,7 +222,7 @@ export default {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装
@@ -210,12 +235,13 @@ export default {
 
 <style lang="less" scoped>
 .smallReim {
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
             height: 3.6rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin: .15rem 0 0 0;
             background: white;
@@ -260,6 +286,9 @@ export default {
 </style>
 
 <style>
+    .picker-items{
+        width: 100%;
+    }
     .smallReim .el-date-editor.el-input,
     .el-date-editor.el-input__inner {
         width: 160px;

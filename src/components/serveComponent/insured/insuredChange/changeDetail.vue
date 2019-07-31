@@ -119,8 +119,8 @@ export default {
         },
         formatSubmitData(){  
             let submitForm ={}
-            submitForm.AGA002 =  "331400501005";
-            // submitForm.debugTest =  "true";
+            // submitForm.AGA002 =  "331400501005";
+            submitForm.AGA002 =  "公共服务-00501-005";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -134,10 +134,10 @@ export default {
             return params;
         },
         formatSubmitData1(){
-            let submitForm = {}
-            console.log(submitForm)
-                submitForm.AGA002 =  "331400501005";
-                // submitForm.debugTest=  "true";
+                let submitForm = {}
+                console.log(submitForm)
+                // submitForm.AGA002 =  "331400501005";
+                submitForm.AGA002 =  "公共服务-00501-005";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
                     submitForm.lx="1";
@@ -166,10 +166,11 @@ export default {
 
 <style lang="less" scoped>
 .changeDetail{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .MailInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

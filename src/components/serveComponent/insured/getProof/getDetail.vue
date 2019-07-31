@@ -8,7 +8,7 @@
             <!-- 信息 -->
             <div class="ReportInfo">
                 <div class="InfoLine">
-                    <div class="InfoName"><span>类型:</span></div>
+                    <div class="InfoName"><span>业务类型:</span></div>
                     <div class="InfoText">{{type}}</div>
                 </div>
                 <div class="InfoLine">
@@ -37,13 +37,8 @@
                 <div class="searchBtn" v-if="form.AAC050 == '1'">点击查看附近可领取的银行网点</div>
             </div> -->
             <div class="searchPlace" v-if="form.BKA077 == '0'">
-                <div class="searchBtn" @click="openHospital">点击查看领取网点</div>
-                <div class="searchBtn" @click="openBank">点击查看银行网点</div>
+                <div class="searchBtn" @click="openSite">点击查看附近的网点</div>
             </div>
-            <!-- 就诊机构 -->
-            <SearchInfoPage ref="org" type="AKB020_HZ"></SearchInfoPage>
-            <!-- 银行网点 -->
-            <SearchInfoPage ref="bank" type="AAE008"></SearchInfoPage>
         </div>
         <Success :flag="successFlag"></Success>
         <!-- 底部 -->
@@ -104,7 +99,7 @@ export default {
     computed:{
         type(){
             if(this.form.AAC050 == '1'){
-                return '变更';
+                return '更换';
             }else if(this.form.AAC050 == '2'){
                 return '补办';
             }
@@ -135,12 +130,8 @@ export default {
         //     });
         // },
         // 打开医院列表
-        openHospital(){
-            this.$refs.org.open();
-        },
-        // 打开银行列表
-        openBank(){
-            this.$refs.bank.open();
+        openSite(){
+            this.$router.push('/nearbySite');
         },
         request(){
             let params=this.formatSubmitData();
@@ -187,8 +178,8 @@ export default {
         },
         formatSubmitData(){  
             let submitForm ={}
-            submitForm.AGA002 =  "330800122043";
-            // submitForm.debugTest =  "true";
+            // submitForm.AGA002 =  "330800122043";
+            submitForm.AGA002 =  "确认-00122-043";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -204,9 +195,8 @@ export default {
         },
         formatSubmitData1(){
             let submitForm = {}
-                submitForm.AGA002 =  "330800122043";
-                
-                // submitForm.debugTest=  "true";
+                // submitForm.AGA002 =  "330800122043";
+                submitForm.AGA002 =  "确认-00122-043";                
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
                     submitForm.lx="1";
@@ -235,10 +225,11 @@ export default {
 
 <style lang="less" scoped>
 .getDetail{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .ReportInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{
@@ -273,7 +264,7 @@ export default {
         }
         .MailInfo{
             height: 4rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-top: .15rem;
             background: white;
@@ -318,10 +309,10 @@ export default {
             }
         }
         .searchPlace{
-            width: 7.5rem;
+            width: 100%;
             .searchBtn{
                 height: .8rem;
-                width: 7.1rem;
+                width: 90%;
                 margin: auto;
                 margin-top: .18rem;
                 border-radius: .05rem;

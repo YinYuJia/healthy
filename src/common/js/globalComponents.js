@@ -7,6 +7,7 @@ import UserBaseInfo from '@/components/serveComponent/common/UserBaseInfo'
 import WorkProgress from '@/components/serveComponent/common/WorkProgress'
 import Success from '@/components/serveComponent/common/Success'
 import PhotoView from '@/components/serveComponent/common/PhotoView'
+import GuideIcon from '@/components/serveComponent/common/GuideIcon'
 
 
 
@@ -23,6 +24,7 @@ function plugin(Vue) {
     Vue.component('WorkProgress',WorkProgress);
     Vue.component('Success',Success);
     Vue.component('PhotoView',PhotoView);
+    Vue.component('GuideIcon',GuideIcon);
 }
 
 export default plugin

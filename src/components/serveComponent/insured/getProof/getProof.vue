@@ -3,20 +3,20 @@
         <!-- 标题 -->
         <Title :title="'领取就医凭证'" :backRouter="'/'"></Title>
         <!-- MintUI弹出区域 -->
-        <SelectCity 
+        <SelectCity
             :type="3"
             ref="cityPicker"
             @confirm="chooseCity"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="typePicker"
             :propArr="AAC050s"
             @confirm="handleTypeConfirm"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="wayPicker"
             :propArr="BKA077s"
@@ -30,12 +30,14 @@
             <!-- 列表信息 -->
             <div class="GetInfo">
                 <div class="InfoLine">
-                    <div class="InfoName"><span>类型：</span></div>
-                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="AAC050VALUE" placeholder="请选择" readonly></div>
+                    <div class="InfoName"><span>业务类型：</span></div>
+                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="AAC050VALUE" placeholder="请选择" readonly>
+                      <svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>领取方式：</span></div>
-                    <div class="InfoText"><input @click="openWayPicker()" type="text" v-model="BKA077VALUE" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openWayPicker()" type="text" v-model="BKA077VALUE" placeholder="请选择" readonly>
+                      <svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
             </div>
             <!-- 邮递信息 -->
@@ -62,19 +64,16 @@
                 </div>
             </div>
             <div class="searchPlace" v-if="!showMail">
-                <div class="searchBtn" @click="openHospital">点击查看领取网点</div>
-                <div class="searchBtn" @click="openBank">点击查看银行网点</div>
+                <div class="searchBtn" @click="openSite">点击查看附近的网点</div>
             </div>
-            <!-- 就诊机构 -->
-            <SearchInfoPage ref="org" type="AKB020_HZ"></SearchInfoPage>
-            <!-- 银行网点 -->
-            <SearchInfoPage ref="bank" type="AAE008"></SearchInfoPage>
             <!-- 提示 -->
             <div class="Hint" v-if="showMail">
                 <div class="HintTitle"><i class="el-icon-warning" style="color:#05AEF0"></i>温馨提示</div>
                 <div class="HintText">为保证您的正常领取，请务必填写正确、完整的邮递信息。具体送达时间以实际邮递情况为准。</div>
             </div>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330800122043"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>
@@ -99,7 +98,7 @@ export default {
             AAC050s: [
                 {value: '1',label: '更换'},
                 {value: '2',label: '补办'}
-            ], 
+            ],
             BKA077s: [
                 {value: '0',label: '自取'},
                 {value: '1',label: '邮寄'}
@@ -139,7 +138,7 @@ export default {
     created(){
         // this.form = this.$store.state.SET_INSURED_PROOF;
         // 获取位置
-        // let This = this 
+        // let This = this
         // if(this.$isSdk){
         //     dd.ready({
         //         developer: 'daip@dtdream.com',
@@ -195,6 +194,10 @@ export default {
             this.form.BKA077 = val.value;
             this.BKA077VALUE = val.label;
         },
+        // 查看附近网点
+        openSite(){
+            this.$router.push('/nearbySite');
+        },
         submit(){
             // if(this.showMail == true){
             //     if(!this.util.checkPhone(this.form.AAE005)){
@@ -212,13 +215,23 @@ export default {
                 this.$toast('信息未填写完整');
                 return false;
             }else{
-                if(this.form.AAE005){
+                if(this.form.AAE005&&this.form.AAE005.length==11&&this.form.BKA077=='1'){
                     if(!this.util.checkPhone(this.form.AAE005)){
                         this.$toast('请填写正确的手机号码');
                         return false;
                     }
+                }else if(this.form.AAE005&&this.form.BKA077=='1'&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+                    if(!this.util.checkHomePhone(this.form.AAE005)){
+                        this.$toast('请填写正确的电话号码');
+                        return false;
+                    }
+                }else if(this.form.AAE005&&this.form.BKA077=='1'&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
+                    this.$toast('请确认填写的号码位数是否正确');
+                    return false;
                 }
                 let params = this.formatSubmitData();
+                console.log('----params----',params)
+
                 this.$axios.post( this.epFn.ApiUrl() +  '/h5/jy1008/transactionVoucher', params.params)
                 .then((resData) => {
 
@@ -241,6 +254,7 @@ export default {
             let submitForm = Object.assign({}, this.form)
             // let submitForm = JSON.parse(JSON.stringify(this.form)); //深拷贝
             // 加入用户名和电子社保卡号
+            submitForm.BKE520 = "1"
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
@@ -250,14 +264,6 @@ export default {
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'1008');
             return {params,submitForm};
-        },
-        // 打开医院列表
-        openHospital(){
-            this.$refs.org.open();
-        },
-        // 打开银行列表
-        openBank(){
-            this.$refs.bank.open();
         },
         // 获取邮寄信息
         getMailInfo(){
@@ -272,12 +278,16 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
-                     this.form.AAE011 = resData.AAE009 //收件人
+                    this.form.AAE011 = resData.AAE009 //收件人
                      if(resData.AAE005.length > 11){
                          this.form.AAE005 = '';
                      }else{
                          this.form.AAE005 = resData.AAE005  //手机号码
                      }
+                     if(this.form.AAE011==''){
+                         this.form.AAE011=this.$store.state.SET_NATIVEMSG.name;
+                     }
+                     
                      this.form.AAE006 = resData.AAE006   //详细地址
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
@@ -295,11 +305,12 @@ export default {
 
 <style lang="less" scoped>
 .getProof{
+    width: 100%;
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
         .GetInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{
@@ -335,7 +346,7 @@ export default {
             }
         }
         .MailInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .28rem;
             margin-top: .27rem;
             background: white;
@@ -378,6 +389,7 @@ export default {
                         align-items: center;
                     }
                     textarea{
+                        width: 5rem;
                         height: .84rem;
                         font-size: .3rem;
                         color: #000000;
@@ -398,10 +410,10 @@ export default {
             }
         }
         .searchPlace{
-            width: 7.5rem;
+            width: 100%;
             .searchBtn{
                 height: .8rem;
-                width: 7.1rem;
+                width: 90%;
                 margin: auto;
                 margin-top: .18rem;
                 border-radius: .05rem;
@@ -421,7 +433,7 @@ export default {
             opacity: 0.45;
             font-family: PingFangSC-Regular;
             font-size: .24rem;
-            color: #000000;
+            color: #f00;
             text-align: left;
             .HintTitle{
                 i{

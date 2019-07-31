@@ -2,13 +2,13 @@
     <div class="searchInsuredInfo">
         <Title :title="'个人参保信息'" :backRouter="'/'"></Title>
         <!-- 弹出区域 -->
-        <SelectCity 
+        <SelectCity
             :type="2"
             ref="cityPicker"
             @confirm="chooseCity"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="monthPicker"
             :propArr="months"
@@ -26,12 +26,14 @@
                     <div class="InfoText">
                         <!-- <input @click="openInsuredPicker" type="text" v-model="form.AAB301000" placeholder="请选择" readonly> -->
                         <input type="text" v-model="form.AAB301000" placeholder="请选择" readonly>
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>查询月数：</span></div>
                     <div class="InfoText">
                         <input @click="openMonthPicker()" type="text" v-model="AAE091VALUE" placeholder="请选择" readonly>
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
             </div>
@@ -101,13 +103,13 @@ export default {
         },
         // 提交
         submit() {
-            
+
             if (this.canSubmit == false) {
                 this.$toast('信息未填写完整');
                 return false;
             } else {
-                this.$router.push('/searchInsuredResult')  
-                this.$store.dispatch('SET_SEARCHINSUREDINFO_OPERATION', this.form); 
+                this.$router.push('/searchInsuredResult')
+                this.$store.dispatch('SET_SEARCHINSUREDINFO_OPERATION', this.form);
             }
         },
 
@@ -117,10 +119,11 @@ export default {
 
 <style lang="less" scoped>
 .searchInsuredInfo{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{

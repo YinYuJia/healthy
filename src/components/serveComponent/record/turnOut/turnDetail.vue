@@ -19,6 +19,10 @@
                     <div class="InfoText">{{form.AAE031}}</div>
                 </div>
                 <div class="InfoLine">
+                    <div class="InfoName"><span>转出医院:</span></div>
+                    <div class="InfoText">{{form.AKB020Name}}</div>
+                </div>
+                <div class="InfoLine">
                     <div class="InfoName"><span>转往地市:</span></div>
                     <div class="InfoText">{{AAB301000}}</div>
                 </div>
@@ -179,9 +183,9 @@ export default {
         formatSubmitData(){
             let submitForm ={}
             console.log(submitForm)
-                submitForm.AGA002 =  "330800253002";
-                // submitForm.debugTest=  "true";
-                submitForm.BKZ019=this.$route.query.param||""
+                submitForm.AGA002 =  "确认-00253-002";
+             // submitForm.AGA002 =  "330800253002";
+            submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -197,8 +201,8 @@ export default {
         },
         formatSubmitData1(){
                 let submitForm ={}
-                submitForm.AGA002 =  "330800253002";
-                // submitForm.debugTest=  "true";
+                submitForm.AGA002 =  "确认-00253-002";
+                // submitForm.AGA002 =  "330800253002";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
                     submitForm.lx="1";
@@ -227,10 +231,11 @@ export default {
 
 <style lang="less" scoped>
 .turnDetail{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .MailInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-top: .15rem;
             background: white;
@@ -254,7 +259,7 @@ export default {
                 .InfoText{
                     width: 5.1rem;
                     color: #000;
-                    line-height: 1.2rem;
+                    text-align: left;
                     display: flex;
                     position: relative;
                     align-items: center;

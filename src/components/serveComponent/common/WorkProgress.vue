@@ -42,7 +42,7 @@ export default {
 <style lang="less" scoped>
 .WorkProgress{
     height: 1.8rem;
-    width: 7.5rem;
+    width: 100%;
     position: relative;
     .ProgressMsg{
         height: 100%;

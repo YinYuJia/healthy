@@ -6,15 +6,17 @@ export function tuoMin(str, front, back) {
             console.log('ruten',ruten)
             return str.replace(ruten, t.substr(0,  1 ))
         }
-        if ( str.length == 2) {
+        else if ( str.length == 2) {
             let t = "************************"
             let ruten = str.substr(0,1); //提取字符串下标之间的字符。
             console.log('ruten2',ruten)
             return str.replace(ruten, t.substr(0, ruten.length < 3 ? 1 : ruten.length))
+        }else{
+            let t = "************************"
+            let ruten = str.substr(front, (str.length - front - back)); //提取字符串下标之间的字符。
+            return str.replace(ruten, t.substr(0, ruten.length < 3 ? 3 : ruten.length)); //字符串中用字符替换另外字符，或替换一个与正则表达式匹配的子串。
         }
-        let t = "************************"
-        let ruten = str.substr(front, (str.length - front - back)); //提取字符串下标之间的字符。
-        return str.replace(ruten, t.substr(0, ruten.length < 3 ? 3 : ruten.length)); //字符串中用字符替换另外字符，或替换一个与正则表达式匹配的子串。
+
     }
     return str;
 }
@@ -141,6 +143,47 @@ export function BKE520( val ) {
   }
   return obj[val]
  }
+ //权力事项类型
+ export function matType( val ) {
+  let obj = {
+    "01": "行政许可",
+    "03": "行政处罚",
+    "04": "行政强制",
+    "05": "行政征收",
+    "06": "行政给付",
+    "07": "行政裁决",
+    "08": "行政确认",
+    "09": "行政奖励",
+    "10": "其他行政权力",
+    "13": "审核转报",
+    "14": "公共服务",
+    "15": "内部管理",
+    "16": "联办事项",
+  }
+  return obj[val]
+ }
+  //权力来源
+  export function rightSource( val ) {
+    let obj = {
+      "1": "法定本级行使",
+      "2": "中央下放到省级",
+      "3": "省级下放到设区市",
+      "4": "省级下放到县(市、区)",
+      "5": "设市区下放到县(市、区)",
+      "6": "中央下放到设市区",
+      "7": "中央下放到县(市、区)",
+    }
+    return obj[val]
+   }
+  //办件类型
+  export function rightAttribute( val ) {
+    let obj = {
+      "1": "即办件",
+      "2": "承诺件",
+      "3": "其他",
+    }
+    return obj[val]
+   }
  //距离
  export function ifKL( val ) {
      if ( val < 1) {

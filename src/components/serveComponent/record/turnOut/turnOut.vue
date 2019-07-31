@@ -2,7 +2,7 @@
     <div class="turnOut">
         <Title :title="'转外就医备案'" :backRouter="'/'"></Title>
         <!-- MintUI弹出框区域 -->
-        <SelectCity 
+        <SelectCity
             :type="2"
             ref="insuredPicker"
             @confirm="chooseInsured"
@@ -14,13 +14,20 @@
             v-model="dateVal"
             @confirm="handleStartConfirm">
         </mt-datetime-picker>
-        <SelectCity  
-            :type="3"
+        <mt-datetime-picker
+            type="date"
+            ref="endPicker"
+            v-model="end"
+            @confirm="handleEndConfirm">
+        </mt-datetime-picker>
+        <SelectCity
+            :type="2"
+            :excludeZj="true"
             ref="cityPicker"
             @confirm="chooseCity"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="treatPicker"
             :propArr="treatment"
@@ -36,19 +43,23 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地</span></div>
 
-                    <div class="InfoText"><input  type="text" v-model="AAS027000" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input  type="text" v-model="AAS027000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开始日期</span></div>
-                    <div class="InfoText"><input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束日期</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.AAE031" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE031" placeholder="请选择" readonly ><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>转出医院</span></div>
+                    <div class="InfoText"><input @click="chooseHospital()" type="text" v-model="AKB020VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转往地市</span></div>
-                    <div class="InfoText"><input @click="openCityPicker" type="text" v-model="AAB301000" placeholder="请选择" readonly></div>
+                    <div class="InfoText"><input @click="openCityPicker" type="text" v-model="AAB301000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>疾病名称</span></div>
@@ -57,7 +68,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊疗程</span></div>
                     <div class="InfoText">
-                        <input @click="openTreatPicker()" type="text" v-model="BKE255VALUE" placeholder="请选择" readonly>
+                        <input @click="openTreatPicker()" type="text" v-model="BKE255VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
             </div>
@@ -77,16 +88,20 @@
             </div>
         </div>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330800253002"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <SearchInfoPage ref="hospital" type="AKB020_ZW" @childrenClick="hospitalClick" title="选择医院"></SearchInfoPage>
     </div>
 </template>
 
 <script>
     export default {
         data() {
-            return {   
-                imgUrl:'',       
+            return {
+                end:"",//结束时间
+                imgUrl:'',
                 picArr: [],//附件集合
                 AAS027000:"",//参保地
                 AAB301000: "",//转往地市
@@ -96,6 +111,7 @@
                     AAS301: "", //参保地省
                     AAB301: "", //参保地市
                     AAQ301: "", //参保地区
+                    AKB020: "", //转出医院编码
                     AAS027:"",	//转往省
                     AAB027:"",	//转往市
                     AAQ027:"",  //转往区
@@ -105,6 +121,7 @@
                     BKZ019:""
                 },
                 BKE255VALUE: '',
+                AKB020VALUE: '', //转出医院
                 canSubmit: false,
                 dateVal: new Date(), //默认绑定的时间
                 treatment: [
@@ -127,17 +144,20 @@
            this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
            console.log('this.form.AAS027',this.form.AAS027)
            console.log('this.form.AAB027',this.form.AAB027)
-            
+
             // this.form.AAA301000 = this.$store.state.SET_USER_DETAILINFO.regionName
             // // this.form.AAA301000 = "杭州"
             // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
             // this.form.AAB301 = "12344"
+            // 默认开始日期
+            this.form.AAE030 = this.util.formatDate(new Date(),'yyyy-MM-dd');
+            this.getEndDate(new Date());
         },
         watch: {
             form: {
                 handler: function(val) {
                     // 判断不为空
-                    if (this.AAS027000 != '' && this.AAB301000 != '' && val.AAE030 != '' && val.AAE031 != '' && val.AKA121 != '' && val.BKE255 != '' &&val.photoIdList.length>0 ) {
+                    if (this.AAS027000 != '' && this.AAB301000 != '' && val.AAE030 != '' && val.AAE031 != '' && val.AKB020 != '' && val.AKA121 != '' && val.BKE255 != '' &&val.photoIdList.length>0 ) {
                         this.canSubmit = true;
                     } else {
                         this.canSubmit = false;
@@ -152,11 +172,32 @@
                             this.form.AAQ027="";
                         }
                     }
+                    // 判断时间间隔
+                    if (val.AAE030 != '' && val.AAE031 != '') {
+                    let AAE030 = new Date(val.AAE030);
+                    let AAE031 = new Date(val.AAE031);
+                    let month = 24 * 3600 * 1000 * 30;
+                    let gap = AAE031 - AAE030;
+                    if (gap <= 0) {
+                        this.$toast('结束日期需大于开始日期');
+                        this.form.AAE031 = '';
+                    }
+                }
                 },
                 deep: true
             },
         },
         methods: {
+            // 选择转出医院
+            chooseHospital(){
+                this.$refs.hospital.open();
+            },
+            hospitalClick(code,name){
+                console.log("code",code)
+                console.log("name",name)
+                this.AKB020VALUE = name
+                this.form.AKB020 = code
+            },
             // 查看大图
             showBigPhoto(val){
                 this.imgUrl = val;
@@ -182,23 +223,24 @@
                                 console.log(data.picPath[0],'请求图片成功');
                                 if(data.result){
                                     // This.$store.dispatch('SET_ENCLOSURE',This.picArr)
-                                    let submitForm = {}; 
+                                    let submitForm = {};
                                     // 加入用户名和电子社保卡号
                                     if (This.$store.state.SET_NATIVEMSG.name !== undefined ) {
                                         submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
                                         submitForm.AAE135 = This.$store.state.SET_NATIVEMSG.idCard;
                                     }else {
-                                        
+
                                         This.$toast("未获取到人员基本信息");
                                     }
                                     // 加入子项编码
-                                    submitForm.AGA002 = '330800253002'
+                                    // submitForm.AGA002 = '330800253002'
+                                    submitForm.AGA002 = '确认-00253-002'
                                     submitForm.photoList = data.picPath[0]
                                     submitForm.PTX001 = '2'
                                     const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
                                     // 图片上传后台
                                     This.$axios.post(This.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
-                                        console.log('返回成功信息',resData) 
+                                        console.log('返回成功信息',resData)
                                         //   成功   1000
                                         if ( resData.enCode == 1000 ) {
                                             // 获取图片
@@ -221,12 +263,12 @@
                             onFail: function(error) {
                                 this.$toast(error)
                                 console.log("请求图片失败",error);
-                                
+
                             }
                         })
                 })
                 }
-                
+
             },
             // 删除图片
             deletePic(item,index){
@@ -251,8 +293,17 @@
             },
             handleStartConfirm(val){
                 this.getEndDate(val);
+                this.end=val
                 let date = this.util.formatDate(val,'yyyy-MM-dd');
                 this.form.AAE030 = date;
+            },
+            // 选择结束日期
+            openEndPicker(){
+                this.$refs.endPicker.open();
+            },
+            handleEndConfirm(val){
+                let date = this.util.formatDate(val,'yyyy-MM-dd');
+                this.form.AAE031 = date;
             },
             // 计算90天后日期
             getEndDate(val){
@@ -268,11 +319,9 @@
             },
             chooseCity(val){
                 console.log(val);
-                
                 this.AAB301000= val.name;
                 this.form.AAS027=val.code[0]
                 this.form.AAB027=val.code[1]
-                this.form.AAQ027=val.code[2]
             },
             // 选择就医疗程
             openTreatPicker(){
@@ -308,26 +357,24 @@
                             return;
                         }
                     })
-                    
+
                 }
             },
             formatSubmitData(){
                 let submitForm = JSON.parse(JSON.stringify(this.form));
                 // 日期传换成Number
                 console.log(this.form);
-
+                submitForm.BKE520 = "1"
                 submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030);
                 submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031);
                 submitForm.photoIdList =  this.form.photoIdList.join(',');//照片ID数组
                 submitForm.BKZ019 =  this.form.BKZ019;//经办编号
-                // submitForm.debugTest=  "true";
-                // submitForm.dibuger =  "true";
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                     submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
                 }else {
-                    
+
                     this.$toast("未获取到人员基本信息");
                 }
                 // 请求参数封装
@@ -340,12 +387,13 @@
 
 <style lang="less" scoped>
 .turnOut {
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
-            height: 7.2rem;
-            width: 7.5rem;
+            height: auto;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine {
@@ -389,6 +437,7 @@
             background: #FFF;
             margin: .16rem 0 1.4rem 0;
             padding: .37rem .4rem;
+            color: #f00;
             .uploadList{
                 margin-top: .1rem;
                 font-size: .28rem;
@@ -423,7 +472,7 @@
             }
             .uploadHint{
                 font-size: .28rem;
-                color: #000000;
+                color: #f00;
                 letter-spacing: 0;
                 text-align: left;
             }
@@ -433,6 +482,9 @@
 </style>
 
 <style>
+.picker-items{
+    width: 100%;
+}
 .turnOut .el-input__prefix,
 .el-input__suffix {
     display: none;

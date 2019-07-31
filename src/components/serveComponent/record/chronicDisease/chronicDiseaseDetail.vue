@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="searchPlace" v-if="form.BKE247 == '1'">
-                <div class="searchBtn" @click="openHospital">点击查看领取网点</div>
+                <div class="searchBtn" @click="openSite">点击查看领取网点</div>
             </div>
             <!-- 就诊机构 -->
             <SearchInfoPage ref="org" type="AKB020_HZ"></SearchInfoPage>
@@ -141,8 +141,8 @@ export default {
             // this.$router.push('/')
         },
         // 打开医院列表
-        openHospital(){
-            this.$refs.org.open();
+        openSite(){
+            this.$router.push('/nearbySite');
         },
         //
         // 撤销提醒
@@ -203,8 +203,8 @@ export default {
         },
         formatSubmitData(){  
             let submitForm ={}
-            submitForm.AGA002 =  "330800253004";
-            // submitForm.debugTest =  "true";
+            submitForm.AGA002 =  "确认-00253-004-01";
+            // submitForm.AGA002 =  "330800253004";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -220,16 +220,16 @@ export default {
         },
         formatSubmitData1(){
             let submitForm = {}
-                submitForm.AGA002 =  "330800253004";
-                // submitForm.debugTest=  "true";
-                //从进度查询页面进入接收传参
-                if(this.$route.query.param){
-                    submitForm.lx="1";
-                    submitForm.BKZ019=this.$route.query.param
-                }else{
-                    submitForm.lx="2";
-                    submitForm.BKZ019="";
-                }
+            submitForm.AGA002 =  "确认-00253-004-01";
+            // submitForm.AGA002 =  "330800253004";
+            //从进度查询页面进入接收传参
+            if(this.$route.query.param){
+                submitForm.lx="1";
+                submitForm.BKZ019=this.$route.query.param
+            }else{
+                submitForm.lx="2";
+                submitForm.BKZ019="";
+            }
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -279,10 +279,11 @@ export default {
 
 <style lang="less" scoped>
 .chronicDiseaseDetail{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .ListInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine{
@@ -316,7 +317,7 @@ export default {
         }
         .MailInfo{
             height: 4rem;
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-top: .15rem;
             background: white;
@@ -361,10 +362,10 @@ export default {
             }
         }
         .searchPlace{
-            width: 7.5rem;
+            width: 100%;
             .searchBtn{
                 height: .8rem;
-                width: 7.1rem;
+                width: 90%;
                 margin: auto;
                 margin-top: .18rem;
                 border-radius: .05rem;

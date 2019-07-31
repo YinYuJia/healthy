@@ -24,7 +24,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>护照号码:</span></div>
-                    <div class="InfoText">{{form.BKE260 | tuoMin(3,3)}}</div>
+                    <div class="InfoText">{{form.BKE260 | tuoMin(1,1)}}</div>
                 </div>
                 <!-- 进度时间 -->
                 <ProgressDate nameWidth="1.8rem"  :replyDate="form.AAE036"  :progressDate="form.BAE019"></ProgressDate>
@@ -162,8 +162,8 @@ export default {
         },
         formatSubmitData(){
             let submitForm ={}
-            submitForm.AGA002 =  "330800253001";
-                // submitForm.debugTest=  "true";
+            submitForm.AGA002 =  "确认-00253-001";
+            // submitForm.AGA002 =  "330800253001";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -178,16 +178,16 @@ export default {
             return params;
         },
         formatSubmitData1(){
-                let submitForm = {}
-                submitForm.AGA002 =  "330800253001";
-                // submitForm.debugTest=  "true";
-                if(this.$route.query.param){
-                    submitForm.lx="1";
-                    submitForm.BKZ019=this.$route.query.param
-                }else{
-                    submitForm.lx="2";
-                    submitForm.BKZ019="";
-                }
+            let submitForm = {}
+            submitForm.AGA002 =  "确认-00253-001";
+            // submitForm.AGA002 =  "330800253001";
+            if(this.$route.query.param){
+                submitForm.lx="1";
+                submitForm.BKZ019=this.$route.query.param
+            }else{
+                submitForm.lx="2";
+                submitForm.BKZ019="";
+            }
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -209,37 +209,41 @@ export default {
 
 <style lang="less" scoped>
 .abroadDetail{
+    width: 100%;
     .Content{
         margin-bottom: 1.4rem;
         .MailInfo{
-            width: 7.5rem;
+            width: 100%;
             padding: 0 .3rem;
             margin-top: .15rem;
             background: white;
             .InfoLine{
-                height: 1.2rem;
+                // height: 1.2rem;
                 position: relative;
-                font-size: .28rem;
                 display: flex;
+                font-size: .28rem;
+                padding: .44rem 0;
                 border-bottom: .01rem solid #D5D5D5;
                 .InfoName{
-                    width: 1.8rem;
-                    line-height: 1.2rem;
+                    width: 2.2rem;
                     text-align: left;
                     span{
-                        height: .6rem;
-                        line-height: .6rem;
+                        line-height: .4rem;
                         color: #666;
                         letter-spacing: 0;
                     }
                 }
                 .InfoText{
-                    width: 5.1rem;
-                    color: #000;
-                    line-height: 1.2rem;
+                    height: auto;
+                    width: 6rem;
+                    letter-spacing: 0;
                     display: flex;
                     position: relative;
                     align-items: center;
+                    line-height: .4rem;
+                    color: #000;
+                    letter-spacing: 0;
+                    text-align: left;
                 }
                 &:last-child{
                     border-bottom: none;

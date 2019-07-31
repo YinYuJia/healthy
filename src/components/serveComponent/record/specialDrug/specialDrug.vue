@@ -18,7 +18,7 @@
       @confirm="handleEndConfirm"
     ></mt-datetime-picker>
     <!-- 项目类型 -->
-    <SelectCity 
+    <SelectCity
         :type="1"
         ref="projectTypePicker"
         :propArr="typeList"
@@ -26,7 +26,7 @@
         >
     </SelectCity>
     <!-- 特质特药类型 -->
-    <SelectCity 
+    <SelectCity
         :type="1"
         ref="drugPicker"
         :propArr="drugList"
@@ -34,7 +34,7 @@
         >
     </SelectCity>
     <!-- 用药时期 -->
-    <SelectCity 
+    <SelectCity
         :type="1"
         ref="drugTimePicker"
         :propArr="drugTimeList"
@@ -58,6 +58,7 @@
               placeholder="请选择"
               readonly
             >
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -65,7 +66,7 @@
             <span>就诊机构</span>
           </div>
           <div class="InfoText">
-            <input type="text" @click="org" v-model="form.AKB020Name" readonly placeholder="请选择">
+            <input type="text" @click="org" v-model="form.AKB020Name" readonly placeholder="请选择"><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -73,7 +74,7 @@
             <span>项目类型</span>
           </div>
           <div class="InfoText">
-            <input @click="openProjectTypePicker()" type="text" v-model="BKE253VALUE" placeholder="请选择" readonly>
+            <input @click="openProjectTypePicker()" type="text" v-model="BKE253VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -81,14 +82,15 @@
             <span>特治特药类型</span>
           </div>
           <div class="InfoText">
-            <input 
-              @click="openDrugPicker()" 
-              type="text" v-model="BKE228VALUE" 
-              placeholder="请选择" 
-              readonly 
+            <input
+              @click="openDrugPicker()"
+              type="text" v-model="BKE228VALUE"
+              placeholder="请选择"
+              readonly
               :disabled="oneDisabled"
               :class="{disabledInput:oneDisabled}"
               >
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -96,14 +98,15 @@
             <span>疾病名称</span>
           </div>
           <div class="InfoText">
-            <input 
-              type="text" 
-              @click="species" 
-              v-model="form.AKA121" 
-              :class="{disabledInput:twoDisabled}" 
-              :disabled="twoDisabled" 
-              readonly 
+            <input
+              type="text"
+              @click="species"
+              v-model="form.AKA121"
+              :class="{disabledInput:twoDisabled}"
+              :disabled="twoDisabled"
+              readonly
               placeholder="请选择">
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -120,6 +123,7 @@
               ></el-option>
             </el-select> -->
             <input @click="openDrugTimePicker()" type="text" v-model="BKE248VALUE" placeholder="请选择" readonly>
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -128,6 +132,7 @@
           </div>
           <div class="InfoText">
             <input type="text" @click="project" :class="{disabledInput:threeDisabled}" v-model="form.AKE002" :disabled="threeDisabled" placeholder="请选择" readonly>
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -158,6 +163,7 @@
               placeholder="请选择"
               readonly
             >
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -172,6 +178,7 @@
               placeholder="请选择"
               readonly
             >
+            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
       </div>
@@ -190,11 +197,13 @@
           </div>
       </div>
     </div>
+    <!-- 办事指南 -->
+    <GuideIcon AGA002="330800253003"></GuideIcon>
     <!-- 按钮 -->
     <Footer :canSubmit="canSubmit" @submit="submit()"></Footer>
     <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
     <!-- 就诊机构 -->
-    <SearchInfoPage ref="org" @childrenClick="orgClick"></SearchInfoPage>
+    <SearchInfoPage ref="org" type="AKB020_TZ" @childrenClick="orgClick"></SearchInfoPage>
     <!-- 疾病名称 -->
     <SearchInfoPage ref="species" :AAE013="AAE013One" :AAA052="AAA052One" type="AKA120" @childrenClick="speciesClick"></SearchInfoPage>
     <!-- 项目名称 -->
@@ -215,7 +224,7 @@ export default {
       AAE013One:'',
       AAE013Two:'',
       AAA052One:'',
-      AAA052Two:'',       
+      AAA052Two:'',
       AAB301000: "",
       form: {
         AAS301: "", //参保地
@@ -279,9 +288,9 @@ export default {
      */
     // this.getSelect('AKB020')
     this.getSelect('BKE253')
-    
+
     this.getSelect('BKE248')
-    
+
   },
   destroyed(){
     // window.removeEventListener('popstate', this.fun, false);//false阻止默认事件
@@ -319,8 +328,8 @@ export default {
             this.form.AAE031 = "";
           }
         }
-        
-        
+
+
       },
       deep: true
     },
@@ -340,7 +349,7 @@ export default {
             this.BKE228VALUE = "";
           }
         }
-      
+
     },
     'form.BKE228'(val,oldVal){
        // 特治特药类型
@@ -349,7 +358,7 @@ export default {
         this.threeDisabled = true
         this.form.AKA121 = ""
         this.form.AKE001 = ""
-          
+
       }else{
         // 获取疾病名称和项目名称
         this.twoDisabled = false
@@ -360,7 +369,7 @@ export default {
           this.AAE013Two = 'BKE228'
 
           this.AAA052One = val
-          
+
           this.AAA052Two = val
           this.form.AKA121=""
           this.form.AKE002=""
@@ -451,6 +460,7 @@ export default {
       // alert(name)
     },
     submit() {
+      sessionStorage.setItem('BKE253',this.form.BKE253)
       if (this.canSubmit == false) {
         this.$toast("信息未填写完整");
         return false;
@@ -459,12 +469,12 @@ export default {
         // this.$router.push("/specialDrugDetail");
         let params = this.formatSubmitData();
         console.log(params);
-        
+
         this.$axios
           .post(this.epFn.ApiUrl() + "/h5/jy1023/specialTreat", params)
           .then(resData => {
             if (resData.enCode == "1000") {
-              
+
               this.$store.dispatch("SET_SPECIAL_DRUG", this.form);
               this.$router.push("/specialDrugDetail");
             }else{
@@ -476,6 +486,7 @@ export default {
     // 提交信息封装
     formatSubmitData() {
       let submitForm = Object.assign({}, this.form);
+      submitForm.BKE520 = "1"
       submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
       submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031)
       submitForm.photoIdList = this.form.photoIdList.join(',');//照片ID数组
@@ -489,7 +500,6 @@ export default {
       } else {
         this.$toast("未获取到人员基本信息");
       }
-      // submitForm.debugTest = "true";
       // 请求参数封装
       const params = this.epFn.commonRequsetData(
         this.$store.state.SET_NATIVEMSG.PublicHeader,
@@ -513,7 +523,7 @@ export default {
           if (resData.enCode == "1000") {
               if(val == 'AKB020'){
                 console.log(5555555555,resData.LS_DS);
-                
+
                 // this.hospitalList = resData.LS_DS
                 return
               }
@@ -573,23 +583,28 @@ export default {
                     onSuccess: function(data) {
                         if(data.result){
                             // This.$store.dispatch('SET_ENCLOSURE',This.picArr)
-                            let submitForm = {}; 
+                            let submitForm = {};
                             // 加入用户名和电子社保卡号
                             if (This.$store.state.SET_NATIVEMSG.name !== undefined ) {
                                 submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
                                 submitForm.AAE135 = This.$store.state.SET_NATIVEMSG.idCard;
                             }else {
-                                
+
                                 This.$toast("未获取到人员基本信息");
                             }
                             // 加入子项编码
-                            submitForm.AGA002 = '330800253003'
+                            if(This.form.BKE253=='1'){
+                              submitForm.AGA002 =  "确认-00253-003-02";
+                            }else if(This.form.BKE253=='2'){
+                              submitForm.AGA002 =  "确认-00253-003-01";
+                            }
+                            // submitForm.AGA002 = '330800253003'
                             submitForm.photoList = data.picPath[0]
                             submitForm.PTX001 = '2'
                             const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2006');
                             // 图片上传后台
                             This.$axios.post(This.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
-                                console.log('返回成功信息',resData) 
+                                console.log('返回成功信息',resData)
                                 //   成功   1000
                                 if ( resData.enCode == 1000 ) {
                                     // 获取图片
@@ -609,12 +624,12 @@ export default {
                     onFail: function(error) {
                         this.$toast(error)
                         console.log("请求图片失败",error);
-                        
+
                     }
                 })
         })
         }
-        
+
     },
     // 删除图片
     deletePic(item,index){
@@ -629,11 +644,12 @@ export default {
 
 <style lang="less" scoped>
 .specialDrug {
+  width: 100%;
   .Content {
     height: 100%;
     margin-bottom: 1.4rem;
     .ReportInfo {
-      width: 7.5rem;
+      width: 100%;
       padding: 0 0.3rem;
       background: white;
       .InfoLine {
@@ -680,6 +696,7 @@ export default {
         background: #FFF;
         margin: .16rem 0 1.4rem 0;
         padding: .37rem .4rem;
+        color: #f00;
         .uploadList{
             margin-top: .1rem;
             font-size: .28rem;
@@ -714,7 +731,7 @@ export default {
         }
         .uploadHint{
             font-size: .28rem;
-            color: #000000;
+            color: #f00;
             letter-spacing: 0;
             text-align: left;
         }
@@ -727,6 +744,9 @@ export default {
 </style>
 
 <style>
+.picker-items{
+    width: 100%;
+}
 .specialDrug .el-input__prefix,
 .el-input__suffix {
   display: none;

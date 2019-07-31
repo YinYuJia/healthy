@@ -19,6 +19,10 @@
                     <div class="InfoName"><span>开户名：</span></div>
                     <div class="InfoText"><input type="text" v-model="form.AAE009" placeholder="请输入" readonly></div>
                 </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>手机号码：</span></div>
+                    <div class="InfoText"><input type="tel" v-model="form.AAE005" placeholder="请输入"></div>
+                </div>
             </div>
             <!-- 提示 -->
             <div class="Hint">
@@ -38,7 +42,9 @@ export default {
             form:{
                 AAE010: '', //银行账户
                 AAE008: '', //开户行
-                AAE009: '', //开户名
+                AAE009: '',//开户名值
+                AAE005: '',//手机号码
+                // BAC048: '',//开户行中文
                 LS_DS1:[],
             },
             canSubmit: false,
@@ -56,13 +62,13 @@ export default {
         console.log('submitForm',this.$store.state.SET_SMALL_REIM_SUBMIT);
         console.log("SET_SMALL_REIM_2",this.$store.state.SET_SMALL_REIM_2)
         this.getUserInfo();
-        this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name || "许肖军"
+        // this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name //|| 许肖军 332625197501010910
     },
     watch:{
         form: {
             handler: function(val) {
                 // 判断不为空
-                if (val.AAE010 != '' && val.AAE008 != '' && val.AAE009 != '') {
+                if (val.AAE010 != '' && val.AAE008 != '' && val.AAE009 != ''&& val.AAE005!='') {
                     this.canSubmit = true;
                 } else {
                     this.canSubmit = false;
@@ -84,6 +90,20 @@ export default {
                 this.$toast("未填写完整");
                 return false;
             }else{
+                if(this.form.AAE005&&this.form.AAE005.length==11){
+                    if(!this.util.checkPhone(this.form.AAE005)){
+                        this.$toast('请填写正确的手机号码');
+                        return false;
+                    }
+                }else if(this.form.AAE005&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+                    if(!this.util.checkHomePhone(this.form.AAE005)){
+                        this.$toast('请填写正确的电话号码');
+                        return false;
+                    }
+                }else if(this.form.AAE005&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
+                    this.$toast('请确认填写的号码位数是否正确');
+                    return false;
+                }
                 let params = this.formatSubmitForm();
                 console.log(params);
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1019/info', params).then((resData) => {
@@ -104,17 +124,21 @@ export default {
         },
         formatSubmitForm(){
             let submitForm = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_SUBMIT));
+            // if(submitForm.AAB301=='339900'){
+            //     submitForm.AAB301='330100'
+            // }
+            //如果统筹区为省本级则改变为330100
             let submitForm1 = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1));
             let submitForm2 = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_2));
             console.log(this.$store.state.SET_SMALL_REIM_SUBMIT,'this.$store.state.SET_SMALL_REIM_SUBMIT');
             console.log(this.$store.state.SET_SMALL_REIM_1,'this.$store.state.SET_SMALL_REIM_1');
-            console.log(this.$store.state.SET_SMALL_REIM_2,'this.$store.state.SET_SMALL_REIM_2');
-            
+            console.log(this.$store.state.SET_SMALL_REIM_2,'this.$store.state.SET_SMALL_REIM_2');        
             submitForm.AAE010 = this.form.AAE010.replace(/\s+/g,'');
             submitForm.AAE008 = this.form.AAE008;
             submitForm.AAE009 = this.form.AAE009;
-            submitForm.BKE520 = '1';
-            submitForm.AKA078 = sessionStorage.getItem('AKA078');
+            submitForm.AAE005 = this.form.AAE005;
+            submitForm.BKE520 = "1"
+            submitForm.AKA078 = this.$store.state.SET_SMALL_REIM_1.AKA078
             
             
             // submitForm.LS_DS2 = [] 
@@ -176,9 +200,22 @@ export default {
              this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
+                    console.log(resData.AAE005)
                      this.form.AAE010 = resData.AAE010 //银行账户
                      this.form.AAE008 = resData.BAC048  //开户行
-                    //  this.form.AAE009 = resData.AAE009   //开户名
+                     this.form.AAE009 = resData.AAE009   //开户名
+                     console.log(this.form.AAE009=="")
+                     if(this.form.AAE009==""){
+                         console.log('执行1')
+                        if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
+                            this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name;
+                         console.log('执行2')
+
+                        }
+                     }
+
+                     this.form.AAE005 = resData.AAE005   //手机号码
+                     console.log("手机号码",this.form.AAE005)
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     // this.$toast(resData.msg);
@@ -196,12 +233,13 @@ export default {
 
 <style lang="less" scoped>
 .infoRecord{
+    width: 100%;
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
         .ReportInfo {
-            height: 3.6rem;
-            width: 7.5rem;
+            height: auto;
+            width: 100%;
             padding: 0 .3rem;
             background: white;
             .InfoLine {
