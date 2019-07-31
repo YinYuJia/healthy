@@ -158,9 +158,9 @@ function ApiUrl() {
 
 console.log('------欢迎进入APP首页main.js---20190715__01---')
 // console.log(localStorage.getItem('Ip'))
-// import Vconsole from 'vconsole';
-// var vConsole = new Vconsole()
-// export default vConsole;
+import Vconsole from 'vconsole';
+var vConsole = new Vconsole()
+export default vConsole;
 
 // 1  网新恩普包  2  浙理办包
 Vue.prototype.$build = "1"
