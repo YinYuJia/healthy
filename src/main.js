@@ -157,7 +157,7 @@ function ApiUrl() {
 }
 
 console.log('------欢迎进入APP首页main.js---20190715__01---')
-// console.log(localStorage.getItem('Ip'))
+console.log(localStorage.getItem('Ip'))
 import Vconsole from 'vconsole';
 var vConsole = new Vconsole()
 export default vConsole;
