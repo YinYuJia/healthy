@@ -269,11 +269,7 @@ export default {
         getMailInfo(){
             let submitForm = {}
             // 加入电子社保卡号
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                this.$toast("未获取到人员基本信息");
-            }
+            submitForm.AAE135 = sessionStorage.getItem("idCard");
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
                 //   成功   1000
