@@ -22,7 +22,7 @@
         </mt-datetime-picker>
         <SelectCity
             :type="2"
-            :excludeZj="true"
+            :jy7209="true"
             ref="cityPicker"
             @confirm="chooseCity"
             >

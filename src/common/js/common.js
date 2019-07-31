@@ -21,6 +21,7 @@ export default {
           return 'http://47.98.234.226:8000/api/api'  //服务器226   对应后端206
           // return 'http://ybj.zjzwfw.gov.cn/api'
           // return 'http://192.168.1.199:13030' //吴学文
+          // return 'http://ybj.zjzwfw.gov.cn/api'//正式库地址
         }else{
           return ''
         }

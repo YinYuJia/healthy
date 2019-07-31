@@ -23,9 +23,9 @@
             >
         </SelectCity>
         <SelectCity
-            :type="3"
+            :type="2"
             ref="cityPicker"
-            :excludeZj="true"
+            :jy7206="true"
             @confirm="chooseCity"
             >
         </SelectCity>
