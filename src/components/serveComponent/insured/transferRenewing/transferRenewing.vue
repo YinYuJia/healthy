@@ -3,14 +3,14 @@
         <Title :title="'医保转移接续'" :backRouter="'/'"></Title>
         <!-- MintUI弹出框区域 -->
         <SelectCity
-            :type="2"
+            :type="3"
             ref="outCityPicker"
             :onlyZJ="true"
             @confirm="chooseOutCity"
             >
         </SelectCity>
         <SelectCity
-            :type="2"
+            :type="3"
             ref="inCityPicker"
             :onlyZJ="true"
             @confirm="chooseInCity"

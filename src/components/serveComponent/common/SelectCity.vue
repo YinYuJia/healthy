@@ -144,10 +144,10 @@ export default {
                 this.fullCity[0].defaultIndex=0;
                 this.insuredCity[0].defaultIndex=0;
             }else if(this.onlyTZ){
-                // this.insuredCity[0].values = this.epFn.tzAddress();
-                // this.fullCity[0].values = this.epFn.tzAddress();
-                // this.fullCity[0].defaultIndex=0;
-                // this.insuredCity[0].defaultIndex=0;
+                this.insuredCity[0].values = this.epFn.tzAddress();
+                this.fullCity[0].values = this.epFn.tzAddress();
+                this.fullCity[0].defaultIndex=0;
+                this.insuredCity[0].defaultIndex=0;
             }else if(this.jy7206){
                 this.request('7206')
                 // this.insuredCity[0].values = this.epFn.excludeZj();
