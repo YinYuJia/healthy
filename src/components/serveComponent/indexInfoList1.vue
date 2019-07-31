@@ -579,7 +579,7 @@
                 const tipstr = sessionStorage.getItem("GinsengLandName")
 
                 
-                if ( tip != "339900" &&  tip != "331099") {
+                if ( tip != "339900" &&  tip != "331099" && tip!="330100") {
                     console.log("tiptiptiptiptiptip",tip);
                     if(tipstr === null) {
                        this.$toast("服务暂未开通")
