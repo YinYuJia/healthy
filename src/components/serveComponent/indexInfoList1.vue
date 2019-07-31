@@ -190,6 +190,7 @@
             })
         },
         created() {
+            // this.getMatterInfo()
             sessionStorage.setItem('isClear',this.isClear)
             // 清空零星报销的Vuex
             console.log('获取token',sessionStorage.getItem('getToken'))
@@ -296,6 +297,16 @@
             }
         },
         methods: {
+            //动态获取是想信息
+            getMatterInfo() {
+                let params = {
+                    "areaId": 339900 ,
+                }
+              this.$axios.post("/ApiUrl/ybapp/home/selectHomeConfigList", params).then((resData) => {
+                    console.log('返回成功信息', resData)
+
+                })
+            },
             // 跑马灯效果
             srcollLine(){
                 let [box, content, text] = [

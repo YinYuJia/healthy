@@ -163,7 +163,7 @@ var vConsole = new Vconsole()
 export default vConsole;
 
 // 1  网新恩普包  2  浙理办包
-Vue.prototype.$build = "1"
+Vue.prototype.$build = "2"
 
 
 dd.ready({
@@ -177,7 +177,7 @@ dd.ready({
   dd.biz.user.getUserType({ 
       onSuccess: (data) => {
           console.log("data获取用户类型",data)
-          const isShow = false
+          const isShow = true
           if ( isShow ) {
              if( data.userType == '0' || data.userType == '1' ) {
                 user()
@@ -268,8 +268,8 @@ console.log('ddddddd',dd)
                         })
                     });
             } else {
-              console.log("授权侵入")
-              window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode="+ code + "&goto=" + window.location.href;
+              console.log("code",code)
+              window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode="+ code ;
             }
           }
   })
