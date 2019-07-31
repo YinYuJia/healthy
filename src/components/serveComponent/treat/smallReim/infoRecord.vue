@@ -208,7 +208,7 @@ export default {
                      if(this.form.AAE009==""){
                          console.log('执行1')
                         if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-                            this.form.AAE009 = this.$store.state.SET_NATIVEMSG.name;
+                            this.form.AAE009 = sessionStorage.getItem("userName");
                          console.log('执行2')
 
                         }
