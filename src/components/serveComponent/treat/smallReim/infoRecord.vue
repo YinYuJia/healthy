@@ -206,12 +206,8 @@ export default {
                      this.form.AAE009 = resData.AAE009   //开户名
                      console.log(this.form.AAE009=="")
                      if(this.form.AAE009==""){
-                         console.log('执行1')
-                        if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-                            this.form.AAE009 = sessionStorage.getItem("userName");
-                         console.log('执行2')
-
-                        }
+                         console.log('执行从缓存里拿开户名')
+                        this.form.AAE009 = sessionStorage.getItem("userName");
                      }
 
                      this.form.AAE005 = resData.AAE005   //手机号码
