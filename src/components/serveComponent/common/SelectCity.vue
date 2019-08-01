@@ -66,6 +66,10 @@ export default {
         jy7209:{
             type: Boolean,
             default: false
+        },
+        jy7100:{
+            type: Boolean,
+            default: false
         }
     },
     data(){
@@ -160,6 +164,8 @@ export default {
                 // this.fullCity[0].values = this.epFn.excludeProvince();
                 // this.fullCity[0].defaultIndex = 10;
                 // this.insuredCity[0].defaultIndex = 10;
+            }else if(this.jy7100){
+                this.request('7100')
             }
             // else{
             //     this.insuredCity[0].values = this.epFn.addressList();
@@ -239,9 +245,9 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/H5/jy9099/distanceHospital', params).then((resData) => {
                 console.log('返回成功信息',resData)
                 //   成功   1000
-                if ( resData.enCode == null ) {
-                    this.insuredCity[0].values =resData;
-                    this.fullCity[0].values =resData;
+                if ( resData.enCode == 1000 ) {
+                    this.insuredCity[0].values =resData.LS_DS;
+                    this.fullCity[0].values =resData.LS_DS;
                     this.fullCity[0].defaultIndex = 0;
                     this.insuredCity[0].defaultIndex = 0;
                 }else if (resData.enCode == 1001 ) {
@@ -258,7 +264,7 @@ export default {
             let submitForm = {};
             submitForm.TRANSTYPE=type
             // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9099");
+            const params = this.epFn.commonRequsetData(submitForm,"9099");
             return params;
         },
     }
