@@ -223,11 +223,6 @@ export default new Router({
       name: 'chronicDiseaseDetail',
       component: chronicDiseaseDetail
     },
-    // {
-    //   path: '/SearchInfoPage',
-    //   name: 'SearchInfoPage',
-    //   component: SearchInfoPage
-    // },
     {
       path: '/familyDetail',
       name: 'familyDetail',

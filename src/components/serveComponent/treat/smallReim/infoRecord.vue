@@ -189,11 +189,12 @@ export default {
             return params;
         },
         getUserInfo(){
-            this.form.AAE009 = sessionStorage.getItem("userName");
+            
             let submitForm = {}
             // 加入电子社保卡号
             
             submitForm.AAE135 = sessionStorage.getItem("idCard");
+            // submitForm.AAE135 = '230522199003081571';
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
              this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
                 //   成功   1000
@@ -213,7 +214,7 @@ export default {
                      console.log("手机号码",this.form.AAE005)
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
-                    // this.$toast(resData.msg);
+                    this.$toast(resData.msg);
                     return;
                 }else{
                     this.$toast('业务出错');

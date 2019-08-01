@@ -122,7 +122,13 @@
                 :value="item.AAA102"
               ></el-option>
             </el-select> -->
-            <input @click="openDrugTimePicker()" type="text" v-model="BKE248VALUE" placeholder="请选择" readonly>
+            <input @click="openDrugTimePicker()" 
+              type="text" v-model="BKE248VALUE" 
+              placeholder="请选择"
+              :disabled="useMedical"
+              :class="{disabledInput:useMedical}"
+              readonly
+            >
             <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
@@ -261,7 +267,8 @@ export default {
       hospitalList: [],
       typeList: [],
       drugList: [],
-      drugTimeList: []
+      drugTimeList: [],
+      useMedical:false
     };
   },
   created() {
@@ -335,6 +342,10 @@ export default {
     },
     'form.BKE253'(val,oldVal){
       // 项目类型
+        if(val=='就诊'){
+          this.BKE248VALUE="";
+          this.form.BKE248="";
+        }
         if(val ==""){
           this.oneDisabled = true;
           this.form.BKE228 = "";
@@ -403,6 +414,13 @@ export default {
     handleProjectTypeConfirm(val){
       this.form.BKE253 = val.value;
       this.BKE253VALUE = val.label;
+      if(this.BKE253VALUE=="诊疗"){
+        this.useMedical=true;
+      }else{
+        this.useMedical=false;
+        this.BKE248VALUE="";
+        this.form.BKE248="";
+      }
     },
     // 选择特治特药类型
     openDrugPicker(){
@@ -411,6 +429,9 @@ export default {
     handleDrugConfirm(val){
       this.form.BKE228 = val.value;
       this.BKE228VALUE = val.label;
+      if(this.BKE228VALUE=="康复"){
+
+      }
     },
     // 选择用药时期
     openDrugTimePicker(){
