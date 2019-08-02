@@ -1,11 +1,10 @@
 <template>
     <div class="indexInfoList">
         <!-- 提示 -->
-        <div class="Hint">
+        <div class="Hint" v-if="isTips">
             <div class="HintContent">
                 <p class="HintText">
-                    <i class="el-icon-warning" style="color:#ff6204"></i>
-                    温馨提示: 当前专区正处于试运营阶段，业务尚未对外开放，推荐暂时使用其他平台
+                    <i class="el-icon-warning" style="color:#ff6204"></i> 温馨提示：当前专区功能建设完善中，敬请期待!
                 </p>
             </div>
         </div>
@@ -14,7 +13,7 @@
             <svg-icon icon-class="serveComponent_background" />
             <div class="headerText">医疗保障专区</div>
             <div class="headerInfo">汇聚浙江省医疗保障服务</div>
-            <div class="headerPad" >
+            <div class="headerPad">
                 <div class="iconBox" @click="socialCard">
                     <svg-icon v-if="1" icon-class="serveComponent_icon1" />
                     <svg-icon v-if="0" icon-class="serveComponent_grey_1" />
@@ -35,11 +34,10 @@
                     <svg-icon v-if="0" icon-class="serveComponent_grey_3" />
                     <div class="text">医保账户</div>
                 </div>
-
             </div>
         </div>
         <!-- 图标列表 -->
-        <div class="iconContent" >
+        <div class="iconContent">
             <div class="iconList">
                 <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
                     <svg-icon icon-class="serveComponent_icon5" />
@@ -55,14 +53,14 @@
                     <svg-icon icon-class="serveComponent_icon_19" />
                     <div class="text">就医信息</div>
                 </div>
-                <div class="iconBox"  @click="showDetail('searchProgress','我的事项')">
+                <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
                     <svg-icon icon-class="serveComponent_icon8" />
                     <div class="text">办事进度</div>
                 </div>
                 <div class="iconBox" v-if="!iconFlag">
                 </div>
                 <!-- <div class="iconBox" v-if="!iconFlag">
-                </div> -->
+                    </div> -->
             </div>
             <div class="iconList">
                 <div class="iconBox" v-if="iconFlag" @click="showDetail('searchBaseInfo','个人信息查询')">
@@ -86,31 +84,31 @@
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                       
-                    <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                    <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                </div>
-            </div> -->
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                           
+                        <div class="swiper-slide">
+                            <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                        <div class="swiper-slide">
+                            <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                    </div>
+                </div> -->
             <div class="bannerSvg">
-                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital"/>
-                <svg-icon icon-class="serveComponent_icon15" @click="medicalList"/>
+                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
+                <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
             </div>
         </div>
         <!-- 轮播图 -->
-        <div class="carousel"> 
+        <div class="carousel">
             <!-- <swipe>
-                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-            </swipe> -->
+                    <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
-        <!-- 热点资讯 -->   
+        <!-- 热点资讯 -->
         <div class="hotMsg">
             <div class="hotHeader">热点资讯</div>
             <div class="msgLine" v-for="(item,index) in hotMsg" :key="index">
@@ -137,16 +135,15 @@
     import {
         MessageBox
     } from 'mint-ui';
-
     export default {
         data() {
-           
             return {
-                provice:false,
-                name:"",
-                lat:"",
-                lng:"",
-                ifShow:true,
+                isTips: false,
+                provice: false,
+                name: "",
+                lat: "",
+                lng: "",
+                ifShow: true,
                 tel: "0571-88808880",
                 imgurl: "",
                 hotMsg: [ //热点资讯
@@ -172,14 +169,15 @@
                     }
                 ],
                 iconFlag: false,
-                isClear:true
+                isClear: true
             }
         },
         mounted() {
+            console.log('---this.$build', this.$build)
             // 跑马灯效果
-            setTimeout(()=>{
-                this.srcollLine()
-            },500)
+            setTimeout(() => {
+                // this.srcollLine()
+            }, 500)
             new Swiper('.swiper-container', {
                 slidesPerView: 2.15, //显示的范围
                 spaceBetween: -8, //间隔大小
@@ -191,10 +189,10 @@
         },
         created() {
             // this.getMatterInfo()
-            sessionStorage.setItem('isClear',this.isClear)
+            sessionStorage.setItem('isClear', this.isClear)
             // 清空零星报销的Vuex
-            console.log('获取token',sessionStorage.getItem('getToken'))
-            let SET_SMALL_REIM_SUBMIT={
+            console.log('获取token', sessionStorage.getItem('getToken'))
+            let SET_SMALL_REIM_SUBMIT = {
                 AAS301: '', //参保地统筹省编码
                 AAB301: '', //参保地统筹市编码
                 AKC264: 0, //发票费用总额
@@ -203,74 +201,67 @@
                 AAE010: '', //收款银行账号
                 BKC013: '', //发票张数
                 AKB020: '', //机构编码（医院编码）
-                AAE005: '',//手机号码
+                AAE005: '', //手机号码
             }
-            this.$store.dispatch('SET_SMALL_REIM_SUBMIT',SET_SMALL_REIM_SUBMIT)
-            let SET_SMALL_REIM_1={
+            this.$store.dispatch('SET_SMALL_REIM_SUBMIT', SET_SMALL_REIM_SUBMIT)
+            let SET_SMALL_REIM_1 = {
                 hospitalName: '', //就诊医院
                 AKB020: '', //医院编码
                 AKA078: '', //就诊类型
                 AKA078VALUE: '', //就诊类型中文
                 AAE030: '' //就诊日期
             }
-            this.$store.dispatch('SET_SMALL_REIM_1',SET_SMALL_REIM_1)
-            let SET_SMALL_REIM_2={
+            this.$store.dispatch('SET_SMALL_REIM_1', SET_SMALL_REIM_1)
+            let SET_SMALL_REIM_2 = {
                 eleInvoices: [], //电子发票信息
                 invoicesImg: [], //附件信息信息  图片id
             }
-            this.$store.dispatch('SET_SMALL_REIM_2',SET_SMALL_REIM_2)
-            
-            let SET_ENCLOSURE=[]
-            this.$store.dispatch('SET_ENCLOSURE',SET_ENCLOSURE)
+            this.$store.dispatch('SET_SMALL_REIM_2', SET_SMALL_REIM_2)
+            let SET_ENCLOSURE = []
+            this.$store.dispatch('SET_ENCLOSURE', SET_ENCLOSURE)
             // 清空结束
-
-            console.log("$build",this.$build)
+            console.log("$build", this.$build)
             //  切换打包环境  1 网新恩普包  2  浙理办包
-            if (this.$build =="1" ) {
-                this.ifShow = true   //显示输入人名社保卡
-            }else if( this.$build == "2" ){
+            if (this.$build == "1") {
+                this.ifShow = true //显示输入人名社保卡
+            } else if (this.$build == "2") {
                 this.ifShow = false; //隐藏输入人名社保卡
-                this.setNativeMsg();  //浙理办打包需要打开 
-                this.getUserRegion();  // 自动获取参保地
+                this.setNativeMsg(); //浙理办打包需要打开 
+                this.getUserRegion(); // 自动获取参保地
             }
             console.log('dddddd引入浙理办SDKddddddd', dd)
- 
             this.epFn.setTitle('医疗保障专区')
-
             // 获取参保地
-            if(sessionStorage.getItem("GinsengLandCode") == "339900"){
-                this.iconFlag = true;  //省本级设置为true
-            }else{
-                this.iconFlag = false;  //其他情况设置为false
+            if (sessionStorage.getItem("GinsengLandCode") == "339900") {
+                this.iconFlag = true; //省本级设置为true
+            } else {
+                this.iconFlag = false; //其他情况设置为false
             }
-            
             // 设置标题
             // this.$ep.setTitle("sssssssssssssssssssssssss")
             // 选择图片
             // this.$ep.chooseImage((data)=> {
             //     console.log('chooseImage成功回调',data)
-
             // },(error)=> {
             //     console.log('chooseImage失败回调',error)
             // });
             // 获取当前城市信息
             this.$ep.selectLocalCity((data) => {
-                console.log('selectLocalCity成功回调',data)
-            },(error)=> {
-                console.log('selectLocalCity失败回调',error)
+                console.log('selectLocalCity成功回调', data)
+            }, (error) => {
+                console.log('selectLocalCity失败回调', error)
             })
             // 获取当前地理位置
-            
             this.$ep.locationGet((data) => {
-                console.log('locationGet成功回调',data)
-                let lat=data.latitude.toString();
-                let lng=data.longitude.toString();
-                this.lat=lat;
-                this.lng=lng;
-                console.log("lng",this.lng)
-                console.log("lat",this.lat)
-            },(error)=> {
-                console.log('locationGet失败回调',error)
+                console.log('locationGet成功回调', data)
+                let lat = data.latitude.toString();
+                let lng = data.longitude.toString();
+                this.lat = lat;
+                this.lng = lng;
+                console.log("lng", this.lng)
+                console.log("lat", this.lat)
+            }, (error) => {
+                console.log('locationGet失败回调', error)
             })
             // 移动支付
             // this.$ep.mobelPay((data) => {
@@ -300,15 +291,14 @@
             //动态获取是想信息
             getMatterInfo() {
                 let params = {
-                    "areaId": 339900 ,
+                    "areaId": 339900,
                 }
-              this.$axios.post("/ApiUrl/ybapp/home/selectHomeConfigList", params).then((resData) => {
+                this.$axios.post("/ApiUrl/ybapp/home/selectHomeConfigList", params).then((resData) => {
                     console.log('返回成功信息', resData)
-
                 })
             },
             // 跑马灯效果
-            srcollLine(){
+            srcollLine() {
                 let [box, content, text] = [
                     document.querySelector('.Hint'),
                     document.querySelector('.HintContent'),
@@ -318,37 +308,35 @@
                     text.offsetWidth,
                     box.offsetWidth
                 ];
-                if(boxWidth > textWidth){ 
+                if (boxWidth > textWidth) {
                     return false
                 }
                 content.innerHTML += content.innerHTML;
                 document.querySelector('.HintText').classList.add('padding');
                 // 更新
                 textWidth = document.querySelector('.HintText').offsetWidth;
-                this.toScrollLeft(textWidth,box);
+                this.toScrollLeft(textWidth, box);
             },
-            toScrollLeft(textWidth,box){ 
+            toScrollLeft(textWidth, box) {
                 //  如果文字长度大于滚动条距离，则递归拖动
-                if(textWidth > box.scrollLeft){
+                if (textWidth > box.scrollLeft) {
                     box.scrollLeft++
-                    setTimeout(()=>{
-                        this.toScrollLeft(textWidth,box);
-                    },20);
-                }
-                else{
+                        setTimeout(() => {
+                            this.toScrollLeft(textWidth, box);
+                        }, 20);
+                } else {
                     box.scrollLeft = 0;
-                    this.toScrollLeft(textWidth,box);
+                    this.toScrollLeft(textWidth, box);
                 }
             },
             query1() {
                 console.log("query")
             },
-            hint(){
+            hint() {
                 this.$toast("功能正在建设中");
             },
             //移动支付
-            movePay(){
-                
+            movePay() {
                 let _this = this
                 dd.ready({
                     developer: 'daip@dtdream.com',
@@ -359,9 +347,9 @@
                 }, function() {
                     dd.biz.navigation.open({
                         pageId: 'card',
-                        params:{
-                            id:"medicalPayCard",
-                            functionType:1//1医保SDK
+                        params: {
+                            id: "medicalPayCard",
+                            functionType: 1 //1医保SDK
                         },
                         onSuccess: function(data) {
                             console.log(data)
@@ -374,7 +362,7 @@
                 })
             },
             //支付码
-            payCode(){
+            payCode() {
                 let _this = this
                 dd.ready({
                     developer: 'daip@dtdream.com',
@@ -385,9 +373,9 @@
                 }, function() {
                     dd.biz.navigation.open({
                         pageId: 'card',
-                        params:{
-                            id:"socialCard",
-                            functionType:2//1社保卡首页 2打开社保卡支付码 3打开社保卡关联页
+                        params: {
+                            id: "socialCard",
+                            functionType: 2 //1社保卡首页 2打开社保卡支付码 3打开社保卡关联页
                         },
                         onSuccess: function(data) {
                             console.log(data)
@@ -395,12 +383,12 @@
                         onFail: function(error) {
                             console.log(error)
                             _this.$toast("请升级浙里办APP版本")
-                        } 
+                        }
                     })
                 })
             },
             //电子社保卡
-            socialCard(){
+            socialCard() {
                 let _this = this
                 dd.ready({
                     developer: 'daip@dtdream.com',
@@ -411,9 +399,9 @@
                 }, function() {
                     dd.biz.navigation.open({
                         pageId: 'card',
-                        params:{
-                            id:"socialCard",
-                            functionType:1//1社保卡首页 2打开社保卡支付码 3打开社保卡关联页
+                        params: {
+                            id: "socialCard",
+                            functionType: 1 //1社保卡首页 2打开社保卡支付码 3打开社保卡关联页
                         },
                         onSuccess: function(data) {
                             console.log(data)
@@ -426,28 +414,28 @@
                 })
             },
             //药品目录
-            medicalList(){
-                console.log(1)  
-                this.$router.push("/SearchInfoMedicalList");       
+            medicalList() {
+                console.log(1)
+                this.$router.push("/SearchInfoMedicalList");
             },
             //异地定点医院
-            elseWhereHospital(){
-                console.log(2)   
-                let item ={} 
-                if(this.lat==""&&this.lng==""){
-                    item.lat="30.274643833098636"
-                    item.lng="120.14708140897169"
-                }else{
-                    item.lat=this.lat;    
-                    item.lng=this.lng; 
+            elseWhereHospital() {
+                console.log(2)
+                let item = {}
+                if (this.lat == "" && this.lng == "") {
+                    item.lat = "30.274643833098636"
+                    item.lng = "120.14708140897169"
+                } else {
+                    item.lat = this.lat;
+                    item.lng = this.lng;
                 }
-                console.log("item",item)   
+                console.log("item", item)
                 this.$router.push({
-                path:"/SearchInfoElseWhere",//领取就医凭证
-                query:{
-                    param: item
-                }
-                });       
+                    path: "/SearchInfoElseWhere", //领取就医凭证
+                    query: {
+                        param: item
+                    }
+                });
             },
             yibaozhanghu() {
                 this.$toast("功能正在建设中")
@@ -487,11 +475,14 @@
                                 insured: resData.AAB301,
                                 regionName: resData.RegionName || '杭州市'
                             })
-                            console.log('用户参保地信息',sessionStorage.getItem("GinsengLandCode"));
-                            if(sessionStorage.getItem("GinsengLandCode") == "339900"){
-                                this.iconFlag = true;  //省本级设置为true
-                            }else{
-                                this.iconFlag = false;  //其他情况设置为false
+                            console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
+                            console.log("this.isTips", this.isTips)
+                            if (sessionStorage.getItem("GinsengLandCode") == "339900") {
+                                this.iconFlag = true; //省本级设置为true
+                                this.isTips = false
+                            } else {
+                                this.iconFlag = false; //其他情况设置为false
+                                this.isTips = true
                             }
                         } else {
                             dd.ready({
@@ -577,28 +568,36 @@
             showDetail(url, item) {
                 const tip = sessionStorage.getItem("GinsengLandCode")
                 const tipstr = sessionStorage.getItem("GinsengLandName")
-
-                
-                if ( tip != "339900" &&  tip != "331099" && tip!="330100") {
-                    console.log("tiptiptiptiptiptip",tip);
-                    if(tipstr === null) {
-                       this.$toast("服务暂未开通")
-                    }else{
-                       this.$toast(tipstr + "服务暂未开通")
+                // 正式环境 杭州不能点 测试环境可以点
+                if (this.$build == "2") {
+                    if (tip != "339900" && tip != "331099") {
+                        console.log("tiptiptiptiptiptip", tip);
+                        if (tipstr === null) {
+                            this.$toast("服务暂未开通")
+                        } else {
+                            this.$toast(tipstr + "服务暂未开通")
+                        }
+                        return;
                     }
-                    
-                    return;
+                } else if (this.$build == "1") {
+                    if (tip != "339900" && tip != "331099" && tip != "330100") {
+                        console.log("tiptiptiptiptiptip", tip);
+                        if (tipstr === null) {
+                            this.$toast("服务暂未开通")
+                        } else {
+                            this.$toast(tipstr + "服务暂未开通")
+                        }
+                        return;
+                    }
                 }
-
-                 
                 // 医保账户 只有省本级能点
-                if (url == 'medicalInsuranceAccount' ) {
+                if (url == 'medicalInsuranceAccount') {
                     if (tip != '339900') {
-                        if(tipstr === null) {
-                       this.$toast("服务暂未开通")
-                    }else{
-                       this.$toast(tipstr + "服务暂未开通")
-                    }
+                        if (tipstr === null) {
+                            this.$toast("服务暂未开通")
+                        } else {
+                            this.$toast(tipstr + "服务暂未开通")
+                        }
                         return;
                     }
                 }
@@ -631,7 +630,7 @@
 <style lang="less" scoped>
     .indexInfoList {
         width: 100%;
-        .Hint{
+        .Hint {
             width: 100%;
             padding: 0 .3rem;
             font-size: .26rem;
@@ -641,21 +640,19 @@
             color: #ff6204;
             white-space: nowrap;
             overflow: hidden;
-            .HintContent{
-                p{
-                    display:inline-block;
+            .HintContent {
+                p {
+                    display: inline-block;
                     line-height: .6rem;
                 }
-                .padding{
+                .padding {
                     padding-right: 100%;
                 }
             }
-        }
-        // 头部
+        } // 头部
         .indexHeader {
             height: 3.4rem;
             position: relative;
-            
             .svg-icon {
                 height: 3.4rem;
                 width: 100%;
@@ -718,13 +715,17 @@
             background: #FFF;
             padding: 1.8rem .2rem 0 .2rem;
             .iconList {
-                display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
-                display: -moz-box; /* Firefox 17- */
-                display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
-                display: -moz-flex; /* Firefox 18+ */
-                display: -ms-flexbox; /* IE 10 */
+                display: -webkit-box;
+                /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+                display: -moz-box;
+                /* Firefox 17- */
+                display: -webkit-flex;
+                /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+                display: -moz-flex;
+                /* Firefox 18+ */
+                display: -ms-flexbox;
+                /* IE 10 */
                 display: flex;
-
                 justify-content: space-around;
                 .iconBox {
                     position: relative;
@@ -776,12 +777,12 @@
                     }
                 }
             }
-            .bannerSvg{
+            .bannerSvg {
                 width: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: space-around;
-                .svg-icon{
+                .svg-icon {
                     height: 1.76rem;
                     width: 3.28rem;
                 }
@@ -798,7 +799,7 @@
                     width: 100%;
                 }
             }
-            .svg-icon{
+            .svg-icon {
                 height: 100%;
                 width: 100%;
             }
@@ -872,17 +873,17 @@
             }
         }
     }
-.changeUserBtn{
-    display: flex;
-    justify-content: space-around;
-    .btn{
-        height: .6rem;
-        line-height: .6rem;
-        width: 3.5rem;
-        border: 1px solid #DDD;
-        font-size: .36rem;
-        border-radius: .2rem;
-        background: #FFF;
+    .changeUserBtn {
+        display: flex;
+        justify-content: space-around;
+        .btn {
+            height: .6rem;
+            line-height: .6rem;
+            width: 3.5rem;
+            border: 1px solid #DDD;
+            font-size: .36rem;
+            border-radius: .2rem;
+            background: #FFF;
+        }
     }
-}
 </style>
