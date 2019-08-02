@@ -192,6 +192,14 @@ export function BKE520( val ) {
       return Math.floor(val * 100) / 100 + "km"
      }
  }
+//特治特药康复疗程
+export function BKE239( val ) {
+      let obj = {
+        "0": "第一疗程",
+        "1": "第二疗程",
+      }
+      return obj[val]
+}
 /*退休类别过滤*/
 export function trtireType(value) {
   let str = "";
