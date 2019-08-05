@@ -18,7 +18,11 @@
                             <div class="InfoHead">{{item.AGA004 | tooLong}}</div>
                             <div class="InfoDate">{{item.AAE036}}</div>
                         </div>
-                        <svg-icon icon-class="serveComponent_arrowRight" />
+                        <div class="IconBox">
+                            <div class="CompleteBtn">补</div>
+                            <svg-icon icon-class="serveComponent_error" class="error" />
+                            <svg-icon icon-class="serveComponent_arrowRight" />
+                        </div>
                     </li>
                 </ul>
             </mt-loadmore>
@@ -399,9 +403,28 @@
                         letter-spacing: 0;
                     }
                 }
-                .svg-icon {
-                    height: .3rem;
-                    width: .3rem;
+                .IconBox{
+                    display: flex;
+                    align-items: center;
+                    .CompleteBtn{
+                        height: .4rem;
+                        width: .4rem;
+                        border-radius: .2rem;
+                        background: red;
+                        color: white;
+                        font-size: .13rem;
+                        line-height: .4rem;
+                        text-align: center;
+                        margin-right: .1rem;
+                    }
+                    .svg-icon {
+                        height: .3rem;
+                        width: .3rem;
+                    }
+                    .error{
+                        height: .45rem;
+                        width: .45rem;
+                    }
                 }
                 &:last-child {
                     border-bottom: none;

@@ -34,6 +34,7 @@ import abroadDetail from '@/components/serveComponent/record/abroadTake/abroadDe
 import searchTakeDrug from '@/components/serveComponent/record/abroadTake/searchTakeDrug'
 import familyAid from '@/components/serveComponent/record/familyAid/familyAid'
 import familyDetail from '@/components/serveComponent/record/familyAid/familyDetail'
+import familyComplete from '@/components/serveComponent/record/familyAid/familyComplete'
 import specialDrug from '@/components/serveComponent/record/specialDrug/specialDrug'
 import specialDrugDetail from '@/components/serveComponent/record/specialDrug/specialDrugDetail'
 import chronicDisease from '@/components/serveComponent/record/chronicDisease/chronicDisease'
@@ -227,6 +228,11 @@ export default new Router({
       path: '/familyDetail',
       name: 'familyDetail',
       component: familyDetail
+    },
+    {
+      path: '/familyComplete',
+      name: 'familyComplete',
+      component: familyComplete
     },
     {
       path: '/mendChangeCard',
