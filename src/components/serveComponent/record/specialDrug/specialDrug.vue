@@ -93,6 +93,20 @@
             <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
+        <div class="InfoLine" v-if="secondTreat">
+          <div class="InfoName">
+            <span>康复第二疗程</span>
+          </div>
+          <div class="InfoText">
+              <el-switch
+                v-model="form.BKE239"
+                active-color="#13ce66"
+                inactive-color="#ccc"
+                active-value="1"
+                inactive-value="0">
+              </el-switch>
+          </div>
+        </div>
         <div class="InfoLine">
           <div class="InfoName">
             <span>疾病名称</span>
@@ -126,7 +140,6 @@
               type="text" v-model="BKE248VALUE" 
               placeholder="请选择"
               :disabled="useMedical"
-              :class="{disabledInput:useMedical}"
               readonly
             >
             <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
@@ -256,6 +269,7 @@ export default {
         AAE030: "", //开始日期
         AAE031: "", //结束日期
         photoIdList:[],//照片ID数组
+        BKE239: ""//康复第二疗程0为第一疗程，1为第二疗程
       },
       BKE253VALUE: "", //项目类型值
       BKE228VALUE: "", //特治特药类型值
@@ -268,7 +282,9 @@ export default {
       typeList: [],
       drugList: [],
       drugTimeList: [],
-      useMedical:false
+      useMedical:false,
+      value5:"",
+      secondTreat:false
     };
   },
   created() {
@@ -323,7 +339,7 @@ export default {
           this.canSubmit = true;
         } else {
           this.canSubmit = false;
-        }
+        } 
         // 判断时间间隔
         if (val.AAE030 != "" && val.AAE031 != "") {
           let AAE030 = new Date(val.AAE030);
@@ -342,10 +358,6 @@ export default {
     },
     'form.BKE253'(val,oldVal){
       // 项目类型
-        if(val=='就诊'){
-          this.BKE248VALUE="";
-          this.form.BKE248="";
-        }
         if(val ==""){
           this.oneDisabled = true;
           this.form.BKE228 = "";
@@ -386,6 +398,31 @@ export default {
           this.form.AKE002=""
         }
       }
+    },
+    'BKE253VALUE'(val){
+      console.log("BKE253VALUE",val)
+      if(val=="诊疗"){
+        this.useMedical=true;
+        this.BKE248VALUE="其它";
+        this.form.BKE248="0";
+      }else{
+        this.useMedical=false;
+      }
+    },
+    'form.BKE239'(val){
+      console.log('康复疗程',val)
+    },
+    //展示第二疗程
+    'BKE228VALUE'(val){
+      console.log('特治特药类型',val)
+      if(val=='康复'){
+        this.secondTreat=true;
+        this.form.AKC226='90'
+      }else{
+        this.secondTreat=false;
+        this.form.AKC226='';
+        this.form.BKE239=''
+      }
     }
   },
   methods: {
@@ -414,13 +451,6 @@ export default {
     handleProjectTypeConfirm(val){
       this.form.BKE253 = val.value;
       this.BKE253VALUE = val.label;
-      if(this.BKE253VALUE=="诊疗"){
-        this.useMedical=true;
-      }else{
-        this.useMedical=false;
-        this.BKE248VALUE="";
-        this.form.BKE248="";
-      }
     },
     // 选择特治特药类型
     openDrugPicker(){

@@ -20,6 +20,10 @@
                     <div class="InfoText">{{form.BKE253VALUE}}</div>
                 </div>
                 <div class="InfoLine">
+                    <div class="InfoName"><span>康复疗程:</span></div>
+                    <div class="InfoText">{{form.BKE239|BKE239}}</div>
+                </div>
+                <div class="InfoLine">
                     <div class="InfoName"><span>特治特药类型:</span></div>
                     <div class="InfoText">{{form.BKE228VALUE}}</div>
                 </div>
@@ -103,7 +107,8 @@ export default {
                 AKB063: "", //备案天数
                 AAE030: "", //开始日期
                 AAE031: "", //结束日期
-                AKB020Name:""//就诊机构名称
+                AKB020Name:"",//就诊机构名称
+                BKE239:""
             },
             AAB301000: "",
             arr: [
