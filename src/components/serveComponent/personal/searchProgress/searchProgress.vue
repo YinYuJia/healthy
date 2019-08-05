@@ -19,8 +19,8 @@
                             <div class="InfoDate">{{item.AAE036}}</div>
                         </div>
                         <div class="IconBox">
-                            <div class="CompleteBtn">补</div>
-                            <svg-icon icon-class="serveComponent_error" class="error" />
+                            <svg-icon v-if="item.BOD038 == '22'" icon-class="serveComponent_complete" class="error" />
+                            <svg-icon v-if="item.BOD038 == '11'" icon-class="serveComponent_error" class="error" />
                             <svg-icon icon-class="serveComponent_arrowRight" />
                         </div>
                     </li>
@@ -422,8 +422,9 @@
                         width: .3rem;
                     }
                     .error{
-                        height: .45rem;
-                        width: .45rem;
+                        height: .4rem;
+                        width: .4rem;
+                        margin-right: .1rem;
                     }
                 }
                 &:last-child {
