@@ -110,8 +110,13 @@ export default {
                 {BKE262: '3',BKE265: '户口本',BKE266: '户口本复印件'}
             ];
             this.$router.push({
-                path: "/familyComplete",
-                query: {list:LS_DS,BKZ019:this.form.BKZ019}
+                path: "/CompleteUpload",
+                query: {
+                    list: LS_DS,
+                    BKZ019: this.form.BKZ019,
+                    AGA002: '确认-00253-023',
+                    route: 'familyDetail'
+                }
             });
         },
         request(){

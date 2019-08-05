@@ -5,6 +5,7 @@ import indexInfoList from '@/components/serveComponent/indexInfoList'
 import indexInfoList1 from '@/components/serveComponent/indexInfoList1'
 import indexInfoListMore from '@/components/serveComponent/indexInfoListMore'
 import BusinessGuide from '@/components/serveComponent/BusinessGuide'
+import CompleteUpload from '@/components/serveComponent/CompleteUpload'
 
 import First from '@/components/First';
 
@@ -28,13 +29,11 @@ import elseWhere from '@/components/serveComponent/record/elseWhere/elseWhere'
 import elseDetail from '@/components/serveComponent/record/elseWhere/elseDetail'
 import turnOut from '@/components/serveComponent/record/turnOut/turnOut'
 import turnDetail from '@/components/serveComponent/record/turnOut/turnDetail'
-import searchDisease from '@/components/serveComponent/record/turnOut/searchDisease'
 import abroadTake from '@/components/serveComponent/record/abroadTake/abroadTake'
 import abroadDetail from '@/components/serveComponent/record/abroadTake/abroadDetail'
 import searchTakeDrug from '@/components/serveComponent/record/abroadTake/searchTakeDrug'
 import familyAid from '@/components/serveComponent/record/familyAid/familyAid'
 import familyDetail from '@/components/serveComponent/record/familyAid/familyDetail'
-import familyComplete from '@/components/serveComponent/record/familyAid/familyComplete'
 import specialDrug from '@/components/serveComponent/record/specialDrug/specialDrug'
 import specialDrugDetail from '@/components/serveComponent/record/specialDrug/specialDrugDetail'
 import chronicDisease from '@/components/serveComponent/record/chronicDisease/chronicDisease'
@@ -97,6 +96,11 @@ export default new Router({
       path: '/BusinessGuide',
       name: 'BusinessGuide',
       component: BusinessGuide
+    },
+    {
+      path: '/CompleteUpload',
+      name: 'CompleteUpload',
+      component: CompleteUpload
     },
 
     {
@@ -180,11 +184,6 @@ export default new Router({
       component: turnDetail
     },
     {
-      path: '/searchDisease',
-      name: 'searchDisease',
-      component: searchDisease
-    },
-    {
       path: '/abroadTake',
       name: 'abroadTake',
       component: abroadTake
@@ -228,11 +227,6 @@ export default new Router({
       path: '/familyDetail',
       name: 'familyDetail',
       component: familyDetail
-    },
-    {
-      path: '/familyComplete',
-      name: 'familyComplete',
-      component: familyComplete
     },
     {
       path: '/mendChangeCard',

@@ -1,5 +1,5 @@
 <template>
-    <div class="familyComplete">
+    <div class="CompleteUpload">
         <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
         <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
             <div class="InfoText">{{item.BKE262}}.{{item.BKE265}}<span v-if="item.BKE266!=''">（{{item.BKE266}}）</span></div>
@@ -22,6 +22,8 @@ export default {
             completeList:[], //补充材料数组
             photoIdList: [], //照片ID数组
             BKZ019: '', //经办编号
+            AGA002: '', //子项编码
+            route: '', //需跳转的路由
         };
     },
     created(){
@@ -33,6 +35,12 @@ export default {
         })
         // 经办编号
         this.BKZ019 = this.$route.query.BKZ019;
+        // 需跳转的路由
+        this.route = this.$route.query.route;
+        // 子项编码
+        this.AGA002 = this.$route.query.AGA002;
+        console.log("路由",this.route);
+        console.log("子项编码",this.AGA002);
     },
     computed:{
         canSubmit(){
@@ -49,11 +57,11 @@ export default {
             let This = this
             if(this.$isSdk){
                 dd.ready({
-                developer: 'daip@dtdream.com',
+                developer: 'zzxprint',
                 usage: [
                     'dd.device.notification.chooseImage',
                 ],
-                remark: '描述业务场景'
+                remark: '补充材料上传'
                 }, function() {
                     dd.device.notification.chooseImage ({
                         onSuccess: function(data) {
@@ -63,7 +71,7 @@ export default {
                                 submitForm.AAC003 = This.$store.state.SET_NATIVEMSG.name;
                                 submitForm.AAE135 = This.$store.state.SET_NATIVEMSG.idCard;
                                 // 加入子项编码
-                                submitForm.AGA002 = "确认-00253-023";
+                                submitForm.AGA002 = This.AGA002;
                                 // 加入照片
                                 submitForm.photoList = data.picPath[0];
                                 // 类型为附件
@@ -104,7 +112,7 @@ export default {
             }
             let submitForm = {
                 BKZ019: this.BKZ019,
-                photoIdList: this.photoIdList
+                photoIdList: this.photoIdList,
             }
             console.log(submitForm);
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1030");
@@ -128,7 +136,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.familyComplete{
+.CompleteUpload{
     width: 100%;
     background: #FFF;
     padding: .5rem .2rem .2rem .2rem;
