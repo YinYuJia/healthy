@@ -70,6 +70,8 @@
         </div>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Success :flag="successFlag"></Success>
+        <!-- 补齐材料提交 -->
+        <Footer v-if="needComplete" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
         <!-- 底部 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" :handleNumber="handleNumber" @edit="edit()"></Footer>
     </div>
@@ -111,6 +113,7 @@ export default {
             List:[],
             successFlag: 1,
             picList: [],
+            needComplete: true, //需要补充材料
         }
     },
     created(){
@@ -272,7 +275,25 @@ export default {
                     return;
                 }
             })
-        }
+        },
+        // 补充材料
+        complete(){
+            //补充材料数组
+            let LS_DS = [
+                {BKE262: '1',BKE265: '身份证',BKE266: '身份证复印件'},
+                {BKE262: '2',BKE265: '参保凭证',BKE266: ''},
+                {BKE262: '3',BKE265: '户口本',BKE266: '户口本复印件'}
+            ];
+            this.$router.push({
+                path: "/CompleteUpload",
+                query: {
+                    list: LS_DS,
+                    BKZ019: this.$route.query.param||"",
+                    AGA002: '确认-00253-004-01',
+                    route: 'chronicDiseaseDetail'
+                }
+            });
+        },
     }
 }
 </script>

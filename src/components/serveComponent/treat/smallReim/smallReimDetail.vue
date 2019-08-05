@@ -104,14 +104,11 @@
                 </div>
             </div>
             <!-- 需要补充信息 -->
-            <div class="supplementInfo" v-if="needMoreInfo">
+            <!-- <div class="supplementInfo" v-if="needMoreInfo">
                 <div class="infoName">根据业务需要，需要您补充提交以下资料</div>
                 <div class="infoList" v-for="(item,index) in moreInfoList" :key="index">
                     {{BKE262}}、{{BKE265}}（{{BKE266}}）
                 </div>
-                <!-- <div class="photoBox">
-                    <svg-icon icon-class="serveComponent_upload" />
-                </div> -->
                  <div class="picWrap">
                     <div class="uploadBtn" v-for="(item,index) in picArr" :key="index">
                         <img :src="item" class="pic" @click="showBigPhoto(item)" />
@@ -119,12 +116,12 @@
                     </div>
                     <svg-icon  @click="uploadImg()" icon-class="serveComponent_upload" />
                 </div>
-            </div>
+            </div> -->
         </div>
         <Success :flag="successFlag"></Success>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <!-- 补齐材料提交 -->
-        <Footer v-if="needMoreInfo" @submit="submit()" :btnType="1" :canSubmit="true"></Footer>
+        <Footer v-if="needComplete" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
         <!-- 撤销按钮 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()"  @edit="edit()" :handleNumber="handleNumber"></Footer>
     </div>
@@ -153,7 +150,7 @@ export default {
         return{
             invoiceComplete: true,
             invoices:[],
-            needMoreInfo: false,
+            needComplete: false,
             moreInfoList: [],
             currentStep:1,
             handleNumber:'',
@@ -311,7 +308,7 @@ export default {
                 console.log('返回成功信息',resData);
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {  
-                    this.needMoreInfo = true;
+                    this.needComplete = true;
                     this.moreInfoList = resData.LS_DS1;
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
@@ -505,6 +502,24 @@ export default {
                 // 请求参数封装
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1030");
                 return params;
+        },
+        // 补充材料
+        complete(){
+            //补充材料数组
+            let LS_DS = [
+                {BKE262: '1',BKE265: '身份证',BKE266: '身份证复印件'},
+                {BKE262: '2',BKE265: '参保凭证',BKE266: ''},
+                {BKE262: '3',BKE265: '户口本',BKE266: '户口本复印件'}
+            ];
+            this.$router.push({
+                path: "/CompleteUpload",
+                query: {
+                    list: LS_DS,
+                    BKZ019: this.$route.query.param||"",
+                    AGA002: '给付-00007-019-01',
+                    route: 'smallReimDetail'
+                }
+            });
         },
     }
 }

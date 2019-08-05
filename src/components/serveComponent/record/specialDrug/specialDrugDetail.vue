@@ -68,6 +68,8 @@
         </div>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Success :flag="successFlag"></Success>
+        <!-- 补齐材料提交 -->
+        <Footer v-if="needComplete" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
         <!-- 底部 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" :handleNumber="handleNumber" @edit="edit()"></Footer>
     </div>
@@ -115,6 +117,7 @@ export default {
             List:[],
             successFlag: 1,
             picList: [],
+            needComplete: true, //需要补充材料
         }
     },
     created(){
@@ -263,7 +266,24 @@ export default {
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
             return params;
-        }
+        },
+        // 补充材料
+        complete(){
+            //补充材料数组
+            let LS_DS = [
+                {BKE262: '1',BKE265: '身份证',BKE266: '身份证复印件'},
+                {BKE262: '2',BKE265: '参保凭证',BKE266: ''}
+            ];
+            this.$router.push({
+                path: "/CompleteUpload",
+                query: {
+                    list: LS_DS,
+                    BKZ019: this.$route.query.param||"",
+                    AGA002: '确认-00253-003-02',
+                    route: 'specialDrugDetail'
+                }
+            });
+        },
     }
 }
 </script>

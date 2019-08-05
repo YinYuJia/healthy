@@ -238,7 +238,7 @@ export default {
                 path: "/CompleteUpload",
                 query: {
                     list: LS_DS,
-                    BKZ019: this.form.BKZ019,
+                    BKZ019: this.$route.query.param||"",
                     AGA002: '确认-00253-002',
                     route: 'familyDetail'
                 }
