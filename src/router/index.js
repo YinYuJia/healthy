@@ -22,6 +22,7 @@ import changeDetail from '@/components/serveComponent/insured/insuredChange/chan
 import legalChange from '@/components/serveComponent/insured/legalChange/legalChange'
 import legalChangeDetail from '@/components/serveComponent/insured/legalChange/legalChangeDetail'
 import searchPrint from '@/components/serveComponent/insured/searchPrint/searchPrint'
+import searchSelect from '@/components/serveComponent/insured/searchPrint/searchSelect'
 import insuredDownload from '@/components/serveComponent/insured/searchPrint/insuredDownload'
 import transferRenewing from '@/components/serveComponent/insured/transferRenewing/transferRenewing'
 import transferDetail from '@/components/serveComponent/insured/transferRenewing/transferDetail'
@@ -147,6 +148,11 @@ export default new Router({
       path: '/searchPrint',
       name: 'searchPrint',
       component: searchPrint
+    },
+    {
+      path: '/searchSelect',
+      name: 'searchSelect',
+      component: searchSelect
     },
     {
       path: '/insuredDownload',

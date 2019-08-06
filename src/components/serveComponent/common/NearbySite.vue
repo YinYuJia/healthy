@@ -1,8 +1,8 @@
 <template>
     <div class="NearbySite">
-        <div class="IndexMenu" id="titleContent">
+        <div class="IndexMenu"  id="titleContent">
             <div class="MenuLine">
-                <div class="MenuCell" @click="changeIndex(1)" :class="{'active': activeIndex == 1}">医院</div>
+                <div class="MenuCell" @click="changeIndex(1)" :class="{'active': activeIndex == 1}" ref="disable">医院</div>
                 <div class="MenuCell" @click="changeIndex(2)" :class="{'active': activeIndex == 2}">银行</div>
             </div>
         </div>
@@ -16,14 +16,14 @@
                                 <svg-icon icon-class="keshi"/>
                             </div>
                             <span class="Address">
-                                {{item.AAE006}}                            
+                                {{item.AAE006}}
                                 <div class="IconImg" v-if="isPhone">
                                 <svg-icon icon-class="dianhua"/>
                                 </div>
                                 <a class="Phone" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a>
                             </span>
                         </div>
-                        <div class="Server" v-if="isShow">                   
+                        <div class="Server" v-if="isShow">
                             <div class="IconImg">
                                 <svg-icon icon-class="dizhi"/>
                             </div>
@@ -52,25 +52,43 @@ export default {
             JL:"",//距离
             isShow:false,
             isPhone:false,
+            pointStatus: ''
         };
     },
     created(){
-        this.getSite();
+        this.pointStatus = this.$route.query.pointStatus;
+        console.log("11:", this.pointStatus);
+        if (this.pointStatus == '2') {
+          this.activeIndex = this.pointStatus;
+          this.getList9002();
+        }
+      this.getSite();
         // this.getList('AKB020_JY'); //默认取医院网点
+    },
+    mounted() {
+      if (this.pointStatus == '2') {
+        this.$refs.disable.style.color = '#888';
+        this.$refs.disable.style.border = "1px solid #888"
+      }
     },
     //距离保留两位小数
     filters: {
         ecimalPoint:function(val){
             return val.toFixed(2)
-        } 
+        }
     },
     methods:{
         changeIndex(index){
-            this.activeIndex = index;
-            if(index == 1){
+            if (this.pointStatus == '2') {
+              this.activeIndex = this.pointStatus;
+              return;
+            } else {
+              this.activeIndex = index;
+              if (index == 1) {
                 this.getList9001();
-            }else{
+              } else {
                 this.getList9002();
+              }
             }
         },
         getSite(){
@@ -81,7 +99,7 @@ export default {
                     'dd.device.location.get',
                 ],
                 remark: '获取坐标'
-                }, 
+                },
                 function() {
                 dd.device.location.get ({
                     onSuccess: function(data) {
@@ -193,7 +211,6 @@ export default {
             height: .62rem;
             width: 95%;
             background: #FFFFFF;
-            border: 1px solid #1492FF;
             border-radius: .05rem;
             display: flex;
             .MenuCell {
@@ -207,11 +224,13 @@ export default {
                 &:first-child {
                     border-top-left-radius: .05rem;
                     border-bottom-left-radius: .05rem;
+                  border: 1px solid #1492FF;
                 }
                 &:last-child {
                     border-top-right-radius: .05rem;
                     border-bottom-right-radius: .05rem;
                     border-right: none;
+                  border: 1px solid #1492FF;
                 }
             }
             .active {
