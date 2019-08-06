@@ -4,6 +4,8 @@
         <div class="Content">
             <!-- 事项进度 -->
             <WorkProgress :currentStep="currentStep" :progress="arr"></WorkProgress>
+            <!-- 办理结果 -->
+            <DetailStatus nameWidth="2.5rem"></DetailStatus>
             <!-- 回显信息 -->
             <div class="MailInfo">
                 <div class="InfoLine">
