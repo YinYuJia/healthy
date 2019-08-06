@@ -4,6 +4,8 @@
         <div class="Content">
             <!-- 办事进度 -->
             <WorkProgress :currentStep="currentStep"></WorkProgress>
+            <!-- 办理结果 -->
+            <DetailStatus nameWidth="1.7rem"></DetailStatus>
             <!-- 列表信息 -->
             <div class="MailInfo">
                 <div class="InfoLine">
@@ -16,7 +18,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟回国日期:</span></div>
-                    <div class="InfoText">{{form.AAE031}}</div>
+                    <div class="InfoText">{{form.AAE031}}aaa</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>取药机构:</span></div>
@@ -43,6 +45,8 @@
         </div>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Success :flag="successFlag"></Success>
+        <!-- 补齐材料提交 -->
+        <Footer v-if="needComplete" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
         <!-- 底部 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" :handleNumber="handleNumber" @edit="edit()"></Footer>
     </div>
@@ -67,6 +71,7 @@ export default {
         List:[],
         successFlag: 1,
         picList: [],
+        needComplete: true, //需要补充材料
       }
     },
     created(){
@@ -200,8 +205,22 @@ export default {
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
             return params;
         },
-
-
+        // 补充材料
+        complete(){
+            //补充材料数组
+            let LS_DS = [
+                {BKE262: '1',BKE265: '身份证',BKE266: '身份证复印件'}
+            ];
+            this.$router.push({
+                path: "/CompleteUpload",
+                query: {
+                    list: LS_DS,
+                    BKZ019: this.$route.query.param||"",
+                    AGA002: '确认-00253-001',
+                    route: 'abroadDetail'
+                }
+            });
+        },
     }
 }
 </script>

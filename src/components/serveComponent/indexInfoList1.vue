@@ -106,7 +106,7 @@
                     <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
                     <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
                 </swipe> -->
-            <svg-icon icon-class="serveComponent_icon16" />
+            <svg-icon icon-class="serveComponent_icon16" @click="showDetail('abroadDetail','家庭共济')"/>
         </div>
         <!-- 热点资讯 -->
         <div class="hotMsg">
@@ -148,23 +148,23 @@
                 imgurl: "",
                 hotMsg: [ //热点资讯
                     {
-                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年5月底）',
-                        date: '2019-06-11',
+                        text: '国家医疗保障局副局长施子海莅临我中心指导工作',
+                        date: '2019-07-19',
                         src: '../../../static/images/zhuanqu/01.png'
                     },
                     {
-                        text: '2019年上半年省、市基本医疗保险协议定点医药机构名单公示',
-                        date: '2019-05-30',
+                        text: '医疗保障“最多跑一次”再推新举措,浙里办喊你来领“健康医保卡”啦',
+                        date: '2019-07-15',
                         src: '../../../static/images/zhuanqu/02.png'
                     },
                     {
-                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年4月底）',
-                        date: '2019-05-15',
+                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年6月底）',
+                        date: '2019-07-09',
                         src: '../../../static/images/zhuanqu/03.png'
                     },
                     {
-                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年4月25日）',
-                        date: '2019-04-25',
+                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年5月底）',
+                        date: '2019-06-11',
                         src: '../../../static/images/zhuanqu/04.png'
                     }
                 ],

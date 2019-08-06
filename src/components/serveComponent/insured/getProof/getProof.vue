@@ -117,7 +117,7 @@ export default {
                     this.canSubmit = false;
                     this.showMail = true;
                 }else if(val.AAC050 != '' && val.BKA077 == '0'){
-                    this.canSubmit = true;
+                    this.canSubmit = false;
                     this.showMail = false;
                 }else if(val.AAC050 != '' && val.BKA077 == '1'){
                     this.canSubmit = false;
@@ -196,7 +196,7 @@ export default {
         },
         // 查看附近网点
         openSite(){
-            this.$router.push('/nearbySite');
+            this.$router.push({path:'/nearbySite', query: {pointStatus: 2}});
         },
         submit(){
             // if(this.showMail == true){
@@ -283,7 +283,7 @@ export default {
                      if(this.form.AAE011==''){
                          this.form.AAE011=this.$store.state.SET_NATIVEMSG.name;
                      }
-                     
+
                      this.form.AAE006 = resData.AAE006   //详细地址
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001

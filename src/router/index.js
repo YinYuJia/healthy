@@ -5,6 +5,7 @@ import indexInfoList from '@/components/serveComponent/indexInfoList'
 import indexInfoList1 from '@/components/serveComponent/indexInfoList1'
 import indexInfoListMore from '@/components/serveComponent/indexInfoListMore'
 import BusinessGuide from '@/components/serveComponent/BusinessGuide'
+import CompleteUpload from '@/components/serveComponent/CompleteUpload'
 
 import First from '@/components/First';
 
@@ -21,6 +22,7 @@ import changeDetail from '@/components/serveComponent/insured/insuredChange/chan
 import legalChange from '@/components/serveComponent/insured/legalChange/legalChange'
 import legalChangeDetail from '@/components/serveComponent/insured/legalChange/legalChangeDetail'
 import searchPrint from '@/components/serveComponent/insured/searchPrint/searchPrint'
+import searchSelect from '@/components/serveComponent/insured/searchPrint/searchSelect'
 import insuredDownload from '@/components/serveComponent/insured/searchPrint/insuredDownload'
 import transferRenewing from '@/components/serveComponent/insured/transferRenewing/transferRenewing'
 import transferDetail from '@/components/serveComponent/insured/transferRenewing/transferDetail'
@@ -28,7 +30,6 @@ import elseWhere from '@/components/serveComponent/record/elseWhere/elseWhere'
 import elseDetail from '@/components/serveComponent/record/elseWhere/elseDetail'
 import turnOut from '@/components/serveComponent/record/turnOut/turnOut'
 import turnDetail from '@/components/serveComponent/record/turnOut/turnDetail'
-import searchDisease from '@/components/serveComponent/record/turnOut/searchDisease'
 import abroadTake from '@/components/serveComponent/record/abroadTake/abroadTake'
 import abroadDetail from '@/components/serveComponent/record/abroadTake/abroadDetail'
 import searchTakeDrug from '@/components/serveComponent/record/abroadTake/searchTakeDrug'
@@ -97,6 +98,11 @@ export default new Router({
       name: 'BusinessGuide',
       component: BusinessGuide
     },
+    {
+      path: '/CompleteUpload',
+      name: 'CompleteUpload',
+      component: CompleteUpload
+    },
 
     {
       path: '/first',
@@ -144,6 +150,11 @@ export default new Router({
       component: searchPrint
     },
     {
+      path: '/searchSelect',
+      name: 'searchSelect',
+      component: searchSelect
+    },
+    {
       path: '/insuredDownload',
       name: 'insuredDownload',
       component: insuredDownload
@@ -177,11 +188,6 @@ export default new Router({
       path: '/turnDetail',
       name: 'turnDetail',
       component: turnDetail
-    },
-    {
-      path: '/searchDisease',
-      name: 'searchDisease',
-      component: searchDisease
     },
     {
       path: '/abroadTake',
