@@ -84,7 +84,7 @@ export default {
         List:[],
         successFlag: 1,
         picList: [],
-        workStatus: '22', //办件状态，02受理，22需补齐，06已补正
+        workStatus: '', //办件状态，02受理，22需补齐，06已补正
         completeList: [], //补充材料清单
       }
     },
@@ -347,6 +347,24 @@ export default {
                     height: 1.5rem;
                     width: 1.5rem;
                 }
+            }
+        }
+        // 补充材料
+        .CompleteInfo{
+            width: 100%;
+            padding: .2rem .3rem .4rem .3rem;
+            margin-top: .15rem;
+            background: white;
+            .CompleteTitle{
+                font-size: .28rem;
+                letter-spacing: 0;
+                text-align: left;
+            }
+            .CompleteLine{
+                padding: .2rem 0 .1rem 0;
+                text-align: left;
+                font-size: .28rem;
+                letter-spacing: 0;
             }
         }
     }

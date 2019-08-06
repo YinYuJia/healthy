@@ -92,7 +92,7 @@ export default {
         successFlag: 1,
         picList: [],
         imgUrl: '',
-        workStatus: '22', //办件状态，02受理，22需补齐，06已补正
+        workStatus: '', //办件状态，02受理，22需补齐，06已补正
         completeList: [], //补充材料清单
       }
     },

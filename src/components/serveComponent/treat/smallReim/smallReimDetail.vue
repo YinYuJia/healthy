@@ -105,25 +105,24 @@
                     <!-- <svg-icon icon-class="serveComponent_photo" /> -->
                 </div>
             </div>
-            <!-- 需要补充信息 -->
-            <!-- <div class="supplementInfo" v-if="needMoreInfo">
-                <div class="infoName">根据业务需要，需要您补充提交以下资料</div>
-                <div class="infoList" v-for="(item,index) in moreInfoList" :key="index">
-                    {{BKE262}}、{{BKE265}}（{{BKE266}}）
+            <!-- 补充材料 -->
+            <div v-if="workStatus=='22'" class="CompleteInfo">
+                <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
+                <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
+                    {{item.BKE262}}、{{item.BKE265}}
+                    <span v-if="item.BKE266!=''">（{{item.BKE266}}）</span>
+                    <!-- <span v-if="workStatus=='06'" style="color:#1492FF">已补充</span>23 -->
                 </div>
-                 <div class="picWrap">
-                    <div class="uploadBtn" v-for="(item,index) in picArr" :key="index">
-                        <img :src="item" class="pic" @click="showBigPhoto(item)" />
-                        <svg-icon icon-class="serveComponent_delete" @click="deletePic(item,index)"/>
-                    </div>
-                    <svg-icon  @click="uploadImg()" icon-class="serveComponent_upload" />
-                </div>
-            </div> -->
+            </div>
+            <div v-if="workStatus=='06'" class="CompleteInfo">
+                <div class="CompleteTitle">根据业务需要，需要您补充提交资料</div>
+                <div class="CompleteLine" style="color:#1492FF">已补充</div>
+            </div>
         </div>
         <Success :flag="successFlag"></Success>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <!-- 补齐材料提交 -->
-        <Footer v-if="needComplete" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
+        <Footer v-if="workStatus=='22'" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
         <!-- 撤销按钮 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()"  @edit="edit()" :handleNumber="handleNumber"></Footer>
     </div>
@@ -171,7 +170,9 @@ export default {
             picArr:[],
             photoIdList:[],
             imgUrl: '',
-            BKZ019:""
+            BKZ019:"",
+            workStatus: '', //办件状态，02受理，22需补齐，06已补正
+            completeList: [], //补充材料清单
         }
     },
     methods:{
@@ -261,66 +262,14 @@ export default {
             }
             
         },
-        submit(){
-            if(!this.photoIdList.length){
-                this.$toast('请上传附件信息')
-                return
-            }
-            let params=this.sunmitFormatSubmitData();
-            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1030/getRecord', params).then((resData) => {
-                console.log('返回成功信息',resData)
-                //   成功   1000
-                if ( resData.enCode == 1000 ) {
-                    this.$router.push('smallReimDetail')
-                }else if (resData.enCode == 1001 ) {
-                //   失败  1001
-                    this.$toast(resData.msg);
-                    return;
-                }else{
-                    this.$toast('业务出错');
-                    return;
-                }
-            })
-            
-        },
         // 删除图片
         deletePic(item,index){
-            console.log('删除图片',this.photoIdList);
             this.picArr.splice(index,1)
             this.photoIdList.splice(index,1)
-            console.log('删除后',this.photoIdList);
         },
         showInvoiceDetail(item){
             this.$store.dispatch('SET_INVOICEDETAIL',item)
             this.$router.push('/invoiceDetail')
-        },
-        needSubmitInfo(){
-            // 加入用户名和电子社保卡号
-            let submitForm = {};
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                
-                this.$toast("未获取到人员基本信息");
-            }
-            // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'1029');
-            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1029/expenseAccount', params).then((resData) => {
-                console.log('返回成功信息',resData);
-                //   成功   1000
-                if ( resData.enCode == 1000 ) {  
-                    this.needComplete = true;
-                    this.moreInfoList = resData.LS_DS1;
-                }else if (resData.enCode == 1001 ) {
-                //   失败  1001
-                    // this.$toast(resData.msg);
-                    return;
-                }else{
-                    this.$toast('业务出错');
-                    return;
-                }
-            })
         },
         request(){
             let params=this.formatSubmitData();
@@ -329,7 +278,12 @@ export default {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {  
                     if (resData.LS_DS.length > 0 ) {
-                       this.currentStep = Number(resData.LS_DS[0].BOD037) 
+                       this.currentStep = Number(resData.LS_DS[0].BOD037);
+                       this.workStatus = resData.LS_DS[0].BOD038;
+                        //  获取补充材料
+                       if(this.workStatus == '22'){
+                           this.getCompleteInfo();
+                       }
                     }else{
                         this.$toast("暂无状态信息")
                     }
@@ -505,21 +459,33 @@ export default {
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1030");
                 return params;
         },
+        // 获取补充材料
+        getCompleteInfo(){
+            let submitForm = {BKZ019: this.$route.query.param || ""};
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1029");
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1029/expenseAccount', params).then((resData) => {
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                    this.completeList = resData.LS_DS1;
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
         // 补充材料
         complete(){
-            //补充材料数组
-            let LS_DS = [
-                {BKE262: '1',BKE265: '身份证',BKE266: '身份证复印件'},
-                {BKE262: '2',BKE265: '参保凭证',BKE266: ''},
-                {BKE262: '3',BKE265: '户口本',BKE266: '户口本复印件'}
-            ];
             this.$router.push({
                 path: "/CompleteUpload",
                 query: {
-                    list: LS_DS,
-                    BKZ019: this.$route.query.param||"",
-                    AGA002: '给付-00007-019-01',
-                    route: 'smallReimDetail'
+                    list: this.completeList,
+                    BKZ019: this.$route.query.param,
+                    AGA002: this.$route.query.AGA002,
+                    route: '/turnDetail'
                 }
             });
         },
@@ -704,27 +670,22 @@ export default {
                 }
             }
         }
-        // 补充资料
-        .supplementInfo{
-            background: #FFF;
-            font-size: .28rem;
-            color: #000000;
-            line-height: 38px;
-            text-align: left;
-            padding: .1rem .3rem;
-            margin-top: .3rem;
-            .infoName{
+        // 补充材料
+        .CompleteInfo{
+            width: 100%;
+            padding: .2rem .3rem .4rem .3rem;
+            margin-top: .15rem;
+            background: white;
+            .CompleteTitle{
+                font-size: .28rem;
                 letter-spacing: 0;
-            }
-            .infoList{
-                letter-spacing: 0;
-            }
-            .photoBox{
                 text-align: left;
-                .svg-icon{
-                    height: 1.5rem;
-                    width: 1.5rem;
-                }
+            }
+            .CompleteLine{
+                padding: .2rem 0 .1rem 0;
+                text-align: left;
+                font-size: .28rem;
+                letter-spacing: 0;
             }
         }
     }
