@@ -116,20 +116,20 @@ export default {
             }
             console.log(submitForm);
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1030");
-            // this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1030/getRecord', params).then((resData) => {
-            //     console.log('返回成功信息',resData)
-            //     //   成功   1000
-            //     if ( resData.enCode == 1000 ) {
-                    
-            //     }else if (resData.enCode == 1001 ) {
-            //     //   失败  1001
-            //         this.$toast(resData.msg);
-            //         return;
-            //     }else{
-            //         this.$toast('业务出错');
-            //         return;
-            //     }
-            // })
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1030/getRecord', params).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                    this.$router.push(this.route);
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
         }
     }
 }

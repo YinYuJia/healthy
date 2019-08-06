@@ -50,11 +50,18 @@
                     </div>
                 </div>
             </div>
+            <!-- 补充材料 -->
+            <div v-if="workStatus=='22'" class="CompleteInfo">
+                <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
+                <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
+                    {{item.BKE262}}、{{item.BKE265}}<span v-if="item.BKE266!=''">（{{item.BKE266}}）</span>
+                </div>
+            </div>
         </div>
         <Success :flag="successFlag"></Success>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <!-- 补齐材料提交 -->
-        <Footer v-if="needComplete" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
+        <Footer v-if="workStatus=='22'" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
         <!-- 底部 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" :handleNumber="handleNumber" @edit="edit()"></Footer>
     </div>
@@ -67,7 +74,6 @@ export default {
         AAS027000:"",//参保地
         AAB301000: "",//转往地市
         form: {
-
             // AAE030: '', //开始日期
             // AAE031: '', //结束日期
             // AKA121: '',//疾病名称
@@ -80,7 +86,8 @@ export default {
         successFlag: 1,
         picList: [],
         imgUrl: '',
-        needComplete: true, //需要补充材料
+        workStatus: '22', //办件状态，02受理，22需补齐，06已补正
+        completeList: [], //补充材料清单
       }
     },
     created(){
@@ -121,11 +128,16 @@ export default {
         request(){
             let params=this.formatSubmitData();
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1009/getRecord', params).then((resData) => {
-                console.log('返回成功信息',resData)
+                console.log('返回成功信息1009',resData)
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {  
                     if (resData.LS_DS.length > 0 ) {
-                       this.currentStep = Number(resData.LS_DS[0].BOD037) 
+                       this.currentStep = Number(resData.LS_DS[0].BOD037);
+                       this.workStatus = resData.LS_DS[0].BOD038;
+                        //  获取补充材料
+                       if(this.workStatus == '22'){
+                           this.getCompleteInfo();
+                       }
                     }else{
                         this.$toast("暂无状态信息")
                     }
@@ -188,7 +200,7 @@ export default {
         formatSubmitData(){
             let submitForm ={}
             console.log(submitForm)
-                submitForm.AGA002 =  "确认-00253-002";
+            submitForm.AGA002 =  "确认-00253-002";
              // submitForm.AGA002 =  "330800253002";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
@@ -229,20 +241,33 @@ export default {
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
             return params;
         },
+        // 获取补充材料
+        getCompleteInfo(){
+            let submitForm = {BKZ019: this.$route.query.param || ""};
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1029");
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1029/expenseAccount', params).then((resData) => {
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                    this.completeList = resData.LS_DS1;
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
         // 补充材料
         complete(){
-            //补充材料数组
-            let LS_DS = [
-                {BKE262: '1',BKE265: '身份证',BKE266: '身份证复印件'},
-                {BKE262: '2',BKE265: '转外就医凭证',BKE266: ''}
-            ];
             this.$router.push({
                 path: "/CompleteUpload",
                 query: {
-                    list: LS_DS,
-                    BKZ019: this.$route.query.param||"",
-                    AGA002: '确认-00253-002',
-                    route: 'familyDetail'
+                    list: this.completeList,
+                    BKZ019: this.$route.query.param,
+                    AGA002: this.$route.query.AGA002,
+                    route: '/turnDetail'
                 }
             });
         },
@@ -336,6 +361,24 @@ export default {
                     height: 1.5rem;
                     width: 1.5rem;
                 }
+            }
+        }
+        // 补充材料
+        .CompleteInfo{
+            width: 100%;
+            padding: .2rem .3rem .4rem .3rem;
+            margin-top: .15rem;
+            background: white;
+            .CompleteTitle{
+                font-size: .28rem;
+                letter-spacing: 0;
+                text-align: left;
+            }
+            .CompleteLine{
+                padding: .2rem 0 .1rem 0;
+                text-align: left;
+                font-size: .28rem;
+                letter-spacing: 0;
             }
         }
     }
