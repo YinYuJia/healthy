@@ -1,29 +1,98 @@
 <template>
     <div class="payLimitDetail">
         <Title :title="'缴费年限核定'" :backRouter="'/payLimit'"></Title>
+        <WorkProgress :currentStep="currentStep" :progress="arr"></WorkProgress>
         <div class="Content">
-            <!-- 办事进度 -->
-            <WorkProgress :currentStep="currentStep" :progress="arr"></WorkProgress>
-            <!-- 邮递信息 -->
-            <div class="MailInfo">
+            <!-- 基本信息 -->
+            <!-- <UserBaseInfo></UserBaseInfo> -->
+            <!-- 列表信息 -->
+            <div class="userBaseInfo">
+                <div class="infoBox">
+                    <svg-icon icon-class="payLimit_bg"/>
+                    <div class="infoName">
+                        <span class="name">{{form.AAC003}}</span>
+                        <span class="sex">/{{form.AAC004|AAC004}}</span>
+                    </div>
+                    <div class="infoAddress">
+                        <div class="IconImg">
+                            <svg-icon icon-class="payLimit_compony"/>
+                        </div>
+                        <span>{{form.AAB004}}</span>
+                    </div>
+                    <div class="infoMessage">
+                        <div class="birth">
+                            <div class="infoMessageBirth">{{form.AAC006}}</div>
+                            <div class="infoMessageText">出生日期</div>
+                        </div>
+                        <div class="work">
+                            <div class="infoMessageWork">{{form.AAC007}}</div>
+                            <div class="infoMessageText">参加工作时间</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="ReportInfo">
                 <div class="InfoLine">
-                    <div class="InfoName"><span>视作缴费年限:</span></div>
-                    <div class="InfoText">{{form.AKC412}}</div>
+                    <div class="InfoName"><span>连续工龄:</span></div>
+                    <div class="InfoText">
+                        <input type="tel" maxlength="3" v-model="form.BKEVALUE" readonly >
+                    </div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>缴费月数:</span></div>
-                    <div class="InfoText">{{form.BAC213}}</div>
+                    <div class="InfoName"><span>视作缴费年限</span></div>
+                    <div class="InfoText"><input type="tel" maxlength="3" v-model="form.AKC412" readonly></div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>退休工资:</span></div>
-                    <div class="InfoText">{{form.AAE041}}</div>
+                    <div class="InfoName"><span>退休工资</span></div>
+                    <div class="InfoText"><input type="tel" maxlength="4" v-model="form.AAE041" readonly></div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>提前退休类别:</span></div>
-                    <div class="InfoText">{{form.BKE810 | trtireType}}</div>
+                    <div class="InfoName"><span>提前退休类别</span></div>
+                    <div class="InfoText"><input type="text" readonly>{{form.BKE810|BKE810}}</div>                      
                 </div>
-                <!-- 进度时间 -->
-                <ProgressDate nameWidth="2rem" :replyDate="form.AAE036"  :progressDate="form.BAE019"></ProgressDate>
+            </div>
+            <div class="simpleNote" v-for="(item,index) in LS_DS" :key=index >
+                <div class="InfoTitle">
+                    <div class="InfoName"><span>简历{{index+1}}</span></div>
+                    <div class="InfoText">
+                        <svg-icon icon-class="payLimit_delete" class="svg-icon-delete"></svg-icon>
+                    </div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>开始工作时间:</span></div>
+                    <div class="InfoText">
+                        <input type="text" v-model="item.timeStart" readonly>
+                    </div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>结束工作时间:</span></div>
+                    <div class="InfoText">
+                        <input type="text" v-model="item.timeEnd" readonly>
+                    </div>
+                </div>
+                
+                <div class="InfoLine">
+                    <div class="InfoName"><span>单位:</span></div>
+                    <div class="InfoText"><input type="text"  v-model="item.AKC422" readonly></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>职位:</span></div>
+                    <div class="InfoText"><input type="text"  v-model="item.AKC424" readonly></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>证明人:</span></div>
+                    <div class="InfoText">
+                        <div class="InfoText"><input  type="text" v-model="item.AKC425" readonly ></div>                   
+                    </div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>处分:</span></div>
+                    <div class="InfoText">
+                        <div class="InfoText"><input  type="text" v-model="item.punishValue" readonly></div>
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>    
+                    </div>               
+                </div>
             </div>
         </div>
         <Success :flag="successFlag"></Success>
@@ -53,8 +122,8 @@ export default {
             this.successFlag = 2;
         }
         this.epFn.setTitle('缴费年限核定')
-        this.request();
-        this.request1();
+        // this.request();
+        // this.request1();
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', this.back, false);//false阻止默认事件
@@ -177,44 +246,323 @@ export default {
 
 
 <style lang="less" scoped>
-.payLimitDetail{
-    .Content{
+.payLimitDetail {
+    .Content {
+        height: 100%;
         margin-bottom: 1.4rem;
-        .MailInfo{
+        .SearchContent {
+                height: 1.18rem;
+                width: 7.5rem;
+                background: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+            .SearchBox {
+                position: relative;
+                height: 0.8rem;
+                width: 7rem;
+                padding: 0 0.15rem;
+                border: 0.01rem solid #1492ff;
+                border-radius: 0.05rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            .svg-icon {
+                height: 0.5rem;
+                width: 0.5rem;
+            }
+            .InputContent {
+                height: 0.49rem;
+                width: 4.1rem;
+                font-size: 0.26rem;
+                border: none;
+                &::placeholder {
+                color: #c9c9c9;
+                }
+            }
+            .deleteIcon{
+                height: .4rem;
+                width: .4rem;
+                position: absolute;
+                right: 1.2rem;
+            }
+            .SearchBtn {
+                height: 0.49rem;
+                width: 0.99rem;
+                margin-left: .2rem;
+                background: #1492ff;
+                border-radius: 0.04rem;
+                color: white;
+                font-size: 0.26rem;
+                line-height: 0.49rem;
+                letter-spacing: 0;
+            }
+            }
+        }
+        .userBaseInfo{
+            margin-top: .15rem;
+            height: 3rem;
+            width: 7.5rem;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+            z-index: -2;
+            .infoBox{
+                font-size: .3rem;
+                position: relative;
+                height: 100%;
+                width: 7rem;
+                padding: 0 .15rem;
+                color: #ffffff;
+                border-radius: 0.05rem;
+                display: flex;
+                flex-direction: column;
+                align-items: left;
+                .svg-icon{
+                    display: block;
+                    width:100%;
+                    height: 100%;
+                    position: absolute;
+                    left:0;
+                    z-index: -1;
+                }
+                .infoName{
+                    width: 5rem;
+                    height: .5rem;
+                    text-align: left;
+                    margin-top: .35rem;
+                    margin-left: .2rem;
+                    .name{
+                        font-size: .4rem;
+                    }
+                    .sex{
+                        font-size: .24rem;
+                    }
+                }
+                .infoAddress{
+                    margin-top: .2rem;
+                    width: 5rem;
+                    text-align: left;
+                    padding-left: .3rem;
+                    span{
+                        line-height:.4rem;
+                        height: .4rem;
+                        font-size: .24rem;
+                    }
+                    .IconImg{
+                        width: .4rem;
+                        height: .4rem;
+                        display: inline-block;
+                        
+                        .svg-icon{
+                            padding-left: .3rem;
+                            display:block;
+                            width: .4rem;
+                            height: .4rem;
+                          
+                        }
+                    }
+                }
+                .infoMessage{
+                    display: flex;
+                    justify-content: space-around;
+                    height: 1.8rem;
+                    .birth{
+                        display: flex;
+                        flex-direction: column;
+                        .infoMessageBirth{
+                            height: .8rem;
+                            line-height: .8rem;
+                        }
+                        .infoMessageText{
+                            font-size: .24rem;
+                        }
+                    }
+                    .work{
+                        .infoMessageWork{
+                            height: .8rem;
+                            line-height: .8rem;
+                        }
+                        .infoMessageText{
+                            font-size: .24rem;
+                        }
+                    }
+                }
+            }
+
+        }
+        .ReportInfo {
+            height: 100%;
             width: 7.5rem;
             padding: 0 .3rem;
-            margin-top: .15rem;
             background: white;
-            .InfoLine{
-                height: 1.2rem;
+            .InfoLine {
+                height: 1rem;
                 position: relative;
-                font-size: .28rem;
+                font-family: PingFangSC-Regular;
+                font-size: .3rem;
                 display: flex;
+                justify-content: space-between;
                 border-bottom: .01rem solid #D5D5D5;
-                .InfoName{
-                    width: 2rem;
-                    line-height: 1.2rem;
+                .InfoName {
+                    width: 2.3rem;
+                    opacity: 0.85;
+                    line-height: 1rem;
                     text-align: left;
-                    span{
+                    span {
                         height: .6rem;
                         line-height: .6rem;
-                        color: #666;
+                        color: #000000;
                         letter-spacing: 0;
                     }
                 }
-                .InfoText{
-                    width: 5.1rem;
-                    color: #000;
-                    line-height: 1.2rem;
+                .InfoText {
+                    margin-left: .2rem;
+                    width: 4.6rem;
+                    opacity: 0.85;
+                    line-height: 1rem;
                     display: flex;
                     position: relative;
                     align-items: center;
+                    input {
+                        width: 4rem;
+                        height: .6rem;
+                        opacity: 0.85;
+                        font-family: PingFangSC-Regular;
+                        font-size: .3rem;
+                        color: #000000;
+                        letter-spacing: 0;
+                        text-align: left;
+                        border: none;
+                    }
                 }
-                &:last-child{
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+        }
+        .simpleNote{
+            margin-top: .3rem;
+            height: 5rem;
+            width: 7.5rem;
+            padding: 0 .3rem;
+            background: white;
+            .InfoTitle{
+                height: .8rem;
+                line-height: .8rem;
+                position: relative;
+                font-family: PingFangSC-Regular;
+                font-size: .3rem;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: .01rem solid #D5D5D5;
+                .InfoName {
+                    width: 2.3rem;
+                    opacity: 0.85;
+                    line-height: 1rem;
+                    text-align: left;
+                    span {
+                        height: .6rem;
+                        line-height: .6rem;
+                        color: #000000;
+                        letter-spacing: 0; 
+                    }
+                }
+                .InfoText {
+                    margin-left: .2rem;
+                    width: 4.6rem;
+                    opacity: 0.85;
+                    line-height: .8rem;
+                    display: flex;
+                    position: relative;
+                    align-items: center;
+                    input {
+                        width: 4rem;
+                        height: .8rem;
+                        opacity: 0.85;
+                        font-family: PingFangSC-Regular;
+                        font-size: .3rem;
+                        color: #000000;
+                        letter-spacing: 0;
+                        text-align: right;
+                        border: none;
+                    }
+                    .svg-icon-delete{
+                        display: inline-block;
+                        width: .6rem;
+                        height: .6rem;
+                    }
+                }
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+            .InfoLine {
+                height: 1rem;
+                line-height: 1rem;
+                position: relative;
+                font-family: PingFangSC-Regular;
+                font-size: .3rem;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: .01rem solid #D5D5D5;
+                padding-top: .01rem 0;
+                .InfoName {
+                    width: 2.3rem;
+                    opacity: 0.85;
+                    line-height: 1rem;
+                    text-align: left;
+                    span {
+                        height: .6rem;
+                        line-height: .6rem;
+                        color: #000000;
+                        letter-spacing: 0;
+                    }
+                }
+                .InfoText {
+                    width: 4.6rem;
+                    margin-left: .2rem;
+                    opacity: 0.85;
+                    line-height: 1rem;
+                    display: flex;
+                    position: relative;
+                    align-items: center;
+                    input {
+                        width: 4rem;
+                        height: .6rem;
+                        opacity: 0.85;
+                        font-family: PingFangSC-Regular;
+                        font-size: .3rem;
+                        color: #000000;
+                        letter-spacing: 0;
+                        text-align: right;
+                        border: none;
+                    }
+                }
+                &:last-child {
                     border-bottom: none;
                 }
             }
         }
     }
 }
+</style>
+
+<style>
+    .payLimit .el-date-editor.el-input,
+    .el-date-editor.el-input__inner {
+        width: 160px;
+    }
+    .payLimit .el-input__prefix,
+    .el-input__suffix {
+        display: none;
+    }
+    .payLimit .el-input__inner {
+        border: none;
+        text-align: right;
+        padding-right: 0;
+        padding-left: 0;
+    }
 </style>

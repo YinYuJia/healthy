@@ -70,6 +70,10 @@ export default {
         jy7100:{
             type: Boolean,
             default: false
+        },
+        work:{
+            type: Boolean,
+            default: false
         }
     },
     data(){
@@ -166,6 +170,11 @@ export default {
                 // this.insuredCity[0].defaultIndex = 10;
             }else if(this.jy7100){
                 this.request('7100')
+            }else if(this.work){
+                this.insuredCity[0].values= this.epFn.workYear();
+                this.fullCity[0].values= this.epFn.workYear();
+                this.fullCity[0].defaultIndex = 0;
+                this.insuredCity[0].defaultIndex = 0;
             }
             // else{
             //     this.insuredCity[0].values = this.epFn.addressList();

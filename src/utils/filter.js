@@ -200,6 +200,25 @@ export function BKE239( val ) {
       }
       return obj[val]
 }
+//缴费年限核定用户性别
+export function AAC004( val ) {
+  let obj = {
+    "女": "女士",
+    "男": "先生",
+  }
+  return obj[val]
+}
+//缴费年限核定用户性别
+export function BKE810( val ) {
+  let obj = {
+    "0": "否",
+    "1": "因病",
+    "2": "特殊工种",
+    "3": "符合公务员法",
+    "4": "符合浙委办",
+  }
+  return obj[val]
+}
 /*退休类别过滤*/
 export function trtireType(value) {
   let str = "";
