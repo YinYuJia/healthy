@@ -6,6 +6,8 @@
         <WorkProgress :currentStep="currentStep" :progress="arr"></WorkProgress>
         
         <div class="Content">
+            <!-- 办理结果 -->
+            <DetailStatus nameWidth="2.2rem"></DetailStatus>
             <!-- 列表 -->
             <div class="ListInfo">
                 <div class="InfoLine">

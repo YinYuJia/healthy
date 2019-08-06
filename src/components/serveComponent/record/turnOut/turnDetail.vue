@@ -4,7 +4,9 @@
         <div class="Content">
             <!-- 办事进度 -->
             <WorkProgress :currentStep="currentStep"></WorkProgress>
-            <!-- 邮递信息 -->
+            <!-- 办理结果 -->
+            <DetailStatus nameWidth="1.8rem"></DetailStatus>
+            <!-- 办事信息 -->
             <div class="MailInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地:</span></div>
