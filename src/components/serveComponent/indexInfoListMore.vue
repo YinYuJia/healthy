@@ -76,9 +76,9 @@
                             <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
                             <div class="text">零星报销</div>
                         </div>
-                        <div class="iconBox">
-                            <svg-icon v-if="0" icon-class="serveComponent_icon_12" />
-                            <svg-icon v-if="1" icon-class="serveComponent_grey_jiaofeinianxian" />
+                        <div class="iconBox" @click="showDetail('payLimit','缴费年限核定')">
+                            <svg-icon  icon-class="serveComponent_icon_12" />
+                            <!-- <svg-icon v-if="1" icon-class="serveComponent_grey_jiaofeinianxian" /> -->
                             <div class="text">年限核定</div>
                         </div>
                         <div class="iconBox">
