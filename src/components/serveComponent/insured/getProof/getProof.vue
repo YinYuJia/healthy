@@ -412,15 +412,14 @@ export default {
                 width: 90%;
                 margin: auto;
                 margin-top: .18rem;
-                border-radius: .05rem;
+                border-radius: .2rem;
                 line-height: .8rem;
-                background: #FFF;;
+                background: #1492ff;
                 font-family: PingFangSC-Regular;
                 font-size: .26rem;
-                color: #666;
+                color: #fff;
                 letter-spacing: 0;
                 text-align: center;
-                border: .01rem solid #C9C9C9;
             }
         }
         .Hint{
