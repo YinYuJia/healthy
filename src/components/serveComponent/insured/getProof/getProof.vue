@@ -411,7 +411,7 @@ export default {
                 height: .8rem;
                 width: 90%;
                 margin: auto;
-                margin-top: .18rem;
+                margin-top: .4rem;
                 border-radius: .2rem;
                 line-height: .8rem;
                 background: #1492ff;
