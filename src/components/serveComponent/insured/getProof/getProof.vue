@@ -142,7 +142,7 @@ export default {
         },
     },
     created(){
-        // console.log("11111",JSON.stringify('')=='{}')
+        
         // this.form = this.$store.state.SET_INSURED_PROOF;
         // 获取位置
         // let This = this
