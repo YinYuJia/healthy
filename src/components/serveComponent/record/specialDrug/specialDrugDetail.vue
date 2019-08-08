@@ -297,6 +297,7 @@ export default {
             let submitForm = {BKZ019: this.$route.query.param || ""};
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1029");
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1029/expenseAccount', params).then((resData) => {
+                console.log("补充材料",resData);
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
                     this.completeList = resData.LS_DS1;
@@ -411,6 +412,24 @@ export default {
                     height: 1.5rem;
                     width: 1.5rem;
                 }
+            }
+        }
+        // 补充材料
+        .CompleteInfo{
+            width: 100%;
+            padding: .2rem .3rem .4rem .3rem;
+            margin-top: .15rem;
+            background: white;
+            .CompleteTitle{
+                font-size: .28rem;
+                letter-spacing: 0;
+                text-align: left;
+            }
+            .CompleteLine{
+                padding: .2rem 0 .1rem 0;
+                text-align: left;
+                font-size: .28rem;
+                letter-spacing: 0;
             }
         }
     }

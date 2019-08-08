@@ -2,7 +2,7 @@
     <div class="NearbySite">
         <div class="IndexMenu"  id="titleContent">
             <div class="MenuLine">
-                <div class="MenuCell" @click="changeIndex(1)" :class="{'active': activeIndex == 1}" ref="disable">医院</div>
+                <div class="MenuCell" @click="changeIndex(1)" :class="{'active': activeIndex == 1}" ref="disable" v-if='showHospital'>医院</div>
                 <div class="MenuCell" @click="changeIndex(2)" :class="{'active': activeIndex == 2}">银行</div>
             </div>
         </div>
@@ -59,7 +59,8 @@ export default {
             isShow:false,
             unShow:true,
             isPhone:false,
-            pointStatus: ''
+            pointStatus: '',
+            showHospital:true
         };
     },
     created(){
@@ -67,9 +68,14 @@ export default {
         console.log("11:", this.pointStatus);
         if (this.pointStatus == '2') {
           this.activeIndex = this.pointStatus;
-          this.getList9002();
+          this.showHospital=false;
+        //   this.showHospital=false;
+            this.getSite1();
+        }else{
+            this.showHospital=true;
+            this.getSite();
         }
-      this.getSite();
+      
         // this.getList('AKB020_JY'); //默认取医院网点
     },
     mounted() {
@@ -113,6 +119,26 @@ export default {
                         _this.longitude = data.longitude;
                         _this.latitude = data.latitude;
                         _this.getList9001();
+                    },
+                    onFail: function(error) {}
+                })
+            })
+        },
+        getSite1(){
+            let _this = this;
+            dd.ready({
+                developer: 'daip@dtdream.com',
+                usage: [
+                    'dd.device.location.get',
+                ],
+                remark: '获取坐标'
+                },
+                function() {
+                dd.device.location.get ({
+                    onSuccess: function(data) {
+                        _this.longitude = data.longitude;
+                        _this.latitude = data.latitude;
+                        _this.getList9002();
                     },
                     onFail: function(error) {}
                 })

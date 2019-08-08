@@ -89,7 +89,7 @@
                         switch(resData.AGA002){
                             case '确认-00122-043': path = '/getDetail';break; //领取就医凭证
                             case '公共服务-00501-005': path = '/changeDetail';break; //参保信息变更
-                            case '公共服务-00512-001': path = '/transferDetail';break; //关系转移接续
+                            case '公共服务-00512-002': path = '/transferDetail';break; //关系转移接续
                             case '确认-00253-013-01': path = '/elseDetail';break; //异地就医
                             case '确认-00253-013-02': path = '/elseDetail';break; //异地就医
                             case '确认-00253-013-03': path = '/elseDetail';break; //异地就医

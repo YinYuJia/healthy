@@ -75,7 +75,7 @@
         <!-- 办事指南 -->
         <GuideIcon AGA002="330800122043"></GuideIcon>
         <!-- 按钮 -->
-        <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showButton"></Footer>
     </div>
 </template>
 
@@ -104,6 +104,7 @@ export default {
                 {value: '1',label: '邮寄'}
             ],
             showMail: false,
+            showButton:false,
         };
     },
     watch:{
@@ -131,11 +132,17 @@ export default {
                         this.canSubmit = false
                     }
                 }
+                if(val.BKA077=='1'){
+                    this.showButton=true;//如果为邮寄则展示提交按钮
+                }else if(val.BKA077=='0'){
+                    this.showButton=false;//如果为自取则隐藏提交按钮
+                }
             },
             deep: true
         },
     },
     created(){
+        // console.log("11111",JSON.stringify('')=='{}')
         // this.form = this.$store.state.SET_INSURED_PROOF;
         // 获取位置
         // let This = this
@@ -158,6 +165,10 @@ export default {
         //         })
         //     })
         // }
+        console.log(sessionStorage.getItem('AAC050'))
+        console.log(sessionStorage.getItem('AAC050VALUE'))
+        this.form.AAC050=sessionStorage.getItem('AAC050')
+        this.AAC050VALUE=sessionStorage.getItem('AAC050VALUE')
         this.getMailInfo(); //自动获取邮寄信息
         this.epFn.setTitle('领取就医凭证');
         // 原生参数添加姓名等信息
@@ -196,8 +207,20 @@ export default {
         },
         // 查看附近网点
         openSite(){
-            this.$router.push({path:'/nearbySite', query: {pointStatus: 2}});
-            // this.$router.push('/nearbySite');
+            if(this.form.BKA077){
+                if(this.form.AAC050=='1'){
+                    sessionStorage.setItem('AAC050',this.form.AAC050)
+                    sessionStorage.setItem('AAC050VALUE',this.AAC050VALUE)
+                    this.$router.push('/nearbySite');
+                }else if(this.form.AAC050=='2'){
+                    sessionStorage.setItem('AAC050',this.form.AAC050)
+                    sessionStorage.setItem('AAC050VALUE',this.AAC050VALUE)
+                    this.$router.push({path:'/nearbySite', query: {pointStatus: 2}});
+                }
+            }else{
+                this.$toast('请填写变更类型')
+                console.log(1111)
+            }
         },
         submit(){
             // if(this.showMail == true){
