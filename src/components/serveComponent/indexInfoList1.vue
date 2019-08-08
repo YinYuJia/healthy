@@ -38,6 +38,15 @@
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
+            <!-- <div class="iconList">
+                <div v-for="(item,index) in iconList1" :key="index">
+                    <div class="iconBox" v-if="item != ''">
+                        <div class="photoBox"><img :src="item.picUrl"/></div>
+                        <div class="text">{{item.mattersName}}</div>
+                    </div>
+                    <div class="iconBox" v-if="item == ''"></div>
+                </div>
+            </div> -->
             <div class="iconList">
                 <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
                     <svg-icon icon-class="serveComponent_icon5" />
@@ -59,8 +68,6 @@
                 </div>
                 <div class="iconBox" v-if="!iconFlag">
                 </div>
-                <!-- <div class="iconBox" v-if="!iconFlag">
-                    </div> -->
             </div>
             <div class="iconList">
                 <div class="iconBox" v-if="iconFlag" @click="showDetail('searchBaseInfo','个人信息查询')">
@@ -113,8 +120,8 @@
             <div class="hotHeader">热点资讯</div>
             <div class="msgLine" v-for="(item,index) in hotMsg" :key="index">
                 <div class="textBox">
-                    <div class="textInfo">{{item.text | msgLength}}</div>
-                    <div class="dateInfo">{{item.date}}</div>
+                    <div class="textInfo">{{item.name | msgLength}}</div>
+                    <div class="dateInfo">{{item.time}}</div>
                 </div>
                 <div class="imgBox"><img :src=item.src></div>
             </div>
@@ -148,28 +155,30 @@
                 imgurl: "",
                 hotMsg: [ //热点资讯
                     {
-                        text: '国家医疗保障局副局长施子海莅临我中心指导工作',
-                        date: '2019-07-19',
+                        name: '国家医疗保障局副局长施子海莅临我中心指导工作',
+                        time: '2019-07-19',
                         src: '../../../static/images/zhuanqu/01.png'
                     },
                     {
-                        text: '医疗保障“最多跑一次”再推新举措,浙里办喊你来领“健康医保卡”啦',
-                        date: '2019-07-15',
+                        name: '医疗保障“最多跑一次”再推新举措,浙里办喊你来领“健康医保卡”啦',
+                        time: '2019-07-15',
                         src: '../../../static/images/zhuanqu/02.png'
                     },
                     {
-                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年6月底）',
-                        date: '2019-07-09',
+                        name: '浙江省异地就医直接结算开通医疗机构名单（截至2019年6月底）',
+                        time: '2019-07-09',
                         src: '../../../static/images/zhuanqu/03.png'
                     },
                     {
-                        text: '浙江省异地就医直接结算开通医疗机构名单（截至2019年5月底）',
-                        date: '2019-06-11',
+                        name: '浙江省异地就医直接结算开通医疗机构名单（截至2019年5月底）',
+                        time: '2019-06-11',
                         src: '../../../static/images/zhuanqu/04.png'
                     }
                 ],
                 iconFlag: false,
-                isClear: true
+                isClear: true,
+                iconList1: [], //图标列表1
+                iconList2: [], //图标列表2
             }
         },
         mounted() {
@@ -188,7 +197,6 @@
             })
         },
         created() {
-            // this.getMatterInfo()
             sessionStorage.setItem('isClear', this.isClear)
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
@@ -284,17 +292,88 @@
         },
         filters: {
             msgLength: function(val) {
-                return val.slice(0, 20) + '...';
+                if(val.length > 20){
+                    return val.slice(0, 20) + '...';
+                }else{
+                    return val;
+                }              
             }
         },
         methods: {
-            //动态获取是想信息
-            getMatterInfo() {
+            //动态获取事项信息
+            getMatterInfo(code) {
                 let params = {
-                    "areaId": 339900,
+                    "areaId": code
                 }
-                this.$axios.post("/ApiUrl/ybapp/home/selectHomeConfigList", params).then((resData) => {
-                    console.log('返回成功信息', resData)
+                this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0000/getAreaList", params).then((resData) => {
+                    console.log('获取区域事项', resData)
+                    let resList = resData.list;
+                    let _this = this;
+                    dd.ready({
+                        developer: 'zzxprint',
+                        usage: [
+                            'dd.biz.user.getUserType',
+                        ],
+                        remark: '获取用户登录类型'
+                    }, function() {
+                        dd.biz.user.getUserType({
+                            onSuccess: function(data) {
+                                let iconList = [];
+                                if(data.userType == 1 || data.userType == 0){
+                                    iconList = resList.personList;
+                                }else if(data.userType == 2){
+                                    iconList = resList.unitList;
+                                }
+                                // 自动补齐图标
+                                _this.iconList1 = iconList.slice(0,4);
+                                _this.iconList2 = iconList.slice(4);
+                                console.log("数组长度",_this.iconList1.length);
+                                let len1 = _this.iconList1.length;
+                                if(len1 < 4 && len1 != 0){
+                                    for(let i = 0; i < 4-len1; i++){
+                                        _this.iconList1.push('');
+                                    }
+                                }
+                                let len2 = _this.iconList2.length;
+                                if(len2 < 4 && len2 != 0){
+                                    for(let i = 0; i < 4-len2; i++){
+                                        _this.iconList2.push('');
+                                    }
+                                }
+                                console.log('图标列表',_this.iconList1);
+                            },
+                            onFail: function(error) {}
+                        })
+                    });
+                })
+            },
+            // 获取资讯列表
+            getNewsInfo(code){
+                let _this = this;
+                dd.ready({
+                    developer: 'zzxprint',
+                    usage: [
+                        'dd.biz.user.getUserType',
+                    ],
+                    remark: '获取用户登录类型'
+                }, function() {
+                    dd.biz.user.getUserType({
+                        onSuccess: function(data) {
+                            console.log('用户类型',data);
+                            let params = {
+                                statusType: data.userType,
+                                areaId: code
+                            }
+                            _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
+                                // _this.hotMsg = resData.list;
+                                // _this.hotMsg.forEach(ele=>{
+                                //     ele.src = ele.synopsisUrl;
+                                // })
+                                // console.log('获取资讯列表', _this.hotMsg);
+                            })
+                        },
+                        onFail: function(error) {}
+                    })
                 })
             },
             // 跑马灯效果
@@ -477,6 +556,9 @@
                             })
                             console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
                             console.log("this.isTips", this.isTips)
+                            // 调用首页事项和咨询管理
+                            this.getMatterInfo(sessionStorage.getItem("GinsengLandCode"));
+                            this.getNewsInfo(sessionStorage.getItem("GinsengLandCode"));
                             if (sessionStorage.getItem("GinsengLandCode") == "339900") {
                                 this.iconFlag = true; //省本级设置为true
                                 this.isTips = false
@@ -738,6 +820,18 @@
                     .svg-icon {
                         height: .68rem;
                         width: .68rem;
+                    }
+                    .photoBox{
+                        height: .68rem;
+                        width: .68rem;
+                        position: relative;
+                        img{
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                        }
                     }
                     .provinceIcon {
                         height: .28rem;

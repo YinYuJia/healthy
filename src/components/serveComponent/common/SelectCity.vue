@@ -273,7 +273,7 @@ export default {
             let submitForm = {};
             submitForm.TRANSTYPE=type
             // 请求参数封装
-            const params = this.epFn.commonRequsetData(submitForm,"9099");
+            const params = this.epFn.commonRequsetData(submitForm);
             return params;
         },
     }

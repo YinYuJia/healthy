@@ -29,6 +29,7 @@ export default {
 
 <style lang="less" scoped>
 .DetailStatus{
+    display: none;
     width: 100%;
     padding: 0 .3rem;
     margin-top: .15rem;

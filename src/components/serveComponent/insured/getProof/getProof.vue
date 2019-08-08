@@ -197,6 +197,7 @@ export default {
         // 查看附近网点
         openSite(){
             this.$router.push({path:'/nearbySite', query: {pointStatus: 2}});
+            // this.$router.push('/nearbySite');
         },
         submit(){
             // if(this.showMail == true){

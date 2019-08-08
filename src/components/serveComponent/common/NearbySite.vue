@@ -13,21 +13,27 @@
                         <span class="Hospital">{{item.AKB021}}</span>
                         <div class="Msg">
                             <div class="IconImg">
-                                <svg-icon icon-class="keshi"/>
+                                <svg-icon icon-class="dizhi"/>
                             </div>
                             <span class="Address">
                                 {{item.AAE006}}
-                                <div class="IconImg" v-if="isPhone">
+                                <!-- <div class="IconImg" v-if="isPhone">
                                 <svg-icon icon-class="dianhua"/>
-                                </div>
-                                <a class="Phone" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a>
+                                </div> -->
+                                
                             </span>
+                        </div>
+                        <div class="Server" v-if="unShow">
+                            <div class="IconImg">
+                                <svg-icon icon-class="keshi"/>
+                            </div>
+                            <span class="Hospital">{{item.AAE055}}</span>
                         </div>
                         <div class="Server" v-if="isShow">
                             <div class="IconImg">
-                                <svg-icon icon-class="dizhi"/>
+                                <svg-icon icon-class="dianhua"/>
                             </div>
-                            <span class="Hospital">{{item.AAE055}}</span>
+                            <span class="Hospital"><a class="Phone" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a></span>
                         </div>
                         <!-- <span class="Address" v-if="item.office">{{item.office}}</span>
                         <span class="Address"><a class="Address" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a></span> -->
@@ -51,6 +57,7 @@ export default {
             AAE006:"",//地址
             JL:"",//距离
             isShow:false,
+            unShow:true,
             isPhone:false,
             pointStatus: ''
         };
@@ -123,9 +130,9 @@ export default {
                 if (resData.enCode == 1000) {
                     console.log('成功')
                     this.pointList=[...this.pointList,...resData.LS_DS];
-                    this.isShow=true;
-                    this.isPhone=false;
                     console.log("9001",this.pointList)
+                    this.isShow=false;
+                    this.unShow=true;
                     // this.pointList = [...this.pointList, ...resData.LS_DS];
                     // for (let i = 0; i < this.pointList.length; i++) {
                     //     let mesString = this.pointList[i].AAA105;
@@ -152,8 +159,8 @@ export default {
                     console.log('成功')
                     this.pointList=[...this.pointList,...resData.LS_DS];
                     console.log("9002",this.pointList)
-                    this.isShow=false;
-                    this.isPhone=true;
+                    this.isShow=true;
+                    this.unShow=false;
                     // this.pointList = [...this.pointList, ...resData.LS_DS];
                     // for (let i = 0; i < this.pointList.length; i++) {
                     //     let mesString = this.pointList[i].AAA105;
@@ -281,8 +288,6 @@ export default {
                             color: #999999;
                             letter-spacing: 0;
                             .Phone{
-                                margin-top: .1rem;
-                                margin-left: .1rem;
                                 font-size: .24rem;
                                 color: #999999;
                                 letter-spacing: 0;
@@ -306,6 +311,11 @@ export default {
                             font-size: .24rem;
                             color: #999999;
                             letter-spacing: 0;
+                            .Phone{
+                                font-size: .24rem;
+                                color: #999999;
+                                letter-spacing: 0;
+                            }
                         }
                     }
 
