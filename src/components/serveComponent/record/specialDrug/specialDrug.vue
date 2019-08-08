@@ -167,7 +167,7 @@
             <span>数量</span>
           </div>
           <div class="InfoText">
-            <input type="tel" maxlength="5" v-model="form.AKC226" placeholder="请输入">
+            <input type="tel" maxlength="5" v-model="form.AKC226" placeholder="请输入" :disabled="AKC226Control" >
           </div>
         </div>
         <div class="InfoLine">
@@ -284,7 +284,8 @@ export default {
       drugTimeList: [],
       useMedical:false,
       value5:"",
-      secondTreat:false
+      secondTreat:false,//展现第二疗程
+      AKC226Control:false
     };
   },
   created() {
@@ -418,10 +419,12 @@ export default {
       if(val=='康复'){
         this.secondTreat=true;
         this.form.AKC226='90'
+        this.AKC226Control=true;
       }else{
         this.secondTreat=false;
         this.form.AKC226='';
-        this.form.BKE239=''
+        this.form.BKE239='';
+        this.AKC226Control=false;
       }
     }
   },

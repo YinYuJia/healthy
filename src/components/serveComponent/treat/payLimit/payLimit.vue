@@ -188,6 +188,7 @@ export default {
             form1:{},
             index:0,//第几项
             flag:false,//判断基础信息是否填写完整
+            LSflag:false,//判断简历信息是否填写完整
             btnText:'确认提交',
             LS_DS:[{
                 AKC421:'',//时间
@@ -254,18 +255,26 @@ export default {
                     label: '符合浙委办'
                 }
             ],
+            aa:false
         }
     },
     watch:{
         form:{
             handler:function(val){
                 if(
-                    val.AAE135 != '' && val.BKEVALUE != '' && val.AKC412 != ''&&
+                    val.AAE135 != '' && val.BKEVALUE != '' && val.AKC412 != ''&& val.AAB001!=''&&
                     val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != '' && val.BKE810   != ''
                 ){
                     this.flag = true;
+                    console.log("flag",this.flag)
                 }else{
                     this.flag = false;
+                    console.log("flag",this.flag)
+                }
+                if(this.flag==true&&this.LSflag==true){
+                    this.canSubmit = true;
+                }else{
+                    this.canSubmit = false
                 }
             },            
             deep: true
@@ -273,15 +282,28 @@ export default {
         },
         LS_DS:{
             handler:function(val){
-                console.log("简历val",val)
-                console.log("flag",this.flag)
-                if(this.flag){
-                    if(val[this.index].AKC421!=''&&val[this.index].AKC422&&val[this.index].AKC424
-                    && val[this.index].AKC425!=''&&val[this.index].AKC423!=''&&val[this.index].punishValue!=''){
-                        this.canSubmit = true;
-                    }else{
-                        this.canSubmit = false;
-                    }   
+                // if(this.isEmpty(val)){
+                // this.LSflag=false;
+                // console.log("LSflag",this.LSflag)
+                // }else{
+                //     this.LSflag=true;
+                //     console.log("LSflag",this.LSflag)
+                // }
+
+                if(val[this.index].AKC421!=''&&val[this.index].AKC422!='' &&val[this.index].AKC424!=''
+                && val[this.index].AKC425!=''&&val[this.index].AKC423!=''&&val[this.index].punishValue!=''){
+                    this.LSflag=true;
+                    this.canSubmit = true;
+                    console.log("LSflag",this.LSflag)
+                }else{
+                    this.LSflag=false;
+                    this.canSubmit = false;
+                    console.log("LSflag",this.LSflag)
+                }   
+                if(this.flag==true&&this.LSflag==true){
+                    this.canSubmit = true;
+                }else{
+                    this.canSubmit = false
                 }
             },
             deep:true
@@ -382,11 +404,15 @@ export default {
             this.check=false;
             this.uncheck=true;
             this.isShow=false;
+            console.log('check1',this.flag)
+            this.form.BKE810="";
+            this.BKE810VALUE="";
         },
         uncheck1(){
             this.uncheck=false;
             this.check=true;
             this.isShow=true;
+            console.log('uncheck1',this.flag)
         },
         // 选择变更类型
         openTypePicker(){
@@ -434,6 +460,25 @@ export default {
         deleteSearch(){
             this.form.AAE135 = '';
         },
+        isEmpty(arr){
+            console.log("arr",arr)
+            for(let i=0;i<arr.length;i++){
+                const item=arr[i];
+                for(const key in item){
+                    if(Object.prototype.hasOwnProperty.call(item,key)){
+                        let time=item[key].timeStart+"-"+item[key].timeEnd;
+                        if(item[key]==null||item[key]===''||item[key]==undefined||item[key].timeEnd==""||item[key].timeStart==""){
+                            console.log("key",item[key])
+                            return true
+                        }else{
+                            console.log("key1",item[key])
+
+                            return false
+                        }
+                    }
+                }
+            }
+        },
         //搜索
         search(){
             console.log('通过身份证号请求数据')
@@ -445,13 +490,19 @@ export default {
                 let params = this.formatSubmitData();
                 // 开始请求
                 console.log('parmas------',params)
-                this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1013/info', params).then((resData) => {
+                this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7610/getRecord', params).then((resData) => {
                     console.log('返回成功信息',resData)
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         console.log("11111",resData.LS_DS[0])
+                        console.log(this.form)
+
                         this.form1=resData.LS_DS[0]
-                        console.log(this.form1)
+                        this.form.AKC412=this.form1.AKC412M+((this.form1.AKC412)*12);
+                        this.form.BKE703=this.form1.BKE703;
+                        this.form.BKE704=this.form1.BKE704;
+                        this.form.AAB001=this.form1.AAB001;
+                        console.log(this.form)
                         this.showAll=true;
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
@@ -469,38 +520,44 @@ export default {
             if(this.index==-1){
                 this.$toast('必须填写一份简历')
             }else{
-            if(this.canSubmit == false){
-                this.$toast('信息未填写完整');
-                return false;
-            }else{
-                this.$store.dispatch('SET_PAYLIMIT_OPERATION', this.form);     
-                // 封装数据
-                let params = this.formatSubmitData1();
-                // 开始请求
-                console.log('parmas------',params)
-                this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1025/addRecord', params).then((resData) => {
-                    console.log('返回成功信息',resData)
-                    //   成功   1000
-                        if ( resData.enCode == 1000 ) {
-                            this.$router.push("/payLimitDetail");
-                        }else if (resData.enCode == 1001 ) {
-                        //   失败  1001
-                            this.$toast(resData.msg);
-                            return;
-                        }else{
-                            this.$toast('业务出错');
-                            return;
-                        }
-                })
-            }
+                if(this.isEmpty(this.LS_DS)){
+                    this.$toast('简历中还有信息未填写完整')
+                    return false
+                }else{
+                    if(this.canSubmit == false){
+                        this.$toast('信息未填写完整');
+                        return false;
+                    }else{
+                        this.$store.dispatch('SET_PAYLIMIT_OPERATION', this.form);     
+                        // 封装数据
+                        let params = this.formatSubmitData1();
+                        // 开始请求
+                        console.log('parmas------',params)
+                        this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1025/addRecord', params).then((resData) => {
+                            console.log('返回成功信息',resData)
+                            //   成功   1000
+                                if ( resData.enCode == 1000 ) {
+                                    this.$router.push("/payLimitDetail");
+                                }else if (resData.enCode == 1001 ) {
+                                //   失败  1001
+                                    this.$toast(resData.msg);
+                                    return;
+                                }else{
+                                    this.$toast('业务出错');
+                                    return;
+                                }
+                        })
+                    }
+                }
+
             }
         },
         formatSubmitData(){
             let submitForm ={}
             // 日期传换成Number
             // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
-            submitForm.BKE520 = "1"
-            submitForm.AAE135 = this.form.AAE135;
+            submitForm.BKE520 = "1";
+            submitForm.AAC002 = this.form.AAE135;
             // 加入用户名和电子社保卡号
             // if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
             //     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
@@ -509,7 +566,7 @@ export default {
             //     this.$toast("未获取到人员基本信息");
             // }
             // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1013");
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7610");
             return params;
         },
         formatSubmitData1(){
@@ -520,13 +577,20 @@ export default {
             submitForm.AAC003 = this.form1.AAC003;
             submitForm.AAE135 = this.form.AAE135;
             submitForm.AKC412 = this.form.AKC412;
+            console.log(submitForm.AKC412)
+            console.log(typeof submitForm.AKC412)
             submitForm.AAC007 = this.form1.AAC007;
-            // submitForm.AAB001 = this.form.AAB001;
+            submitForm.AAB001 = this.form.AAB001;
+            console.log(typeof submitForm.AAB001)
             submitForm.AAB004 = this.form1.AAB004;
             submitForm.BKE703 = this.form.BKE703;
             submitForm.BKE704 = this.form.BKE704;
             submitForm.AAE041 = this.form.AAE041;
             submitForm.BKE810 = this.form.BKE810;
+            submitForm.BKE701 = this.form1.AAC003;
+            let data=new Date()
+            submitForm.BKE710 = this.util.formatDate(data,'yyyy-MM-dd hh:mm:ss')
+            console.log("BKE710",submitForm.BKE710)
             submitForm.LS_DS=[];
             submitForm.LS_DS =[...submitForm.LS_DS,...this.LS_DS];
             // 请求参数封装
