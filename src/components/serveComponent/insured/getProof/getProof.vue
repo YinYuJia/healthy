@@ -117,7 +117,7 @@ export default {
                     this.canSubmit = false;
                     this.showMail = true;
                 }else if(val.AAC050 != '' && val.BKA077 == '0'){
-                    this.canSubmit = true;
+                    this.canSubmit = false;
                     this.showMail = false;
                 }else if(val.AAC050 != '' && val.BKA077 == '1'){
                     this.canSubmit = false;
@@ -196,7 +196,8 @@ export default {
         },
         // 查看附近网点
         openSite(){
-            this.$router.push('/nearbySite');
+            this.$router.push({path:'/nearbySite', query: {pointStatus: 2}});
+            // this.$router.push('/nearbySite');
         },
         submit(){
             // if(this.showMail == true){
@@ -283,7 +284,7 @@ export default {
                      if(this.form.AAE011==''){
                          this.form.AAE011=this.$store.state.SET_NATIVEMSG.name;
                      }
-                     
+
                      this.form.AAE006 = resData.AAE006   //详细地址
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
@@ -411,16 +412,15 @@ export default {
                 height: .8rem;
                 width: 90%;
                 margin: auto;
-                margin-top: .18rem;
-                border-radius: .05rem;
+                margin-top: .4rem;
+                border-radius: .2rem;
                 line-height: .8rem;
-                background: #FFF;;
+                background: #1492ff;
                 font-family: PingFangSC-Regular;
                 font-size: .26rem;
-                color: #666;
+                color: #fff;
                 letter-spacing: 0;
                 text-align: center;
-                border: .01rem solid #C9C9C9;
             }
         }
         .Hint{

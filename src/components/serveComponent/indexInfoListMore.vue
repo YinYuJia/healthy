@@ -24,7 +24,7 @@
                             <svg-icon icon-class="serveComponent_icon_2" />
                             <div class="text">信息变更</div>
                         </div>
-                        <div class="iconBox" @click="showDetail('searchPrint','打印信息')">
+                        <div class="iconBox" @click="showDetail('searchSelect','打印信息')">
                             <svg-icon icon-class="serveComponent_icon_3" />
                             <div class="text">医保证明</div>
                         </div>
@@ -76,9 +76,9 @@
                             <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
                             <div class="text">零星报销</div>
                         </div>
-                        <div class="iconBox">
-                            <svg-icon v-if="0" icon-class="serveComponent_icon_12" />
-                            <svg-icon v-if="1" icon-class="serveComponent_grey_jiaofeinianxian" />
+                        <div class="iconBox" @click="showDetail('payLimit','缴费年限核定')">
+                            <svg-icon  icon-class="serveComponent_icon_12" />
+                            <!-- <svg-icon v-if="1" icon-class="serveComponent_grey_jiaofeinianxian" /> -->
                             <div class="text">年限核定</div>
                         </div>
                         <div class="iconBox">
@@ -184,7 +184,7 @@ export default {
             invoicesImg: [], //附件信息信息  图片id
         }
         this.$store.dispatch('SET_SMALL_REIM_2',SET_SMALL_REIM_2)
-        
+
         let SET_ENCLOSURE=[]
         this.$store.dispatch('SET_ENCLOSURE',SET_ENCLOSURE)
         this.epFn.setTitle('医疗保障专区')
@@ -276,14 +276,14 @@ export default {
                 this.slideIndex(4);
             }
         },
-        getScrollTop() {  
-            var scrollPos;  
-            if (window.pageYOffset) {  
-            scrollPos = window.pageYOffset; }  
-            else if (document.compatMode && document.compatMode != 'BackCompat')  
-            { scrollPos = document.documentElement.scrollTop; }  
-            else if (document.body) { scrollPos = document.body.scrollTop; }   
-            return scrollPos;   
+        getScrollTop() {
+            var scrollPos;
+            if (window.pageYOffset) {
+            scrollPos = window.pageYOffset; }
+            else if (document.compatMode && document.compatMode != 'BackCompat')
+            { scrollPos = document.documentElement.scrollTop; }
+            else if (document.body) { scrollPos = document.body.scrollTop; }
+            return scrollPos;
         },
         showWork(url,item,itemInfo) {
             sessionStorage.setItem('itemUrl',url);
@@ -316,7 +316,7 @@ export default {
                     }
                 })
             },16)
-            
+
         }
     }
 }
@@ -366,7 +366,7 @@ export default {
         padding: 0 .2rem;
         margin-top: .94rem;
         .iconList{
-            
+
             .listHeader{
                 height: .8rem;
                 line-height: .8rem;

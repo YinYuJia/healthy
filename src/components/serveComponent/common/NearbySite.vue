@@ -1,8 +1,8 @@
 <template>
     <div class="NearbySite">
-        <div class="IndexMenu" id="titleContent">
+        <div class="IndexMenu"  id="titleContent">
             <div class="MenuLine">
-                <div class="MenuCell" @click="changeIndex(1)" :class="{'active': activeIndex == 1}">医院</div>
+                <div class="MenuCell" @click="changeIndex(1)" :class="{'active': activeIndex == 1}" ref="disable">医院</div>
                 <div class="MenuCell" @click="changeIndex(2)" :class="{'active': activeIndex == 2}">银行</div>
             </div>
         </div>
@@ -13,21 +13,27 @@
                         <span class="Hospital">{{item.AKB021}}</span>
                         <div class="Msg">
                             <div class="IconImg">
-                                <svg-icon icon-class="keshi"/>
-                            </div>
-                            <span class="Address">
-                                {{item.AAE006}}                            
-                                <div class="IconImg" v-if="isPhone">
-                                <svg-icon icon-class="dianhua"/>
-                                </div>
-                                <a class="Phone" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a>
-                            </span>
-                        </div>
-                        <div class="Server" v-if="isShow">                   
-                            <div class="IconImg">
                                 <svg-icon icon-class="dizhi"/>
                             </div>
+                            <span class="Address">
+                                {{item.AAE006}}
+                                <!-- <div class="IconImg" v-if="isPhone">
+                                <svg-icon icon-class="dianhua"/>
+                                </div> -->
+                                
+                            </span>
+                        </div>
+                        <div class="Server" v-if="unShow">
+                            <div class="IconImg">
+                                <svg-icon icon-class="keshi"/>
+                            </div>
                             <span class="Hospital">{{item.AAE055}}</span>
+                        </div>
+                        <div class="Server" v-if="isShow">
+                            <div class="IconImg">
+                                <svg-icon icon-class="dianhua"/>
+                            </div>
+                            <span class="Hospital"><a class="Phone" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a></span>
                         </div>
                         <!-- <span class="Address" v-if="item.office">{{item.office}}</span>
                         <span class="Address"><a class="Address" v-if="item.AAE005" :href="`tel:${item.AAE005}`">{{item.AAE005}}</a></span> -->
@@ -51,26 +57,45 @@ export default {
             AAE006:"",//地址
             JL:"",//距离
             isShow:false,
+            unShow:true,
             isPhone:false,
+            pointStatus: ''
         };
     },
     created(){
-        this.getSite();
+        this.pointStatus = this.$route.query.pointStatus;
+        console.log("11:", this.pointStatus);
+        if (this.pointStatus == '2') {
+          this.activeIndex = this.pointStatus;
+          this.getList9002();
+        }
+      this.getSite();
         // this.getList('AKB020_JY'); //默认取医院网点
+    },
+    mounted() {
+      if (this.pointStatus == '2') {
+        this.$refs.disable.style.color = '#888';
+        this.$refs.disable.style.border = "1px solid #888"
+      }
     },
     //距离保留两位小数
     filters: {
         ecimalPoint:function(val){
             return val.toFixed(2)
-        } 
+        }
     },
     methods:{
         changeIndex(index){
-            this.activeIndex = index;
-            if(index == 1){
+            if (this.pointStatus == '2') {
+              this.activeIndex = this.pointStatus;
+              return;
+            } else {
+              this.activeIndex = index;
+              if (index == 1) {
                 this.getList9001();
-            }else{
+              } else {
                 this.getList9002();
+              }
             }
         },
         getSite(){
@@ -81,7 +106,7 @@ export default {
                     'dd.device.location.get',
                 ],
                 remark: '获取坐标'
-                }, 
+                },
                 function() {
                 dd.device.location.get ({
                     onSuccess: function(data) {
@@ -105,9 +130,9 @@ export default {
                 if (resData.enCode == 1000) {
                     console.log('成功')
                     this.pointList=[...this.pointList,...resData.LS_DS];
-                    this.isShow=true;
-                    this.isPhone=false;
                     console.log("9001",this.pointList)
+                    this.isShow=false;
+                    this.unShow=true;
                     // this.pointList = [...this.pointList, ...resData.LS_DS];
                     // for (let i = 0; i < this.pointList.length; i++) {
                     //     let mesString = this.pointList[i].AAA105;
@@ -134,8 +159,8 @@ export default {
                     console.log('成功')
                     this.pointList=[...this.pointList,...resData.LS_DS];
                     console.log("9002",this.pointList)
-                    this.isShow=false;
-                    this.isPhone=true;
+                    this.isShow=true;
+                    this.unShow=false;
                     // this.pointList = [...this.pointList, ...resData.LS_DS];
                     // for (let i = 0; i < this.pointList.length; i++) {
                     //     let mesString = this.pointList[i].AAA105;
@@ -193,7 +218,6 @@ export default {
             height: .62rem;
             width: 95%;
             background: #FFFFFF;
-            border: 1px solid #1492FF;
             border-radius: .05rem;
             display: flex;
             .MenuCell {
@@ -207,11 +231,13 @@ export default {
                 &:first-child {
                     border-top-left-radius: .05rem;
                     border-bottom-left-radius: .05rem;
+                  border: 1px solid #1492FF;
                 }
                 &:last-child {
                     border-top-right-radius: .05rem;
                     border-bottom-right-radius: .05rem;
                     border-right: none;
+                  border: 1px solid #1492FF;
                 }
             }
             .active {
@@ -262,8 +288,6 @@ export default {
                             color: #999999;
                             letter-spacing: 0;
                             .Phone{
-                                margin-top: .1rem;
-                                margin-left: .1rem;
                                 font-size: .24rem;
                                 color: #999999;
                                 letter-spacing: 0;
@@ -287,6 +311,11 @@ export default {
                             font-size: .24rem;
                             color: #999999;
                             letter-spacing: 0;
+                            .Phone{
+                                font-size: .24rem;
+                                color: #999999;
+                                letter-spacing: 0;
+                            }
                         }
                     }
 

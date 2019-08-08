@@ -4,6 +4,7 @@ import addressList from './address' //所有地区
 import zjAddress from './zjAddress' //浙江地区
 import tzAddress from './tzAddress' //台州地区
 import excludeZj from './excludeZj' //浙江以外地区
+import workYear from './workYear' //工龄
 import excludeProvince from './excludeProvince' //排除省本级
 import  Vuex from '../../vuex/vuex' 
 export default {
@@ -221,5 +222,8 @@ export default {
     },
     excludeProvince: function(){
       return excludeProvince;
-    }
+    },
+    workYear: function(){
+      return workYear;
+    },
 }
