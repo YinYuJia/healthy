@@ -150,6 +150,9 @@ export default {
         text-align: left;
         font-size: .28rem;
         letter-spacing: 0;
+        &:last-child{
+            margin-bottom:1.4rem;
+        }
         .Hint{
             color: #999;
             padding: .2rem .3rem;

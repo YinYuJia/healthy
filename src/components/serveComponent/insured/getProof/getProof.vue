@@ -137,6 +137,13 @@ export default {
                 }else if(val.BKA077=='0'){
                     this.showButton=false;//如果为自取则隐藏提交按钮
                 }
+                if(val.AAC050=='1'){
+                    sessionStorage.setItem('AAC050',val.AAC050)
+                    sessionStorage.setItem('AAC050VALUE','更换')
+                }else if(val.AAC050=='2'){
+                    sessionStorage.setItem('AAC050',val.AAC050)
+                    sessionStorage.setItem('AAC050VALUE','补办')
+                }
             },
             deep: true
         },
