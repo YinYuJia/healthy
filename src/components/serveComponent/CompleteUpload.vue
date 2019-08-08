@@ -112,7 +112,7 @@ export default {
             }
             let submitForm = {
                 BKZ019: this.BKZ019,
-                photoIdList: this.photoIdList,
+                photoIdList:this.photoIdList.join(',')//照片ID数组
             }
             console.log(submitForm);
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1030");
