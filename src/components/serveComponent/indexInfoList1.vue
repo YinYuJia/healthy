@@ -39,21 +39,13 @@
         <!-- 图标列表 -->
         <div class="iconContent">
             <div class="iconList">
-                <div v-for="(item,index) in iconList1" :key="index">
-                    <div class="iconBox" v-if="item != ''">
-                        <div class="photoBox" @click="jumpToUrl(item.jumpUrl)"><img :src="item.outPicUrl"/></div>
-                        <div class="text">{{item.mattersName}}</div>
-                    </div>
-                    <div class="iconBox" v-if="item == ''"></div>
+                <div class="iconBox" v-for="(item,index) in iconList" :key="index">
+                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl)"><img :src="item.outPicUrl"/></div>
+                    <div class="text">{{item.mattersName}}</div>
                 </div>
-            </div>
-            <div class="iconList">
-                <div v-for="(item,index) in iconList2" :key="index">
-                    <div class="iconBox" v-if="item != ''">
-                        <div class="photoBox" @click="jumpToUrl(item.jumpUrl)"><img :src="item.outPicUrl"/></div>
-                        <div class="text">{{item.mattersName}}</div>
-                    </div>
-                    <div class="iconBox" v-if="item == ''"></div>
+                <div class="iconBox" @click="goRouter('indexInfoListMore')">
+                    <svg-icon icon-class="serveComponent_icon12" />
+                    <div class="text">更多</div>
                 </div>
             </div>
             <!-- <div class="iconList">
@@ -69,15 +61,12 @@
                 </div>
                 <div class="iconBox" v-if="iconFlag" @click="showDetail('searchFee','费用信息查询')">
                     <svg-icon icon-class="serveComponent_icon_19" />
+                    <div class="text">费用信息</div>
                   </div>
                 <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
                     <svg-icon icon-class="serveComponent_icon8" />
                     <div class="text">办事进度</div>
                 </div>
-                <div class="iconBox" v-if="!iconFlag">
-                </div>
-            </div>
-            <div class="iconList">
                 <div class="iconBox" v-if="iconFlag" @click="showDetail('searchBaseInfo','个人信息查询')">
                     <svg-icon icon-class="serveComponent_icon_16" />
                     <div class="text">参保信息</div>
@@ -185,8 +174,7 @@
                 ],
                 iconFlag: false,
                 isClear: true,
-                iconList1: [], //图标列表1
-                iconList2: [], //图标列表2
+                iconList: [], //图标列表
             }
         },
         mounted() {
@@ -355,21 +343,8 @@
                                     });
                                 }
                                 // 自动补齐图标
-                                _this.iconList1 = iconList.slice(0,4);
-                                _this.iconList2 = iconList.slice(4);
-                                let len1 = _this.iconList1.length;
-                                if(len1 < 4 && len1 != 0){
-                                    for(let i = 0; i < 4-len1; i++){
-                                        _this.iconList1.push('');
-                                    }
-                                }
-                                let len2 = _this.iconList2.length;
-                                if(len2 < 4 && len2 != 0){
-                                    for(let i = 0; i < 4-len2; i++){
-                                        _this.iconList2.push('');
-                                    }
-                                }
-                                console.log('图标列表',_this.iconList1);
+                                _this.iconList = iconList
+                                console.log('图标列表',_this.iconList);
                             },
                             onFail: function(error) {
                                 console.log('sdk失败')
@@ -840,11 +815,11 @@
                 display: -ms-flexbox;
                 /* IE 10 */
                 display: flex;
-                justify-content: space-around;
+                flex-wrap: wrap;
                 .iconBox {
                     position: relative;
                     height: 1.4rem;
-                    width: 1.2rem;
+                    width: 25%;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
