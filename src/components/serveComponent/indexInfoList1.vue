@@ -110,7 +110,7 @@
                     <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
                     <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
                 </swipe> -->
-            <svg-icon icon-class="serveComponent_icon16" @click="showDetail('abroadDetail','家庭共济')"/>
+            <svg-icon icon-class="serveComponent_icon16"/>
         </div>
         <!-- 热点资讯 -->
         <div class="hotMsg">

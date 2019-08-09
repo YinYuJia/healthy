@@ -236,7 +236,7 @@ export default {
             types: [
                 {
                     value: '0',
-                    label: '否'
+                    label: '无'
                 },
                 {
                     value: '1',
@@ -355,6 +355,10 @@ export default {
                     console.log("AKC421",this.LS_DS[this.index].AKC421)
                 }
             }
+            let data=new Date()
+            this.LS_DS[this.index].BKE700=this.form1.AAC003;
+            this.LS_DS[this.index].BKE701=this.util.formatDate(data,'yyyy-MM-dd hh:mm:ss')
+            
         },
         // 结束工作时间
         openEndPicker(index){
@@ -587,10 +591,6 @@ export default {
             submitForm.BKE704 = this.form.BKE704;
             submitForm.AAE041 = this.form.AAE041;
             submitForm.BKE810 = this.form.BKE810;
-            submitForm.BKE701 = this.form1.AAC003;
-            let data=new Date()
-            submitForm.BKE710 = this.util.formatDate(data,'yyyy-MM-dd hh:mm:ss')
-            console.log("BKE710",submitForm.BKE710)
             submitForm.LS_DS=[];
             submitForm.LS_DS =[...submitForm.LS_DS,...this.LS_DS];
             // 请求参数封装
