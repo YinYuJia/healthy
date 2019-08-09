@@ -110,9 +110,6 @@ export default {
         },
         // 提交
         submit(){
-            this.$router.push({
-                path: 'familyDetail', 
-            });
             if(this.canSubmit == false){
                 return;
             }
