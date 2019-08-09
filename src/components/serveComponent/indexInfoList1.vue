@@ -333,14 +333,14 @@
                             onSuccess: function(data) {
                                 let iconList = [];
                                 if(data.userType == 1 || data.userType == 0){
-                                    iconList = resList.personList;
-                                    iconList.forEach(ele => {
-                                        ele.jumUrl = ele.personJumpUrl
-                                    });
-                                }else if(data.userType == 2){
                                     iconList = resList.unitList;
                                     iconList.forEach(ele => {
                                         ele.jumUrl = ele.unitJumpUrl
+                                    });
+                                }else if(data.userType == 2){
+                                    iconList = resList.personList;
+                                    iconList.forEach(ele => {
+                                        ele.jumUrl = ele.personJumpUrl
                                     });
                                 }
                                 // 自动补齐图标
@@ -383,11 +383,11 @@
                                 areaId: code
                             }
                             _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                                // _this.hotMsg = resData.list;
-                                // _this.hotMsg.forEach(ele=>{
-                                //     ele.src = ele.synopsisUrl;
-                                // })
-                                // console.log('获取资讯列表', _this.hotMsg);
+                                _this.hotMsg = resData.list;
+                                _this.hotMsg.forEach(ele=>{
+                                    ele.src = ele.synopsisUrl;
+                                })
+                                console.log('获取资讯列表', _this.hotMsg);
                             })
                         },
                         onFail: function(error) {}
