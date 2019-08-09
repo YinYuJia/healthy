@@ -37,23 +37,33 @@
 <style lang="less" scoped>
     .content {
       width: 100%;
+      height: 100%;
       background-color: white;
       .title {
+        height: auto;
         background-color: white;
-        text-align: center;
-        color: black;
-        font-size: .6rem;
-        padding-top: .4rem;
-        padding-bottom: .4rem;
-        font-weight: 700;
+        /*padding-top: .4rem;
+        padding-bottom: .4rem;*/
         margin-bottom: .4rem;
+        font-family: PingFangSC-Semibold;
+        font-size: 24px;
+        color: #333333;
+        letter-spacing: -0.0043rem;
+        text-align: justify;
+        padding: .4rem;
       }
       .time {
         font-size: .3rem;
         text-align: left;
         padding-left: .3rem;
-        padding-top: .4rem;
         color: #888;
       }
+      .ql-editor {
+        font-size: .38rem;
+        padding: .2rem;
+      }
     }
+  /deep/.ql-editor img{
+    width: 100%;
+  }
 </style>

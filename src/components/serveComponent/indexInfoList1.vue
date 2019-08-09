@@ -154,27 +154,28 @@
                     {
                         name: '国家医疗保障局副局长施子海莅临我中心指导工作',
                         time: '2019-07-19',
-                        src: '../../../static/images/zhuanqu/01.png'
+                        src: '../../../static/images/zhuanqu/01.png',
                     },
                     {
                         name: '医疗保障“最多跑一次”再推新举措,浙里办喊你来领“健康医保卡”啦',
                         time: '2019-07-15',
-                        src: '../../../static/images/zhuanqu/02.png'
+                        src: '../../../static/images/zhuanqu/02.png',
                     },
                     {
                         name: '浙江省异地就医直接结算开通医疗机构名单（截至2019年6月底）',
                         time: '2019-07-09',
-                        src: '../../../static/images/zhuanqu/03.png'
+                        src: '../../../static/images/zhuanqu/03.png',
                     },
                     {
                         name: '浙江省异地就医直接结算开通医疗机构名单（截至2019年5月底）',
                         time: '2019-06-11',
-                        src: '../../../static/images/zhuanqu/04.png'
+                        src: '../../../static/images/zhuanqu/04.png',
                     }
                 ],
                 iconFlag: false,
                 isClear: true,
-                iconList: [], //图标列表
+                iconList: [], //图标列表,
+                isVisible: false
             }
         },
         mounted() {
@@ -362,21 +363,24 @@
                         'dd.biz.user.getUserType',
                     ],
                     remark: '获取用户登录类型'
-                }, function() {
+                }, ()=> {
                     dd.biz.user.getUserType({
-                        onSuccess: function(data) {
+                        onSuccess: (data)=> {
                             console.log('用户类型',data);
                             let params = {
-                                statusType: data.userType,
+                                statusType: 2,
+                                // data.userType
                                 areaId: code
                             }
-                            _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                                _this.hotMsg = resData.list;
-                                _this.hotMsg.forEach(ele=>{
+                            this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
+                              console.log('resData',resData)
+                                this.hotMsg = resData.list;
+                                console.log("hotMsg", this.hotMsg)
+                                this.hotMsg.forEach(ele=>{
                                     ele.src = ele.synopsisUrl;
                                 })
-                                 _this.hotMsg.splice(0,5);
-                                console.log('获取资讯列表', _this.hotMsg);
+                                 // this.hotMsg.splice(0,5);
+                                console.log('获取资讯列表', this.hotMsg);
                             })
                         },
                         onFail: function(error) {}
