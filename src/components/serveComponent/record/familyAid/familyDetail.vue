@@ -37,8 +37,6 @@
                 <div class="CompleteLine">1.的地区为好的气温很低了我点击领取我的灵魂的分开始整理的积分</div>
                 <div class="CompleteLine">2.等会我的文件的路径刷卡机的</div>
             </div>
-            <!-- 补齐材料提交 -->
-            <Footer v-if="needComplete" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
         </div>
         <Success :flag="successFlag"></Success>
         <!-- 底部 -->
@@ -63,7 +61,6 @@ export default {
         },
         List:[],
         currentStep:1,
-        needComplete: true, //需要补充材料
         handleNumber:'',
         arr: [
             {step:1,name:'申请'},

@@ -27,12 +27,9 @@ export default {
         };
     },
     created(){
-        
-        console.log('list1',this.$route.query.list)
-        console.log('list1',JSON.stringify(this.$route.query.list))
-        console.log('list2',this.$route.query.list=='')
-        console.log('list3',this.$route.query.list!='')
-        // window.history.go(-1);
+        if(this.$route.query.list[0].BKE266 == undefined){
+            this.$router.push('/searchProgress');
+        }
         // 获取需要补充的材料清单
         this.completeList = this.$route.query.list
         this.completeList.forEach(ele => {
@@ -113,6 +110,9 @@ export default {
         },
         // 提交
         submit(){
+            this.$router.push({
+                path: 'familyDetail', 
+            });
             if(this.canSubmit == false){
                 return;
             }
@@ -128,7 +128,7 @@ export default {
                 if ( resData.enCode == 1000 ) {
                     this.$router.push({
                         path: this.route, 
-                        });
+                    });
                     
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
