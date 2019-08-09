@@ -28,7 +28,7 @@ export default {
     },
     created(){
         if(this.$route.query.list[0].BKE266 == undefined){
-            this.$router.push('/searchProgress');
+            window.history.go(-3);
         }
         // 获取需要补充的材料清单
         this.completeList = this.$route.query.list
@@ -124,7 +124,11 @@ export default {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
                     this.$router.push({
-                        path: this.route, 
+                        path: this.route,
+                        query:{
+                            showSuccess: true,
+                            param: this.BKZ019
+                        }
                     });
                     
                 }else if (resData.enCode == 1001 ) {

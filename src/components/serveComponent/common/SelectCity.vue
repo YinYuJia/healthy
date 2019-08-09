@@ -214,6 +214,7 @@ export default {
             this.showCityPicker = true;
             if(this.propArr != undefined){
                 this.chooseArr[0].values = JSON.parse(JSON.stringify(this.propArr));
+                // this.chooseArr[0].defaultIndex=0
             }
         },
         confirm(){

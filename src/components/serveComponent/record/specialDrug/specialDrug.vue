@@ -58,7 +58,6 @@
               placeholder="请选择"
               readonly
             >
-            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -136,8 +135,8 @@
                 :value="item.AAA102"
               ></el-option>
             </el-select> -->
-            <input @click="openDrugTimePicker()" 
-              type="text" v-model="BKE248VALUE" 
+            <input @click="openDrugTimePicker()"
+              type="text" v-model="BKE248VALUE"
               placeholder="请选择"
               :disabled="useMedical"
               readonly
@@ -340,7 +339,7 @@ export default {
           this.canSubmit = true;
         } else {
           this.canSubmit = false;
-        } 
+        }
         // 判断时间间隔
         if (val.AAE030 != "" && val.AAE031 != "") {
           let AAE030 = new Date(val.AAE030);

@@ -135,6 +135,10 @@ export default {
         if(this.$route.query.param){
             this.successFlag = 2;
         }
+        if(this.$route.query.param && this.$route.query.showSuccess){
+            console.log("从补充材料进入");
+            this.successFlag = 1;
+        }
         this.epFn.setTitle('规定病种备案')
         // this.form = this.$store.state.SET_CHRONIC_DISEASE;
         this.request();

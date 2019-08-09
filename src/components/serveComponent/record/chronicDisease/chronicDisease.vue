@@ -34,7 +34,6 @@
                 placeholder="请选择"
                 readonly
               >
-              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">

@@ -88,10 +88,10 @@ export default {
                 AAE005: '', //手机号码
                 // AAE011: '', //省市信息
                 AAE006: '', //详细地址
-                AAC050:'', //变更类型
+                AAC050:'1', //变更类型
                 BKA077 :'0' ,//领取方式
             },
-            AAC050VALUE: '',
+            AAC050VALUE: '更换',
             BKA077VALUE: '自取',
             canSubmit: false,
             optionList: [], //所有地区
@@ -172,10 +172,14 @@ export default {
         //         })
         //     })
         // }
-        console.log(sessionStorage.getItem('AAC050'))
-        console.log(sessionStorage.getItem('AAC050VALUE'))
-        this.form.AAC050=sessionStorage.getItem('AAC050')
-        this.AAC050VALUE=sessionStorage.getItem('AAC050VALUE')
+        console.log("111",sessionStorage.getItem('AAC050'))
+        console.log("222",sessionStorage.getItem('AAC050VALUE'))
+        if(sessionStorage.getItem('AAC050')!=null){
+            this.form.AAC050=sessionStorage.getItem('AAC050')
+            this.AAC050VALUE=sessionStorage.getItem('AAC050VALUE')
+        }
+        
+        // this.AAC050VALUE=sessionStorage.getItem('AAC050VALUE')
         this.getMailInfo(); //自动获取邮寄信息
         this.epFn.setTitle('领取就医凭证');
         // 原生参数添加姓名等信息

@@ -69,8 +69,7 @@
                 </div>
                 <div class="iconBox" v-if="iconFlag" @click="showDetail('searchFee','费用信息查询')">
                     <svg-icon icon-class="serveComponent_icon_19" />
-                    <div class="text">就医信息</div>
-                </div>
+                  </div>
                 <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
                     <svg-icon icon-class="serveComponent_icon8" />
                     <div class="text">办事进度</div>
@@ -365,7 +364,7 @@
                     });
                 })
             },
-            // 获取资讯列表
+            // ·列表
             getNewsInfo(code){
                 let _this = this;
                 dd.ready({
@@ -387,6 +386,7 @@
                                 _this.hotMsg.forEach(ele=>{
                                     ele.src = ele.synopsisUrl;
                                 })
+                                 _this.hotMsg.splice(0,5);
                                 console.log('获取资讯列表', _this.hotMsg);
                             })
                         },
@@ -959,7 +959,7 @@
                     width: 2.2rem;
                     background: #EEE;
                     border-radius: .05rem;
-                    .img {
+                    img {
                         height: 100%;
                         width: 100%;
                         border-radius: .05rem
