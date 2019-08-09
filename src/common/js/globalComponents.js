@@ -11,11 +11,10 @@ import GuideIcon from '@/components/serveComponent/common/GuideIcon'
 import DetailStatus from '@/components/serveComponent/common/DetailStatus'
 
 
-
 function plugin(Vue) {
     if (plugin.installed) {
         return
-    } 
+    }
     Vue.component('Footer',Footer);
     Vue.component('ProgressDate',ProgressDate);
     Vue.component('SearchInfoPage',SearchInfoPage);

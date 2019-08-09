@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/components/serveComponent/index'
 import indexInfoList from '@/components/serveComponent/indexInfoList'
 import indexInfoList1 from '@/components/serveComponent/indexInfoList1'
+import goDetail from '@/components/serveComponent/goDetail'
 import indexInfoListMore from '@/components/serveComponent/indexInfoListMore'
 import BusinessGuide from '@/components/serveComponent/BusinessGuide'
 import CompleteUpload from '@/components/serveComponent/CompleteUpload'
@@ -77,6 +78,12 @@ export default new Router({
       path: '/indexInfoList1',
       name: 'indexInfoListComponent',
       component: indexInfoList
+    },
+    //首页资讯详情
+    {
+      path: '/goDetail',
+      name: 'goDetail',
+      component: goDetail
     },
     {
       path: '/Index',

@@ -91,7 +91,7 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                           
+
                         <div class="swiper-slide">
                             <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
                         <div class="swiper-slide">
@@ -115,7 +115,7 @@
         <!-- 热点资讯 -->
         <div class="hotMsg">
             <div class="hotHeader">热点资讯</div>
-            <div class="msgLine" v-for="(item,index) in hotMsg" :key="index">
+            <div class="msgLine" v-for="(item,index) in hotMsg" :key="index" @click="goDetail(item)">
                 <div class="textBox">
                     <div class="textInfo">{{item.name | msgLength}}</div>
                     <div class="dateInfo">{{item.time}}</div>
@@ -230,7 +230,7 @@
                 this.ifShow = true //显示输入人名社保卡
             } else if (this.$build == "2") {
                 this.ifShow = false; //隐藏输入人名社保卡
-                this.setNativeMsg(); //浙理办打包需要打开 
+                this.setNativeMsg(); //浙理办打包需要打开
                 this.getUserRegion(); // 自动获取参保地
             }
             console.log('dddddd引入浙理办SDKddddddd', dd)
@@ -292,10 +292,15 @@
                     return val.slice(0, 20) + '...';
                 }else{
                     return val;
-                }              
+                }
             }
         },
         methods: {
+            // 资讯跳转详情
+            goDetail(item) {
+              console.log("item:", item)
+              this.$router.push({path:"/goDetail", query: {param: item}})
+            },
             // 跳转配置的地址
             jumpToUrl(url){
                 // 如果是省本级
@@ -324,6 +329,7 @@
                     }, function() {
                         dd.biz.user.getUserType({
                             onSuccess: function(data) {
+                                sessionStorage.setItem("userType", data.userType)
                                 console.log('sdk成功')
                                 let iconList = [];
                                 if(data.userType == 1 || data.userType == 0){
