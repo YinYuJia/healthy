@@ -324,6 +324,7 @@
                     }, function() {
                         dd.biz.user.getUserType({
                             onSuccess: function(data) {
+                                sessionStorage.setItem("userType", data.userType)
                                 console.log('sdk成功')
                                 let iconList = [];
                                 if(data.userType == 1 || data.userType == 0){
