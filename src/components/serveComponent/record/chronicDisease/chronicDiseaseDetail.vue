@@ -322,7 +322,7 @@ export default {
                     list: this.completeList,
                     BKZ019: this.$route.query.param,
                     AGA002: this.$route.query.AGA002,
-                    route: '/turnDetail'
+                    route: '/chronicDiseaseDetail'
                 }
             });
         },

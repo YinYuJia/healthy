@@ -138,7 +138,7 @@ export default {
         this.request()
         
         this.request2()
-        this.needSubmitInfo();  //判断是否需要提交资料
+        // this.needSubmitInfo();  //判断是否需要提交资料
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', this.back, false);//false阻止默认事件
@@ -485,7 +485,7 @@ export default {
                     list: this.completeList,
                     BKZ019: this.$route.query.param,
                     AGA002: this.$route.query.AGA002,
-                    route: '/turnDetail'
+                    route: '/smallReimDetail'
                 }
             });
         },

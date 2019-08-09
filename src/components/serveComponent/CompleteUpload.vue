@@ -27,6 +27,12 @@ export default {
         };
     },
     created(){
+        
+        console.log('list1',this.$route.query.list)
+        console.log('list1',JSON.stringify(this.$route.query.list))
+        console.log('list2',this.$route.query.list=='')
+        console.log('list3',this.$route.query.list!='')
+        // window.history.go(-1);
         // 获取需要补充的材料清单
         this.completeList = this.$route.query.list
         this.completeList.forEach(ele => {
@@ -120,7 +126,10 @@ export default {
                 console.log('返回成功信息',resData)
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
-                    this.$router.push(this.route);
+                    this.$router.push({
+                        path: this.route, 
+                        });
+                    
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);

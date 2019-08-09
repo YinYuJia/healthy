@@ -20,7 +20,7 @@
                     <div class="InfoName"><span>项目类型:</span></div>
                     <div class="InfoText">{{form.BKE253VALUE}}</div>
                 </div>
-                <div class="InfoLine">
+                <div class="InfoLine" v-if="showTreat">
                     <div class="InfoName"><span>康复疗程:</span></div>
                     <div class="InfoText">{{form.BKE239|BKE239}}</div>
                 </div>
@@ -138,6 +138,7 @@ export default {
             picList: [],
             workStatus: '', //办件状态，02受理，22需补齐，06已补正
             completeList: [], //补充材料清单
+            showTreat:false
         }
     },
     created(){
@@ -241,6 +242,11 @@ export default {
                     let LS=resData.LS_DS_12
                     this.form={...this.form,...LS}
                     console.log("form",this.form)
+                    if(this.form.BKE239!=''){
+                        this.showTreat=true;
+                    }else{
+                        this.showTreat=false;
+                    }
                     this.AAB301000=this.form.AAS301VALUE+this.form.AAB301VALUE
                     this.form.AAE030=this.util.NumberToDate(this.form.AAE030)
                     this.form.AAE031=this.util.NumberToDate(this.form.AAE031)

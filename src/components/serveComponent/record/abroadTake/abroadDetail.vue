@@ -18,7 +18,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟回国日期:</span></div>
-                    <div class="InfoText">{{form.AAE031}}aaa</div>
+                    <div class="InfoText">{{form.AAE031}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>取药机构:</span></div>
