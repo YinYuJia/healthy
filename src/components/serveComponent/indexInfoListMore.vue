@@ -3,18 +3,33 @@
         <div class="infoListHeader" id="title">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" @click="changeIndex('insured',1)" :class="{'active': activeIndex == 1}">参保服务</div>
+                    <div class="swiper-slide" v-for="(item,index) in titleList" :key="index" 
+                        @click="changeIndex('iconContent'+item.index,index)" :class="{'active': activeIndex == index}">
+                        {{item.name}}
+                    </div>
+                    <!-- <div class="swiper-slide" @click="changeIndex('insured',1)" :class="{'active': activeIndex == 1}">参保服务</div>
                     <div class="swiper-slide" @click="changeIndex('record',2)" :class="{'active': activeIndex == 2}">备案服务</div>
                     <div class="swiper-slide" @click="changeIndex('treat',3)" :class="{'active': activeIndex == 3}">待遇服务</div>
-                    <div class="swiper-slide" @click="changeIndex('others',4)" :class="{'active': activeIndex == 4}">其他服务</div>
+                    <div class="swiper-slide" @click="changeIndex('others',4)" :class="{'active': activeIndex == 4}">其他服务</div> -->
                 </div>
             </div>
         </div>
         <!-- 图标列表 -->
         <div id="wrapper">
             <div class="iconContainer" :style="{height:containerHeight}">
-                <!-- 参保服务 -->
-                <div class="iconList">
+                <div v-for="(listLine,index) in iconList" :key="index">
+                    <div class="iconList" v-if="listLine.children.length != 0">
+                        <div class="listHeader" v-if="index != 0">{{listLine.iconCategoryName}}</div>
+                        <div class="iconContent" :id="'iconContent'+index">
+                            <div class="iconBox" v-for="icon in listLine.children" :key="icon.blockAppId" @click="jumpToUrl(icon.jumpUrl)">
+                                <div class="photoBox"><img :src="icon.outPicUrl" /></div>
+                                <div class="text">{{icon.mattersName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="iconList">
                     <div class="iconContent" id="insured">
                         <div class="iconBox" @click="showDetail('getProof','领取就医凭证')">
                             <svg-icon icon-class="serveComponent_icon_1" />
@@ -35,7 +50,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- 备案服务 -->
                 <div class="iconList">
                     <div class="listHeader">备案服务</div>
                     <div class="iconContent" id="record">
@@ -63,11 +77,8 @@
                             <svg-icon icon-class="serveComponent_icon_10" />
                             <div class="text">规定病种</div>
                         </div>
-                        <div class="iconBox"></div>
-                        <div class="iconBox"></div>
                     </div>
                 </div>
-                <!-- 待遇服务 -->
                 <div class="iconList">
                     <div class="listHeader">待遇服务</div>
                     <div class="iconContent" id="treat">
@@ -76,9 +87,7 @@
                             <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
                             <div class="text">零星报销</div>
                         </div>
-                        <!-- @click="showDetail('payLimit','缴费年限核定')" -->
                         <div class="iconBox" >
-                            <!-- <svg-icon  icon-class="serveComponent_icon_12" /> -->
                             <svg-icon v-if="1" icon-class="serveComponent_grey_jiaofeinianxian" />
                             <div class="text">年限核定</div>
                         </div>
@@ -97,12 +106,8 @@
                             <svg-icon v-if="1" icon-class="serveComponent_grey_7" />
                             <div class="text">未就业配偶</div>
                         </div>
-                        <div class="iconBox"></div>
-                        <div class="iconBox"></div>
-                        <div class="iconBox"></div>
                     </div>
                 </div>
-                <!-- 其他服务 -->
                 <div class="iconList">
                     <div class="listHeader">其他服务</div>
                     <div class="iconContent" id="others">
@@ -126,19 +131,16 @@
                             <svg-icon icon-class="serveComponent_icon_20" />
                             <div class="text">备案信息</div>
                         </div>
-                        <!-- <div class="iconBox">
+                        <div class="iconBox">
                             <svg-icon icon-class="serveComponent_icon_hosipital" />
                             <div class="text">定点医院</div>
                         </div>
                         <div class="iconBox">
                             <svg-icon icon-class="serveComponent_icon_drugstore" />
                             <div class="text">定点药店</div>
-                        </div> -->
-                        <div class="iconBox"></div>
-                        <div class="iconBox"></div>
-                        <div class="iconBox"></div>
+                        </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -150,10 +152,12 @@ import IScroll from 'iscroll/build/iscroll-probe';
 export default {
     data(){
         return{
-            activeIndex: 1,
+            activeIndex: 0,
             headerSwiper: {},
             containerHeight: 0,
             myScroll: undefined,
+            iconList: [], //图标列表
+            titleList: [], //头部列表
         }
     },
     destroyed(){
@@ -188,35 +192,85 @@ export default {
 
         let SET_ENCLOSURE=[]
         this.$store.dispatch('SET_ENCLOSURE',SET_ENCLOSURE)
-        this.epFn.setTitle('医疗保障专区')
-    },
-    mounted(){
-        this.headerSwiper = new Swiper('.swiper-container', {
-            slidesPerView: 3.5, //显示的范围
-            observer:true,//修改swiper自己或子元素时，自动初始化swiper
-            observeParents:true,//修改swiper的父元素时，自动初始化swiper
-            freeMode: true, //去除惯性
-        });
-        // 计算留白高度
-        this.$nextTick(()=>{
-            let lastContentHeight = document.getElementById('others').offsetHeight;
-            let titleHeight = document.getElementById('title').offsetHeight;
-            let offsetHeight = document.getElementById('others').offsetTop;
-            this.containerHeight = offsetHeight + window.innerHeight - titleHeight + 'px';
-            setTimeout(()=>{
-                this.myScroll = new IScroll('#wrapper',{
-                    mouseWheel: true, //允许鼠标滑动
-                    bounce: false, //关闭回弹
-                    scrollbars: false, //关闭滚动条
-                    click: true, //开启点击功能
-                    // momentum: false, //关闭势能，提升性能
-                    probeType: 3
-                });
-                this.myScroll.on('scroll',this.handleScroll);
-            },50);
-        });
+        this.epFn.setTitle('医疗保障专区');
+        this.getMatterInfo(sessionStorage.getItem("GinsengLandCode")); //获取列表
     },
     methods:{
+        // 跳转配置的地址
+        jumpToUrl(url){
+            // 如果是省本级
+            if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                let route = url.split('/');
+                this.$router.push(route.pop());
+            }else{
+                window.location.href = url;
+            }
+        },
+        //动态获取事项信息
+        getMatterInfo(code) {
+            let params = {
+                "areaId": code
+            }
+            this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0002/getAreaList", params).then((resData) => {
+                console.log('获取区域事项', resData)
+                let resList = resData.list;
+                let iconList = [];
+                let userType = sessionStorage.getItem('userType');
+                if(userType == 1 || userType == 0){
+                    resList.forEach((ele,index) =>{
+                        ele.children.forEach(innerEle =>{
+                            innerEle.jumpUrl = innerEle.personJumpUrl;
+                        })
+                        if(ele.children.length != 0){
+                            this.titleList.push({
+                                name: ele.iconCategoryName,
+                                index: index
+                            });
+                        }
+                    })
+                }else if(userType == 2){
+                    resList.forEach((ele,index) =>{
+                        ele.children.forEach(innerEle =>{
+                            innerEle.jumpUrl = innerEle.personJumpUrl;
+                        })
+                        if(ele.children.length != 0){
+                            this.titleList.push(ele.iconCategoryName);
+                        }
+                    })
+                }
+                // 自动补齐图标
+                this.iconList = resList
+                console.log('图标列表',this.iconList);
+                this.calculateContent(); //计算区域高度
+            })
+        },
+        calculateContent(){
+            this.$nextTick(()=>{
+                let length = this.titleList.length;
+                let lastId = 'iconContent' + this.titleList[length-1].index;
+                let lastContentHeight = document.getElementById(lastId).offsetHeight;
+                let titleHeight = document.getElementById('title').offsetHeight;
+                let offsetHeight = document.getElementById(lastId+'').offsetTop;
+                this.containerHeight = offsetHeight + window.innerHeight - titleHeight + 'px';
+                setTimeout(()=>{
+                    this.myScroll = new IScroll('#wrapper',{
+                        mouseWheel: true, //允许鼠标滑动
+                        bounce: false, //关闭回弹
+                        scrollbars: false, //关闭滚动条
+                        click: true, //开启点击功能
+                        // momentum: false, //关闭势能，提升性能
+                        probeType: 3
+                    });
+                    this.myScroll.on('scroll',this.handleScroll);
+                },50);
+                this.headerSwiper = new Swiper('.swiper-container', {
+                    slidesPerView: 3.5, //显示的范围
+                    observer:true,//修改swiper自己或子元素时，自动初始化swiper
+                    observeParents:true,//修改swiper的父元素时，自动初始化swiper
+                    freeMode: true, //去除惯性
+                });
+            })
+        },
         // gotoSDK(){
         //     console.log(111)
         //     let url =
@@ -263,19 +317,28 @@ export default {
             if(isiOS){
                 title = document.getElementById('title').offsetHeight + 10;
             }
-            let scroll_1 = document.getElementById('insured').offsetTop - title;
-            let scroll_2 = document.getElementById('record').offsetTop - title;
-            let scroll_3 = document.getElementById('treat').offsetTop - title;
-            let scroll_4 = document.getElementById('others').offsetTop - title;
-            if(scrollY >= scroll_1 && scrollY < scroll_2){
-                this.slideIndex(1);
-            }else if(scrollY >= scroll_2 && scrollY < scroll_3){
-                this.slideIndex(2);
-            }else if(scrollY >= scroll_3 && scrollY < scroll_4){
-                this.slideIndex(3);
-            }else if(scrollY >= scroll_4){
-                this.slideIndex(4);
+            let scroll = [];
+            for(let i = 0; i < this.titleList.length; i++){
+                let id = 'iconContent'+this.titleList[i].index;
+                scroll[i] = document.getElementById(id).offsetTop - title;
             }
+            for(let i = 0; i < scroll.length-1; i++){
+                if(scrollY >= scroll[i] && scrollY <= scroll[i+1]){
+                    this.slideIndex(i);
+                }
+            }
+            if(scrollY >= scroll.pop()){
+                this.slideIndex(scroll.length)
+            }
+            // if(scrollY >= scroll_1 && scrollY < scroll_2){
+            //     this.slideIndex(1);
+            // }else if(scrollY >= scroll_2 && scrollY < scroll_3){
+            //     this.slideIndex(2);
+            // }else if(scrollY >= scroll_3 && scrollY < scroll_4){
+            //     this.slideIndex(3);
+            // }else if(scrollY >= scroll_4){
+            //     this.slideIndex(4);
+            // }
         },
         getScrollTop() {
             var scrollPos;
@@ -387,23 +450,33 @@ export default {
                 display: -moz-flex; /* Firefox 18+ */
                 display: -ms-flexbox; /* IE 10 */
                 display: flex;
-                justify-content: space-around;
                 flex-wrap: wrap;
                 padding: .2rem 0 .44rem 0;
                 .iconBox{
                     position: relative;
                     height: 1.4rem;
                     width: 25%;
-                                    display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
-                display: -moz-box; /* Firefox 17- */
-                display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
-                display: -moz-flex; /* Firefox 18+ */
-                display: -ms-flexbox; /* IE 10 */
-                display: flex;
+                    display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
+                    display: -moz-box; /* Firefox 17- */
+                    display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
+                    display: -moz-flex; /* Firefox 18+ */
+                    display: -ms-flexbox; /* IE 10 */
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
                     align-items: center;
+                    .photoBox{
+                        height: .68rem;
+                        width: .68rem;
+                        position: relative;
+                        img{
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                        }
+                    }
                     .svg-icon{
                         height: .68rem;
                         width: .68rem;
