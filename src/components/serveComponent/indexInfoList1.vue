@@ -38,16 +38,25 @@
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
-            <!-- <div class="iconList">
+            <div class="iconList">
                 <div v-for="(item,index) in iconList1" :key="index">
                     <div class="iconBox" v-if="item != ''">
-                        <div class="photoBox"><img :src="item.picUrl"/></div>
+                        <div class="photoBox" @click="jumpToUrl(item.jumpUrl)"><img :src="item.outPicUrl"/></div>
                         <div class="text">{{item.mattersName}}</div>
                     </div>
                     <div class="iconBox" v-if="item == ''"></div>
                 </div>
-            </div> -->
+            </div>
             <div class="iconList">
+                <div v-for="(item,index) in iconList2" :key="index">
+                    <div class="iconBox" v-if="item != ''">
+                        <div class="photoBox" @click="jumpToUrl(item.jumpUrl)"><img :src="item.outPicUrl"/></div>
+                        <div class="text">{{item.mattersName}}</div>
+                    </div>
+                    <div class="iconBox" v-if="item == ''"></div>
+                </div>
+            </div>
+            <!-- <div class="iconList">
                 <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
                     <svg-icon icon-class="serveComponent_icon5" />
                     <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
@@ -86,7 +95,7 @@
                     <svg-icon icon-class="serveComponent_icon12" />
                     <div class="text">更多</div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <!-- banner -->
         <div class="banner">
@@ -300,6 +309,10 @@
             }
         },
         methods: {
+            // 跳转配置的地址
+            jumpToUrl(url){
+                window.location.href = "url";
+            },
             //动态获取事项信息
             getMatterInfo(code) {
                 let params = {
@@ -321,13 +334,18 @@
                                 let iconList = [];
                                 if(data.userType == 1 || data.userType == 0){
                                     iconList = resList.personList;
+                                    iconList.forEach(ele => {
+                                        ele.jumUrl = ele.personJumpUrl
+                                    });
                                 }else if(data.userType == 2){
                                     iconList = resList.unitList;
+                                    iconList.forEach(ele => {
+                                        ele.jumUrl = ele.unitJumpUrl
+                                    });
                                 }
                                 // 自动补齐图标
                                 _this.iconList1 = iconList.slice(0,4);
                                 _this.iconList2 = iconList.slice(4);
-                                console.log("数组长度",_this.iconList1.length);
                                 let len1 = _this.iconList1.length;
                                 if(len1 < 4 && len1 != 0){
                                     for(let i = 0; i < 4-len1; i++){
