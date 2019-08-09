@@ -28,7 +28,7 @@ export default {
     },
     created(){
         if(this.$route.query.list[0].BKE266 == undefined){
-            this.$router.push('/searchProgress');
+            window.history.go(-3);
         }
         // 获取需要补充的材料清单
         this.completeList = this.$route.query.list

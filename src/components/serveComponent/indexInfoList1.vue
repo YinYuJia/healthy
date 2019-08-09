@@ -383,11 +383,11 @@
                                 areaId: code
                             }
                             _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                                // _this.hotMsg = resData.list;
-                                // _this.hotMsg.forEach(ele=>{
-                                //     ele.src = ele.synopsisUrl;
-                                // })
-                                // console.log('获取资讯列表', _this.hotMsg);
+                                _this.hotMsg = resData.list;
+                                _this.hotMsg.forEach(ele=>{
+                                    ele.src = ele.synopsisUrl;
+                                })
+                                console.log('获取资讯列表', _this.hotMsg);
                             })
                         },
                         onFail: function(error) {}
