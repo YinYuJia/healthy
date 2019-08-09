@@ -310,7 +310,13 @@
         methods: {
             // 跳转配置的地址
             jumpToUrl(url){
-                window.location.href = "url";
+                // 如果是省本级
+                if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                    let route = url.split('/');
+                    this.$router.push(route.pop());
+                }else{
+                    window.location.href = url;
+                }
             },
             //动态获取事项信息
             getMatterInfo(code) {
@@ -330,16 +336,17 @@
                     }, function() {
                         dd.biz.user.getUserType({
                             onSuccess: function(data) {
+                                console.log('sdk成功')
                                 let iconList = [];
                                 if(data.userType == 1 || data.userType == 0){
-                                    iconList = resList.unitList;
-                                    iconList.forEach(ele => {
-                                        ele.jumUrl = ele.unitJumpUrl
-                                    });
-                                }else if(data.userType == 2){
                                     iconList = resList.personList;
                                     iconList.forEach(ele => {
-                                        ele.jumUrl = ele.personJumpUrl
+                                        ele.jumpUrl = ele.personJumpUrl
+                                    });
+                                }else if(data.userType == 2){
+                                    iconList = resList.unitList;
+                                    iconList.forEach(ele => {
+                                        ele.jumpUrl = ele.unitJumpUrl
                                     });
                                 }
                                 // 自动补齐图标
@@ -359,7 +366,9 @@
                                 }
                                 console.log('图标列表',_this.iconList1);
                             },
-                            onFail: function(error) {}
+                            onFail: function(error) {
+                                console.log('sdk失败')
+                            }
                         })
                     });
                 })
