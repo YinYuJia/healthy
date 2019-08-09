@@ -150,28 +150,7 @@
                 ifShow: true,
                 tel: "0571-88808880",
                 imgurl: "",
-                hotMsg: [ //热点资讯
-                    {
-                        name: '国家医疗保障局副局长施子海莅临我中心指导工作',
-                        time: '2019-07-19',
-                        src: '../../../static/images/zhuanqu/01.png'
-                    },
-                    {
-                        name: '医疗保障“最多跑一次”再推新举措,浙里办喊你来领“健康医保卡”啦',
-                        time: '2019-07-15',
-                        src: '../../../static/images/zhuanqu/02.png'
-                    },
-                    {
-                        name: '浙江省异地就医直接结算开通医疗机构名单（截至2019年6月底）',
-                        time: '2019-07-09',
-                        src: '../../../static/images/zhuanqu/03.png'
-                    },
-                    {
-                        name: '浙江省异地就医直接结算开通医疗机构名单（截至2019年5月底）',
-                        time: '2019-06-11',
-                        src: '../../../static/images/zhuanqu/04.png'
-                    }
-                ],
+                hotMsg: [],
                 iconFlag: false,
                 isClear: true,
                 iconList: [], //图标列表
