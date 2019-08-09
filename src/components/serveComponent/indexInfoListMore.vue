@@ -358,10 +358,12 @@ export default {
     }
     #wrapper{
         position: fixed;
+        width: 100%;
         height: 100%;
     }
     // 图标区域
     .iconContainer{
+        width: 100%;
         touch-action: none;
         background: #FFF;
         padding: 0 .2rem;
@@ -378,7 +380,7 @@ export default {
                 font-weight: bold;
             }
             .iconContent{
-                width: 7.6rem;
+                width: 100%;
                 display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
                 display: -moz-box; /* Firefox 17- */
                 display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
@@ -387,11 +389,11 @@ export default {
                 display: flex;
                 justify-content: space-around;
                 flex-wrap: wrap;
-                padding: .2rem 0.7rem .44rem 0;
+                padding: .2rem 0 .44rem 0;
                 .iconBox{
                     position: relative;
                     height: 1.4rem;
-                    width: 1.7rem;
+                    width: 25%;
                                     display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
                 display: -moz-box; /* Firefox 17- */
                 display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */

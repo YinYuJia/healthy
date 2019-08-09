@@ -297,7 +297,7 @@ export default {
                     }
                     .Msg{
                         width: 5.8rem;
-                        line-height: .5rem;
+                        line-height: .25rem;
                         .IconImg{
                             width: .3rem;
                             height: .3rem;
@@ -321,7 +321,7 @@ export default {
                         }
                     }
                     .Server{
-                        line-height: .5rem;
+                        line-height: .25rem;
                         .IconImg{
                             width: .3rem;
                             height: .3rem;

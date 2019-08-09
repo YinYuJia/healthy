@@ -92,6 +92,10 @@ export default {
         if(this.$route.query.param){
             this.successFlag = 2;
         }
+        if(this.$route.query.param && this.$route.query.showSuccess){
+            console.log("从补充材料进入");
+            this.successFlag = 1;
+        }
         this.epFn.setTitle('出国带药备案')
         this.request();
         this.request1();

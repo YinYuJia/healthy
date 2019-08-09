@@ -172,10 +172,16 @@ export default {
         //         })
         //     })
         // }
-        console.log(sessionStorage.getItem('AAC050'))
-        console.log(sessionStorage.getItem('AAC050VALUE'))
-        this.form.AAC050=sessionStorage.getItem('AAC050')
-        this.AAC050VALUE=sessionStorage.getItem('AAC050VALUE')
+        console.log("111",sessionStorage.getItem('AAC050')==null)
+        console.log("222",sessionStorage.getItem('AAC050VALUE'))
+        if(sessionStorage.getItem('AAC050')==null){
+            this.form.AAC050='1'
+            this.AAC050VALUE='更换'
+        }else{
+            this.form.AAC050=sessionStorage.getItem('AAC050')
+        }
+        
+        // this.AAC050VALUE=sessionStorage.getItem('AAC050VALUE')
         this.getMailInfo(); //自动获取邮寄信息
         this.epFn.setTitle('领取就医凭证');
         // 原生参数添加姓名等信息

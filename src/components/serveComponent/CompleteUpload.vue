@@ -124,7 +124,11 @@ export default {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
                     this.$router.push({
-                        path: this.route, 
+                        path: this.route,
+                        query:{
+                            showSuccess: true,
+                            param: this.BKZ019
+                        }
                     });
                     
                 }else if (resData.enCode == 1001 ) {
