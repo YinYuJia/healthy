@@ -10,22 +10,22 @@
                 <div class="infoBox">
                     <svg-icon icon-class="payLimit_bg"/>
                     <div class="infoName">
-                        <span class="name">{{form.AAC003}}</span>
-                        <span class="sex">/{{form.AAC004|AAC004}}</span>
+                        <span class="name">{{form1.AAC003}}</span>
+                        <span class="sex">/{{form1.AAC004|AAC004}}</span>
                     </div>
                     <div class="infoAddress">
                         <div class="IconImg">
                             <svg-icon icon-class="payLimit_compony"/>
                         </div>
-                        <span>{{form.AAB004}}</span>
+                        <span>{{form1.AAB004}}</span>
                     </div>
                     <div class="infoMessage">
                         <div class="birth">
-                            <div class="infoMessageBirth">{{form.AAC006}}</div>
+                            <div class="infoMessageBirth">{{form1.AAC006}}</div>
                             <div class="infoMessageText">出生日期</div>
                         </div>
                         <div class="work">
-                            <div class="infoMessageWork">{{form.AAC007}}</div>
+                            <div class="infoMessageWork">{{form1.AAC007}}</div>
                             <div class="infoMessageText">参加工作时间</div>
                         </div>
                     </div>
@@ -36,62 +36,50 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>连续工龄:</span></div>
                     <div class="InfoText">
-                        <input type="tel" maxlength="3" v-model="form.BKEVALUE" readonly >
+                        {{form.BKE703}}年{{form.BKE704}}月
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>视作缴费年限</span></div>
-                    <div class="InfoText"><input type="tel" maxlength="3" v-model="form.AKC412" readonly></div>
+                    <div class="InfoText">{{form.AKC412}}个月</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>退休工资</span></div>
-                    <div class="InfoText"><input type="tel" maxlength="4" v-model="form.AAE041" readonly></div>
+                    <div class="InfoText">{{form.AAE041}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>提前退休类别</span></div>
-                    <div class="InfoText"><input type="text" readonly>{{form.BKE810|BKE810}}</div>                      
+                    <div class="InfoText">{{form.BKE810|BKE810}}</div>                      
                 </div>
             </div>
-            <div class="simpleNote" v-for="(item,index) in LS_DS" :key=index >
+            <div class="simpleNote" v-for="(item,index) in form.LS_DS" :key=index >
                 <div class="InfoTitle">
                     <div class="InfoName"><span>简历{{index+1}}</span></div>
                     <div class="InfoText">
-                        <svg-icon icon-class="payLimit_delete" class="svg-icon-delete"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>开始工作时间:</span></div>
+                    <div class="InfoName"><span>时间:</span></div>
                     <div class="InfoText">
-                        <input type="text" v-model="item.timeStart" readonly>
-                    </div>
-                </div>
-                <div class="InfoLine">
-                    <div class="InfoName"><span>结束工作时间:</span></div>
-                    <div class="InfoText">
-                        <input type="text" v-model="item.timeEnd" readonly>
+                        {{item.AKC421}}
                     </div>
                 </div>
                 
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位:</span></div>
-                    <div class="InfoText"><input type="text"  v-model="item.AKC422" readonly></div>
+                    <div class="InfoText">{{item.AKC422}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>职位:</span></div>
-                    <div class="InfoText"><input type="text"  v-model="item.AKC424" readonly></div>
+                    <div class="InfoText">{{item.AKC424}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>证明人:</span></div>
-                    <div class="InfoText">
-                        <div class="InfoText"><input  type="text" v-model="item.AKC425" readonly ></div>                   
-                    </div>
+                        <div class="InfoText">{{item.AKC425}}</div>                   
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>处分:</span></div>
-                    <div class="InfoText">
-                        <div class="InfoText"><input  type="text" v-model="item.punishValue" readonly></div>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>    
-                    </div>               
+                        <div class="InfoText">{{item.AKC423|AKC423}}</div>           
                 </div>
             </div>
         </div>
@@ -106,6 +94,7 @@ export default {
     data() { 
         return {
             form: {},
+            form1:{},
             currentStep:1,
             handleNumber:'',
             arr: [
@@ -122,8 +111,9 @@ export default {
             this.successFlag = 2;
         }
         this.epFn.setTitle('缴费年限核定')
-        // this.request();
-        // this.request1();
+        this.request();
+        this.request1();
+        this.request2();
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', this.back, false);//false阻止默认事件
@@ -150,7 +140,7 @@ export default {
         request(){
             let params=this.formatSubmitData();
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1009/getRecord', params).then((resData) => {
-                console.log('返回成功信息',resData)
+                console.log('1009返回成功信息',resData)
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {  
                     // console.log("resData.LS_DS.length",resData.LS_DS.length)
@@ -182,12 +172,41 @@ export default {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
                     // this.form={...this.form,...resData.LS_DS_13 } 
-                    let LS=resData.LS_DS_13
-                    this.form={...this.form,...LS}
+                    this.form={...this.form,...resData.LS_DS_13}
                     console.log("form",this.form)
                     // console.log(this.List)
-                    this.handleNumber = resData.LS_DS_13.BKZ019
+                    this.handleNumber = resData.LS_DS_13.BKZ019;
+                    
                     // this.form={...this.from,...this.List[0]}
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        request2(){
+            // 封装数据
+            let params = this.formatSubmitData2();
+            // 开始请求
+            console.log('parmas------',params)
+            this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7610/getRecord', params).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                    console.log("11111",resData.LS_DS[0])
+                    console.log(this.form)
+
+                    this.form1=resData.LS_DS[0]
+                    this.form.AKC412=this.form1.AKC412M+((this.form1.AKC412)*12);
+                    this.form.BKE703=this.form1.BKE703;
+                    this.form.BKE704=this.form1.BKE704;
+                    this.form.AAB001=this.form1.AAB001;
+                    console.log(this.form)
+                    this.showAll=true;
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);
@@ -239,7 +258,18 @@ export default {
                 // 请求参数封装
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
                 return params;
-        }
+        },
+        formatSubmitData2(){
+            let submitForm ={}
+            // 日期传换成Number
+            // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
+            submitForm.BKE520 = "1";
+            // 加入用户名和电子社保卡号
+            submitForm.AAC002=this.$store.state.SET_NATIVEMSG.idCard;
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7610");
+            return params;
+        },
     }
 }
 </script>
@@ -426,17 +456,6 @@ export default {
                     display: flex;
                     position: relative;
                     align-items: center;
-                    input {
-                        width: 4rem;
-                        height: .6rem;
-                        opacity: 0.85;
-                        font-family: PingFangSC-Regular;
-                        font-size: .3rem;
-                        color: #000000;
-                        letter-spacing: 0;
-                        text-align: left;
-                        border: none;
-                    }
                 }
                 &:last-child {
                     border-bottom: none;
@@ -445,10 +464,13 @@ export default {
         }
         .simpleNote{
             margin-top: .3rem;
-            height: 5rem;
+            height:100%;
             width: 7.5rem;
             padding: 0 .3rem;
             background: white;
+            &:last-child{
+                margin-bottom: 1.4rem;
+            }
             .InfoTitle{
                 height: .8rem;
                 line-height: .8rem;
@@ -464,9 +486,9 @@ export default {
                     line-height: 1rem;
                     text-align: left;
                     span {
-                        height: .6rem;
-                        line-height: .6rem;
-                        color: #000000;
+                        font-family: MicrosoftYaHei;
+                        font-size: .36rem;
+                        color: #1492FF;
                         letter-spacing: 0; 
                     }
                 }
@@ -478,17 +500,6 @@ export default {
                     display: flex;
                     position: relative;
                     align-items: center;
-                    input {
-                        width: 4rem;
-                        height: .8rem;
-                        opacity: 0.85;
-                        font-family: PingFangSC-Regular;
-                        font-size: .3rem;
-                        color: #000000;
-                        letter-spacing: 0;
-                        text-align: right;
-                        border: none;
-                    }
                     .svg-icon-delete{
                         display: inline-block;
                         width: .6rem;
@@ -509,6 +520,9 @@ export default {
                 justify-content: space-between;
                 border-bottom: .01rem solid #D5D5D5;
                 padding-top: .01rem 0;
+                &:last-child {
+                    border-bottom: none;
+                }
                 .InfoName {
                     width: 2.3rem;
                     opacity: 0.85;
@@ -541,9 +555,7 @@ export default {
                         border: none;
                     }
                 }
-                &:last-child {
-                    border-bottom: none;
-                }
+
             }
         }
     }

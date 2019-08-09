@@ -110,7 +110,7 @@
                     <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
                     <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
                 </swipe> -->
-            <svg-icon icon-class="serveComponent_icon16" @click="showDetail('abroadDetail','家庭共济')"/>
+            <svg-icon icon-class="serveComponent_icon16"/>
         </div>
         <!-- 热点资讯 -->
         <div class="hotMsg">
@@ -153,7 +153,8 @@
                 hotMsg: [],
                 iconFlag: false,
                 isClear: true,
-                iconList: [], //图标列表
+                iconList: [], //图标列表,
+                isVisible: false
             }
         },
         mounted() {
@@ -342,21 +343,24 @@
                         'dd.biz.user.getUserType',
                     ],
                     remark: '获取用户登录类型'
-                }, function() {
+                }, ()=> {
                     dd.biz.user.getUserType({
-                        onSuccess: function(data) {
+                        onSuccess: (data)=> {
                             console.log('用户类型',data);
                             let params = {
-                                statusType: data.userType,
+                                statusType: 2,
+                                // data.userType
                                 areaId: code
                             }
-                            _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                                _this.hotMsg = resData.list;
-                                _this.hotMsg.forEach(ele=>{
+                            this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
+                              console.log('resData',resData)
+                                this.hotMsg = resData.list;
+                                console.log("hotMsg", this.hotMsg)
+                                this.hotMsg.forEach(ele=>{
                                     ele.src = ele.synopsisUrl;
                                 })
-                                 _this.hotMsg.splice(0,5);
-                                console.log('获取资讯列表', _this.hotMsg);
+                                 // this.hotMsg.splice(0,5);
+                                console.log('获取资讯列表', this.hotMsg);
                             })
                         },
                         onFail: function(error) {}

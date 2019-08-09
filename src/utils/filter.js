@@ -219,6 +219,20 @@ export function BKE810( val ) {
   }
   return obj[val]
 }
+//缴费年限核定用户性别
+export function AKC423( val ) {
+  let obj = {
+    "0": "无",
+    "1": "劳教",
+    "2": "劳改",
+    "3": "开除",
+    "4": "除名",
+    "5": "自动离职",
+    "6": "辞职",
+    "7": "长病假",
+  }
+  return obj[val]
+}
 /*退休类别过滤*/
 export function trtireType(value) {
   let str = "";
