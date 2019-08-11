@@ -321,7 +321,7 @@
                         dd.biz.user.getUserType({
                             onSuccess: function(data) {
                                 sessionStorage.setItem("userType", data.userType)
-                                console.log('sdk成功')
+                                console.log('图标sdk成功')
                                 let iconList = [];
                                 if(data.userType == 1 || data.userType == 0){
                                     iconList = resList.personList;
@@ -339,7 +339,7 @@
                                 console.log('图标列表',_this.iconList);
                             },
                             onFail: function(error) {
-                                console.log('sdk失败')
+                                console.log('图标sdk失败')
                             }
                         })
                     });
@@ -357,6 +357,7 @@
                 }, ()=> {
                     dd.biz.user.getUserType({
                         onSuccess: (data)=> {
+                            console.log('咨询sdk成功');
                             console.log('用户类型',data);
                             let params = {
                                 statusType: 2,
@@ -374,7 +375,9 @@
                                 console.log('获取资讯列表', this.hotMsg);
                             })
                         },
-                        onFail: function(error) {}
+                        onFail: function(error) {
+                            console.log('咨询sdk错误');
+                        }
                     })
                 })
             },
