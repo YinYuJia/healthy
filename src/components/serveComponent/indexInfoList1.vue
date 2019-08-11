@@ -40,7 +40,7 @@
         <div class="iconContent">
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
-                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl)"><img :src="item.outPicUrl" /></div>
+                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl"/></div>
                     <div class="text">{{item.mattersName}}</div>
                 </div>
                 <div class="iconBox" @click="goRouter('indexInfoListMore')">
@@ -153,7 +153,9 @@
                 iconFlag: false,
                 isClear: true,
                 iconList: [], //图标列表,
-                isVisible: false
+                isVisible: false,
+                iconFlag: 1, //图标sdk调用次数
+                newsFlag: 1, //咨询sdk调用次数
             }
         },
         mounted() {
@@ -174,6 +176,7 @@
         created() {
             // 判断是否法人登录
             sessionStorage.setItem('isClear', this.isClear)
+            console.log('sessionISCLEAR',sessionStorage.getItem('isClear'));
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT = {
@@ -313,27 +316,33 @@
                 })
             },
             // 跳转配置的地址
-            jumpToUrl(url) {
-                // 省本级项目
-                if (url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing') {
-                    if (sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099") {
+            jumpToUrl(url,status){
+                // status为1是失效状态
+                if(status == '1'){
+                    this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
+                    return;
+                }else{
+                    // 省本级项目
+                    if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
                         this.$router.push(url.split('/').pop());
-                    } else {
-                        this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
-                        return;
-                    }
-                } else {
-                    // 其他项目跳转
-                    if (sessionStorage.getItem("GinsengLandCode") == "339900") {
-                        let route = url.split('/');
-                        this.$router.push(route.pop());
-                    } else {
-                        window.location.href = url;
+                    }else{
+                        // 其他项目跳转
+                        if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                            let route = url.split('/');
+                            this.$router.push(route.pop());
+                        }else{
+                            window.location.href = url;
+                        }
                     }
                 }
             },
             //动态获取事项信息
             getMatterInfo(code) {
+                this.iconFlag++;
+                if(this.iconFlag >= 10){
+                    this.$toast('浙里办sdk调用错误');
+                    return;
+                }
                 let params = {
                     "areaId": code
                 }
@@ -342,7 +351,7 @@
                     let resList = resData.list;
                     let _this = this;
                     dd.ready({
-                        developer: 'zzxprint',
+                        developer: 'daip@dtdream.com',
                         usage: [
                             'dd.biz.user.getUserType',
                         ],
@@ -369,24 +378,30 @@
                                 console.log('图标列表', _this.iconList);
                             },
                             onFail: function(error) {
-                                console.log('图标sdk失败')
+                                console.log('图标sdk失败',error);
+                                _this.getMatterInfo(code);
                             }
                         })
                     });
                 })
             },
             // ·列表
-            getNewsInfo(code) {
+            getNewsInfo(code){
+                this.newsFlag++;
+                if(this.newsFlag >= 10){
+                    this.$toast('浙里办sdk调用错误');
+                    return;
+                }
                 let _this = this;
                 dd.ready({
-                    developer: 'zzxprint',
+                    developer: 'daip@dtdream.com',
                     usage: [
                         'dd.biz.user.getUserType',
                     ],
                     remark: '获取用户登录类型'
-                }, () => {
+                }, function() {
                     dd.biz.user.getUserType({
-                        onSuccess: (data) => {
+                        onSuccess: function(data) {
                             console.log('咨询sdk成功');
                             console.log('用户类型', data);
                             let params = {
@@ -394,19 +409,20 @@
                                 // data.userType
                                 areaId: code
                             }
-                            this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                                console.log('resData', resData)
-                                this.hotMsg = resData.list;
-                                console.log("hotMsg", this.hotMsg)
-                                this.hotMsg.forEach(ele => {
+                            _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
+                              console.log('resData',resData)
+                                _this.hotMsg = resData.list;
+                                console.log("hotMsg", _this.hotMsg)
+                                _this.hotMsg.forEach(ele=>{
                                     ele.src = ele.synopsisUrl;
                                 })
-                                // this.hotMsg.splice(0,5);
-                                console.log('获取资讯列表', this.hotMsg);
+                                 // this.hotMsg.splice(0,5);
+                                console.log('获取资讯列表', _this.hotMsg);
                             })
                         },
                         onFail: function(error) {
-                            console.log('咨询sdk错误');
+                            console.log('咨询sdk错误',error);
+                            _this.getNewsInfo(code);
                         }
                     })
                 })
