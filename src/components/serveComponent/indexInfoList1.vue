@@ -283,13 +283,24 @@
             },
             // 跳转配置的地址
             jumpToUrl(url){
-                // 如果是省本级
-                if(sessionStorage.getItem("GinsengLandCode") == "339900"){
-                    let route = url.split('/');
-                    this.$router.push(route.pop());
+                // 省本级项目
+                if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
+                    if(sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099"){
+                        this.$router.push(url.split('/').pop());
+                    }else{
+                        this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
+                        return;
+                    }
                 }else{
-                    window.location.href = url;
+                    // 其他项目跳转
+                    if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                        let route = url.split('/');
+                        this.$router.push(route.pop());
+                    }else{
+                        window.location.href = url;
+                    }
                 }
+                
             },
             //动态获取事项信息
             getMatterInfo(code) {
@@ -511,7 +522,12 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                this.$router.push(route);
+                if(sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099"){
+                    this.$router.push(route);
+                }else{
+                    this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
+                    return;
+                }
             },
             setNativeMsg() {
                 this.$store.dispatch('SET_NATIVEMSG', {

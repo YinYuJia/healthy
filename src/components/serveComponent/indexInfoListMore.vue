@@ -198,12 +198,21 @@ export default {
     methods:{
         // 跳转配置的地址
         jumpToUrl(url){
-            // 如果是省本级
-            if(sessionStorage.getItem("GinsengLandCode") == "339900"){
-                let route = url.split('/');
-                this.$router.push(route.pop());
+            if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
+                console.log('aaaaaaaa');
+                if(sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099"){
+                    this.$router.push(url.split('/').pop());
+                }else{
+                    this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
+                    return;
+                }
             }else{
-                window.location.href = url;
+                if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                    let route = url.split('/');
+                    this.$router.push(route.pop());
+                }else{
+                    window.location.href = url;
+                }
             }
         },
         //动态获取事项信息
