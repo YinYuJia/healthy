@@ -312,7 +312,7 @@
                     let resList = resData.list;
                     let _this = this;
                     dd.ready({
-                        developer: 'zzxprint',
+                        developer: 'daip@dtdream.com',
                         usage: [
                             'dd.biz.user.getUserType',
                         ],
@@ -349,7 +349,7 @@
             getNewsInfo(code){
                 let _this = this;
                 dd.ready({
-                    developer: 'zzxprint',
+                    developer: 'daip@dtdream.com',
                     usage: [
                         'dd.biz.user.getUserType',
                     ],
