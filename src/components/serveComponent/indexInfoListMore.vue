@@ -21,7 +21,7 @@
                     <div class="iconList" v-if="listLine.children.length != 0">
                         <div class="listHeader" v-if="index != 0">{{listLine.iconCategoryName}}</div>
                         <div class="iconContent" :id="'iconContent'+index">
-                            <div class="iconBox" v-for="icon in listLine.children" :key="icon.blockAppId" @click="jumpToUrl(icon.jumpUrl)">
+                            <div class="iconBox" v-for="icon in listLine.children" :key="icon.blockAppId" @click="jumpToUrl(icon.jumpUrl,icon.status)">
                                 <div class="photoBox"><img :src="icon.outPicUrl" /></div>
                                 <div class="text">{{icon.mattersName}}</div>
                             </div>
@@ -197,21 +197,22 @@ export default {
     },
     methods:{
         // 跳转配置的地址
-        jumpToUrl(url){
-            if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
-                console.log('aaaaaaaa');
-                if(sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099"){
+        jumpToUrl(url,status){
+            if(status == '1'){
+                this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
+                return;
+            }else{
+                // 省本级项目
+                if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
                     this.$router.push(url.split('/').pop());
                 }else{
-                    this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
-                    return;
-                }
-            }else{
-                if(sessionStorage.getItem("GinsengLandCode") == "339900"){
-                    let route = url.split('/');
-                    this.$router.push(route.pop());
-                }else{
-                    window.location.href = url;
+                    // 其他项目跳转
+                    if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                        let route = url.split('/');
+                        this.$router.push(route.pop());
+                    }else{
+                        window.location.href = url;
+                    }
                 }
             }
         },
