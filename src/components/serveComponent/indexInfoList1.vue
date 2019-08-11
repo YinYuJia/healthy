@@ -40,7 +40,7 @@
         <div class="iconContent">
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
-                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl)"><img :src="item.outPicUrl"/></div>
+                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl)"><img :src="item.outPicUrl" /></div>
                     <div class="text">{{item.mattersName}}</div>
                 </div>
                 <div class="iconBox" @click="goRouter('indexInfoListMore')">
@@ -49,55 +49,54 @@
                 </div>
             </div>
             <!-- <div class="iconList">
-                <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
-                    <svg-icon icon-class="serveComponent_icon5" />
-                    <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
-                    <div class="text">零星报销</div>
-                </div>
-                <div class="iconBox" @click="showDetail('transferRenewing','关系转移接续')">
-                    <svg-icon icon-class="serveComponent_icon6" />
-                    <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
-                    <div class="text">医保转接</div>
-                </div>
-                <div class="iconBox" v-if="iconFlag" @click="showDetail('searchFee','费用信息查询')">
-                    <svg-icon icon-class="serveComponent_icon_19" />
-                    <div class="text">费用信息</div>
-                  </div>
-                <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
-                    <svg-icon icon-class="serveComponent_icon8" />
-                    <div class="text">办事进度</div>
-                </div>
-                <div class="iconBox" v-if="iconFlag" @click="showDetail('searchBaseInfo','个人信息查询')">
-                    <svg-icon icon-class="serveComponent_icon_16" />
-                    <div class="text">参保信息</div>
-                </div>
-                <div class="iconBox" v-if="iconFlag" @click="showDetail('searchInsuredInfo','参保信息查询')">
-                    <svg-icon icon-class="serveComponent_icon_17" />
-                    <div class="text">征缴信息</div>
-                </div>
-                <div class="iconBox" v-if="iconFlag" @click="showDetail('getProof','领取就医凭证')">
-                    <svg-icon icon-class="serveComponent_icon11" />
-                    <div class="text">就医凭证</div>
-                </div>
-                <div class="iconBox" v-if="iconFlag" @click="goRouter('indexInfoListMore')">
-                    <svg-icon icon-class="serveComponent_icon12" />
-                    <div class="text">更多</div>
-                </div>
-            </div> -->
+                        <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
+                            <svg-icon icon-class="serveComponent_icon5" />
+                            <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
+                            <div class="text">零星报销</div>
+                        </div>
+                        <div class="iconBox" @click="showDetail('transferRenewing','关系转移接续')">
+                            <svg-icon icon-class="serveComponent_icon6" />
+                            <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
+                            <div class="text">医保转接</div>
+                        </div>
+                        <div class="iconBox" v-if="iconFlag" @click="showDetail('searchFee','费用信息查询')">
+                            <svg-icon icon-class="serveComponent_icon_19" />
+                            <div class="text">费用信息</div>
+                          </div>
+                        <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
+                            <svg-icon icon-class="serveComponent_icon8" />
+                            <div class="text">办事进度</div>
+                        </div>
+                        <div class="iconBox" v-if="iconFlag" @click="showDetail('searchBaseInfo','个人信息查询')">
+                            <svg-icon icon-class="serveComponent_icon_16" />
+                            <div class="text">参保信息</div>
+                        </div>
+                        <div class="iconBox" v-if="iconFlag" @click="showDetail('searchInsuredInfo','参保信息查询')">
+                            <svg-icon icon-class="serveComponent_icon_17" />
+                            <div class="text">征缴信息</div>
+                        </div>
+                        <div class="iconBox" v-if="iconFlag" @click="showDetail('getProof','领取就医凭证')">
+                            <svg-icon icon-class="serveComponent_icon11" />
+                            <div class="text">就医凭证</div>
+                        </div>
+                        <div class="iconBox" v-if="iconFlag" @click="goRouter('indexInfoListMore')">
+                            <svg-icon icon-class="serveComponent_icon12" />
+                            <div class="text">更多</div>
+                        </div>
+                    </div> -->
         </div>
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-
-                        <div class="swiper-slide">
-                            <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                        <div class="swiper-slide">
-                            <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                    </div>
-                </div> -->
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                                <div class="swiper-slide">
+                                    <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                                <div class="swiper-slide">
+                                    <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                            </div>
+                        </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -106,11 +105,11 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                    <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                </swipe> -->
-            <svg-icon icon-class="serveComponent_icon16"/>
+                            <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                            <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                            <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                        </swipe> -->
+            <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
         <div class="hotMsg">
@@ -173,6 +172,7 @@
             })
         },
         created() {
+            // 判断是否法人登录
             sessionStorage.setItem('isClear', this.isClear)
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
@@ -209,9 +209,15 @@
             if (this.$build == "1") {
                 this.ifShow = true //显示输入人名社保卡
             } else if (this.$build == "2") {
-                this.ifShow = false; //隐藏输入人名社保卡
-                this.setNativeMsg(); //浙理办打包需要打开
-                this.getUserRegion(); // 自动获取参保地
+                // 法人登录
+                if (sessionStorage.getItem("iflegal") == 2) {
+                    this.isLegalLogin()
+                } else {
+                    // 个人登录
+                    this.ifShow = false; //隐藏输入人名社保卡
+                    this.setNativeMsg(); //浙理办打包需要打开
+                    this.getUserRegion(); // 自动获取参保地
+                }
             }
             console.log('dddddd引入浙理办SDKddddddd', dd)
             this.epFn.setTitle('医疗保障专区')
@@ -268,39 +274,63 @@
         },
         filters: {
             msgLength: function(val) {
-                if(val.length > 20){
+                if (val.length > 20) {
                     return val.slice(0, 20) + '...';
-                }else{
+                } else {
                     return val;
                 }
             }
         },
         methods: {
+            // 判断是否法人登录
+            isLegalLogin() {
+                console.log("----法人登录成功token-------", sessionStorage.getItem("ssoToken"))
+                const ssoToken = sessionStorage.getItem("ssoToken")
+                if (ssoToken != undefined && ssoToken != null && ssoToken != '') {
+                    if (ssoToken != undefined && ssoToken != '' && ssoToken != null) {
+                        // 请求法人信息
+                        this.$axios.post(this.epFn.ApiUrl() + '/H5/jy2009/getUserInfo', {
+                            ssoToken: ssoToken
+                            // ssoToken:'a1e99379-3fcc-451f-a041-c8ab14008a6c'
+                        }).then((resData) => {
+                            console.log('返回成功信息', resData);
+                            // 存贮法人信息
+                            sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
+                        })
+                    }
+                } else {
+                    console.log("'法人登录失败")
+                }
+            },
             // 资讯跳转详情
             goDetail(item) {
-              console.log("item:", item)
-              this.$router.push({path:"/goDetail", query: {param: item}})
+                console.log("item:", item)
+                this.$router.push({
+                    path: "/goDetail",
+                    query: {
+                        param: item
+                    }
+                })
             },
             // 跳转配置的地址
-            jumpToUrl(url){
+            jumpToUrl(url) {
                 // 省本级项目
-                if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
-                    if(sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099"){
+                if (url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing') {
+                    if (sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099") {
                         this.$router.push(url.split('/').pop());
-                    }else{
+                    } else {
                         this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
                         return;
                     }
-                }else{
+                } else {
                     // 其他项目跳转
-                    if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                    if (sessionStorage.getItem("GinsengLandCode") == "339900") {
                         let route = url.split('/');
                         this.$router.push(route.pop());
-                    }else{
+                    } else {
                         window.location.href = url;
                     }
                 }
-                
             },
             //动态获取事项信息
             getMatterInfo(code) {
@@ -323,12 +353,12 @@
                                 sessionStorage.setItem("userType", data.userType)
                                 console.log('图标sdk成功')
                                 let iconList = [];
-                                if(data.userType == 1 || data.userType == 0){
+                                if (data.userType == 1 || data.userType == 0) {
                                     iconList = resList.personList;
                                     iconList.forEach(ele => {
                                         ele.jumpUrl = ele.personJumpUrl
                                     });
-                                }else if(data.userType == 2){
+                                } else if (data.userType == 2) {
                                     iconList = resList.unitList;
                                     iconList.forEach(ele => {
                                         ele.jumpUrl = ele.unitJumpUrl
@@ -336,7 +366,7 @@
                                 }
                                 // 自动补齐图标
                                 _this.iconList = iconList
-                                console.log('图标列表',_this.iconList);
+                                console.log('图标列表', _this.iconList);
                             },
                             onFail: function(error) {
                                 console.log('图标sdk失败')
@@ -346,7 +376,7 @@
                 })
             },
             // ·列表
-            getNewsInfo(code){
+            getNewsInfo(code) {
                 let _this = this;
                 dd.ready({
                     developer: 'zzxprint',
@@ -354,24 +384,24 @@
                         'dd.biz.user.getUserType',
                     ],
                     remark: '获取用户登录类型'
-                }, ()=> {
+                }, () => {
                     dd.biz.user.getUserType({
-                        onSuccess: (data)=> {
+                        onSuccess: (data) => {
                             console.log('咨询sdk成功');
-                            console.log('用户类型',data);
+                            console.log('用户类型', data);
                             let params = {
                                 statusType: 2,
                                 // data.userType
                                 areaId: code
                             }
                             this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                              console.log('resData',resData)
+                                console.log('resData', resData)
                                 this.hotMsg = resData.list;
                                 console.log("hotMsg", this.hotMsg)
-                                this.hotMsg.forEach(ele=>{
+                                this.hotMsg.forEach(ele => {
                                     ele.src = ele.synopsisUrl;
                                 })
-                                 // this.hotMsg.splice(0,5);
+                                // this.hotMsg.splice(0,5);
                                 console.log('获取资讯列表', this.hotMsg);
                             })
                         },
@@ -525,9 +555,9 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                if(sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099"){
+                if (sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099") {
                     this.$router.push(route);
-                }else{
+                } else {
                     this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
                     return;
                 }
@@ -831,11 +861,11 @@
                         height: .68rem;
                         width: .68rem;
                     }
-                    .photoBox{
+                    .photoBox {
                         height: .68rem;
                         width: .68rem;
                         position: relative;
-                        img{
+                        img {
                             height: 100%;
                             width: 100%;
                             position: absolute;
