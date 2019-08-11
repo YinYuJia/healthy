@@ -176,6 +176,7 @@
         },
         created() {
             sessionStorage.setItem('isClear', this.isClear)
+            console.log('sessionISCLEAR',sessionStorage.getItem('isClear'));
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT = {

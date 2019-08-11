@@ -1,15 +1,17 @@
 <template>
     <div class="CompleteUpload">
-        <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
-        <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
-            <div class="InfoText">{{item.BKE262}}.{{item.BKE265}}<span v-if="item.BKE266!=''">（{{item.BKE266}}）</span></div>
-            <div class="Hint">图片格式为jpg、png，不大于2M的文件</div>
-            <div class="PhotoBox">
-                <div class="ImgBox" v-if="item.imgUrl != ''">
-                    <img :src="item.imgUrl"/>
+        <div class="Content">
+            <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
+            <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
+                <div class="InfoText">{{item.BKE265}}<span v-if="item.BKE266!=''">（{{item.BKE266}}）</span></div>
+                <div class="Hint">图片格式为jpg、png，不大于2M的文件</div>
+                <div class="PhotoBox">
+                    <div class="ImgBox" v-if="item.imgUrl != ''">
+                        <img :src="item.imgUrl"/>
+                    </div>
+                    <svg-icon @click="uploadImg(index)" icon-class="serveComponent_upload"></svg-icon>
                 </div>
-                <svg-icon @click="uploadImg(index)" icon-class="serveComponent_upload"></svg-icon>
-            </div>
+            </div>    
         </div>
         <Footer @submit="submit()" :canSubmit="canSubmit"></Footer>
     </div>
@@ -150,40 +152,46 @@ export default {
     width: 100%;
     background: #FFF;
     padding: .5rem .2rem .2rem .2rem;
-    .CompleteTitle{
-        font-size: .28rem;
-        letter-spacing: 0;
-        text-align: left;
-    }
-    .CompleteLine{
-        padding: .2rem 0 .1rem 0;
-        text-align: left;
-        font-size: .28rem;
-        letter-spacing: 0;
-        &:last-child{
-            margin-bottom:1.4rem;
+    .Content{
+        margin-bottom: 1.4rem;
+        .CompleteTitle{
+            font-size: .28rem;
+            letter-spacing: 0;
+            text-align: left;
         }
-        .Hint{
-            color: #999;
-            padding: .2rem .3rem;
-        }
-        .PhotoBox{
-            padding-left: .3rem;
-            display: flex;
-            .ImgBox{
-                height: 1.5rem;
-                width: 1.5rem;
-                margin-right: .2rem;
-                img{
-                    height: 100%;
-                    width: 100%;
+        .CompleteLine{
+            padding: .2rem 0 .1rem 0;
+            text-align: left;
+            font-size: .28rem;
+            letter-spacing: 0;
+            &:last-child{
+                margin-bottom:1.7rem;
+            }
+            .Hint{
+                color: #999;
+                padding: .2rem .3rem;
+            }
+            .PhotoBox{
+                padding-left: .3rem;
+                display: flex;
+                .ImgBox{
+                    height: 1.5rem;
+                    width: 1.5rem;
+                    margin-right: .2rem;
+                    img{
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+                .svg-icon{
+                    height: 1.5rem;
+                    width: 1.5rem;
                 }
             }
-            .svg-icon{
-                height: 1.5rem;
-                width: 1.5rem;
-            }
+
         }
     }
+    
+
 }
 </style>

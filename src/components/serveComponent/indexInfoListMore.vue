@@ -158,6 +158,7 @@ export default {
             myScroll: undefined,
             iconList: [], //图标列表
             titleList: [], //头部列表
+            isClear:true
         }
     },
     destroyed(){
@@ -221,6 +222,13 @@ export default {
                 "areaId": code
             }
             this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0002/getAreaList", params).then((resData) => {
+                    
+                if(this.isClear==true){
+                    sessionStorage.setItem('isClear',true)
+                }else if(this.isClear==false){
+                    sessionStorage.setItem('isClear',true)
+                }
+                
                 console.log('获取区域事项', resData)
                 let resList = resData.list;
                 let iconList = [];
