@@ -40,7 +40,7 @@
         <div class="iconContent">
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
-                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl)"><img :src="item.outPicUrl"/></div>
+                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl"/></div>
                     <div class="text">{{item.mattersName}}</div>
                 </div>
                 <div class="iconBox" @click="goRouter('indexInfoListMore')">
@@ -285,25 +285,25 @@
               this.$router.push({path:"/goDetail", query: {param: item}})
             },
             // 跳转配置的地址
-            jumpToUrl(url){
-                // 省本级项目
-                if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
-                    if(sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099"){
+            jumpToUrl(url,status){
+                // status为1是失效状态
+                if(status == '1'){
+                    this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
+                    return;
+                }else{
+                    // 省本级项目
+                    if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
                         this.$router.push(url.split('/').pop());
                     }else{
-                        this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
-                        return;
-                    }
-                }else{
-                    // 其他项目跳转
-                    if(sessionStorage.getItem("GinsengLandCode") == "339900"){
-                        let route = url.split('/');
-                        this.$router.push(route.pop());
-                    }else{
-                        window.location.href = url;
+                        // 其他项目跳转
+                        if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                            let route = url.split('/');
+                            this.$router.push(route.pop());
+                        }else{
+                            window.location.href = url;
+                        }
                     }
                 }
-                
             },
             //动态获取事项信息
             getMatterInfo(code) {
