@@ -74,14 +74,17 @@
             <div v-if="workStatus=='22'" class="CompleteInfo">
                 <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
                 <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
-                    {{item.BKE262}}、{{item.BKE265}}
+                    {{item.BKE265}}
                     <span v-if="item.BKE266!=''">（{{item.BKE266}}）</span>
                     <!-- <span v-if="workStatus=='06'" style="color:#1492FF">已补充</span>23 -->
                 </div>
             </div>
             <div v-if="workStatus=='06'" class="CompleteInfo">
-                <div class="CompleteTitle">根据业务需要，需要您补充提交资料</div>
-                <div class="CompleteLine" style="color:#1492FF">已补充</div>
+                <div class="CompleteTitle">已补充材料({{completeList.length}})</div>
+                <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
+                    {{item.BKE265}}
+                </div>
+                <!-- <div class="CompleteLine" style="color:#1492FF">已补充</div> -->
             </div>
         </div>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
