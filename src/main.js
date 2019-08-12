@@ -218,9 +218,10 @@ if ( isShow ) {
     remark: '获取用户登录类型'
     }, 
     ()=> {
-    dd.biz.user.getUserType({ 
+    dd.biz.user.getUserType({
         onSuccess: (data) => {
           console.log("data获取用户类型",data)
+          sessionStorage.setItem("userType", data.userType)
           if ( data.userType == '0' || data.userType == '1') {
             sessionStorage.setItem("iflegal",data.userType)
             const code = 'yibaozs';
@@ -322,7 +323,8 @@ if ( isShow ) {
     developer: 'daip@dtdream.com',
     usage: [
         'dd.lightAppJssdk.phone.uuid',
-        'dd.lightAppJssdk.user.getTicket'
+        'dd.lightAppJssdk.user.getTicket',
+        'dd.biz.user.getUserType',
     ],
     remark: '获取用户登录类型'
     }, () => {
@@ -344,6 +346,16 @@ if ( isShow ) {
         }
         });
         console.log("--获取手机类型---end")
+      // 获取用户类型
+      dd.biz.user.getUserType({
+        onSuccess: (data) => {
+          sessionStorage.setItem("userType", data.userType)
+        },
+        onFail: (error) =>{
+          console.log("获取用户类型",error)
+          next()
+        } 
+      })
   })
 
 }
