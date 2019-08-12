@@ -157,15 +157,15 @@ function ApiUrl() {
 }
 
 console.log('------欢迎进入APP首页main.js---20190715__01---')
-// console.log(localStorage.getItem('Ip'))
-// import Vconsole from 'vconsole';
-// var vConsole = new Vconsole()
-// export default vConsole;
+console.log(localStorage.getItem('Ip'))
+import Vconsole from 'vconsole';
+var vConsole = new Vconsole()
+export default vConsole;
 
 // 1  网新恩普包  2  浙理办包
-Vue.prototype.$build = "2"
+Vue.prototype.$build = "1"
 
-const isShow = true
+const isShow = false
 
 // dd.ready({
 //   developer: 'daip@dtdream.com',
@@ -319,7 +319,7 @@ function person() {
                 });
         } else {
           console.log(3)
-
+            // return;
           window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode="+ code ;
         }
       }
