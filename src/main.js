@@ -166,6 +166,7 @@ export default vConsole;
 Vue.prototype.$build = "1"
 
 const isShow = false
+
 // dd.ready({
 //   developer: 'daip@dtdream.com',
 //   usage: [
@@ -208,77 +209,121 @@ if ( isShow ) {
   // Vue.prototype.$isUserLogin = '1'
   router.beforeEach((to, from, next) => {
 
-    const code = 'yibaozs';
-    console.log('code',code)
-    // var ticket = paramStr("ticket") || "8afac0cc6b84c4aa016b8e7fb4662798-ticket";
-    var ticket = paramStr("ticket");
-     console.log('ticket-------------',ticket)
-     var token = sessionStorage.getItem("getToken")
-     console.log('token-------------',token)
-     //59.202.42.147:23030
-        if ( token != "" && token != undefined && token != null) {
-          axios.post(ApiUrl()+"/H5/jy2005/info" , {
-            "token":token,
-            "tradeCode":"2005"
-            }).then(result2=>{
-                  console.log(6)
-                  console.log('result2-----------------',result2)
-                    if ( result2.result == "0") {
-                      sessionStorage.setItem("userName",result2.username)
-                      sessionStorage.setItem("idCard",result2.idnum)
-                      console.log('userName',result2.username)
-                      console.log('idCard',result2.idnum)
-                      next()
-                    }else{
-                      MessageBox.alert(result2.errmsg);
-                      return;
-                    }
-            })
-        }else{
-          if (ticket != "" && ticket != undefined && ticket != null) {
-
-                  console.log(4)
-                  axios.post(ApiUrl()+"/H5/jy2004/info" , {
-                    "st":ticket,
-                    "tradeCode":"2004"
-                  }).then(result0 => {
-                    console.log('result0----------------------',result0)
-
-                    if ( result0.result == "0") {
-                      sessionStorage.setItem("getToken",result0.token)
-                    }else{
-                      MessageBox.alert(result0.errmsg);
-                      return;
-                      // return;
-                    }
-                    
-                    axios.post(ApiUrl()+"/H5/jy2005/info" , {
-                      "token":result0.token,
-                      "tradeCode":"2005"
-                      }).then(result1=>{
-                          console.log(5)
-                          console.log('result1------------------',result1)
-                             if ( result1.result == "0") {
-                              sessionStorage.setItem("userName",result1.username)
-                               sessionStorage.setItem("idCard",result1.idnum)
-
-                               console.log('userName',result1.username)
-                               console.log('idCard',result1.idnum)
-                               next()
-                             }else{
-                              MessageBox.alert(result1.errmsg);
-                             }
-                      })
-                  });
-          } else {
-            console.log(3)
-
-            window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode="+ code ;
+   
+      dd.ready({
+    developer: 'daip@dtdream.com',
+    usage: [
+        'dd.biz.user.getUserType',
+    ],
+    remark: '获取用户登录类型'
+    }, 
+    ()=> {
+    dd.biz.user.getUserType({ 
+        onSuccess: (data) => {
+          console.log("data获取用户类型",data)
+          if ( data.userType == '0' || data.userType == '1') {
+            sessionStorage.setItem("iflegal",data.userType)
+            person()
+            console.log("个人")
+          }else{
+            sessionStorage.setItem("iflegal",data.userType)
+            legal()
           }
-        }
+         
+        },
+        onFail: (error) =>{
+          console.log("data获取用户类型",error)
+          next()
+        } 
+    })
+  })
+
 })
 
 }
+// 法人
+function legal() {
+   console.log('法人登录')
+   var ssoToken = paramStr("ssoToken");
+
+   console.log('ssoToken',ssoToken)
+   if( ssoToken != "" && ssoToken != undefined && ssoToken != null ) {
+     
+   }else{
+      window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=https://ybj.zjzwfw.gov.cn/#/'
+   }
+}
+// 个人
+function person() { 
+  const code = 'yibaozs';
+  console.log('code',code)
+  // var ticket = paramStr("ticket") || "8afac0cc6b84c4aa016b8e7fb4662798-ticket";
+  var ticket = paramStr("ticket");
+   console.log('ticket-------------',ticket)
+   var token = sessionStorage.getItem("getToken")
+   console.log('token-------------',token)
+   //59.202.42.147:23030
+      if ( token != "" && token != undefined && token != null) {
+        axios.post(ApiUrl()+"/H5/jy2005/info" , {
+          "token":token,
+          "tradeCode":"2005"
+          }).then(result2=>{
+                console.log(6)
+                console.log('result2-----------------',result2)
+                  if ( result2.result == "0") {
+                    sessionStorage.setItem("userName",result2.username)
+                    sessionStorage.setItem("idCard",result2.idnum)
+                    console.log('userName',result2.username)
+                    console.log('idCard',result2.idnum)
+                    next()
+                  }else{
+                    MessageBox.alert(result2.errmsg);
+                    return;
+                  }
+          })
+      }else{
+        if (ticket != "" && ticket != undefined && ticket != null) {
+
+                console.log(4)
+                axios.post(ApiUrl()+"/H5/jy2004/info" , {
+                  "st":ticket,
+                  "tradeCode":"2004"
+                }).then(result0 => {
+                  console.log('result0----------------------',result0)
+
+                  if ( result0.result == "0") {
+                    sessionStorage.setItem("getToken",result0.token)
+                  }else{
+                    MessageBox.alert(result0.errmsg);
+                    return;
+                    // return;
+                  }
+                  
+                  axios.post(ApiUrl()+"/H5/jy2005/info" , {
+                    "token":result0.token,
+                    "tradeCode":"2005"
+                    }).then(result1=>{
+                        console.log(5)
+                        console.log('result1------------------',result1)
+                           if ( result1.result == "0") {
+                            sessionStorage.setItem("userName",result1.username)
+                             sessionStorage.setItem("idCard",result1.idnum)
+
+                             console.log('userName',result1.username)
+                             console.log('idCard',result1.idnum)
+                             next()
+                           }else{
+                            MessageBox.alert(result1.errmsg);
+                           }
+                    })
+                });
+        } else {
+          console.log(3)
+            // return;
+          window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode="+ code ;
+        }
+      }
+ }
    
 
   function faren() {
