@@ -126,6 +126,11 @@
             <div class="btn" @click="changeUsername(true)">更改用户名</div>
             <div class="btn" @click="changeUserCode(true)">更改社保卡号</div>
         </div>
+        <div class="changeUserBtn" v-if="showPerson">
+            <div class="btn" @click="changeLegalPersonName(true)">更改法人用户名</div>
+            <div class="btn" @click="changeLegalPersonCard(true)">更改法人社保卡号</div>
+        </div>
+        <div class="changeUserBtn"><button class="btn"  @click="change()">切换</button></div>
         <div class="bottomline">
             <p>本服务由浙江政务服务网提供</p>
             <p>服务咨询热线 : <span class="bottomSpan">{{tel}}</span> </p>
@@ -156,6 +161,8 @@
                 isVisible: false,
                 iconFlag: 1, //图标sdk调用次数
                 newsFlag: 1, //咨询sdk调用次数
+                isClear:true,
+                showPerson:false//默认隐藏法人用户
             }
         },
         mounted() {
@@ -210,7 +217,9 @@
             console.log("$build", this.$build)
             //  切换打包环境  1 网新恩普包  2  浙理办包
             if (this.$build == "1") {
+
                 this.ifShow = true //显示输入人名社保卡
+                this.showPerson=false//默认隐藏法人用户登录
             } else if (this.$build == "2") {
                 // 法人登录
                 if (sessionStorage.getItem("iflegal") == 2) {
@@ -285,6 +294,16 @@
             }
         },
         methods: {
+            change(){
+                console.log('切换');
+                if(this.ifShow==true){
+                    this.ifShow=false;
+                    this.showPerson=true;
+                }else if(this.ifShow==false){
+                    this.ifShow=true;
+                    this.showPerson=false
+                }
+            },
             // 判断是否法人登录
             isLegalLogin() {
                 console.log("----法人登录成功token-------", sessionStorage.getItem("ssoToken"))
@@ -323,7 +342,7 @@
                     return;
                 }else{
                     // 省本级项目
-                    if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
+                    if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing' || url.split('/').pop() == 'searchProgress'){
                         this.$router.push(url.split('/').pop());
                     }else{
                         // 其他项目跳转
@@ -410,7 +429,12 @@
                                 areaId: code
                             }
                             _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                              console.log('resData',resData)
+                                console.log('resData',resData)
+                                if(this.isClear==true){
+                                    sessionStorage.setItem('isClear',true)
+                                }else if(this.isClear==false){
+                                    sessionStorage.setItem('isClear',true)
+                                }
                                 _this.hotMsg = resData.list;
                                 console.log("hotMsg", _this.hotMsg)
                                 _this.hotMsg.forEach(ele=>{
@@ -657,6 +681,7 @@
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, "1033");
                 return params;
             },
+            //个人用户登录
             changeUsername(str) {
                 if (str) {
                     let user = Object.assign({}, this.$store.state.SET_USER_BASEINFO);
@@ -673,6 +698,22 @@
                     this.$toast("功能正在建设中")
                 }
             },
+            //法人用户登录
+            changeLegalPersonName(str) {
+                if (str) {
+                    let params={}
+                    MessageBox.prompt('法人用户名', '').then(({
+                        value,
+                        action
+                    }) => {
+                        sessionStorage.setItem('changeLegalPersonName', value);
+                        console.log("法人用户名",sessionStorage.getItem('changeLegalPersonName'))
+                    });
+                } else {
+                    this.$toast("功能正在建设中")
+                }
+            },
+            //个人用户登录
             changeUserCode(str) {
                 if (str) {
                     let user = Object.assign({}, this.$store.state.SET_USER_BASEINFO);
@@ -685,6 +726,21 @@
                         sessionStorage.setItem('idCard', value);
                         this.setNativeMsg();
                         this.getUserRegion();
+                    });
+                } else {
+                    this.$toast('功能正在建设中')
+                }
+            },
+            //法人用户登录
+            changeLegalPersonCard(str) {
+                if (str) {
+                    let params={}
+                    MessageBox.prompt('法人社保卡号', '').then(({
+                        value,
+                        action
+                    }) => {
+                        sessionStorage.setItem('idCchangeLegalPersonCardard', value);
+                        console.log('法人卡号',sessionStorage.getItem('idCchangeLegalPersonCardard'))
                     });
                 } else {
                     this.$toast('功能正在建设中')

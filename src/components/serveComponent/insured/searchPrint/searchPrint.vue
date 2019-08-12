@@ -14,6 +14,13 @@
             @confirm="handleMonthConfirm"
             >
         </SelectCity>
+        <SelectCity
+            :type="1"
+            ref="yearPicker"
+            :propArr="yearList"
+            @confirm="handleYearConfirm"
+            >
+        </SelectCity>
         <!-- 弹出框结束 -->
         <Title :title="'打印参保证明'" :backRouter="'/'"></Title>
         <div class="Content">
@@ -27,8 +34,26 @@
                          <div class="InfoText"><input type="text" v-model="AAB301000" placeholder="请选择" readonly></div>
                     </div>
                 </div>
-                <div class="InfoLine">
+                <div class="InfoLine" v-if="printType=='person'">
                     <div class="InfoName"><span>查询月数：</span></div>
+                    <div class="InfoText">
+                        <input @click="openMonthPicker()" type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
+                </div>
+                <div class="InfoLine" v-if="printType=='all'">
+                    <div class="InfoName"><span>查询年度：</span></div>
+                    <div class="InfoText">
+                        <input @click="openYearPicker()" type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
+                </div>
+                <div class="InfoLine" v-if="printType=='record'">
+                    <div class="InfoName"><span>查询年度：</span></div>
+                    <div class="InfoText">
+                        <input @click="openYearPicker()" type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
+                </div>
+                <div class="InfoLine" v-if="printType=='child'">
+                    <div class="InfoName"><span>子女姓名：</span></div>
                     <div class="InfoText">
                         <input @click="openMonthPicker()" type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
@@ -61,6 +86,7 @@ export default {
                 {value: '48', label: '48'},
             ],
             canSubmit: false,
+            yearList:[]//查询年度列表
         }
     },
     watch:{
@@ -96,13 +122,22 @@ export default {
           // this.form.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
         } else if (this.printType == 'all') {
           this.epFn.setTitle('参保（合）凭证')
+          this.getyear();
         } else if (this.printType == 'child') {
           this.epFn.setTitle('子女缴费证明')
         } else if (this.printType == 'record') {
           this.epFn.setTitle('个人权益记录单')
+          this.getyear();
         }
-    },
+        
+
+},
     methods:{
+        getyear() {
+            for(let i=1900;i<=2100;i++){
+                this.yearList.push({value:i,label:i})
+            }
+        },
         // 选择参保地
         openInsuredPicker(){
             this.$refs.insuredPicker.open();
@@ -119,6 +154,15 @@ export default {
             this.$refs.monthPicker.open();
         },
         handleMonthConfirm(val){
+            console.log(val);
+            this.form.AAE011 = val.value;
+            this.AAE011VALUE = val.label;
+        },
+        // 选择年份
+        openYearPicker(){
+            this.$refs.yearPicker.open();
+        },
+        handleYearConfirm(val){
             console.log(val);
             this.form.AAE011 = val.value;
             this.AAE011VALUE = val.label;

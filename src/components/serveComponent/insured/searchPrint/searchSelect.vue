@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-     <!-- <div class="SearchInfo">
+     <div class="SearchInfo">
         <div class="InfoLine" @click="goPrint('all')">
           <div class="InfoName"><span>参保（合）凭证（仅限医保转移）</span></div>
           <div class="InfoText">
@@ -35,7 +35,7 @@
             <div class="InfoText"><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
           </div>
         </div>
-      </div>-->
+      </div>
     </div>
   </div>
 </template>

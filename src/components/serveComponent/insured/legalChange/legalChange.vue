@@ -2,8 +2,9 @@
     <div class="legalChange">
         <Title :title="'参保信息变更'" :backRouter="'/'"></Title>
         <SelectCity 
-            :type="3"
+            :type="2"
             ref="cityPicker"
+            :jy9028='true'
             @confirm="chooseCity"
             >
         </SelectCity>
@@ -33,12 +34,20 @@
                     <div class="InfoText"><input v-model="form.BKE280" type="tel" maxlength="10" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员姓名：</span></div>
+                    <div class="InfoName"><span>专管员姓名1：</span></div>
                     <div class="InfoText"><input v-model="form.BKE281" type="text" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员电话：</span></div>
+                    <div class="InfoName"><span>专管员电话1：</span></div>
                     <div class="InfoText"><input v-model="form.BKE283" type="tel" maxlength="10" placeholder="请输入"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>专管员姓名2：</span></div>
+                    <div class="InfoText"><input v-model="form.BAC210" type="text" placeholder="请输入"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>专管员电话2：</span></div>
+                    <div class="InfoText"><input v-model="form.BAC212" type="tel" maxlength="10" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员所在部门：</span></div>
@@ -62,7 +71,7 @@ export default {
     data(){
         return{
             form:{
-                AAB001: '03C', //单位编码
+                AAB001: '013012A', //单位编码
                 AAE007: '', //单位邮编
                 AAE006: '', //单位地址
                 address: '', //选择的地址
@@ -82,6 +91,9 @@ export default {
     watch:{
         form:{
             handler: function(val) {
+                if(val.address!=""&&val.detailAddress!=""){
+                    this.form.AAE006=val.address+val.detailAddress;
+                }
                 if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != '' 
                     && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != '' && val.BKB225 != '' && val.AAE005 != ''){
                     this.canSubmit = true;

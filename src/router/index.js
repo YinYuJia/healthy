@@ -68,6 +68,7 @@ import searchTreatResult from '@/components/serveComponent/personal/searchTreat/
 import medicalDetail from '@/components/serveComponent/medicalDetail'
 import SearchInfoElseWhere from '@/components/serveComponent/SearchInfoElseWhere'
 import SearchInfoMedicalList from '@/components/serveComponent/SearchInfoMedicalList'
+import login from '@/components/serveComponent/login'
 
 Vue.use(Router)
 
@@ -78,6 +79,12 @@ export default new Router({
       path: '/indexInfoList1',
       name: 'indexInfoListComponent',
       component: indexInfoList
+    },
+    //登录
+    {
+      path: '/login',
+      name: 'login',
+      component: login
     },
     //首页资讯详情
     {
