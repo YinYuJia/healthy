@@ -126,11 +126,11 @@
             <div class="btn" @click="changeUsername(true)">更改用户名</div>
             <div class="btn" @click="changeUserCode(true)">更改社保卡号</div>
         </div>
-        <div class="changeUserBtn" v-if="showPerson">
+        <div class="changeUserBtn" v-if="showPerson" >
             <div class="btn" @click="changeLegalPersonName(true)">更改法人用户名</div>
             <div class="btn" @click="changeLegalPersonCard(true)">更改法人社保卡号</div>
         </div>
-        <div class="changeUserBtn"><button class="btn"  @click="change()">切换</button></div>
+        <div class="changeUserBtn"><button class="btn" v-if="ifShow"  @click="change()">切换</button></div>
         <div class="bottomline">
             <p>本服务由浙江政务服务网提供</p>
             <p>服务咨询热线 : <span class="bottomSpan">{{tel}}</span> </p>
@@ -159,8 +159,6 @@
                 isClear: true,
                 iconList: [], //图标列表,
                 isVisible: false,
-                iconFlag: 1, //图标sdk调用次数
-                newsFlag: 1, //咨询sdk调用次数
                 isClear:true,
                 showPerson:false//默认隐藏法人用户
             }
@@ -357,98 +355,51 @@
             },
             //动态获取事项信息
             getMatterInfo(code) {
-                this.iconFlag++;
-                if(this.iconFlag >= 10){
-                    this.$toast('浙里办sdk调用错误');
-                    return;
-                }
                 let params = {
                     "areaId": code
                 }
                 this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0000/getAreaList", params).then((resData) => {
                     console.log('获取区域事项', resData)
                     let resList = resData.list;
-                    let _this = this;
-                    dd.ready({
-                        developer: 'daip@dtdream.com',
-                        usage: [
-                            'dd.biz.user.getUserType',
-                        ],
-                        remark: '获取用户登录类型'
-                    }, function() {
-                        dd.biz.user.getUserType({
-                            onSuccess: function(data) {
-                                sessionStorage.setItem("userType", data.userType)
-                                console.log('图标sdk成功')
-                                let iconList = [];
-                                if (data.userType == 1 || data.userType == 0) {
-                                    iconList = resList.personList;
-                                    iconList.forEach(ele => {
-                                        ele.jumpUrl = ele.personJumpUrl
-                                    });
-                                } else if (data.userType == 2) {
-                                    iconList = resList.unitList;
-                                    iconList.forEach(ele => {
-                                        ele.jumpUrl = ele.unitJumpUrl
-                                    });
-                                }
-                                // 自动补齐图标
-                                _this.iconList = iconList
-                                console.log('图标列表', _this.iconList);
-                            },
-                            onFail: function(error) {
-                                console.log('图标sdk失败',error);
-                                _this.getMatterInfo(code);
-                            }
-                        })
-                    });
+                    let userType = sessionStorage.getItem("userType")
+                    let iconList = [];
+                    if (userType == 1 || userType == 0) {
+                        iconList = resList.personList;
+                        iconList.forEach(ele => {
+                            ele.jumpUrl = ele.personJumpUrl
+                        });
+                    } else if (userType == 2) {
+                        iconList = resList.unitList;
+                        iconList.forEach(ele => {
+                            ele.jumpUrl = ele.unitJumpUrl
+                        });
+                    }
+                    // 自动补齐图标
+                    this.iconList = iconList
+                    console.log('图标列表', this.iconList);
                 })
             },
             // ·列表
             getNewsInfo(code){
-                this.newsFlag++;
-                if(this.newsFlag >= 10){
-                    this.$toast('浙里办sdk调用错误');
-                    return;
+                let userType = sessionStorage.getItem('userType')
+                let params = {
+                    statusType: 2,
+                    // data.userType
+                    areaId: code
                 }
-                let _this = this;
-                dd.ready({
-                    developer: 'daip@dtdream.com',
-                    usage: [
-                        'dd.biz.user.getUserType',
-                    ],
-                    remark: '获取用户登录类型'
-                }, function() {
-                    dd.biz.user.getUserType({
-                        onSuccess: function(data) {
-                            console.log('咨询sdk成功');
-                            console.log('用户类型', data);
-                            let params = {
-                                statusType: 2,
-                                // data.userType
-                                areaId: code
-                            }
-                            _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                                console.log('resData',resData)
-                                if(this.isClear==true){
-                                    sessionStorage.setItem('isClear',true)
-                                }else if(this.isClear==false){
-                                    sessionStorage.setItem('isClear',true)
-                                }
-                                _this.hotMsg = resData.list;
-                                console.log("hotMsg", _this.hotMsg)
-                                _this.hotMsg.forEach(ele=>{
-                                    ele.src = ele.synopsisUrl;
-                                })
-                                 // this.hotMsg.splice(0,5);
-                                console.log('获取资讯列表', _this.hotMsg);
-                            })
-                        },
-                        onFail: function(error) {
-                            console.log('咨询sdk错误',error);
-                            _this.getNewsInfo(code);
-                        }
+                this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
+                    console.log('resData',resData)
+                    if(this.isClear==true){
+                        sessionStorage.setItem('isClear',true)
+                    }else if(this.isClear==false){
+                        sessionStorage.setItem('isClear',true)
+                    }
+                    this.hotMsg = resData.list;
+                    this.hotMsg.forEach(ele=>{
+                        ele.src = ele.synopsisUrl;
                     })
+                    // this.hotMsg.splice(0,5);
+                    console.log('获取资讯列表', this.hotMsg);
                 })
             },
             // 跑马灯效果
