@@ -240,6 +240,37 @@ if ( isShow ) {
 
 })
 
+}else{
+
+    
+  dd.ready({
+    developer: 'daip@dtdream.com',
+    usage: [
+        'dd.lightAppJssdk.phone.uuid',
+        'dd.lightAppJssdk.user.getTicket'
+    ],
+    remark: '获取用户登录类型'
+    }, () => {
+      console.log("--获取手机类型---start")
+      // dd.lightAppJssdk.phone.uuid({
+      //   success:function(data){
+      //     console.log("获取手机类型",data)
+      //   },
+      //   fail:function(data){
+      //     console.log("获取手机类型",data)
+      //   }
+      //   });
+      dd.lightAppJssdk.user.getTicket ({
+        success:function(data){ //成功回调
+          console.log('----data----',data)
+        },
+        fail:function(data){ //错误返回
+          console.log('----data----',data)
+        }
+        });
+        console.log("--获取手机类型---end")
+  })
+
 }
 // 法人
 function legal() {
