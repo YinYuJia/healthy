@@ -291,7 +291,7 @@
                     return;
                 }else{
                     // 省本级项目
-                    if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
+                    if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing' || url.split('/').pop() == 'searchProgress'){
                         this.$router.push(url.split('/').pop());
                     }else{
                         // 其他项目跳转

@@ -62,7 +62,7 @@ export default {
     data(){
         return{
             form:{
-                AAB001: '03C', //单位编码
+                AAB001: '013012A', //单位编码
                 AAE007: '', //单位邮编
                 AAE006: '', //单位地址
                 address: '', //选择的地址
