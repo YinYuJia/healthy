@@ -58,7 +58,6 @@
               placeholder="请选择"
               readonly
             >
-            <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -93,6 +92,20 @@
             <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
+        <div class="InfoLine" v-if="secondTreat">
+          <div class="InfoName">
+            <span>康复第二疗程</span>
+          </div>
+          <div class="InfoText">
+              <el-switch
+                v-model="form.BKE239"
+                active-color="#13ce66"
+                inactive-color="#ccc"
+                active-value="1"
+                inactive-value="0">
+              </el-switch>
+          </div>
+        </div>
         <div class="InfoLine">
           <div class="InfoName">
             <span>疾病名称</span>
@@ -122,7 +135,12 @@
                 :value="item.AAA102"
               ></el-option>
             </el-select> -->
-            <input @click="openDrugTimePicker()" type="text" v-model="BKE248VALUE" placeholder="请选择" readonly>
+            <input @click="openDrugTimePicker()"
+              type="text" v-model="BKE248VALUE"
+              placeholder="请选择"
+              :disabled="useMedical"
+              readonly
+            >
             <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
@@ -148,7 +166,7 @@
             <span>数量</span>
           </div>
           <div class="InfoText">
-            <input type="tel" maxlength="5" v-model="form.AKC226" placeholder="请输入">
+            <input type="tel" maxlength="5" v-model="form.AKC226" placeholder="请输入" :disabled="AKC226Control" >
           </div>
         </div>
         <div class="InfoLine">
@@ -250,6 +268,7 @@ export default {
         AAE030: "", //开始日期
         AAE031: "", //结束日期
         photoIdList:[],//照片ID数组
+        BKE239: ""//康复第二疗程0为第一疗程，1为第二疗程
       },
       BKE253VALUE: "", //项目类型值
       BKE228VALUE: "", //特治特药类型值
@@ -261,7 +280,11 @@ export default {
       hospitalList: [],
       typeList: [],
       drugList: [],
-      drugTimeList: []
+      drugTimeList: [],
+      useMedical:false,
+      value5:"",
+      secondTreat:false,//展现第二疗程
+      AKC226Control:false
     };
   },
   created() {
@@ -375,6 +398,33 @@ export default {
           this.form.AKE002=""
         }
       }
+    },
+    'BKE253VALUE'(val){
+      console.log("BKE253VALUE",val)
+      if(val=="诊疗"){
+        this.useMedical=true;
+        this.BKE248VALUE="其它";
+        this.form.BKE248="0";
+      }else{
+        this.useMedical=false;
+      }
+    },
+    'form.BKE239'(val){
+      console.log('康复疗程',val)
+    },
+    //展示第二疗程
+    'BKE228VALUE'(val){
+      console.log('特治特药类型',val)
+      if(val=='康复'){
+        this.secondTreat=true;
+        this.form.AKC226='90'
+        this.AKC226Control=true;
+      }else{
+        this.secondTreat=false;
+        this.form.AKC226='';
+        this.form.BKE239='';
+        this.AKC226Control=false;
+      }
     }
   },
   methods: {
@@ -411,6 +461,9 @@ export default {
     handleDrugConfirm(val){
       this.form.BKE228 = val.value;
       this.BKE228VALUE = val.label;
+      if(this.BKE228VALUE=="康复"){
+
+      }
     },
     // 选择用药时期
     openDrugTimePicker(){

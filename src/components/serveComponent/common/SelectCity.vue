@@ -59,11 +59,19 @@ export default {
             type: Boolean,
             default: false
         },
-        excludeZj:{
+        jy7206:{
             type: Boolean,
             default: false
         },
-        excludeProvince:{
+        jy7209:{
+            type: Boolean,
+            default: false
+        },
+        jy7100:{
+            type: Boolean,
+            default: false
+        },
+        work:{
             type: Boolean,
             default: false
         }
@@ -148,22 +156,32 @@ export default {
                 this.fullCity[0].values = this.epFn.tzAddress();
                 this.fullCity[0].defaultIndex=0;
                 this.insuredCity[0].defaultIndex=0;
-            }else if(this.excludeZj){
-                this.insuredCity[0].values = this.epFn.excludeZj();
-                this.fullCity[0].values = this.epFn.excludeZj();
+            }else if(this.jy7206){
+                this.request('7206')
+                // this.insuredCity[0].values = this.epFn.excludeZj();
+                // this.fullCity[0].values = this.epFn.excludeZj();
+                // this.fullCity[0].defaultIndex = 0;
+                // this.insuredCity[0].defaultIndex = 0;
+            }else if(this.jy7209){
+                this.request('7209')
+                // this.insuredCity[0].values = this.epFn.excludeProvince();
+                // this.fullCity[0].values = this.epFn.excludeProvince();
+                // this.fullCity[0].defaultIndex = 10;
+                // this.insuredCity[0].defaultIndex = 10;
+            }else if(this.jy7100){
+                this.request('7100')
+            }else if(this.work){
+                this.insuredCity[0].values= this.epFn.workYear();
+                this.fullCity[0].values= this.epFn.workYear();
                 this.fullCity[0].defaultIndex = 0;
                 this.insuredCity[0].defaultIndex = 0;
-            }else if(this.excludeProvince){
-                this.insuredCity[0].values = this.epFn.excludeProvince();
-                this.fullCity[0].values = this.epFn.excludeProvince();
-                this.fullCity[0].defaultIndex = 10;
-                this.insuredCity[0].defaultIndex = 10;
-            }else{
-                this.insuredCity[0].values = this.epFn.addressList();
-                this.fullCity[0].values = this.epFn.addressList();
-                this.fullCity[0].defaultIndex=10;
-                this.insuredCity[0].defaultIndex=10;
             }
+            // else{
+            //     this.insuredCity[0].values = this.epFn.addressList();
+            //     this.fullCity[0].values = this.epFn.addressList();
+            //     this.fullCity[0].defaultIndex=10;
+            //     this.insuredCity[0].defaultIndex=10;
+            // }
         })
     },
     methods:{
@@ -196,6 +214,7 @@ export default {
             this.showCityPicker = true;
             if(this.propArr != undefined){
                 this.chooseArr[0].values = JSON.parse(JSON.stringify(this.propArr));
+                // this.chooseArr[0].defaultIndex=0
             }
         },
         confirm(){
@@ -227,7 +246,37 @@ export default {
                 value: this.value
             };
             this.$emit('confirm',obj);
-        }
+        },
+        request(type){
+            // 封装数据
+            let params = this.formatSubmitData(type);
+            // 开始请求
+            console.log('parmas------',params)
+            this.$axios.post(this.epFn.ApiUrl() + '/H5/jy9099/distanceHospital', params).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                    this.insuredCity[0].values =resData.LS_DS;
+                    this.fullCity[0].values =resData.LS_DS;
+                    this.fullCity[0].defaultIndex = 0;
+                    this.insuredCity[0].defaultIndex = 0;
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        formatSubmitData(type){
+            let submitForm = {};
+            submitForm.TRANSTYPE=type
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(submitForm);
+            return params;
+        },
     }
 }
 </script>

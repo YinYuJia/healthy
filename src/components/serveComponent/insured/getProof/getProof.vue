@@ -75,7 +75,7 @@
         <!-- 办事指南 -->
         <GuideIcon AGA002="330800122043"></GuideIcon>
         <!-- 按钮 -->
-        <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showButton"></Footer>
     </div>
 </template>
 
@@ -88,10 +88,10 @@ export default {
                 AAE005: '', //手机号码
                 // AAE011: '', //省市信息
                 AAE006: '', //详细地址
-                AAC050:'', //变更类型
+                AAC050:'1', //变更类型
                 BKA077 :'0' ,//领取方式
             },
-            AAC050VALUE: '',
+            AAC050VALUE: '更换',
             BKA077VALUE: '自取',
             canSubmit: false,
             optionList: [], //所有地区
@@ -104,6 +104,7 @@ export default {
                 {value: '1',label: '邮寄'}
             ],
             showMail: false,
+            showButton:false,
         };
     },
     watch:{
@@ -117,7 +118,7 @@ export default {
                     this.canSubmit = false;
                     this.showMail = true;
                 }else if(val.AAC050 != '' && val.BKA077 == '0'){
-                    this.canSubmit = true;
+                    this.canSubmit = false;
                     this.showMail = false;
                 }else if(val.AAC050 != '' && val.BKA077 == '1'){
                     this.canSubmit = false;
@@ -131,11 +132,24 @@ export default {
                         this.canSubmit = false
                     }
                 }
+                if(val.BKA077=='1'){
+                    this.showButton=true;//如果为邮寄则展示提交按钮
+                }else if(val.BKA077=='0'){
+                    this.showButton=false;//如果为自取则隐藏提交按钮
+                }
+                if(val.AAC050=='1'){
+                    sessionStorage.setItem('AAC050',val.AAC050)
+                    sessionStorage.setItem('AAC050VALUE','更换')
+                }else if(val.AAC050=='2'){
+                    sessionStorage.setItem('AAC050',val.AAC050)
+                    sessionStorage.setItem('AAC050VALUE','补办')
+                }
             },
             deep: true
         },
     },
     created(){
+        
         // this.form = this.$store.state.SET_INSURED_PROOF;
         // 获取位置
         // let This = this
@@ -158,6 +172,14 @@ export default {
         //         })
         //     })
         // }
+        console.log("111",sessionStorage.getItem('AAC050'))
+        console.log("222",sessionStorage.getItem('AAC050VALUE'))
+        if(sessionStorage.getItem('AAC050')!=null){
+            this.form.AAC050=sessionStorage.getItem('AAC050')
+            this.AAC050VALUE=sessionStorage.getItem('AAC050VALUE')
+        }
+        
+        // this.AAC050VALUE=sessionStorage.getItem('AAC050VALUE')
         this.getMailInfo(); //自动获取邮寄信息
         this.epFn.setTitle('领取就医凭证');
         // 原生参数添加姓名等信息
@@ -196,7 +218,20 @@ export default {
         },
         // 查看附近网点
         openSite(){
-            this.$router.push('/nearbySite');
+            if(this.form.BKA077){
+                if(this.form.AAC050=='1'){
+                    sessionStorage.setItem('AAC050',this.form.AAC050)
+                    sessionStorage.setItem('AAC050VALUE',this.AAC050VALUE)
+                    this.$router.push('/nearbySite');
+                }else if(this.form.AAC050=='2'){
+                    sessionStorage.setItem('AAC050',this.form.AAC050)
+                    sessionStorage.setItem('AAC050VALUE',this.AAC050VALUE)
+                    this.$router.push({path:'/nearbySite', query: {pointStatus: 2}});
+                }
+            }else{
+                this.$toast('请填写变更类型')
+                console.log(1111)
+            }
         },
         submit(){
             // if(this.showMail == true){
@@ -269,11 +304,7 @@ export default {
         getMailInfo(){
             let submitForm = {}
             // 加入电子社保卡号
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                this.$toast("未获取到人员基本信息");
-            }
+            submitForm.AAE135 = sessionStorage.getItem("idCard");
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
                 //   成功   1000
@@ -287,7 +318,7 @@ export default {
                      if(this.form.AAE011==''){
                          this.form.AAE011=this.$store.state.SET_NATIVEMSG.name;
                      }
-                     
+
                      this.form.AAE006 = resData.AAE006   //详细地址
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
@@ -415,16 +446,15 @@ export default {
                 height: .8rem;
                 width: 90%;
                 margin: auto;
-                margin-top: .18rem;
-                border-radius: .05rem;
+                margin-top: .4rem;
+                border-radius: .2rem;
                 line-height: .8rem;
-                background: #FFF;;
+                background: #1492ff;
                 font-family: PingFangSC-Regular;
                 font-size: .26rem;
-                color: #666;
+                color: #fff;
                 letter-spacing: 0;
                 text-align: center;
-                border: .01rem solid #C9C9C9;
             }
         }
         .Hint{

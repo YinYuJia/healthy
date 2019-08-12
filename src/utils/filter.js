@@ -192,6 +192,47 @@ export function BKE520( val ) {
       return Math.floor(val * 100) / 100 + "km"
      }
  }
+//特治特药康复疗程
+export function BKE239( val ) {
+      let obj = {
+        "0": "第一疗程",
+        "1": "第二疗程",
+      }
+      return obj[val]
+}
+//缴费年限核定用户性别
+export function AAC004( val ) {
+  let obj = {
+    "女": "女士",
+    "男": "先生",
+  }
+  return obj[val]
+}
+//缴费年限核定用户性别
+export function BKE810( val ) {
+  let obj = {
+    "0": "否",
+    "1": "因病",
+    "2": "特殊工种",
+    "3": "符合公务员法",
+    "4": "符合浙委办",
+  }
+  return obj[val]
+}
+//缴费年限核定用户性别
+export function AKC423( val ) {
+  let obj = {
+    "0": "无",
+    "1": "劳教",
+    "2": "劳改",
+    "3": "开除",
+    "4": "除名",
+    "5": "自动离职",
+    "6": "辞职",
+    "7": "长病假",
+  }
+  return obj[val]
+}
 /*退休类别过滤*/
 export function trtireType(value) {
   let str = "";

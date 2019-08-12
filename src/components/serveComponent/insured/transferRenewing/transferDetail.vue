@@ -4,6 +4,8 @@
         <div class="Content">
             <!-- 办事进度 -->
             <WorkProgress :currentStep="currentStep" :progress=arr ></WorkProgress>
+            <!-- 办理结果 -->
+            <DetailStatus></DetailStatus>
             <!-- 邮递信息 -->
             <div class="MailInfo">
                 <div class="InfoLine">
@@ -134,7 +136,7 @@ export default {
         formatSubmitData(){  
             let submitForm ={}
             // submitForm.AGA002 =  "331400512001";
-            submitForm.AGA002 =  "公共服务-00512-001";
+            submitForm.AGA002 =  "公共服务-00512-002";
             submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -152,7 +154,7 @@ export default {
             let submitForm = {}
             console.log(submitForm)
                 // submitForm.AGA002 =  "331400512001";
-                submitForm.AGA002 =  "公共服务-00512-001";
+                submitForm.AGA002 =  "公共服务-00512-002";
                 //从进度查询页面进入接收传参
                 if(this.$route.query.param){
                     submitForm.lx="1";

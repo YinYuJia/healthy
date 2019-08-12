@@ -22,7 +22,7 @@
         </mt-datetime-picker>
         <SelectCity
             :type="2"
-            :excludeZj="true"
+            :jy7209="true"
             ref="cityPicker"
             @confirm="chooseCity"
             >
@@ -43,15 +43,15 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地</span></div>
 
-                    <div class="InfoText"><input  type="text" v-model="AAS027000" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                    <div class="InfoText"><input  type="text" v-model="AAS027000" placeholder="请选择" readonly></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开始日期</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.AAE030" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE030" placeholder="请选择" readonly></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束日期</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.AAE031" placeholder="请选择" readonly ><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE031" placeholder="请选择" readonly ></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转出医院</span></div>

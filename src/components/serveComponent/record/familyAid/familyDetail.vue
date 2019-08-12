@@ -4,7 +4,9 @@
         <div class="Content">
             <!-- 事项进度 -->
             <WorkProgress :currentStep="currentStep" :progress="arr"></WorkProgress>
-            <!-- 邮递信息 -->
+            <!-- 办理结果 -->
+            <DetailStatus nameWidth="2.5rem"></DetailStatus>
+            <!-- 回显信息 -->
             <div class="MailInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>参保地:</span></div>
@@ -28,6 +30,12 @@
                 </div>
                 <!-- 进度时间 -->
                 <ProgressDate nameWidth="2.5rem"  :replyDate="form.AAE036"  :progressDate="form.BAE019"></ProgressDate>
+            </div>
+            <!-- 补充材料 -->
+            <div v-if="needComplete" class="CompleteInfo">
+                <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
+                <div class="CompleteLine">1.的地区为好的气温很低了我点击领取我的灵魂的分开始整理的积分</div>
+                <div class="CompleteLine">2.等会我的文件的路径刷卡机的</div>
             </div>
         </div>
         <Success :flag="successFlag"></Success>
@@ -90,6 +98,24 @@ export default {
             this.$messagebox.confirm('确定撤销吗?').then(() => {
                 this.$router.push('/Index');
                 this.$toast('撤销成功');
+            });
+        },
+        // 补充材料
+        complete(){
+            //补充材料数组
+            let LS_DS = [
+                {BKE262: '1',BKE265: '身份证',BKE266: '身份证复印件'},
+                {BKE262: '2',BKE265: '参保凭证',BKE266: ''},
+                {BKE262: '3',BKE265: '户口本',BKE266: '户口本复印件'}
+            ];
+            this.$router.push({
+                path: "/CompleteUpload",
+                query: {
+                    list: LS_DS,
+                    BKZ019: this.$route.query.param||"",
+                    AGA002: '确认-00253-023',
+                    route: 'familyDetail'
+                }
             });
         },
         request(){
@@ -232,6 +258,24 @@ export default {
                 &:last-child{
                     border-bottom: none;
                 }
+            }
+        }
+        // 补充材料
+        .CompleteInfo{
+            width: 100%;
+            padding: .2rem .3rem .4rem .3rem;
+            margin-top: .15rem;
+            background: white;
+            .CompleteTitle{
+                font-size: .28rem;
+                letter-spacing: 0;
+                text-align: left;
+            }
+            .CompleteLine{
+                padding: .2rem 0 .1rem 0;
+                text-align: left;
+                font-size: .28rem;
+                letter-spacing: 0;
             }
         }
     }

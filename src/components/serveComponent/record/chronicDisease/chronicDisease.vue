@@ -34,7 +34,6 @@
                 placeholder="请选择"
                 readonly
               >
-              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -412,11 +411,7 @@ export default {
     getMailInfo(){
         let submitForm = {}
         // 加入电子社保卡号
-        if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-        }else {
-            this.$toast("未获取到人员基本信息");
-        }
+        submitForm.AAE135 = sessionStorage.getItem("idCard");
         const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
         this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
             //   成功   1000
@@ -698,16 +693,15 @@ export default {
         height: .8rem;
         width: 90%;
         margin: auto;
-        margin-top: .18rem;
-        border-radius: .05rem;
+        margin-top: .4rem;
+        border-radius: .2rem;
         line-height: .8rem;
-        background: #FFF;;
+        background: #1492ff;
         font-family: PingFangSC-Regular;
         font-size: .26rem;
-        color: #666;
+        color: #fff;
         letter-spacing: 0;
         text-align: center;
-        border: .01rem solid #C9C9C9;
       }
     }
     .Hint {

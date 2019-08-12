@@ -26,7 +26,6 @@
                     <div class="InfoText">
                         <!-- <input @click="openInsuredPicker" type="text" v-model="form.AAB301000" placeholder="请选择" readonly> -->
                         <input type="text" v-model="form.AAB301000" placeholder="请选择" readonly>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">

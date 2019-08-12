@@ -8,13 +8,13 @@ import WorkProgress from '@/components/serveComponent/common/WorkProgress'
 import Success from '@/components/serveComponent/common/Success'
 import PhotoView from '@/components/serveComponent/common/PhotoView'
 import GuideIcon from '@/components/serveComponent/common/GuideIcon'
-
+import DetailStatus from '@/components/serveComponent/common/DetailStatus'
 
 
 function plugin(Vue) {
     if (plugin.installed) {
         return
-    } 
+    }
     Vue.component('Footer',Footer);
     Vue.component('ProgressDate',ProgressDate);
     Vue.component('SearchInfoPage',SearchInfoPage);
@@ -25,6 +25,7 @@ function plugin(Vue) {
     Vue.component('Success',Success);
     Vue.component('PhotoView',PhotoView);
     Vue.component('GuideIcon',GuideIcon);
+    Vue.component('DetailStatus',DetailStatus);
 }
 
 export default plugin

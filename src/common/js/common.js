@@ -4,6 +4,7 @@ import addressList from './address' //所有地区
 import zjAddress from './zjAddress' //浙江地区
 import tzAddress from './tzAddress' //台州地区
 import excludeZj from './excludeZj' //浙江以外地区
+import workYear from './workYear' //工龄
 import excludeProvince from './excludeProvince' //排除省本级
 import  Vuex from '../../vuex/vuex' 
 export default {
@@ -20,6 +21,7 @@ export default {
           // return 'http://47.98.48.185:9000/api'  //服务器185 对应后端203
           return 'http://47.98.234.226:8000/api/api'  //服务器226   对应后端206
           // return 'http://192.168.1.199:13030' //吴学文
+          // return 'http://ybj.zjzwfw.gov.cn/api'//正式库地址
         }else{
           return ''
         }
@@ -220,5 +222,8 @@ export default {
     },
     excludeProvince: function(){
       return excludeProvince;
-    }
+    },
+    workYear: function(){
+      return workYear;
+    },
 }

@@ -4,6 +4,8 @@
         <div class="Content">
             <!-- 办事进度 -->
             <WorkProgress :currentStep="currentStep"></WorkProgress>
+            <!-- 办理结果 -->
+            <DetailStatus nameWidth="1.7rem"></DetailStatus>
             <!-- 列表信息 -->
             <div class="MailInfo">
                 <div class="InfoLine">
@@ -40,9 +42,27 @@
                     </div>
                 </div>
             </div>
+            <!-- 补充材料 -->
+            <div v-if="workStatus=='22'" class="CompleteInfo">
+                <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
+                <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
+                    {{item.BKE265}}
+                    <span v-if="item.BKE266!=''">（{{item.BKE266}}）</span>
+                    <!-- <span v-if="workStatus=='06'" style="color:#1492FF">已补充</span>23 -->
+                </div>
+            </div>
+            <div v-if="workStatus=='06'" class="CompleteInfo">
+                <div class="CompleteTitle">已补充材料({{completeList.length}})</div>
+                <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
+                    {{item.BKE265}}
+                </div>
+                <!-- <div class="CompleteLine" style="color:#1492FF">已补充</div> -->
+            </div>
         </div>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Success :flag="successFlag"></Success>
+        <!-- 补齐材料提交 -->
+        <Footer v-if="workStatus=='22'" @submit="complete()" btnText="补充材料" :canSubmit="true"></Footer>
         <!-- 底部 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" :handleNumber="handleNumber" @edit="edit()"></Footer>
     </div>
@@ -67,11 +87,17 @@ export default {
         List:[],
         successFlag: 1,
         picList: [],
+        workStatus: '', //办件状态，02受理，22需补齐，06已补正
+        completeList: [], //补充材料清单
       }
     },
     created(){
         if(this.$route.query.param){
             this.successFlag = 2;
+        }
+        if(this.$route.query.param && this.$route.query.showSuccess){
+            console.log("从补充材料进入");
+            this.successFlag = 1;
         }
         this.epFn.setTitle('出国带药备案')
         this.request();
@@ -117,7 +143,12 @@ export default {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
                     if (resData.LS_DS.length > 0 ) {
-                       this.currentStep = Number(resData.LS_DS[0].BOD037) 
+                       this.currentStep = Number(resData.LS_DS[0].BOD037);
+                       this.workStatus = resData.LS_DS[0].BOD038;
+                        //  获取补充材料
+                       if(this.workStatus == '22'){
+                           this.getCompleteInfo();
+                       }
                     }else{
                         this.$toast("暂无状态信息")
                     }
@@ -200,8 +231,36 @@ export default {
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
             return params;
         },
-
-
+        // 获取补充材料
+        getCompleteInfo(){
+            let submitForm = {BKZ019: this.$route.query.param || ""};
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1029");
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1029/expenseAccount', params).then((resData) => {
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                    this.completeList = resData.LS_DS1;
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        // 补充材料
+        complete(){
+            this.$router.push({
+                path: "/CompleteUpload",
+                query: {
+                    list: this.completeList,
+                    BKZ019: this.$route.query.param,
+                    AGA002: this.$route.query.AGA002,
+                    route: '/abroadDetail'
+                }
+            });
+        },
     }
 }
 </script>
@@ -295,6 +354,24 @@ export default {
                     height: 1.5rem;
                     width: 1.5rem;
                 }
+            }
+        }
+        // 补充材料
+        .CompleteInfo{
+            width: 100%;
+            padding: .2rem .3rem .4rem .3rem;
+            margin-top: .15rem;
+            background: white;
+            .CompleteTitle{
+                font-size: .28rem;
+                letter-spacing: 0;
+                text-align: left;
+            }
+            .CompleteLine{
+                padding: .2rem 0 .1rem 0;
+                text-align: left;
+                font-size: .28rem;
+                letter-spacing: 0;
             }
         }
     }
