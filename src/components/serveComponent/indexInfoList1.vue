@@ -295,7 +295,6 @@
         },
         methods: {
             change(){
-                this.$router.push('/login')
                 console.log('切换');
                 if(this.ifShow==true){
                     this.ifShow=false;
