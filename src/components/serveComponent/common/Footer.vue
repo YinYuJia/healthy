@@ -92,7 +92,7 @@ export default {
         width: 100%;
         border-radius: .05rem;
         line-height: 1.05rem;
-        background: #F2F2F2;;
+        background: #F2F2F2;
         font-family: PingFangSC-Regular;
         font-size: .36rem;
         color: #B4B4B4;
