@@ -37,7 +37,7 @@ export default {
     data(){
         return{
             form:{
-                AAE006: '', //家庭住址
+                AAE006: '的期望和底气和动物权利和动物权利和单位的武器D', //家庭住址
                 AAE005: '', //手机号码
                 AAE007: '', //邮政编码
                 BKZ019: '', //经办编号
@@ -187,6 +187,8 @@ export default {
                 .InfoName{
                     opacity: 0.85;
                     line-height: 1.2rem;
+                    width: 1.8rem;
+                    text-align: left;
                     span{
                         height: .6rem;
                         line-height: .6rem;
