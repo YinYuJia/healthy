@@ -76,7 +76,7 @@ export default new Router({
   routes: [
     // 首页
     {
-      path: '/indexInfoList1',
+      path: '/indexInfoList',
       name: 'indexInfoListComponent',
       component: indexInfoList
     },
