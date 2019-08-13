@@ -2,7 +2,7 @@
     <div class="legalChange">
         <Title :title="'参保信息变更'" :backRouter="'/'"></Title>
         <SelectCity 
-            :type="2"
+            :type="3"
             ref="cityPicker"
             :jy9028='true'
             @confirm="chooseCity"
