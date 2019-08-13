@@ -350,6 +350,11 @@
                             let route = url.split('/');
                             this.$router.push(route.pop());
                         }else{
+                            if (url.indexOf("?") != -1 ) {
+                               url = url + '&&' + this.util.getToken()
+                            }else{
+                               url = url + '?' + this.util.getToken()
+                            }
                             window.location.href = url;
                         }
                     }
