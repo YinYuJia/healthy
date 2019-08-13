@@ -71,7 +71,7 @@ export default {
     data(){
         return{
             form:{
-                AAB001: '013012A', //单位编码
+                AAB001: '', //单位编码
                 AAE007: '', //单位邮编
                 AAE006: '', //单位地址
                 address: '', //选择的地址
@@ -85,6 +85,7 @@ export default {
                 BKZ019: '', //经办编号暂为空
                 AAB301: ''  //统筹区
             },
+            AAB001:"",//单位编号
             canSubmit: false,
         }
     },
@@ -108,6 +109,8 @@ export default {
     created(){
         console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
         this.form.AAB301=sessionStorage.getItem("GinsengLandCode");
+        this.requset2();
+        this.requset1();
     },
     methods:{
         // 选择城市
@@ -150,6 +153,49 @@ export default {
             }
             // this.$router.push('/legalChangeDetail');
         },
+        requset1(){
+                // 封装数据
+                let params = this.formatSubmitData1();
+                // 开始请求
+                this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy9029/9029', params).then((resData) => {
+                    //   成功   1000
+                    if ( resData.enCode == 1000 ) {
+                      console.log('返回信息成功',resData)
+                      this.form=resData.LS_DS[0];
+                      console.log("form",this.form)
+                    }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                      console.log('返回信息失败',resData)
+                      this.$toast(resData.msg);
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
+                })
+        },
+        requset2(){
+                let params = this.formatSubmitData2();
+                // 开始请求
+                console.log('parmas------',params)
+                this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7610/getRecord', params).then((resData) => {
+                    console.log('返回成功信息',resData)
+                    //   成功   1000
+                    if ( resData.enCode == 1000 ) {
+                        this.AAB001=resData.AAB001
+                        console.log("AAB001",this.AAB001)
+                        // console.log('form1',this.form1)
+                        
+                    }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                        this.$toast(resData.msg);
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
+                })
+        },
         formatSubmitData(){
             let submitForm = Object.assign({},this.form);
             // 加入用户名和电子社保卡号
@@ -163,6 +209,27 @@ export default {
                 submitForm.BKE520='1'
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
+            return params;
+        },
+        formatSubmitData1(){
+            let submitForm = {};
+            // 加入用户名和电子社保卡号
+            submitForm.AAB001='005003C';
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9029");
+            return params;
+        },
+        formatSubmitData2(){
+            let submitForm = {};
+            // 加入用户名和电子社保卡号
+            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
+                submitForm.AAC002 = this.$store.state.SET_NATIVEMSG.idCard;
+            }else {
+                submitForm.AAC002=submitForm.AAE135=sessionStorage.setItem('idCard');
+                
+            }
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7610");
             return params;
         },
     }

@@ -646,6 +646,24 @@
                         action
                     }) => {
                         sessionStorage.setItem('idCchangeLegalPersonCardard', value);
+                            dd.ready({
+                            developer: 'daip@dtdream.com',
+                            usage: [
+                                'dd.biz.user.getUserType',
+                            ],
+                            remark: '获取用户登录类型'
+                            }, 
+                            ()=> {
+                            dd.biz.user.getUserType({ 
+                                onSuccess: (data) => {
+                                sessionStorage.setItem("userType",data.userType)
+                                },
+                                onFail: (error) =>{
+                                console.log("data获取用户类型",error)
+                                next()
+                                } 
+                            })
+                        })
                         console.log('法人卡号',sessionStorage.getItem('idCchangeLegalPersonCardard'))
                     });
                 } else {
