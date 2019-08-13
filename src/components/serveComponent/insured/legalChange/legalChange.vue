@@ -1,8 +1,8 @@
 <template>
     <div class="legalChange">
         <Title :title="'参保信息变更'" :backRouter="'/'"></Title>
-        <SelectCity 
-            :type="2"
+        <SelectCity
+            :type="3"
             ref="cityPicker"
             :jy9028='true'
             @confirm="chooseCity"
@@ -31,7 +31,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法人代表电话：</span></div>
-                    <div class="InfoText"><input v-model="form.BKE280" type="tel" maxlength="10" placeholder="请输入"></div>
+                    <div class="InfoText"><input v-model="form.BKE280" type="tel" maxlength="11" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员姓名1：</span></div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员电话1：</span></div>
-                    <div class="InfoText"><input v-model="form.BKE283" type="tel" maxlength="10" placeholder="请输入"></div>
+                    <div class="InfoText"><input v-model="form.BKE283" type="tel" maxlength="11" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员姓名2：</span></div>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员电话2：</span></div>
-                    <div class="InfoText"><input v-model="form.BAC212" type="tel" maxlength="10" placeholder="请输入"></div>
+                    <div class="InfoText"><input v-model="form.BAC212" type="tel" maxlength="11" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员所在部门：</span></div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>邮箱：</span></div>
-                    <div class="InfoText"><input v-model="form.AAE005" type="text" maxlength="10" placeholder="请输入"></div>
+                    <div class="InfoText"><input v-model="form.AAE005" type="text" maxlength="20" placeholder="请输入"></div>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@ export default {
                 AAB001: '013012A', //单位编码
                 AAE007: '', //单位邮编
                 AAE006: '', //单位地址
-                address: '', //选择的地址
+                address: '111', //选择的地址
                 detailAddress: '', //详细地址
                 AAB005: '', //单位电话
                 BKE280: '', //法人电话
@@ -94,7 +94,8 @@ export default {
                 if(val.address!=""&&val.detailAddress!=""){
                     this.form.AAE006=val.address+val.detailAddress;
                 }
-                if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != '' 
+              // if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != ''
+                if(val.AAE007 != '' && val.detailAddress != '' && val.AAB005 != ''
                     && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != '' && val.BKB225 != '' && val.AAE005 != ''){
                     this.canSubmit = true;
                 }else{
@@ -126,13 +127,14 @@ export default {
             }
             let params = this.formatSubmitData();
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1035/getRecord', params).then((resData) => {
-                console.log('返回成功信息',resData)
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
-
+                  console.log('返回信息成功',resData)
+                  this.$router.push({path: '/legalChangeDetail'});
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
-                    this.$toast(resData.msg);
+                  console.log('返回信息失败',resData)
+                  this.$toast(resData.msg);
                     return;
                 }else{
                     this.$toast('业务出错');
