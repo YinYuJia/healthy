@@ -74,7 +74,7 @@ export default {
                 AAB001: '013012A', //单位编码
                 AAE007: '', //单位邮编
                 AAE006: '', //单位地址
-                address: '111', //选择的地址
+                address: '', //选择的地址
                 detailAddress: '', //详细地址
                 AAB005: '', //单位电话
                 BKE280: '', //法人电话
@@ -83,7 +83,7 @@ export default {
                 BKB225: '', //专管员部门
                 AAE005: '', //单位邮箱
                 BKZ019: '', //经办编号暂为空
-                BKE520: '1' //数据来源 掌上
+                AAB301: ''  //统筹区
             },
             canSubmit: false,
         }
@@ -107,6 +107,7 @@ export default {
     },
     created(){
         console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
+        this.form.AAB301=sessionStorage.getItem("GinsengLandCode");
     },
     methods:{
         // 选择城市
@@ -115,33 +116,38 @@ export default {
         },
         chooseCity(val){
             this.form.address= val.name;
+            console.log("address",this.form.address)
         },
         // 提交
         submit(){
+            console.log(1111)
+            console.log(this.canSubmit)
             if(this.canSubmit == false){
                 return false;
-            }
-            // 检验邮箱格式
-            if(!this.util.checkMail(this.form.AAE005)){
-                this.$toast("邮箱格式不正确");
-                return false;
-            }
-            let params = this.formatSubmitData();
-            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1035/getRecord', params).then((resData) => {
-                //   成功   1000
-                if ( resData.enCode == 1000 ) {
-                  console.log('返回信息成功',resData)
-                  this.$router.push({path: '/legalChangeDetail'});
-                }else if (resData.enCode == 1001 ) {
-                //   失败  1001
-                  console.log('返回信息失败',resData)
-                  this.$toast(resData.msg);
-                    return;
-                }else{
-                    this.$toast('业务出错');
-                    return;
+            }else{
+                // 检验邮箱格式
+                if(!this.util.checkMail(this.form.AAE005)){
+                    this.$toast("邮箱格式不正确");
+                    return false;
                 }
-            })
+                let params = this.formatSubmitData();
+                console.log("params",params)
+                this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1035/getRecord', params).then((resData) => {
+                    //   成功   1000
+                    if ( resData.enCode == 1000 ) {
+                      console.log('返回信息成功',resData)
+                      this.$router.push({path: '/legalChangeDetail'});
+                    }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                      console.log('返回信息失败',resData)
+                      this.$toast(resData.msg);
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
+                })
+            }
             // this.$router.push('/legalChangeDetail');
         },
         formatSubmitData(){
@@ -154,7 +160,7 @@ export default {
                 submitForm.AAC003=sessionStorage.getItem('userName');
                 submitForm.AAE135=sessionStorage.setItem('idCard');
             }
-             
+                submitForm.BKE520='1'
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;
