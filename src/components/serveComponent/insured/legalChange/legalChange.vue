@@ -110,7 +110,7 @@ export default {
         console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
         this.form.AAB301=sessionStorage.getItem("GinsengLandCode");
         this.requset2();
-        this.requset1();
+        // this.requset1();
     },
     methods:{
         // 选择城市
@@ -153,9 +153,9 @@ export default {
             }
             // this.$router.push('/legalChangeDetail');
         },
-        requset1(){
+        requset1(a){
                 // 封装数据
-                let params = this.formatSubmitData1();
+                let params = this.formatSubmitData1(a);
                 // 开始请求
                 this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy9029/9029', params).then((resData) => {
                     //   成功   1000
@@ -185,7 +185,7 @@ export default {
                         this.AAB001=resData.AAB001
                         console.log("AAB001",this.AAB001)
                         // console.log('form1',this.form1)
-                        
+                        this.requset1(resData.AAB001)
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);
@@ -211,10 +211,10 @@ export default {
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;
         },
-        formatSubmitData1(){
+        formatSubmitData1(a){
             let submitForm = {};
             // 加入用户名和电子社保卡号
-            submitForm.AAB001='005003C';
+            submitForm.AAB001=a;
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9029");
             return params;
