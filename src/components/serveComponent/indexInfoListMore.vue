@@ -158,7 +158,8 @@ export default {
             myScroll: undefined,
             iconList: [], //图标列表
             titleList: [], //头部列表
-            isClear:true
+            isClear:true,
+            userType:"",//用户类型
         }
     },
     destroyed(){
@@ -195,6 +196,7 @@ export default {
         this.$store.dispatch('SET_ENCLOSURE',SET_ENCLOSURE)
         this.epFn.setTitle('医疗保障专区');
         this.getMatterInfo(sessionStorage.getItem("GinsengLandCode")); //获取列表
+
     },
     methods:{
         // 跳转配置的地址
@@ -219,8 +221,17 @@ export default {
         },
         //动态获取事项信息
         getMatterInfo(code) {
+            let Type=sessionStorage.getItem('userType');
+            let userType;
+            if(Type=='1'||Type=='0'){
+                userType=1
+            }else if(Type=='2'){
+                userType=2
+            }
             let params = {
-                "areaId": code
+                "areaId": code,
+                "isApp":1,//1代表APP，0代表网上办
+                "mattersType":userType//1是个人，2是单位
             }
             this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0002/getAreaList", params).then((resData) => {
                     
@@ -233,8 +244,7 @@ export default {
                 console.log('获取区域事项', resData)
                 let resList = resData.list;
                 let iconList = [];
-                let userType = sessionStorage.getItem('userType');
-                if(userType == 1 || userType == 0){
+                if(Type == 1 || Type == 0){
                     resList.forEach((ele,index) =>{
                         ele.children.forEach(innerEle =>{
                             innerEle.jumpUrl = innerEle.personJumpUrl;
@@ -246,7 +256,7 @@ export default {
                             });
                         }
                     })
-                }else if(userType == 2){
+                }else if(Type == 2){
                     resList.forEach((ele,index) =>{
                         ele.children.forEach(innerEle =>{
                             innerEle.jumpUrl = innerEle.personJumpUrl;
