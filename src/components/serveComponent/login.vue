@@ -6,12 +6,27 @@
     <div class="title"><span>医保经办系统</span></div>
     <div class="content">
         <div class="loginBox">
-            <div class="userName"><svg-icon icon-class="login_user"></svg-icon><input class="text" type="text" placeholder="请输入用户名"/></div>
-            <div class="passWord"><svg-icon icon-class="login_password"></svg-icon><input class="text" type="text" placeholder="请输入密码"/></div>
-            <div class="test"><svg-icon icon-class="login_test"></svg-icon><input class="text" type="text" placeholder="请输入验证码"/></div>
+            <div class="userName">
+                <svg-icon icon-class="login_user"></svg-icon>
+                <input class="text" type="text" v-model="form.userName" placeholder="请输入用户名"/>
+                <div class="clear">
+                    <svg-icon icon-class="login_clear" v-if="form.userName" @click="deleteUserName()"></svg-icon>
+                </div>
+            </div>
+            <div class="passWord">
+                <svg-icon icon-class="login_password"></svg-icon>
+                <input class="text" type="password" v-model="form.passWord" placeholder="请输入密码"/>
+                <div class="clear">
+                    <svg-icon icon-class="login_clear" v-if="form.passWord" @click="deletePassWord()"></svg-icon>
+                </div>
+            </div>
+            <div class="test"><svg-icon icon-class="login_test"></svg-icon>
+                <input class="text" type="text" placeholder="请输入验证码"/>
+            </div>
         </div>
         
-         <div><button class="submit" ><span>绑定</span></button></div>
+         <div><button class="SubmitBtn"  :class="{'active': canSubmit == true}" ><span>绑定</span></button></div>
+
     </div>
     
 </div>
@@ -19,7 +34,38 @@
 
 <script>
 export default {
-    
+    data () {
+        return {
+            canSubmit:false,
+            form:{
+                userName:"",//用户名
+                passWord:"",//密码
+            },
+            deep:true
+        }
+    },
+    watch: {
+        form:{
+            handler:function(val){
+                if(val.userName!=""&&val.passWord!=""){
+                    this.canSubmit=true;
+                }else{
+                    this.canSubmit=false;
+                }
+
+            }
+        }
+    },
+    methods: {
+        deleteUserName(){
+            console.log('清除用户名')
+            this.form.userName=""
+        },
+        deletePassWord(){
+            console.log('清除密码')
+            this.form.passWord=""
+        }
+    }
 }
 </script>
 
@@ -79,13 +125,25 @@ export default {
                         height: .5rem;
                     }
                     .text{
-                        display: inline;
+                        width: 3.8rem;
+                        display: inline-block;
                         margin-left: .4rem;
                         font-family: MicrosoftYaHei;
                         font-size: .28rem;
                         color: #999999;
                         letter-spacing: 0;
                         border: none;
+                    }
+                    .clear{
+                        width: .5rem;
+                        height: .5rem;
+                        display: inline-block;
+                        .svg-icon{
+                            width: 100%;
+                            height: 100%;
+                            display: block;
+                            margin-top: .1rem;
+                        }
                     }
                 }
                 .passWord{
@@ -97,18 +155,30 @@ export default {
                     margin-right: .6rem;
                     border-bottom: 1px solid #DDDDDD;
                     .svg-icon{
-                        display: inline;
+                        display: inline-block;
                         width: .5rem;
                         height: .5rem;
                     }
                     .text{
-                        display: inline;
+                        width: 3.8rem;
+                        display: inline-block;
                         margin-left: .4rem;
                         font-family: MicrosoftYaHei;
                         font-size: .28rem;
                         color: #999999;
                         letter-spacing: 0;
                         border: none;
+                    }
+                    .clear{
+                        width: .5rem;
+                        height: .5rem;
+                        display: inline-block;
+                        .svg-icon{
+                            width: 100%;
+                            height: 100%;
+                            display: block;
+                            margin-top: .1rem;
+                        }
                     }
                 }
                 .test{
@@ -120,7 +190,7 @@ export default {
                     margin-right: .6rem;
                     border-bottom: 1px solid #DDDDDD;
                     .svg-icon{
-                        display: inline;
+                        display: inline-block;
                         width: .5rem;
                         height: .5rem;
                     }
@@ -136,17 +206,19 @@ export default {
                     
                 }
             }
-            .submit{
+            .SubmitBtn {
                 display: block;
-                background: #1492FF;
+                background: #F2F2F2;
+                color: #B4B4B4;
                 border-radius: .1rem;
                 border: none;
-                width: 6.7rem;
+                width: 6.6rem;
                 height: 1.05rem;
                 margin-left: .4rem;
                 margin-top: 7.3rem;
                 position: relative;
                 z-index: 1;
+                margin-bottom: 3rem;
                 span{
                     font-family: MicrosoftYaHei;
                     font-size: .36rem;
@@ -154,6 +226,10 @@ export default {
                     letter-spacing: 0;
                     text-align: center;
                 }
+            }
+            .active{
+                background: #1492FF;
+                color: #FFFFFF;
             }
         }            
 

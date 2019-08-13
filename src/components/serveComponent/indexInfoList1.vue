@@ -130,7 +130,7 @@
             <div class="btn" @click="changeLegalPersonName(true)">更改法人用户名</div>
             <div class="btn" @click="changeLegalPersonCard(true)">更改法人社保卡号</div>
         </div>
-        <div class="changeUserBtn"><button class="btn" v-if="ifShow"  @click="change()">切换</button></div>
+        <div class="changeUserBtn"><button class="btn"  @click="change()" >切换</button></div>
         <div class="bottomline">
             <p>本服务由浙江政务服务网提供</p>
             <p>服务咨询热线 : <span class="bottomSpan">{{tel}}</span> </p>
@@ -160,7 +160,8 @@
                 iconList: [], //图标列表,
                 isVisible: false,
                 isClear:true,
-                showPerson:false//默认隐藏法人用户
+                showPerson:false,//默认隐藏法人用户
+                showButton:true//切换按钮
             }
         },
         mounted() {
@@ -299,7 +300,8 @@
                     this.showPerson=true;
                 }else if(this.ifShow==false){
                     this.ifShow=true;
-                    this.showPerson=false
+                    this.showPerson=false;
+
                 }
             },
             // 判断是否法人登录
@@ -1041,6 +1043,7 @@
             font-size: .36rem;
             border-radius: .2rem;
             background: #FFF;
+            outline: none;
         }
     }
 </style>
