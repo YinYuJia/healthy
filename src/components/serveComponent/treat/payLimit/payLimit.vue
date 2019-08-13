@@ -77,7 +77,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>连续工龄:</span></div>
                     <div class="InfoText">
-                        <input type="tel" @click="openWorkPicker" v-model="form.BKEVALUE" placeholder="请输入" readonly>
+                        <input type="tel" @click="openWorkPicker" v-model="form.BKEVALUE" placeholder="请输入"  readonly>
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
@@ -398,8 +398,8 @@ export default {
         chooseWork(val){
             console.log(val)
             this.form.BKEVALUE= val.name;
-            this.form.BKE703=val.code[0]
-            this.form.BKE704=val.code[1]
+            this.form.BKE703=val.code[0];
+            this.form.BKE704=val.code[1];
             console.log(this.form)
             console.log("9999",val)
         },
@@ -500,13 +500,13 @@ export default {
                     if ( resData.enCode == 1000 ) {
                         console.log("11111",resData.LS_DS[0])
                         console.log(this.form)
-
                         this.form1=resData.LS_DS[0]
                         this.form.AKC412=this.form1.AKC412M+((this.form1.AKC412)*12);
                         this.form.BKE703=this.form1.BKE703;
                         this.form.BKE704=this.form1.BKE704;
                         this.form.AAB001=this.form1.AAB001;
-                        console.log(this.form)
+                        this.form.BKEVALUE=this.form1.BKE703+'年'+this.form.BKE704+'个月'
+                        console.log('form1',this.form1)
                         this.showAll=true;
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
