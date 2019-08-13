@@ -220,6 +220,7 @@ if ( isShow ) {
     ()=> {
     dd.biz.user.getUserType({ 
         onSuccess: (data) => {
+          sessionStorage.setItem("userType",data.userType)
           console.log("data获取用户类型",data)
           if ( data.userType == '0' || data.userType == '1') {
             sessionStorage.setItem("iflegal",data.userType)
@@ -240,6 +241,25 @@ if ( isShow ) {
 
 })
 
+}else{
+    dd.ready({
+      developer: 'daip@dtdream.com',
+      usage: [
+          'dd.biz.user.getUserType',
+      ],
+      remark: '获取用户登录类型'
+      }, 
+      ()=> {
+      dd.biz.user.getUserType({ 
+          onSuccess: (data) => {
+            sessionStorage.setItem("userType",data.userType)
+          },
+          onFail: (error) =>{
+            console.log("data获取用户类型",error)
+            next()
+          } 
+      })
+    })
 }
 // 法人
 function legal() {

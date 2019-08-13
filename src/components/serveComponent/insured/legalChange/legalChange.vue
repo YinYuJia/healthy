@@ -106,6 +106,7 @@ export default {
         }
     },
     created(){
+        console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
     },
     methods:{
         // 选择城市
@@ -146,8 +147,14 @@ export default {
         formatSubmitData(){
             let submitForm = Object.assign({},this.form);
             // 加入用户名和电子社保卡号
-            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
+                submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            }else {
+                submitForm.AAC003=sessionStorage.getItem('userName');
+                submitForm.AAE135=sessionStorage.setItem('idCard');
+            }
+             
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;
