@@ -19,11 +19,11 @@
                 <div class="clear">
                     <svg-icon icon-class="login_clear" v-if="form.passWord" @click="deletePassWord()"></svg-icon>
                 </div>
-            </div>
-            <div class="test">
-                <svg-icon icon-class="login_test"></svg-icon>
-                <input class="text" type="text" placeholder="请输入验证码"/>
-                <img @click="changeCode" :src="imgUrl" />
+                <div class="test">
+                    <svg-icon icon-class="login_test"></svg-icon>
+                    <input class="text" type="text" placeholder="请输入验证码"/>
+                    <img @click="changeCode" :src="imgUrl" />
+                </div>
             </div>
         </div>
         
