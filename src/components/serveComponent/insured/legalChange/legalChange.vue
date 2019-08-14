@@ -247,6 +247,7 @@ export default {
                 submitForm.AAC003=sessionStorage.getItem('userName');
                 submitForm.AAE135=sessionStorage.getItem('idCard');
             }
+                submitForm.AAB301=sessionStorage.getItem("GinsengLandCode");//统筹区
                 submitForm.BKE520='1'
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
