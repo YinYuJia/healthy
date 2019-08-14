@@ -19,11 +19,11 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位地址：</span></div>
-                    <div class="InfoText"><input v-model="form.address" @click="openCityPicker" type="text" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                    <div class="InfoText"><input v-model="params.address" @click="openCityPicker" type="text" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>地址详情：</span></div>
-                    <div class="InfoText"><textarea v-model="form.detailAddress" placeholder="请输入"></textarea></div>
+                    <div class="InfoText"><textarea v-model="params.detailAddress" placeholder="请输入"></textarea></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位电话：</span></div>
@@ -74,8 +74,6 @@ export default {
                 AAB001: '', //单位编码
                 AAE007: '', //单位邮编
                 AAE006: '', //单位地址
-                address: '', //选择的地址
-                detailAddress: '', //详细地址
                 AAB005: '', //单位电话
                 BKE280: '', //法人电话
                 BKE281: '', //专管员姓名
@@ -83,18 +81,20 @@ export default {
                 BKB225: '', //专管员部门
                 AAE005: '', //单位邮箱
                 BKZ019: '', //经办编号暂为空
-                AAB301: ''  //统筹区
+                AAB301: '',  //统筹区
+
             },
             AAB001:"",//单位编号
+            params:{
+                address: '', //选择的地址
+                detailAddress: '', //详细地址    
+            },
             canSubmit: false,
         }
     },
     watch:{
         form:{
             handler: function(val) {
-                if(val.address!=""&&val.detailAddress!=""){
-                    this.form.AAE006=val.address+val.detailAddress;
-                }
               // if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != ''
                 if(val.AAE007 != '' && val.detailAddress != '' && val.AAB005 != ''
                     && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != '' && val.BKB225 != '' && val.AAE005 != ''){
@@ -104,11 +104,18 @@ export default {
                 }
             },
             deep:true
+        },
+        params:{
+            handler:function(val){
+                if(val.address!=''&&val.detailAddress!=''){
+                    this.form.AAE006=val.address+val.detailAddress;
+                }
+            },
+            deep:true
         }
     },
     created(){
         console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
-        this.form.AAB301=sessionStorage.getItem("GinsengLandCode");
         this.requset2();
         // this.requset1();
     },
@@ -118,8 +125,8 @@ export default {
             this.$refs.cityPicker.open();
         },
         chooseCity(val){
-            this.form.address= val.name;
-            console.log("address",this.form.address)
+            this.params.address= val.name;
+            console.log("address",this.params.address)
         },
         // 提交
         submit(){
@@ -162,6 +169,9 @@ export default {
                     if ( resData.enCode == 1000 ) {
                       console.log('返回信息成功',resData)
                       this.form=resData.LS_DS[0];
+                    //   if(isNaN(this.form.AAE006)){
+                    //       this.form.AAE006=''
+                    //   }
                       console.log("form",this.form)
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
@@ -182,10 +192,11 @@ export default {
                     console.log('返回成功信息',resData)
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
-                        this.AAB001=resData.AAB001
-                        console.log("AAB001",this.AAB001)
+                        console.log("LS_DS",resData)
+                        this.AAB001=resData.LS_DS[0].AAB001;
+                        console.log("AAB001",resData.LS_DS[0].AAB001)
                         // console.log('form1',this.form1)
-                        this.requset1(resData.AAB001)
+                        this.requset1(resData.LS_DS[0].AAB001)
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);
@@ -206,6 +217,7 @@ export default {
                 submitForm.AAC003=sessionStorage.getItem('userName');
                 submitForm.AAE135=sessionStorage.setItem('idCard');
             }
+                submitForm.AAB301=sessionStorage.getItem("GinsengLandCode");//统筹区
                 submitForm.BKE520='1'
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");

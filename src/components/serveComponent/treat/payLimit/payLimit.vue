@@ -78,7 +78,7 @@
                     <div class="InfoName"><span>连续工龄:</span></div>
                     <div class="InfoText">
                         <input type="tel" v-model="form.BKEVALUE" placeholder="请输入"  readonly>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <!-- <svg-icon icon-class="serveComponent_arrowRight"></svg-icon> -->
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -108,7 +108,8 @@
                     </div>
                 </div>
             </div>
-            <div class="simpleNote" v-for="(item,index) in LS_DS" :key=index  v-if="showAll" >
+            <div  v-if="showAll">
+            <div class="simpleNote" v-for="(item,index) in LS_DS" :key=index  >
                 <div class="InfoTitle">
                     <div class="InfoName"><span>简历{{index+1}}</span></div>
                     <div class="InfoText">
@@ -150,6 +151,7 @@
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>    
                     </div>               
                 </div>
+            </div>
             </div>
             <div class="newSimpleNote" v-if="showAll">
                 <div class="newAdd" @click="newSimpleNote()" :class="{'active': canSubmit == true}">
@@ -194,40 +196,41 @@ export default {
                 AKC422:'',//单位
                 AKC424:'',//职务
                 AKC425:'',//证明人
-                AKC423:'无',//处分中文
+                AKC423:'0',//处分数值
+                AKC423VALUE:'无',//处分中文
             }],
             canSubmit: false,
             punish:[
                 {
-                    value:'0',
+                    value: '0',
                     label:'无'
                 },
                 {
-                    value:'1',
+                    value: '1',
                     label:'劳教'
                 },
                 {
-                    value:'2',
+                    value: '2',
                     label:'劳改'
                 },
                 {
-                    value:'3',
+                    value: '3',
                     label:'开除'
                 },
                 {
-                    value:'4',
+                    value: '4',
                     label:'除名'
                 },
                 {
-                    value:'5',
+                    value: '5',
                     label:'自动离职'
                 },
                 {
-                    value:'6',
+                    value: '6',
                     label:'辞职'
                 },
                 {
-                    value:'7',
+                    value: '7',
                     label:'长病假'
                 }
             ],
@@ -276,7 +279,6 @@ export default {
                 }
             },            
             deep: true
-
         },
         LS_DS:{
             handler:function(val){
@@ -289,7 +291,7 @@ export default {
                 // }
 
                 if(val[this.index].AKC421!=''&&val[this.index].AKC422!='' &&val[this.index].AKC424!=''
-                && val[this.index].AKC425!=''&&val[this.index].AKC423!=''){
+                && val[this.index].AKC425!=''&&val[this.index].AKC423!=''&&val[this.index].AKC423VALUE!=''){
                     this.LSflag=true;
                     this.canSubmit = true;
                     console.log("LSflag",this.LSflag)
@@ -432,7 +434,8 @@ export default {
         //处分值获取
         handlePunishConfirm(val){
             console.log("处分",val)
-            this.LS_DS[this.index].AKC423=val.label;
+            this.LS_DS[this.index].AKC423VALUE=val.label;
+            this.LS_DS[this.index].AKC423=val.value;
         },
         //新增简历
         newSimpleNote(){
@@ -443,7 +446,7 @@ export default {
             obj.AKC422='',//单位
             obj.AKC425='',//证明人
             obj.AKC423='0',//处分数值
-            obj.punishValue='无',//处分中文
+            obj.AKC423VALUE='无',//处分中文
             this.index+=1;
             console.log(this.index)
             this.LS_DS.push(obj)
@@ -501,9 +504,26 @@ export default {
                         this.form.BKE704=this.form.BKE704;
                         this.form.AAB001=this.form.AAB001;
                         this.form.BKEVALUE=this.form.BKE703+'年'+this.form.BKE704+'个月';
-
+                        console.log("111111",this.form.BKE810=='0')
+                        if(this.form.BKE810=='0'){
+                            this.BKE810VALUE='无'
+                            this.uncheck1();
+                        }else if(this.form.BKE810=='1'){
+                            this.BKE810VALUE='因病'
+                        }else if(this.form.BKE810=='2'){
+                            this.BKE810VALUE='特殊工种'
+                        }else if(this.form.BKE810=='3'){
+                            this.BKE810VALUE='符合公务员法'
+                        }else if(this.form.BKE810=='4'){
+                            this.BKE810VALUE='因符合浙委办'
+                        }
+                        
                         console.log("LIST",resData.LS_DS[0].AKC421)
                         console.log("LIST",resData.LS_DS[0].AKC421.split('-'))
+                        resData.LS_DS.forEach( ele => {
+                            ele.timeStart = ele.AKC421.split('-')[0]
+                            ele.timeEnd = ele.AKC421.split('-')[1]
+                        })
                         this.LS_DS=resData.LS_DS;
                         // console.log('form1',this.form1)
                         this.showAll=true;
@@ -588,6 +608,8 @@ export default {
             submitForm.AKC412 = this.form.AKC412;
             console.log(submitForm.AKC412)
             console.log(typeof submitForm.AKC412)
+            submitForm.AAC004 = this.form.AAC004;
+            submitForm.AAC006 = this.form.AAC006;
             submitForm.AAC007 = this.form.AAC007;
             submitForm.AAB001 = this.form.AAB001;
             console.log(typeof submitForm.AAB001)

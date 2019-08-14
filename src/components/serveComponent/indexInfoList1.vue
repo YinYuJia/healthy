@@ -651,21 +651,6 @@
                     this.$toast("功能正在建设中")
                 }
             },
-            //法人用户登录
-            changeLegalPersonName(str) {
-                if (str) {
-                    let params={}
-                    MessageBox.prompt('法人用户名', '').then(({
-                        value,
-                        action
-                    }) => {
-                        sessionStorage.setItem('changeLegalPersonName', value);
-                        console.log("法人用户名",sessionStorage.getItem('changeLegalPersonName'))
-                    });
-                } else {
-                    this.$toast("功能正在建设中")
-                }
-            },
             //个人用户登录
             changeUserCode(str) {
                 if (str) {
@@ -697,21 +682,6 @@
                                 } 
                             })
                         })
-                    });
-                } else {
-                    this.$toast('功能正在建设中')
-                }
-            },
-            //法人用户登录
-            changeLegalPersonCard(str) {
-                if (str) {
-                    let params={}
-                    MessageBox.prompt('法人社保卡号', '').then(({
-                        value,
-                        action
-                    }) => {
-                        sessionStorage.setItem('idCchangeLegalPersonCardard', value);
-                        console.log('法人卡号',sessionStorage.getItem('idCchangeLegalPersonCardard'))
                     });
                 } else {
                     this.$toast('功能正在建设中')
