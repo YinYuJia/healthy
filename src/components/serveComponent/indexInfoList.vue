@@ -293,7 +293,6 @@
             // 跳转配置的地址
             jumpToUrl(url, status) {
                 this.checkJump();
-                return;
                 // status为1是失效状态
                 if (status == '1') {
                     this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');

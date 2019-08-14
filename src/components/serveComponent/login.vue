@@ -22,12 +22,12 @@
             </div>
             <div class="test">
                 <svg-icon icon-class="login_test"></svg-icon>
-                <input class="text" type="text" placeholder="请输入验证码"/>
+                <input class="text" v-model="form.code" type="text" placeholder="请输入验证码"/>
                 <img @click="changeCode" :src="imgUrl" />
             </div>
         </div>
         
-         <div><button class="SubmitBtn"  :class="{'active': canSubmit == true}" ><span>绑定</span></button></div>
+         <div><button class="SubmitBtn" @click="submit"  :class="{'active': canSubmit == true}" ><span>绑定</span></button></div>
 
     </div>
     
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import md5 from 'js-md5'
 export default {
     data () {
         return {
@@ -42,6 +43,7 @@ export default {
             form:{
                 userName:"",//用户名
                 passWord:"",//密码
+                code: "", //验证码
             },
             imgUrl: '',
         }
@@ -52,7 +54,7 @@ export default {
     watch: {
         form:{
             handler:function(val){
-                if(val.userName!="" && val.passWord!=""){
+                if(val.userName!="" && val.passWord!="" && val.code!=""){
                     this.canSubmit=true;
                 }else{
                     this.canSubmit=false;
@@ -71,6 +73,26 @@ export default {
         // 获取验证码
         changeCode(){
             this.imgUrl = this.imgUrl + '?date=' + new Date();
+        },
+        submit(){
+            let params = {
+                OTHERINFO: JSON.parse(sessionStorage.getItem('LegalPerson')).userId,
+                LOGINNAME: this.form.userName,
+                PASSWD: md5(this.form.passWord),
+                code: this.form.code.toUpperCase(),
+            }
+            console.log('params', params);
+            this.$axios.post( this.epFn.ApiUrl() + '/H5/jy9103/distanceHospital', params)
+            .then((resData) => {
+                console.log(resData);
+                if(resData.enCode == 1000){
+                    this.$router.push('/indexInfoList')
+                }else{
+                    this.$toast(resData.msg)
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
         }
     }
 }
