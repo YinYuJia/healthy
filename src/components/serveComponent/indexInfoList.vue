@@ -40,7 +40,7 @@
         <div class="iconContent">
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
-                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl"/></div>
+                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl" /></div>
                     <div class="text">{{item.mattersName}}</div>
                 </div>
                 <div class="iconBox" @click="goRouter('indexInfoListMore')">
@@ -52,15 +52,15 @@
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                                <div class="swiper-slide">
-                                    <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                                <div class="swiper-slide">
-                                    <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                            </div>
-                        </div> -->
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                                    <div class="swiper-slide">
+                                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                                    <div class="swiper-slide">
+                                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                                </div>
+                            </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -69,10 +69,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                            <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                            <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                            <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                        </swipe> -->
+                                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                            </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -90,7 +90,7 @@
             <div class="btn" @click="changeLegalPersonName(true)">更改法人用户名</div>
             <div class="btn" @click="changeLegalPersonCard(true)">更改法人社保卡号</div>
         </div>
-        <div class="changeUserBtn"><button class="btn"  @click="change()">切换</button></div>
+        <div class="changeUserBtn"><button class="btn" @click="change()">切换</button></div>
         <div class="bottomline">
             <p>本服务由浙江政务服务网提供</p>
             <p>服务咨询热线 : <span class="bottomSpan">{{tel}}</span> </p>
@@ -139,7 +139,20 @@
         created() {
             // 判断是否法人登录
             sessionStorage.setItem('isClear', this.isClear)
-            console.log('sessionISCLEAR',sessionStorage.getItem('isClear'));
+            console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
+            if (this.$build == '2') {
+                const ssoToken = this.util.params("ssoToken")
+                console.log('ssoToken', ssoToken)
+                if (ssoToken != undefined && ssoToken != '' && ssoToken != null) {
+                    this.$axios.post(this.epFn.ApiUrl() + '/H5/jy2009/getUserInfo', {
+                        ssoToken: ssoToken
+                    }).then((resData) => {
+                        console.log('返回成功信息', resData);
+                        //  保存法人信息对象
+                        sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
+                    })
+                }
+            }
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT = {
@@ -173,9 +186,8 @@
             console.log("$build", this.$build)
             //  切换打包环境  1 网新恩普包  2  浙理办包
             if (this.$build == "1") {
-
                 this.ifShow = true //显示输入人名社保卡
-                this.showPerson=false//默认隐藏法人用户登录
+                this.showPerson = false //默认隐藏法人用户登录
             } else if (this.$build == "2") {
                 // 法人登录
                 if (sessionStorage.getItem("iflegal") == 2) {
@@ -250,7 +262,7 @@
             }
         },
         methods: {
-            change(){
+            change() {
                 this.$router.push('/')
             },
             // 判断是否法人登录
@@ -284,21 +296,21 @@
                 })
             },
             // 跳转配置的地址
-            jumpToUrl(url,status){
+            jumpToUrl(url, status) {
                 // status为1是失效状态
-                if(status == '1'){
+                if (status == '1') {
                     this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
                     return;
-                }else{
+                } else {
                     // 省本级项目
-                    if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing' || url.split('/').pop() == 'searchProgress'){
+                    if (url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing' || url.split('/').pop() == 'searchProgress') {
                         this.$router.push(url.split('/').pop());
-                    }else{
+                    } else {
                         // 其他项目跳转
-                        if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                        if (sessionStorage.getItem("GinsengLandCode") == "339900") {
                             let route = url.split('/');
                             this.$router.push(route.pop());
-                        }else{
+                        } else {
                             window.location.href = url;
                         }
                     }
@@ -308,15 +320,14 @@
             getMatterInfo(code) {
                 let params = {
                     "areaId": code,
-                    "isApp":1,//1代表APP；0代表网上办
+                    "isApp": 1, //1代表APP；0代表网上办
                 }
                 this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0000/getAreaList", params).then((resData) => {
                     console.log('获取区域事项', resData)
                     let resList = resData.list;
-                    
                     console.log('图标sdk成功')
                     let iconList = [];
-                    let userType=sessionStorage.getItem('userType')
+                    let userType = sessionStorage.getItem('userType')
                     if (userType == 1 || userType == 0) {
                         iconList = resList.personList;
                         iconList.forEach(ele => {
@@ -334,26 +345,26 @@
                 })
             },
             // ·列表
-            getNewsInfo(code){
-                let _this=this;
-                let userType=sessionStorage.getItem('userType')
-                let params={
+            getNewsInfo(code) {
+                let _this = this;
+                let userType = sessionStorage.getItem('userType')
+                let params = {
                     "areaId": code,
-                    "statusType":userType//1代表个人2代表单位
+                    "statusType": userType //1代表个人2代表单位
                 };
                 _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                    console.log('resData',resData)
-                    if(this.isClear==true){
-                        sessionStorage.setItem('isClear',true)
-                    }else if(this.isClear==false){
-                        sessionStorage.setItem('isClear',true)
+                    console.log('resData', resData)
+                    if (this.isClear == true) {
+                        sessionStorage.setItem('isClear', true)
+                    } else if (this.isClear == false) {
+                        sessionStorage.setItem('isClear', true)
                     }
                     _this.hotMsg = resData.list;
                     console.log("hotMsg", _this.hotMsg)
-                    _this.hotMsg.forEach(ele=>{
+                    _this.hotMsg.forEach(ele => {
                         ele.src = ele.synopsisUrl;
                     })
-                        // this.hotMsg.splice(0,5);
+                    // this.hotMsg.splice(0,5);
                     console.log('获取资讯列表', _this.hotMsg);
                 })
             },
@@ -607,13 +618,13 @@
             //法人用户登录
             changeLegalPersonName(str) {
                 if (str) {
-                    let params={}
+                    let params = {}
                     MessageBox.prompt('法人用户名', '').then(({
                         value,
                         action
                     }) => {
                         sessionStorage.setItem('changeLegalPersonName', value);
-                        console.log("法人用户名",sessionStorage.getItem('changeLegalPersonName'))
+                        console.log("法人用户名", sessionStorage.getItem('changeLegalPersonName'))
                     });
                 } else {
                     this.$toast("功能正在建设中")
@@ -640,31 +651,31 @@
             //法人用户登录
             changeLegalPersonCard(str) {
                 if (str) {
-                    let params={}
+                    let params = {}
                     MessageBox.prompt('法人社保卡号', '').then(({
                         value,
                         action
                     }) => {
                         sessionStorage.setItem('idCchangeLegalPersonCardard', value);
-                            dd.ready({
-                            developer: 'daip@dtdream.com',
-                            usage: [
-                                'dd.biz.user.getUserType',
-                            ],
-                            remark: '获取用户登录类型'
-                            }, 
-                            ()=> {
-                            dd.biz.user.getUserType({ 
-                                onSuccess: (data) => {
-                                sessionStorage.setItem("userType",data.userType)
-                                },
-                                onFail: (error) =>{
-                                console.log("data获取用户类型",error)
-                                next()
-                                } 
+                        dd.ready({
+                                developer: 'daip@dtdream.com',
+                                usage: [
+                                    'dd.biz.user.getUserType',
+                                ],
+                                remark: '获取用户登录类型'
+                            },
+                            () => {
+                                dd.biz.user.getUserType({
+                                    onSuccess: (data) => {
+                                        sessionStorage.setItem("userType", data.userType)
+                                    },
+                                    onFail: (error) => {
+                                        console.log("data获取用户类型", error)
+                                        next()
+                                    }
+                                })
                             })
-                        })
-                        console.log('法人卡号',sessionStorage.getItem('idCchangeLegalPersonCardard'))
+                        console.log('法人卡号', sessionStorage.getItem('idCchangeLegalPersonCardard'))
                     });
                 } else {
                     this.$toast('功能正在建设中')
