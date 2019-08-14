@@ -174,9 +174,14 @@
             })
         },
         created() {
-            // 判断是否法人登录
+            // 判断是否法人登录 如果登录 直接跳转法人页面
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR',sessionStorage.getItem('isClear'));
+        
+             const ssoToken = sessionStorage.getItem("ssoToken")
+             if(ssoToken!='undefined' && ssoToken!= null && ssoToken != '' ) {
+                 this.$router.push("/indexInfoList")
+             }
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT = {
