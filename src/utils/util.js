@@ -133,7 +133,11 @@ function decimalPoint(num){
     num = num.match(/\d+\.\d{2}/)[0];  
 };  
 
-
+//   获取token拼接地市url信息
+function getToken() {
+    return 'token=' + sessionStorage.getItem("getToken");
+    // return 'token=' + 13456546917;
+}
 
 export default{
     formatDate,
@@ -146,4 +150,5 @@ export default{
     postOffic,
     passPort,
     checkMail,
+    getToken,
 }

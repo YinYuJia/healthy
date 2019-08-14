@@ -26,7 +26,7 @@
       this.detailList = this.$route.query.param;
       let date = this.$route.query.param.createTime.time;
       console.log("content:", this.detailList);
-      this.detailList.createTime.time = this.util.formatDate(new Date(date), "MM-dd hh:mm")
+      this.detailList.createTime.time = this.util.formatDate(new Date(date), "MM-dd hh:mm:ss")
     },
     methods: {
 

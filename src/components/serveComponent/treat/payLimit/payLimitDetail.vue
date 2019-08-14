@@ -10,22 +10,22 @@
                 <div class="infoBox">
                     <svg-icon icon-class="payLimit_bg"/>
                     <div class="infoName">
-                        <span class="name">{{form1.AAC003}}</span>
-                        <span class="sex">/{{form1.AAC004|AAC004}}</span>
+                        <span class="name">{{form.AAC003}}</span>
+                        <span class="sex">/{{form.AAC004|AAC004}}</span>
                     </div>
                     <div class="infoAddress">
                         <div class="IconImg">
                             <svg-icon icon-class="payLimit_compony"/>
                         </div>
-                        <span>{{form1.AAB004}}</span>
+                        <span>{{form.AAB004}}</span>
                     </div>
                     <div class="infoMessage">
                         <div class="birth">
-                            <div class="infoMessageBirth">{{form1.AAC006}}</div>
+                            <div class="infoMessageBirth">{{form.AAC006}}</div>
                             <div class="infoMessageText">出生日期</div>
                         </div>
                         <div class="work">
-                            <div class="infoMessageWork">{{form1.AAC007}}</div>
+                            <div class="infoMessageWork">{{form.AAC007}}</div>
                             <div class="infoMessageText">参加工作时间</div>
                         </div>
                     </div>
@@ -94,7 +94,6 @@ export default {
     data() { 
         return {
             form: {},
-            form1:{},
             currentStep:1,
             handleNumber:'',
             arr: [
@@ -112,7 +111,6 @@ export default {
         }
         this.epFn.setTitle('缴费年限核定')
         this.request();
-        this.request1();
         this.request2();
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
@@ -165,29 +163,6 @@ export default {
                 }
             })
         },
-        request1(){
-            let params=this.formatSubmitData1();
-            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1016/info', params).then((resData) => {
-                console.log('返回成功信息',resData)
-                //   成功   1000
-                if ( resData.enCode == 1000 ) {
-                    // this.form={...this.form,...resData.LS_DS_13 } 
-                    this.form={...this.form,...resData.LS_DS_13}
-                    console.log("form",this.form)
-                    // console.log(this.List)
-                    this.handleNumber = resData.LS_DS_13.BKZ019;
-                    
-                    // this.form={...this.from,...this.List[0]}
-                }else if (resData.enCode == 1001 ) {
-                //   失败  1001
-                    this.$toast(resData.msg);
-                    return;
-                }else{
-                    this.$toast('业务出错');
-                    return;
-                }
-            })
-        },
         request2(){
             // 封装数据
             let params = this.formatSubmitData2();
@@ -197,16 +172,10 @@ export default {
                 console.log('返回成功信息',resData)
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
+                    console.log("返回信息9999",resData)
                     console.log("11111",resData.LS_DS[0])
-                    console.log(this.form)
-
-                    this.form1=resData.LS_DS[0]
-                    this.form.AKC412=this.form1.AKC412M+((this.form1.AKC412)*12);
-                    this.form.BKE703=this.form1.BKE703;
-                    this.form.BKE704=this.form1.BKE704;
-                    this.form.AAB001=this.form1.AAB001;
-                    console.log(this.form)
-                    this.showAll=true;
+                    console.log("2222",this.form)
+                    this.form=resData;
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);
@@ -233,30 +202,6 @@ export default {
                 }      
                 // 请求参数封装
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
-                return params;
-        },
-        formatSubmitData1(){
-                let submitForm = {}
-                submitForm.AGA002 =  "确认-00123-004";
-                // submitForm.AGA002 =  "330800123004";
-                //从进度查询页面进入接收传参
-                if(this.$route.query.param){
-                    submitForm.lx="1";
-                    submitForm.BKZ019=this.$route.query.param
-                }else{
-                    submitForm.lx="2";
-                    submitForm.BKZ019="";
-                }
-                // 加入用户名和电子社保卡号
-                if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                    submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-                    submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-                }else {
-                    
-                    this.$toast("未获取到人员基本信息");
-                }      
-                // 请求参数封装
-                const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
                 return params;
         },
         formatSubmitData2(){
