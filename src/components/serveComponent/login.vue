@@ -72,7 +72,8 @@ export default {
         },
         // 获取验证码
         changeCode(){
-            this.imgUrl = this.imgUrl + '?date=' + new Date();
+            this.imgUrl = this.imgUrl.split('&')[0]
+            this.imgUrl = this.imgUrl + '&date=' + new Date();
         },
         submit(){
             let params = {

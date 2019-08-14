@@ -89,7 +89,6 @@
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeLegalPersonName(true)">法人用户名</div>
             <div class="btn" @click="changeLegalPersonCard(true)">法人社保卡号</div>
-            <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
