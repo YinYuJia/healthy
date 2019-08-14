@@ -193,10 +193,11 @@ export default {
                     console.log('返回成功信息',resData)
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
-                        this.AAB001=resData.AAB001
-                        console.log("AAB001",this.AAB001)
+                        console.log("LS_DS",resData)
+                        this.AAB001=resData.LS_DS[0].AAB001;
+                        console.log("AAB001",resData.LS_DS[0].AAB001)
                         // console.log('form1',this.form1)
-                        this.requset1(resData.AAB001)
+                        this.requset1(resData.LS_DS[0].AAB001)
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);
