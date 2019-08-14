@@ -40,7 +40,7 @@
         <div class="iconContent">
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
-                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl"/></div>
+                    <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl" /></div>
                     <div class="text">{{item.mattersName}}</div>
                 </div>
                 <div class="iconBox" @click="goRouter('indexInfoListMore')">
@@ -49,54 +49,54 @@
                 </div>
             </div>
             <!-- <div class="iconList">
-                        <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
-                            <svg-icon icon-class="serveComponent_icon5" />
-                            <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
-                            <div class="text">零星报销</div>
-                        </div>
-                        <div class="iconBox" @click="showDetail('transferRenewing','关系转移接续')">
-                            <svg-icon icon-class="serveComponent_icon6" />
-                            <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
-                            <div class="text">医保转接</div>
-                        </div>
-                        <div class="iconBox" v-if="iconFlag" @click="showDetail('searchFee','费用信息查询')">
-                            <svg-icon icon-class="serveComponent_icon_19" />
-                            <div class="text">费用信息</div>
-                          </div>
-                        <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
-                            <svg-icon icon-class="serveComponent_icon8" />
-                            <div class="text">办事进度</div>
-                        </div>
-                        <div class="iconBox" v-if="iconFlag" @click="showDetail('searchBaseInfo','个人信息查询')">
-                            <svg-icon icon-class="serveComponent_icon_16" />
-                            <div class="text">参保信息</div>
-                        </div>
-                        <div class="iconBox" v-if="iconFlag" @click="showDetail('searchInsuredInfo','参保信息查询')">
-                            <svg-icon icon-class="serveComponent_icon_17" />
-                            <div class="text">征缴信息</div>
-                        </div>
-                        <div class="iconBox" v-if="iconFlag" @click="showDetail('getProof','领取就医凭证')">
-                            <svg-icon icon-class="serveComponent_icon11" />
-                            <div class="text">就医凭证</div>
-                        </div>
-                        <div class="iconBox" v-if="iconFlag" @click="goRouter('indexInfoListMore')">
-                            <svg-icon icon-class="serveComponent_icon12" />
-                            <div class="text">更多</div>
-                        </div>
-                    </div> -->
+                            <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
+                                <svg-icon icon-class="serveComponent_icon5" />
+                                <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
+                                <div class="text">零星报销</div>
+                            </div>
+                            <div class="iconBox" @click="showDetail('transferRenewing','关系转移接续')">
+                                <svg-icon icon-class="serveComponent_icon6" />
+                                <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
+                                <div class="text">医保转接</div>
+                            </div>
+                            <div class="iconBox" v-if="iconFlag" @click="showDetail('searchFee','费用信息查询')">
+                                <svg-icon icon-class="serveComponent_icon_19" />
+                                <div class="text">费用信息</div>
+                              </div>
+                            <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
+                                <svg-icon icon-class="serveComponent_icon8" />
+                                <div class="text">办事进度</div>
+                            </div>
+                            <div class="iconBox" v-if="iconFlag" @click="showDetail('searchBaseInfo','个人信息查询')">
+                                <svg-icon icon-class="serveComponent_icon_16" />
+                                <div class="text">参保信息</div>
+                            </div>
+                            <div class="iconBox" v-if="iconFlag" @click="showDetail('searchInsuredInfo','参保信息查询')">
+                                <svg-icon icon-class="serveComponent_icon_17" />
+                                <div class="text">征缴信息</div>
+                            </div>
+                            <div class="iconBox" v-if="iconFlag" @click="showDetail('getProof','领取就医凭证')">
+                                <svg-icon icon-class="serveComponent_icon11" />
+                                <div class="text">就医凭证</div>
+                            </div>
+                            <div class="iconBox" v-if="iconFlag" @click="goRouter('indexInfoListMore')">
+                                <svg-icon icon-class="serveComponent_icon12" />
+                                <div class="text">更多</div>
+                            </div>
+                        </div> -->
         </div>
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                                <div class="swiper-slide">
-                                    <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                                <div class="swiper-slide">
-                                    <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                            </div>
-                        </div> -->
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                                    <div class="swiper-slide">
+                                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                                    <div class="swiper-slide">
+                                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                                </div>
+                            </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -105,10 +105,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                            <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                            <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                            <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                        </swipe> -->
+                                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                            </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -126,7 +126,7 @@
             <div class="btn" @click="changeUsername(true)">更改用户名</div>
             <div class="btn" @click="changeUserCode(true)">更改社保卡号</div>
         </div>
-        <div class="changeUserBtn"><button class="btn"  @click="change()">切换</button></div>
+        <div class="changeUserBtn"><button class="btn" @click="change()">切换</button></div>
         <div class="bottomline">
             <p>本服务由浙江政务服务网提供</p>
             <p>服务咨询热线 : <span class="bottomSpan">{{tel}}</span> </p>
@@ -155,7 +155,7 @@
                 isClear: true,
                 iconList: [], //图标列表,
                 isVisible: false,
-                isClear:true,
+                isClear: true,
             }
         },
         mounted() {
@@ -176,12 +176,11 @@
         created() {
             // 判断是否法人登录 如果登录 直接跳转法人页面
             sessionStorage.setItem('isClear', this.isClear)
-            console.log('sessionISCLEAR',sessionStorage.getItem('isClear'));
-        
-             const ssoToken = sessionStorage.getItem("ssoToken")
-             if(ssoToken!='undefined' && ssoToken!= null && ssoToken != '' ) {
-                 this.$router.push("/indexInfoList")
-             }
+            console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
+            const ssoToken = sessionStorage.getItem("ssoToken")
+            if (ssoToken != 'undefined' && ssoToken != null && ssoToken != '') {
+                this.$router.push("/indexInfoList")
+            }
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT = {
@@ -215,18 +214,30 @@
             console.log("$build", this.$build)
             //  切换打包环境  1 网新恩普包  2  浙理办包
             if (this.$build == "1") {
-
                 this.ifShow = true //显示输入人名社保卡
-                this.showPerson=false//默认隐藏法人用户登录
+                this.showPerson = false //默认隐藏法人用户登录
             } else if (this.$build == "2") {
                 // 法人登录
                 if (sessionStorage.getItem("iflegal") == 2) {
                     this.isLegalLogin()
                 } else {
                     // 个人登录
-                    this.ifShow = false; //隐藏输入人名社保卡
-                    this.setNativeMsg(); //浙理办打包需要打开
-                    this.getUserRegion(); // 自动获取参保地
+                    console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
+                    var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
+                    console.log(globalConfigObj.userType == undefined)
+                    if (globalConfigObj.userType == undefined) {
+                        // 证明不是url事项配置 走正常逻辑
+                        this.ifShow = false; //隐藏输入人名社保卡
+                        this.setNativeMsg(); //浙理办打包需要打开
+                        this.getUserRegion(); // 自动获取参保地
+                        
+                    } else {
+                        // url事项配置 跳转路由
+                        this.$router.push({
+                            name: globalConfigObj.identifier,
+                            params: globalConfigObj
+                        })
+                    }
                 }
             }
             console.log('dddddd引入浙理办SDKddddddd', dd)
@@ -292,7 +303,7 @@
             }
         },
         methods: {
-            change(){
+            change() {
                 this.$router.push('/indexInfoList')
             },
             // 判断是否法人登录
@@ -326,25 +337,25 @@
                 })
             },
             // 跳转配置的地址
-            jumpToUrl(url,status){
+            jumpToUrl(url, status) {
                 // status为1是失效状态
-                if(status == '1'){
+                if (status == '1') {
                     this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
                     return;
-                }else{
+                } else {
                     // 省本级项目
-                    if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing' || url.split('/').pop() == 'searchProgress'){
+                    if (url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing' || url.split('/').pop() == 'searchProgress') {
                         this.$router.push(url.split('/').pop());
-                    }else{
+                    } else {
                         // 其他项目跳转
-                        if(sessionStorage.getItem("GinsengLandCode") == "339900"){
+                        if (sessionStorage.getItem("GinsengLandCode") == "339900") {
                             let route = url.split('/');
                             this.$router.push(route.pop());
-                        }else{
-                            if (url.indexOf("?") != -1 ) {
-                               url = url + '&&' + this.util.getToken()
-                            }else{
-                               url = url + '?' + this.util.getToken()
+                        } else {
+                            if (url.indexOf("?") != -1) {
+                                url = url + '&&' + this.util.getToken()
+                            } else {
+                                url = url + '?' + this.util.getToken()
                             }
                             window.location.href = url;
                         }
@@ -355,15 +366,14 @@
             getMatterInfo(code) {
                 let params = {
                     "areaId": code,
-                    "isApp":1,//1代表APP；0代表网上办
+                    "isApp": 1, //1代表APP；0代表网上办
                 }
                 this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0000/getAreaList", params).then((resData) => {
                     console.log('获取区域事项', resData)
                     let resList = resData.list;
-                    
                     console.log('图标sdk成功')
                     let iconList = [];
-                    let userType=sessionStorage.getItem('userType')
+                    let userType = sessionStorage.getItem('userType')
                     if (userType == 1 || userType == 0) {
                         iconList = resList.personList;
                         iconList.forEach(ele => {
@@ -381,26 +391,26 @@
                 })
             },
             // ·列表
-            getNewsInfo(code){
-                let _this=this;
-                let userType=sessionStorage.getItem('userType')
-                let params={
+            getNewsInfo(code) {
+                let _this = this;
+                let userType = sessionStorage.getItem('userType')
+                let params = {
                     "areaId": code,
-                    "statusType":userType//1代表个人2代表单位
+                    "statusType": userType //1代表个人2代表单位
                 };
                 _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                    console.log('resData',resData)
-                    if(this.isClear==true){
-                        sessionStorage.setItem('isClear',true)
-                    }else if(this.isClear==false){
-                        sessionStorage.setItem('isClear',true)
+                    console.log('resData', resData)
+                    if (this.isClear == true) {
+                        sessionStorage.setItem('isClear', true)
+                    } else if (this.isClear == false) {
+                        sessionStorage.setItem('isClear', true)
                     }
                     _this.hotMsg = resData.list;
                     console.log("hotMsg", _this.hotMsg)
-                    _this.hotMsg.forEach(ele=>{
+                    _this.hotMsg.forEach(ele => {
                         ele.src = ele.synopsisUrl;
                     })
-                    this.hotMsg.splice(0,5);
+                    this.hotMsg.splice(0, 5);
                     console.log('获取资讯列表', _this.hotMsg);
                 })
             },
@@ -664,24 +674,24 @@
                         sessionStorage.setItem('idCard', value);
                         this.setNativeMsg();
                         this.getUserRegion();
-                            dd.ready({
-                            developer: 'daip@dtdream.com',
-                            usage: [
-                                'dd.biz.user.getUserType',
-                            ],
-                            remark: '获取用户登录类型'
-                            }, 
-                            ()=> {
-                            dd.biz.user.getUserType({ 
-                                onSuccess: (data) => {
-                                sessionStorage.setItem("userType",data.userType)
-                                },
-                                onFail: (error) =>{
-                                console.log("data获取用户类型",error)
-                                next()
-                                } 
+                        dd.ready({
+                                developer: 'daip@dtdream.com',
+                                usage: [
+                                    'dd.biz.user.getUserType',
+                                ],
+                                remark: '获取用户登录类型'
+                            },
+                            () => {
+                                dd.biz.user.getUserType({
+                                    onSuccess: (data) => {
+                                        sessionStorage.setItem("userType", data.userType)
+                                    },
+                                    onFail: (error) => {
+                                        console.log("data获取用户类型", error)
+                                        next()
+                                    }
+                                })
                             })
-                        })
                     });
                 } else {
                     this.$toast('功能正在建设中')

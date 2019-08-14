@@ -180,6 +180,7 @@ if (isShow) {
   console.log(2)
   // Vue.prototype.$isUserLogin = '1'
   router.beforeEach((to, from, next) => {
+    
     dd.ready({
         developer: 'daip@dtdream.com',
         usage: [
@@ -193,6 +194,25 @@ if (isShow) {
             sessionStorage.setItem("userType", data.userType)
             console.log("data获取用户类型", data)
             if (data.userType == '0' || data.userType == '1') {
+              // 如果是个人登录 获取url参数
+              // ------------事项url配置截取sp分成对象保存到session里面开始---------start
+              var sp = paramStr('sp')
+              console.log(sp)
+              if(sp != "" && sp != undefined && sp != null) {
+                const arr1 = sp.split("|")
+                let obj = {}
+                arr1.map((item, index) => {
+                    console.log(item.split("=")[0] + '------' + item.split("=")[1])
+                    console.log()
+                    obj[item.split("=")[0]] = item.split("=")[1]
+                })
+                console.log('obj---', obj)
+                sessionStorage.setItem("globalConfigObj",JSON.stringify(obj))
+              }else{
+                sessionStorage.setItem("globalConfigObj",JSON.stringify({}))
+              }
+              // ------------事项url配置截取sp分成对象保存到session里面---------end
+                                          
               sessionStorage.setItem("iflegal", data.userType)
               const code = 'yibaozs';
               console.log('code', code)
@@ -202,7 +222,7 @@ if (isShow) {
               var token = sessionStorage.getItem("getToken")
               console.log('token-------------', token)
               //59.202.42.147:23030
-              if (token != "" && token != undefined && token != null) {
+              if (token != "" && token != 'undefined' && token != null) {
                 axios.post(ApiUrl() + "/H5/jy2005/info", {
                   "token": token,
                   "tradeCode": "2005"
