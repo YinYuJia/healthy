@@ -116,7 +116,6 @@ export default {
     },
     created(){
         console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
-        this.form.AAB301=sessionStorage.getItem("GinsengLandCode");
         this.requset2();
         // this.requset1();
     },
@@ -218,6 +217,7 @@ export default {
                 submitForm.AAC003=sessionStorage.getItem('userName');
                 submitForm.AAE135=sessionStorage.setItem('idCard');
             }
+                submitForm.AAB301=sessionStorage.getItem("GinsengLandCode");//统筹区
                 submitForm.BKE520='1'
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
