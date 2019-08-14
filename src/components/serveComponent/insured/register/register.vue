@@ -3,8 +3,9 @@
     <Title :title="'参保登记'" :backRouter="'/'"></Title>
     <!-- MintUI弹出框区域 -->
     <mt-datetime-picker type="date" ref="startPicker" :startDate="startDate" v-model="dateVal" @confirm="handleStartConfirm"></mt-datetime-picker>
+    <mt-datetime-picker type="date" ref="startPicker1" :startDate="startDate" v-model="dateVal1" @confirm="handleStartConfirm1"></mt-datetime-picker>
     <mt-popup class="cityPicker" v-model="showCityPicker" position="bottom">
-      <mt-picker :showToolbar="true" :slots="chooseArr" valueKey="label" @change="onChooseChange">
+      <mt-picker :showToolbar="true" :slots="chooseArr" valueKey="AAA103" @change="onChooseChange">
         <div class="btnBox">
           <div class="btn" @click="showCityPicker=!showCityPicker">取消</div>
           <div class="btn" @click="chooseData()">确定</div>
@@ -25,7 +26,7 @@
               <span>统一社会信用代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE135" type="tel" maxlength="6" placeholder="请输入" />
+              <input v-model="form.AAB003" type="tel" maxlength="20" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -33,7 +34,7 @@
               <span>单位名称：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB004" type="tel" maxlength="6" placeholder="请输入" />
+              <input v-model="form.AAB004" type="tel" maxlength="50" placeholder="请输入" />
             </div>
           </div>
 
@@ -50,7 +51,7 @@
               <span>单位地址：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.address" @click="openPicker" type="text" placeholder="请选择" readonly />
+              <input v-model="form.address" @click="openPickerCity" type="text" placeholder="请选择" readonly />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -59,7 +60,7 @@
               <span>地址详情：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE006" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.AAE006" type="tel" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -67,7 +68,7 @@
               <span>邮政编码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE007" type="text" placeholder="请输入" />
+              <input v-model="form.AAE007" type="text" maxlength="6" placeholder="请输入" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -79,7 +80,7 @@
               <span>单位类型：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB019" @click="openPicker('AAB019')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB019VALUE" @click="openPicker('AAB019')" type="text" placeholder="请选择" readonly />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -88,7 +89,7 @@
               <span>主管部门/总机构：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB023" type="tel" maxlength="6" placeholder="请输入" />
+              <input v-model="form.AAB023" type="tel" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -96,7 +97,7 @@
               <span>经济类型：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB020" @click="openPicker('AAB020')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB020VALUE" @click="openPicker('AAB020')" type="text" placeholder="请选择" readonly />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -105,7 +106,7 @@
               <span>隶属关系：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB021" @click="openPicker('AAB021')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB021VALUE" @click="openPicker('AAB021')" type="text" placeholder="请选择" readonly />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -114,7 +115,7 @@
               <span>经济来源：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BAB451" @click="openPicker('BAB451')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.BAB451VALUE" @click="openPicker('BAB451')" type="text" placeholder="请选择" readonly />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -123,7 +124,7 @@
               <span>行业代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB022" @click="openPicker('AAB022')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB022VALUE" @click="openPicker('AAB022')" type="text" placeholder="请选择" readonly />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -136,7 +137,7 @@
               <span>法人登记证种类：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB006" @click="openPicker('AAB006')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB006VALUE" @click="openPicker('AAB006')" type="text" placeholder="请选择" readonly />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -154,7 +155,7 @@
               <span>批准成立单位：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE048" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.AAE048" type="tel" maxlength="20" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -162,7 +163,8 @@
               <span>批准日期：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB011" type="tel" maxlength="11" placeholder="请输入" />
+              <input @click="openStartPicker1" type="text" v-model="form.AAB011" placeholder="请选择" readonly />
+              <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
           <div class="InfoLine">
@@ -170,7 +172,7 @@
               <span>批准文号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB012" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.AAB012" type="tel" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -182,7 +184,7 @@
               <span>法人代表姓名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB013" type="tel" maxlength="6" placeholder="请输入" />
+              <input v-model="form.AAB013" type="tel" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -190,7 +192,7 @@
               <span>法人代表身份证号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BAB014" type="tel" maxlength="6" placeholder="请输入" />
+              <input v-model="form.BAB014" type="tel" maxlength="20" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -206,7 +208,7 @@
               <span>专管员姓名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE281" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.BKE281" type="tel" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -222,7 +224,7 @@
               <span>专管员所在部门：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE285" type="text" placeholder="请输入" />
+              <input v-model="form.BKE285" type="text" maxlength="51" placeholder="请输入" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -234,7 +236,7 @@
               <span>缴费开户银行：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE008" @click="openPicker('AAE008')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAE008VALUE" @click="openPicker('AAE008')" type="text" placeholder="请选择" readonly />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -243,7 +245,7 @@
               <span>缴费开户名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE009" type="tel" maxlength="6" placeholder="请输入" />
+              <input v-model="form.AAE009" type="tel" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -251,33 +253,11 @@
               <span>缴费银行账号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE010" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.AAE010" type="tel" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="bgc"></div>
         </div>
-        <!-- 资料上传 -->
-        <!-- <div class="panel">
-					<h2 class="infoTitle">附件上传</h2>
-					<div class="dataUpload">
-						<div class="uploadHint">1、统一社会信用代码证</div>
-						<div class="picWrap">
-							<div class="uploadBtn" v-for="(item,index) in picArr" :key="index">
-								<img :src="item" class="pic" @click="showBigPhoto(item)" />
-								<svg-icon icon-class="serveComponent_delete" @click="deletePic(item,index)" />
-							</div>
-							<svg-icon @click="uploadImg" icon-class="serveComponent_upload" />
-						</div>
-						<div class="uploadHint">2、社会保险单位参保信息登记表</div>
-						<div class="picWrap">
-							<div class="uploadBtn" v-for="(item,index) in picArr" :key="index">
-								<img :src="item" class="pic" @click="showBigPhoto(item)" />
-								<svg-icon icon-class="serveComponent_delete" @click="deletePic(item,index)" />
-							</div>
-							<svg-icon @click="uploadImg" icon-class="serveComponent_upload" />
-						</div>
-					</div>
-        </div>-->
       </div>
     </div>
     <Footer btnText="下一步" :canSubmit="canSubmit" @submit="submit()"></Footer>
@@ -292,28 +272,7 @@ export default {
       selectName: '',
       label: '',
       value: '',
-      selectObject: {
-        type: [
-          {
-            key: '1',
-            label: '单位'
-          },
-          {
-            key: '2',
-            label: '单位2'
-          }
-        ],
-        address: [
-          {
-            key: '1',
-            label: '经济1'
-          },
-          {
-            key: '2',
-            label: '经济2'
-          }
-        ]
-      },
+      selectObject: {},
       chooseArr: [
         {
           flex: 1,
@@ -322,18 +281,23 @@ export default {
         }
       ],
       dateVal: '',
+      dateVal1: '',
       form: {
-        AAC003: '', // 姓名
-        AAE135: '', // 社会保障号
-        AAB301: '', // 统筹区编码
+        address: '',
+        AAB003: '', // 统一社会信用代码
         AAB004: '', // 单位名称
         AAB023: '', // 主管部门或总机构
         AAB019: '', // 单位类型
+        AAB019VALUE: '', // 单位类型
         AAE007: '', // 邮政编码
         AAB020: '', // 经济类型
+        AAB020VALUE: '', // 经济类型
         AAB021: '', // 隶属关系
+        AAB021VALUE: '', // 隶属关系
         AAB022: '', // 行业代码
+        AAB022VALUE: '', // 行业代码
         AAB006: '', // 法人登记证种类
+        AAB006VALUE: '', // 法人登记证种类
         AAB036: '', // 发证日期
         AAE048: '', // 批准成立单位
         AAB011: '', // 批准日期
@@ -346,11 +310,13 @@ export default {
         BKE285: '', // 单位专管员所在部门
         AAE005: '', // 电话
         AAE008: '', // 缴费开户银行
+        AAE008VALUE: '', // 缴费开户银行
         AAE009: '', // 缴费银行户名
         AAE010: '', // 缴费银行账号
         BAB451: '', // 经济来源
+        BAB451VALUE: '', // 经济来源
         AAE006: '', // 联系地址
-        BKE520: '' // 数据来源类别
+        BKE520: '1' // 数据来源类别
       },
       startDate: new Date(),
       canSubmit: false
@@ -359,72 +325,122 @@ export default {
   watch: {
     form: {
       handler: function (val) {
-        if (val.address != '' && val.detailAddress != '') {
-          this.form.AAE006 = val.address + val.detailAddress
-        }
-        // if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != ''
-        if (
-          val.AAE007 != '' &&
-          val.detailAddress != '' &&
-          val.AAB005 != '' &&
-          val.BKE280 != '' &&
-          val.BKE281 != '' &&
-          val.BKE283 != '' &&
-          val.BKB225 != '' &&
-          val.AAE005 != ''
-        ) {
-          this.canSubmit = true
-        } else {
-          this.canSubmit = false
+        for (var key in val) {
+          console.log(key, val[key])
+
+          if (!val[key]) {
+            this.canSubmit = false
+            break
+          } else {
+            this.canSubmit = true
+          }
         }
       },
       deep: true
     }
   },
-  created () {},
+  created () {
+    this.getSelectInfo('AAB019')
+    this.getSelectInfo('AAB020')
+    this.getSelectInfo('AAB021')
+    this.getSelectInfo('AAB022')
+    this.getSelectInfo('AAB006')
+    this.getSelectInfo('AAE008')
+    this.getSelectInfo('BAB451')
+  },
   methods: {
+    // 获取下拉选项
+    getSelectInfo (val) {
+      const submitForm = {
+        'AAA102': '',
+        'AAA100': val,
+        'pageNum': '0',
+        'AAE013': '',
+        'AAA052': ''
+      }
+      const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '2001')
+      this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2001/optionInformationList', params).then(resData => {
+        if (resData.enCode == 1000) {
+          this.selectObject[val] = resData.LS_DS
+        } else if (resData.enCode == 1001) {
+          //   失败  1001
+          console.log('返回信息失败', resData)
+          this.$toast(resData.msg)
+        } else {
+          this.$toast('业务出错')
+        }
+      })
+    },
     handleStartConfirm (val) {
       let date = this.util.formatDate(val, 'yyyy-MM-dd')
-      this.form.AAE030 = date
+      this.form.AAB036 = date
+    },
+    handleStartConfirm1 (val) {
+      let date = this.util.formatDate(val, 'yyyy-MM-dd')
+      this.form.AAB011 = date
     },
     openStartPicker () {
       this.$refs.startPicker.open()
     },
+    openStartPicker1 () {
+      this.$refs.startPicker1.open()
+    },
     chooseData () {
-      this.form[this.selectName] = this.label
+      this.form[this.selectName + 'VALUE'] = this.label
+      this.form[this.selectName] = this.value
       // this.selectName
       this.showCityPicker = false
     },
     // 选择城市
-    // openPicker () {
-    //   this.$refs.cityPicker.open()
-    // },
+    openPickerCity () {
+      this.$refs.cityPicker.open()
+    },
     openPicker (value) {
+      console.log(this.selectObject)
+
       this.selectName = value
       this.showCityPicker = true
       this.chooseArr[0].values = this.selectObject[value]
     },
     chooseCity (val) {
+      console.log(val)
+
       this.form.address = val.name
     },
     onChooseChange (picker, values) {
       if (values[0] !== undefined) {
-        this.label = values[0].label
-        this.value = values[0].value
+        this.label = values[0].AAA103
+        this.value = values[0].AAA102
       }
     },
     // 提交
     submit () {
-      if (this.canSubmit == false) {
+      if (this.canSubmit === false) {
         return false
       }
-      // 检验邮箱格式
-      if (!this.util.checkMail(this.form.AAE005)) {
-        this.$toast('邮箱格式不正确')
+      if (!this.util.checkPhone(this.form.AAE005)) {
+        this.$toast('请填写正确的手机号码')
+        return false
+      }
+      if (this.form.AAE007.toString.length == 6) {
+        this.$toast('请填写正确的邮政编码')
+        return false
+      }
+
+      if (!this.util.idCard(this.form.BAB014)) {
+        this.$toast('请填写正确的法人代表身份证号')
+        return false
+      }
+      if (!this.util.checkPhone(this.form.BKE280)) {
+        this.$toast('请填写正确的法人代表电话')
+        return false
+      }
+      if (!this.util.checkPhone(this.form.BKE283)) {
+        this.$toast('请填写正确的专管员手机')
         return false
       }
       let params = this.formatSubmitData()
-      this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1035/getRecord', params).then(resData => {
+      this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
         //   成功   1000
         if (resData.enCode == 1000) {
           console.log('返回信息成功', resData)
@@ -441,11 +457,12 @@ export default {
     },
     formatSubmitData () {
       let submitForm = Object.assign({}, this.form)
-      // 加入用户名和电子社保卡号
-      submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name
-      submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard
+      const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100') // 加入用户名和电子社保卡号
+      submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name || '陈志相'
+      submitForm.AAB301 = sessionStorage.getItem('GinsengLandCode') || '003310'
+      submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard || '330327197412201736'
       // 请求参数封装
-      const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '1035')
+
       return params
     }
   }
