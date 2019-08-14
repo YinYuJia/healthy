@@ -29,6 +29,7 @@ import transferRenewing from '@/components/serveComponent/insured/transferRenewi
 import transferDetail from '@/components/serveComponent/insured/transferRenewing/transferDetail'
 import elseWhere from '@/components/serveComponent/record/elseWhere/elseWhere'
 import elseDetail from '@/components/serveComponent/record/elseWhere/elseDetail'
+import legalElseWhere from '@/components/serveComponent/record/legalElseWhere/legalElseWhere'
 import turnOut from '@/components/serveComponent/record/turnOut/turnOut'
 import turnDetail from '@/components/serveComponent/record/turnOut/turnDetail'
 import abroadTake from '@/components/serveComponent/record/abroadTake/abroadTake'
@@ -192,6 +193,11 @@ export default new Router({
       path: '/elseDetail',
       name: 'elseDetail',
       component: elseDetail
+    },
+    {
+      path: '/legalElseWhere',
+      name: 'legalElseWhere',
+      component: legalElseWhere
     },
     {
       path: '/turnOut',
