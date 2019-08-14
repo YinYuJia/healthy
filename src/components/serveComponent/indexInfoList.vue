@@ -172,6 +172,7 @@
                     })
                 }
             } else {
+                sessionStorage.setItem('userType', 2);
                 sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
             }
             // 清空零星报销的Vuex
@@ -367,7 +368,7 @@
                 let userType = sessionStorage.getItem('userType')
                 let params = {
                     "areaId": code,
-                    "statusType": userType //1代表个人2代表单位
+                    "statusType": 2 //1代表个人2代表单位
                 };
                 _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
                     console.log('resData', resData)
