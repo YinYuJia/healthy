@@ -3,7 +3,7 @@
         <Title :title="'参保信息变更'" :backRouter="'/insuredChange'"></Title>
         <div class="Content">
             <!-- 办事进度 -->
-            <WorkProgress :currentStep="currentStep"></WorkProgress>
+            <WorkProgress :currentStep="currentStep" :progress="arr"></WorkProgress>
             <!-- 办理结果 -->
             <DetailStatus nameWidth="2.2rem"></DetailStatus>
             <!-- 邮递信息 -->
@@ -65,6 +65,12 @@ export default {
             currentStep: 1,
             successFlag: 1,
             form:{},
+            arr: [
+                {step:1,name:'申请'},
+                {step:2,name:'受理'},
+                {step:3,name:'审核'},
+                {step:4,name:'办结'}
+            ],
         }
     },
     created(){
