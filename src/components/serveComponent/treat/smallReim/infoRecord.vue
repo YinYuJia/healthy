@@ -189,10 +189,9 @@ export default {
             return params;
         },
         getUserInfo(){
-            
+            this.form.AAE009 = sessionStorage.getItem("userName");
             let submitForm = {}
             // 加入电子社保卡号
-            
             submitForm.AAE135 = sessionStorage.getItem("idCard");
             // submitForm.AAE135 = '230522199003081571';
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
@@ -204,11 +203,6 @@ export default {
                      this.form.AAE010 = resData.AAE010 //银行账户
                      this.form.AAE008 = resData.BAC048  //开户行
                      this.form.AAE009 = resData.AAE009   //开户名
-                     console.log(this.form.AAE009=="")
-                     if(this.form.AAE009==""){
-                         console.log('执行从缓存里拿开户名')
-                        this.form.AAE009 = sessionStorage.getItem("userName");
-                     }
 
                      this.form.AAE005 = resData.AAE005   //手机号码
                      console.log("手机号码",this.form.AAE005)
