@@ -47,7 +47,7 @@
                 <div class="SearchBtn" @click="search">搜索</div>
             </div>
             </div>
-            <div class="userBaseInfo">
+            <div class="userBaseInfo" v-if="showAll">
                 <div class="infoBox">
                     <svg-icon icon-class="payLimit_bg"/>
                     <div class="infoName">
@@ -73,7 +73,7 @@
 
                 </div>
             </div>
-            <div class="ReportInfo">
+            <div class="ReportInfo" v-if="showAll">
                 <div class="InfoLine">
                     <div class="InfoName"><span>连续工龄:</span></div>
                     <div class="InfoText">
@@ -108,6 +108,7 @@
                     </div>
                 </div>
             </div>
+            <div  v-if="showAll">
             <div class="simpleNote" v-for="(item,index) in LS_DS" :key=index  >
                 <div class="InfoTitle">
                     <div class="InfoName"><span>简历{{index+1}}</span></div>
@@ -151,7 +152,8 @@
                     </div>               
                 </div>
             </div>
-            <div class="newSimpleNote">
+            </div>
+            <div class="newSimpleNote" v-if="showAll">
                 <div class="newAdd" @click="newSimpleNote()" :class="{'active': canSubmit == true}">
                 <span>新增简历</span>
                 </div>
@@ -160,7 +162,7 @@
         <!-- 办事指南 -->
         <GuideIcon AGA002="330800123004"></GuideIcon>
         <!-- 按钮 -->
-        <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showAll"></Footer>
     </div>
 </template>
 
@@ -168,6 +170,7 @@
 export default {
     data() {
         return {
+            showAll:false,//展示所有内容
             isShow:false,//显示提前退休原因
             dateVal: new Date(), //默认绑定的时间
             check:false,//勾选图标
@@ -523,6 +526,7 @@ export default {
                         })
                         this.LS_DS=resData.LS_DS;
                         // console.log('form1',this.form1)
+                        this.showAll=true;
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);
