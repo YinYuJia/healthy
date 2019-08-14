@@ -8,17 +8,26 @@
       <div class="box">
         <div class="footer">
           <mt-button class="btn1" type="default">下载登记表</mt-button>
-          <mt-button class="btn2" type="primary" @click="goUpload">上传登记表</mt-button>
+          <mt-button class="btn2" type="primary" @click="goUpload">上传附件</mt-button>
         </div>
       </div>
     </div>
 </template>
 
 <script>
+import { MessageBox } from 'mint-ui'
 export default {
+  created () {
+    if (this.$route.query.isEdit) {
+      MessageBox({
+        title: '提示',
+        message: '您已修改信息，请重新下载登记表'
+      })
+    }
+  },
   methods: {
-    goUpload() {
-      this.$router.push({path:'/registerThree'})
+    goUpload () {
+      this.$router.push({path: '/registerThree'})
     }
   }
 }
