@@ -261,14 +261,14 @@ if (isShow) {
                   window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode=" + code;
                 }
               }
-            } else {
-              // 法人登录
+            } else if(data.userType == '2') {
               console.log('法人登录')
               var ssoToken = paramStr("ssoToken");
-
+          
               console.log('ssoToken', ssoToken)
               if (ssoToken != "" && ssoToken != undefined && ssoToken != null) {
-                next({ path: '/indexInfoList' });
+                 sessionStorage.setItem("ssoToken",ssoToken)
+                 next();
               } else {
                 window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=?epsoft=1'
               }
