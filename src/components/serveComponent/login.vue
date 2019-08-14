@@ -5,7 +5,7 @@
     </div>
     <div class="content">
         <div class="title"><span>医保经办系统</span></div>
-        <div class="loginBox"></div>
+        <div class="loginBox"> </div>
     </div>
 </div>
 </template>
