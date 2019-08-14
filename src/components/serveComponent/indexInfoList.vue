@@ -52,15 +52,15 @@
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                                        <div class="swiper-slide">
-                                            <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                                        <div class="swiper-slide">
-                                            <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                                    </div>
-                                </div> -->
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                </div>
+            </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -69,10 +69,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                                    <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                                </swipe> -->
+                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+            </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -87,8 +87,9 @@
             </div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
-            <div class="btn" @click="changeLegalPersonName(true)">更改法人用户名</div>
-            <div class="btn" @click="changeLegalPersonCard(true)">更改法人社保卡号</div>
+            <div class="btn" @click="changeLegalPersonName(true)">法人用户名</div>
+            <div class="btn" @click="changeLegalPersonCard(true)">法人社保卡号</div>
+            <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
         </div>
         <div class="changeUserBtn"><button class="btn" @click="change()">切换</button></div>
         <div class="bottomline">
@@ -227,14 +228,6 @@
             } else {
                 this.iconFlag = false; //其他情况设置为false
             }
-            // 设置标题
-            // this.$ep.setTitle("sssssssssssssssssssssssss")
-            // 选择图片
-            // this.$ep.chooseImage((data)=> {
-            //     console.log('chooseImage成功回调',data)
-            // },(error)=> {
-            //     console.log('chooseImage失败回调',error)
-            // });
             // 获取当前城市信息
             this.$ep.selectLocalCity((data) => {
                 console.log('selectLocalCity成功回调', data)
@@ -253,24 +246,6 @@
             }, (error) => {
                 console.log('locationGet失败回调', error)
             })
-            // 移动支付
-            // this.$ep.mobelPay((data) => {
-            //     console.log('locationGet成功回调',data)
-            // },(error)=> {
-            //     console.log('locationGet失败回调',error)
-            // })
-            // 支付码
-            // this.$ep.payCode((data) => {
-            //     console.log('locationGet成功回调',data)
-            // },(error)=> {
-            //     console.log('locationGet失败回调',error)
-            // })
-            // 电子社保卡
-            // this.$ep.socialCard((data) => {
-            //     console.log('locationGet成功回调',data)
-            // },(error)=> {
-            //     console.log('locationGet失败回调',error)
-            // })
         },
         filters: {
             msgLength: function(val) {
@@ -317,6 +292,8 @@
             },
             // 跳转配置的地址
             jumpToUrl(url, status) {
+                this.checkJump();
+                return;
                 // status为1是失效状态
                 if (status == '1') {
                     this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
@@ -335,6 +312,26 @@
                         }
                     }
                 }
+            },
+            // 跳转前检查用户是否法人绑定
+            checkJump(){
+                let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                let params = {
+                    OTHERINFO: user.userId
+                }
+                this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
+                    if(resData.enCode == 1000){
+
+                    }else if (resData.enCode == 1001 ) {
+                        //   失败  1001
+                        this.$toast(resData.msg);
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
+                    console.log(resData);
+                })
             },
             //动态获取事项信息
             getMatterInfo(code) {
@@ -618,23 +615,6 @@
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, "1033");
                 return params;
             },
-            //个人用户登录
-            changeUsername(str) {
-                if (str) {
-                    let user = Object.assign({}, this.$store.state.SET_USER_BASEINFO);
-                    MessageBox.prompt('用户名', '').then(({
-                        value,
-                        action
-                    }) => {
-                        user.name = value;
-                        this.$store.dispatch('SET_USER_BASEINFO', user);
-                        sessionStorage.setItem('userName', value);
-                        this.setNativeMsg();
-                    });
-                } else {
-                    this.$toast("功能正在建设中")
-                }
-            },
             //法人用户登录
             changeLegalPersonName(str) {
                 if (str) {
@@ -645,64 +625,44 @@
                     }) => {
                         sessionStorage.setItem('changeLegalPersonName', value);
                         console.log("法人用户名", sessionStorage.getItem('changeLegalPersonName'))
-                console.log('法人信息',this.resData.attnName = value)
+                        console.log('法人信息',this.resData.attnName = value)
                     });
                 } else {
                     this.$toast("功能正在建设中")
                 }
             },
-            //个人用户登录
-            changeUserCode(str) {
+            //法人用户登录
+            changeLegalPersonCard(str) {
                 if (str) {
-                    let user = Object.assign({}, this.$store.state.SET_USER_BASEINFO);
-                    MessageBox.prompt('社保卡号', '').then(({
+                    MessageBox.prompt('法人社保卡号', '').then(({
                         value,
                         action
                     }) => {
-                        user.idNo = value;
-                        this.$store.dispatch('SET_USER_BASEINFO', user);
-                        sessionStorage.setItem('idCard', value);
-                        this.setNativeMsg();
-                        this.getUserRegion();
+                        let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                        this.getMatterInfo(LegalPerson.xzqh);
+                        this.getNewsInfo(LegalPerson.xzqh);
+                        this.resData.attnIDNo = value;
+                        console.log('法人信息',this.resData.attnIDNo)
+                        console.log(this.resData)
+                        sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
                     this.$toast('功能正在建设中')
                 }
             },
-            //法人用户登录
-            changeLegalPersonCard(str) {
+            // 法人userId更改
+            changeLegalPersonUserId(str){
                 if (str) {
-                    let params = {}
-                    MessageBox.prompt('法人社保卡号', '').then(({
+                    MessageBox.prompt('输入UserId', '').then(({
                         value,
                         action
-                    }) => {
-                        sessionStorage.setItem('idCchangeLegalPersonCardard', value);
-                        dd.ready({
-                                developer: 'daip@dtdream.com',
-                                usage: [
-                                    'dd.biz.user.getUserType',
-                                ],
-                                remark: '获取用户登录类型'
-                            },
-                            () => {
-                                dd.biz.user.getUserType({
-                                    onSuccess: (data) => {
-                                        sessionStorage.setItem("userType", data.userType)
-                                    },
-                                    onFail: (error) => {
-                                        console.log("data获取用户类型", error)
-                                    }
-                                })
-                            })
-                        console.log('法人卡号', sessionStorage.getItem('idCchangeLegalPersonCardard'))
-                        console.log('法人信息',this.resData.attnIDNo = value)
-                        console.log(this.resData)
+                    }) => {                    
+                        let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                        this.resData.userId = value;
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
-
                     });
                 } else {
-                    this.$toast('功能正在建设中')
+                    this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))
                 }
             },
             showWork(url, item, itemInfo) {
