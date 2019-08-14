@@ -79,7 +79,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>处分:</span></div>
-                        <div class="InfoText">{{item.AKC423|AKC423}}</div>           
+                        <div class="InfoText">{{item.AKC423}}</div>           
                 </div>
             </div>
         </div>
@@ -99,8 +99,8 @@ export default {
             arr: [
                 {step:1,name:'申请'},
                 {step:2,name:'受理'},
-                {step:3,name:'办结'},
-                {step:4,name:'送达'}
+                {step:3,name:'审核'},
+                {step:4,name:'办结'}
             ],
             successFlag: 1,
         }
@@ -111,7 +111,7 @@ export default {
         }
         this.epFn.setTitle('缴费年限核定')
         this.request();
-        this.request2();
+        this.request1();
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', this.back, false);//false阻止默认事件
@@ -163,19 +163,22 @@ export default {
                 }
             })
         },
-        request2(){
+        request1(){
             // 封装数据
-            let params = this.formatSubmitData2();
-            // 开始请求
-            console.log('parmas------',params)
-            this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7610/getRecord', params).then((resData) => {
+            let params=this.formatSubmitData1();
+            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1016/info', params).then((resData) => {
                 console.log('返回成功信息',resData)
                 //   成功   1000
-                if ( resData.enCode == 1000 ) {
-                    console.log("返回信息9999",resData)
-                    console.log("11111",resData.LS_DS[0])
-                    console.log("2222",this.form)
-                    this.form=resData;
+                if ( resData.enCode == 1000 ) {  
+                    console.log(Object.keys(resData.LS_DS_13).length);
+                    if (Object.keys(resData.LS_DS_13).length > 0) {
+                        let LS=resData.LS_DS_13
+                        this.form={...this.form,...LS}
+                        this.handleNumber = this.form.BKZ019;
+                        console.log("form",this.form)
+                    }else{
+                        this.$toast("暂无状态信息")
+                    }
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);
@@ -204,15 +207,28 @@ export default {
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
                 return params;
         },
-        formatSubmitData2(){
-            let submitForm ={}
-            // 日期传换成Number
-            // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
-            submitForm.BKE520 = "1";
+        formatSubmitData1(){
+                let submitForm = {}
+                submitForm.AGA002 =  "确认-00123-004";
+                //从进度查询页面进入接收传参
+                if(this.$route.query.param){
+                    submitForm.lx="1";
+                    submitForm.BKZ019=this.$route.query.param
+                }else{
+                    submitForm.lx="2";
+                    submitForm.BKZ019="";
+                }
             // 加入用户名和电子社保卡号
-            submitForm.AAC002=this.$store.state.SET_NATIVEMSG.idCard;
+            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
+                submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            }else {
+                
+                this.$toast("未获取到人员基本信息");
+            }
+            
             // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7610");
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
             return params;
         },
     }
