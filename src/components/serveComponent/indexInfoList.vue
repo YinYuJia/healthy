@@ -321,8 +321,9 @@
                 }
                 this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
                     if(resData.enCode == 1000){
-
+                        return true;
                     }else if (resData.enCode == 1001 ) {
+                        this.$router.push('login');
                         //   失败  1001
                         this.$toast(resData.msg);
                         return;
