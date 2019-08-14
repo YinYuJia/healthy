@@ -52,15 +52,15 @@
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                                    <div class="swiper-slide">
-                                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                                    <div class="swiper-slide">
-                                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                                </div>
-                            </div> -->
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                                        <div class="swiper-slide">
+                                            <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                                        <div class="swiper-slide">
+                                            <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                                    </div>
+                                </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -69,10 +69,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                            </swipe> -->
+                                    <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                                </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -119,6 +119,23 @@
                 isClear: true,
                 iconList: [], //图标列表,
                 isVisible: false,
+                resData:{
+                    CompanyName: "浙江政务网法人测试用户",
+                    CompanyRegNumber: "91330103704789206U",
+                    CompanyType: "企业法人",
+                    OrganizationNumber: "704789206",
+                    attnIDNo: '',
+                    attnIDType: "51",
+                    attnLandLinePhone: "13712345678",
+                    attnName: '',
+                    attnPhone: "13588760916",
+                    orgType: "3",
+                    realLevel: "2",
+                    uniscid: "91330103704789206U",
+                    userId: "9152",
+                    username: "123456789",
+                    xzqh: "330103",
+                }
             }
         },
         mounted() {
@@ -139,10 +156,11 @@
         created() {
             // 判断是否法人登录
             sessionStorage.setItem('isClear', this.isClear)
-            console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
+            console.log('sessionISCLEAR------', sessionStorage.getItem('isClear'));
             if (this.$build == '2') {
-                const ssoToken = this.util.params("ssoToken")
-                console.log('ssoToken', ssoToken)
+
+                const ssoToken = sessionStorage.getItem("ssoToken")
+                console.log('----法人ssoToken----', ssoToken)
                 if (ssoToken != undefined && ssoToken != '' && ssoToken != null) {
                     this.$axios.post(this.epFn.ApiUrl() + '/H5/jy2009/getUserInfo', {
                         ssoToken: ssoToken
@@ -152,6 +170,8 @@
                         sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
                     })
                 }
+            } else {
+                sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
             }
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
@@ -625,6 +645,7 @@
                     }) => {
                         sessionStorage.setItem('changeLegalPersonName', value);
                         console.log("法人用户名", sessionStorage.getItem('changeLegalPersonName'))
+                console.log('法人信息',this.resData.attnName = value)
                     });
                 } else {
                     this.$toast("功能正在建设中")
@@ -671,11 +692,14 @@
                                     },
                                     onFail: (error) => {
                                         console.log("data获取用户类型", error)
-                                        next()
                                     }
                                 })
                             })
                         console.log('法人卡号', sessionStorage.getItem('idCchangeLegalPersonCardard'))
+                        console.log('法人信息',this.resData.attnIDNo = value)
+                        console.log(this.resData)
+                        sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
+
                     });
                 } else {
                     this.$toast('功能正在建设中')

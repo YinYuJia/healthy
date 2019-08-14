@@ -17,6 +17,8 @@ import First from '@/components/First'
 // import EventDetail from '@/components/commonComponent/Work/TreatmentReimbursement/EventDetail_1'
 import register from '@/components/serveComponent/insured/register/register'
 import registerTwo from '@/components/serveComponent/insured/register/registerTwo'
+import registerThree from '@/components/serveComponent/insured/register/registerThree'
+import registerFour from '@/components/serveComponent/insured/register/registerFour'
 import getProof from '@/components/serveComponent/insured/getProof/getProof'
 import getDetail from '@/components/serveComponent/insured/getProof/getDetail'
 import nearbySite from '@/components/serveComponent/common/NearbySite'
@@ -279,6 +281,16 @@ export default new Router({
       path: '/registerTwo',
       name: 'registerTwo',
       component: registerTwo
+    },
+    {
+      path: '/registerThree',
+      name: 'registerThree',
+      component: registerThree
+    },
+    {
+      path: '/registerFour',
+      name: 'registerFour',
+      component: registerFour
     },
     {
       path: '/baseInfoChangeDetail',
