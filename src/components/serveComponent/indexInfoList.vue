@@ -91,7 +91,14 @@
             <div class="btn" @click="changeLegalPersonCard(true)">法人社保卡号</div>
             <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
         </div>
-        <div class="changeUserBtn"><button class="btn" @click="change()">切换</button></div>
+        <div class="changeUserBtn" v-if="ifShow">
+            <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
+            <div class="btn" @click="changeLegalPersonuniscid(true)">单位编码</div>
+        </div>
+        <div class="changeUserBtn" v-if="ifShow">
+            <div class="btn" @click="changeLegalPersonRegion(true)">参保地</div>
+            <button class="btn" @click="change()">切换</button>
+        </div>
         <div class="bottomline">
             <p>本服务由浙江政务服务网提供</p>
             <p>服务咨询热线 : <span class="bottomSpan">{{tel}}</span> </p>
@@ -135,7 +142,7 @@
                     uniscid: "91330103704789206U",
                     userId: "9152",
                     username: "123456789",
-                    xzqh: "330103",
+                    xzqh: "330000",
                 }
             }
         },
@@ -657,9 +664,37 @@
                     MessageBox.prompt('输入UserId', '').then(({
                         value,
                         action
+                    }) => {
+                        this.resData.userId = value;
+                        sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
+                    });
+                } else {
+                    this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))
+                }
+            },
+            // 单位编码更改
+            changeLegalPersonuniscid(str){
+                if (str) {
+                    MessageBox.prompt('输入单位编码', '').then(({
+                        value,
+                        action
+                    }) => {
+                        this.resData.xzqh = value;
+                        sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
+                    });
+                } else {
+                    this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))
+                }
+            },
+            // 参保地变更
+            changeLegalPersonRegion(str){
+                if (str) {
+                    MessageBox.prompt('输入参保地编码', '').then(({
+                        value,
+                        action
                     }) => {                    
                         let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                        this.resData.userId = value;
+                        this.resData.uniscid = value;
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
