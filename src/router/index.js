@@ -8,13 +8,15 @@ import indexInfoListMore from '@/components/serveComponent/indexInfoListMore'
 import BusinessGuide from '@/components/serveComponent/BusinessGuide'
 import CompleteUpload from '@/components/serveComponent/CompleteUpload'
 
-import First from '@/components/First';
+import First from '@/components/First'
 
 // import Work from '@/components/Work';
 // import TreatmentReimbursement from '@/components/commonComponent/Work/TreatmentReimbursement';
 // import TReimbursement1 from '@/components/commonComponent/Work/TreatmentReimbursement/TReimbursement1'
 // import SubmitReimbursement from '@/components/commonComponent/Work/TreatmentReimbursement/SubmitReimbursement'
 // import EventDetail from '@/components/commonComponent/Work/TreatmentReimbursement/EventDetail_1'
+import register from '@/components/serveComponent/insured/register/register'
+import registerTwo from '@/components/serveComponent/insured/register/registerTwo'
 import getProof from '@/components/serveComponent/insured/getProof/getProof'
 import getDetail from '@/components/serveComponent/insured/getProof/getDetail'
 import nearbySite from '@/components/serveComponent/common/NearbySite'
@@ -41,7 +43,6 @@ import specialDrug from '@/components/serveComponent/record/specialDrug/specialD
 import specialDrugDetail from '@/components/serveComponent/record/specialDrug/specialDrugDetail'
 import chronicDisease from '@/components/serveComponent/record/chronicDisease/chronicDisease'
 import chronicDiseaseDetail from '@/components/serveComponent/record/chronicDisease/chronicDiseaseDetail'
-// import SearchInfoPage from '@/components/serveComponent/record/chronicDisease/SearchInfoPage'
 import mendChangeCard from '@/components/serveComponent/others/mendChangeCard/mendChangeCard'
 import mendChangeDetail from '@/components/serveComponent/others/mendChangeCard/mendChangeDetail'
 import baseInfoChange from '@/components/serveComponent/others/baseInfoChange/baseInfoChange'
@@ -81,13 +82,13 @@ export default new Router({
       name: 'indexInfoListComponent',
       component: indexInfoList
     },
-    //登录
+    // 登录
     {
       path: '/login',
       name: 'login',
       component: login
     },
-    //首页资讯详情
+    // 首页资讯详情
     {
       path: '/goDetail',
       name: 'goDetail',
@@ -270,6 +271,16 @@ export default new Router({
       component: baseInfoChange
     },
     {
+      path: '/register',
+      name: 'register',
+      component: register
+    },
+    {
+      path: '/registerTwo',
+      name: 'registerTwo',
+      component: registerTwo
+    },
+    {
       path: '/baseInfoChangeDetail',
       name: 'baseInfoChangeDetail',
       component: baseInfoChangeDetail
@@ -416,11 +427,11 @@ export default new Router({
     //   component: EventDetail
     // },
   ],
-  scrollBehavior(to,from,savedPosition){
-    if(savedPosition){
-      return savedPosition;
-    }else{
-      return {x:0,y:0}
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {x: 0, y: 0}
     }
   }
 })
