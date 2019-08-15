@@ -164,7 +164,7 @@
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showAll"></Footer>
         <!-- 法人绑定 -->
-        <Binding :flag="bindingFlag"></Binding>
+        <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding>
     </div>
 </template>
 
@@ -317,6 +317,9 @@ export default {
         this.epFn.setTitle('缴费年限核定')
     },
     methods:{
+        changeFlag(val){
+            this.bindingFlag = val;
+        },
         // 跳转前检查用户是否法人绑定
         checkJump(){
             let user = JSON.parse(sessionStorage.getItem("LegalPerson"));

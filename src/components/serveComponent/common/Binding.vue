@@ -21,11 +21,11 @@
                         <svg-icon icon-class="login_clear" v-if="form.passWord" @click="deletePassWord()"></svg-icon>
                     </div>
                 </div>
-                <div class="test">
+                <!-- <div class="test">
                     <svg-icon icon-class="login_test"></svg-icon>
                     <input class="text" v-model="form.code" type="text" placeholder="请输入验证码"/>
                     <img @click="changeCode" :src="imgUrl" />
-                </div>
+                </div> -->
             </div>
             
             <div><button class="SubmitBtn" @click="submit"  :class="{'active': canSubmit == true}" ><span>绑定</span></button></div>
@@ -50,9 +50,9 @@ export default {
             form:{
                 userName:"",//用户名
                 passWord:"",//密码
-                code: "", //验证码
+                // code: "", //验证码
             },
-            imgUrl: '',
+            // imgUrl: '',
         }
     },
     computed: {
@@ -60,13 +60,13 @@ export default {
             return this.flag
         }
     },
-    created(){
-        this.imgUrl = this.epFn.ApiUrl() +  '/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
-    },
+    // created(){
+    //     this.imgUrl = this.epFn.ApiUrl() +  '/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
+    // },
     watch: {
         form:{
             handler:function(val){
-                if(val.userName!="" && val.passWord!="" && val.code!=""){
+                if(val.userName!="" && val.passWord!=""){
                     this.canSubmit=true;
                 }else{
                     this.canSubmit=false;
@@ -92,14 +92,14 @@ export default {
                 OTHERINFO: JSON.parse(sessionStorage.getItem('LegalPerson')).userId,
                 LOGINNAME: this.form.userName,
                 PASSWD: md5(this.form.passWord),
-                code: this.form.code.toUpperCase(),
+                // code: this.form.code.toUpperCase(),
             }
             console.log('params', params);
             this.$axios.post( this.epFn.ApiUrl() + '/H5/jy9103/distanceHospital', params)
             .then((resData) => {
                 console.log(resData);
                 if(resData.enCode == 1000){
-                    this.show = false;
+                    this.$emit('changeFlag', false);
                 }else{
                     this.$toast(resData.msg)
                 }
