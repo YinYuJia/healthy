@@ -266,8 +266,8 @@ export default {
                     }
                     .imgBox{
                         display: inline-block;
-                        width: 2rem;
-                        height: 0.8rem;
+                        width: 1.8rem;
+                        height: 0.72rem;
                         img{
                             height: 100%;
                             width: 100%;
