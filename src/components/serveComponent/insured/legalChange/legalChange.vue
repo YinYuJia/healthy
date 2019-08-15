@@ -297,11 +297,12 @@ export default {
             let submitForm = Object.assign({},this.form);
             // 加入用户名和电子社保卡号
                 let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                submitForm.AAC003=sessionStorage.getItem('userName');
-                submitForm.AAE135=sessionStorage.getItem('idCard');
+                // console.log("9999",LegalPerson)
+                submitForm.AAC003=LegalPerson.CompanyName;
                 submitForm.AAB301=LegalPerson.xzqh//统筹区
                 submitForm.BKE520='1'
                 submitForm.AAB001=sessionStorage.getItem('LOGINNAME');
+                submitForm.AAE135='123456';
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;

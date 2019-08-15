@@ -147,7 +147,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>处分:</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openPunishPicker(index)" type="text" v-model="item.AKC423" placeholder="请选择" readonly></div>
+                        <div class="InfoText"><input @click="openPunishPicker(index)" type="text" v-model="item.AKC423VALUE" placeholder="请选择" readonly></div>
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
@@ -267,7 +267,7 @@ export default {
             handler:function(val){
                 if(
                     val.AAE135 != '' && val.BKEVALUE != '' && val.AKC412 != ''&& val.AAB001!=''&&
-                    val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != '' && val.BKE810   != ''
+                    val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != '' && val.BKE810 != ''
                 ){
                     this.flag = true;
                     console.log("flag",this.flag)
@@ -531,7 +531,9 @@ export default {
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         let user = sessionStorage.getItem("LOGINNAME");//法人的单位编码
-                      if(user==resData.AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
+                      console.log("user",user);
+                      console.log("AAB001",resData.LS_DS[0].AAB001)
+                      if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
                         this.form=resData.LS_DS[0]
                         this.form.AKC412=this.form.AKC412M+((this.form.AKC412)*12);
                         this.form.BKE703=this.form.BKE703;
@@ -540,6 +542,7 @@ export default {
                         this.form.BKEVALUE=this.form.BKE703+'年'+this.form.BKE704+'个月';
                         }else {
                         this.$toast('该人员不是本单位的职员，请重新查询')
+                        return false
                       }
                         // console.log("LIST",resData.LS_DS[0].AKC421)
                         // console.log("LIST",resData.LS_DS[0].AKC421.split('-'))
