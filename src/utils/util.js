@@ -155,8 +155,8 @@ function decimalPoint(num){
 
 //   获取token拼接地市url信息
 function getToken() {
-    // return 'token=' + sessionStorage.getItem("getToken");
-    return 'token=' + '8afac8196c756f1f016c94a37f8728a0-commonToken';
+    return 'token=' + sessionStorage.getItem("getToken");
+    // return 'token=' + '8afac8196c756f1f016c94bf49ca3b40-commonToken';
 }
 
 export default{
