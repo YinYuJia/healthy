@@ -1,60 +1,72 @@
 <template>
-<div class="main">
-    <div class="bg">
-        <svg-icon icon-class="login_bg"></svg-icon>
-    </div>
-    <div class="title"><span>医保经办系统</span></div>
-    <div class="content">
-        <div class="loginBox">
-            <div class="userName">
-                <svg-icon icon-class="login_user"></svg-icon>
-                <input class="text" type="text" v-model="form.userName" placeholder="请输入用户名"/>
-                <div class="clear">
-                    <svg-icon icon-class="login_clear" v-if="form.userName" @click="deleteUserName()"></svg-icon>
-                </div>
-            </div>
-            <div class="passWord">
-                <svg-icon icon-class="login_password"></svg-icon>
-                <input class="text" type="password" v-model="form.passWord" placeholder="请输入密码"/>
-                <div class="clear">
-                    <svg-icon icon-class="login_clear" v-if="form.passWord" @click="deletePassWord()"></svg-icon>
-                </div>
-            </div>
-            <div class="test">
-                <svg-icon icon-class="login_test"></svg-icon>
-                <input class="text" v-model="form.code" type="text" placeholder="请输入验证码"/>
-                <img @click="changeCode" :src="imgUrl" />
-            </div>
+<div class="Binding" v-if="NewShow">
+    <div class="main">
+        <div class="bg">
+            <svg-icon icon-class="login_bg"></svg-icon>
         </div>
-        
-         <div><button class="SubmitBtn" @click="submit"  :class="{'active': canSubmit == true}" ><span>绑定</span></button></div>
+        <div class="title"><span>医保经办系统</span></div>
+        <div class="content">
+            <div class="loginBox">
+                <div class="userName">
+                    <svg-icon icon-class="login_user"></svg-icon>
+                    <input class="text" type="text" v-model="form.userName" placeholder="请输入用户名"/>
+                    <div class="clear">
+                        <svg-icon icon-class="login_clear" v-if="form.userName" @click="deleteUserName()"></svg-icon>
+                    </div>
+                </div>
+                <div class="passWord">
+                    <svg-icon icon-class="login_password"></svg-icon>
+                    <input class="text" type="password" v-model="form.passWord" placeholder="请输入密码"/>
+                    <div class="clear">
+                        <svg-icon icon-class="login_clear" v-if="form.passWord" @click="deletePassWord()"></svg-icon>
+                    </div>
+                </div>
+                <!-- <div class="test">
+                    <svg-icon icon-class="login_test"></svg-icon>
+                    <input class="text" v-model="form.code" type="text" placeholder="请输入验证码"/>
+                    <img @click="changeCode" :src="imgUrl" />
+                </div> -->
+            </div>
+            
+            <div><button class="SubmitBtn" @click="submit"  :class="{'active': canSubmit == true}" ><span>绑定</span></button></div>
 
+        </div>
     </div>
-    
 </div>
 </template>
 
 <script>
 import md5 from 'js-md5'
 export default {
+    props:{
+        flag:{
+            type: Boolean,
+            default: false
+        }
+    },
     data () {
         return {
             canSubmit:false,
             form:{
                 userName:"",//用户名
                 passWord:"",//密码
-                code: "", //验证码
+                // code: "", //验证码
             },
-            imgUrl: '',
+            // imgUrl: '',
         }
     },
-    created(){
-        this.imgUrl = this.epFn.ApiUrl() +  '/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
+    computed: {
+        NewShow(){
+            return this.flag
+        }
     },
+    // created(){
+    //     this.imgUrl = this.epFn.ApiUrl() +  '/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
+    // },
     watch: {
         form:{
             handler:function(val){
-                if(val.userName!="" && val.passWord!="" && val.code!=""){
+                if(val.userName!="" && val.passWord!=""){
                     this.canSubmit=true;
                 }else{
                     this.canSubmit=false;
@@ -80,14 +92,14 @@ export default {
                 OTHERINFO: JSON.parse(sessionStorage.getItem('LegalPerson')).userId,
                 LOGINNAME: this.form.userName,
                 PASSWD: md5(this.form.passWord),
-                code: this.form.code.toUpperCase(),
+                // code: this.form.code.toUpperCase(),
             }
             console.log('params', params);
             this.$axios.post( this.epFn.ApiUrl() + '/H5/jy9103/distanceHospital', params)
             .then((resData) => {
                 console.log(resData);
                 if(resData.enCode == 1000){
-                    this.$router.push('/indexInfoList')
+                    this.$emit('changeFlag', false);
                 }else{
                     this.$toast(resData.msg)
                 }
@@ -100,6 +112,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.Binding{
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: white;
     .main{
         background: #FFFFFF;  
         width: 100%;
@@ -268,4 +287,5 @@ export default {
 
 
     }
+}
 </style>

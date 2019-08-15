@@ -163,6 +163,8 @@
         <GuideIcon AGA002="330800123004"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showAll"></Footer>
+        <!-- 法人绑定 -->
+        <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding>
     </div>
 </template>
 
@@ -170,6 +172,7 @@
 export default {
     data() {
         return {
+            bindingFlag: false,
             showAll:false,//展示所有内容
             isShow:false,//显示提前退休原因
             dateVal: new Date(), //默认绑定的时间
@@ -310,9 +313,38 @@ export default {
         }
     },
     created(){
+        this.checkJump();
         this.epFn.setTitle('缴费年限核定')
     },
     methods:{
+        changeFlag(val){
+            this.bindingFlag = val;
+        },
+        // 跳转前检查用户是否法人绑定
+        checkJump(){
+            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            let params = {
+                OTHERINFO: user.userId
+            }
+            this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
+                console.log('绑定',resData)
+                if(resData.enCode == 1000){
+                    if(resData.LS_DS[0].USEGUL == '1'){
+                        this.bindingFlag = false;
+                    }else{
+                        this.bindingFlag = true;
+                    }
+                }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                    this.bindingFlag = true;
+                    console.log('显示',this.bindingFlag);
+                }else{
+                    this.$toast('业务出错');
+                    this.bindingFlag = true;
+                    return false;
+                }
+            })
+        },
         setYear(){
             if(!/^[0-9]+$/.test(this.form.AKC412)){
                 this.form.AKC412='';
