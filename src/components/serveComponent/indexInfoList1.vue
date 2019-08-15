@@ -663,7 +663,7 @@
                         this.$store.dispatch('SET_USER_BASEINFO', user);
                         sessionStorage.setItem('idCard', value);
                         this.setNativeMsg();
-                        this.getUserRegion();
+                        this.getUserRegion(); // 获取参保地
                             dd.ready({
                             developer: 'daip@dtdream.com',
                             usage: [
