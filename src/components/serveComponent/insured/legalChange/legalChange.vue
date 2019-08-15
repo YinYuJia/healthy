@@ -63,6 +63,8 @@
         <!-- <GuideIcon AGA002="331400501005"></GuideIcon> -->
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <!-- 法人绑定 -->
+        <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding>
     </div>
 </template>
 
@@ -90,6 +92,7 @@ export default {
                 detailAddress: '', //详细地址    
             },
             canSubmit: false,
+            bindingFlag: false,
         }
     },
     watch:{
@@ -115,11 +118,41 @@ export default {
         }
     },
     created(){
-        console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
-        this.requset2();
+        this.checkJump();
+        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+        this.form.AAB301=user.xzqh;
+        // this.requset2();
         // this.requset1();
     },
     methods:{
+        changeFlag(val){
+            this.bindingFlag = val;
+        },
+        // 跳转前检查用户是否法人绑定
+        checkJump(){
+            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            let params = {
+                OTHERINFO: user.userId
+            }
+            this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
+                console.log('绑定',resData)
+                if(resData.enCode == 1000){
+                    if(resData.LS_DS[0].USEGUL == '1'){
+                        this.bindingFlag = false;
+                    }else{
+                        this.bindingFlag = true;
+                    }
+                }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                    this.bindingFlag = true;
+                    console.log('显示',this.bindingFlag);
+                }else{
+                    this.$toast('业务出错');
+                    this.bindingFlag = true;
+                    return false;
+                }
+            })
+        },
         // 选择城市
         openCityPicker(){
             this.$refs.cityPicker.open();
@@ -215,7 +248,7 @@ export default {
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
                 submitForm.AAC003=sessionStorage.getItem('userName');
-                submitForm.AAE135=sessionStorage.setItem('idCard');
+                submitForm.AAE135=sessionStorage.getItem('idCard');
             }
                 submitForm.AAB301=sessionStorage.getItem("GinsengLandCode");//统筹区
                 submitForm.BKE520='1'
@@ -237,7 +270,7 @@ export default {
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                 submitForm.AAC002 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                submitForm.AAC002=submitForm.AAE135=sessionStorage.setItem('idCard');
+                submitForm.AAC002=submitForm.AAE135=sessionStorage.getItem('idCard');
                 
             }
             // 请求参数封装

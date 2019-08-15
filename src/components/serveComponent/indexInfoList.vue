@@ -89,7 +89,6 @@
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeLegalPersonName(true)">法人用户名</div>
             <div class="btn" @click="changeLegalPersonCard(true)">法人社保卡号</div>
-            <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
@@ -300,14 +299,13 @@
             },
             // 跳转配置的地址
             jumpToUrl(url, status) {
-                this.checkJump();
                 // status为1是失效状态
                 if (status == '1') {
                     this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
                     return;
                 } else {
-                    // 省本级项目
-                    if (url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing' || url.split('/').pop() == 'searchProgress') {
+                    // 省本级项目 todo 单位参保登记
+                    if (url.split('/').pop() == 'legalChange' || url.split('/').pop() == 'payLimit') {
                         this.$router.push(url.split('/').pop());
                     } else {
                         // 其他项目跳转
@@ -319,27 +317,6 @@
                         }
                     }
                 }
-            },
-            // 跳转前检查用户是否法人绑定
-            checkJump(){
-                let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                let params = {
-                    OTHERINFO: user.userId
-                }
-                this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
-                    if(resData.enCode == 1000){
-                        return true;
-                    }else if (resData.enCode == 1001 ) {
-                        this.$router.push('login');
-                        //   失败  1001
-                        this.$toast(resData.msg);
-                        return;
-                    }else{
-                        this.$toast('业务出错');
-                        return;
-                    }
-                    console.log(resData);
-                })
             },
             //动态获取事项信息
             getMatterInfo(code) {
@@ -537,7 +514,7 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                if (sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099") {
+                if (sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode").slice(0,4) == "3310") {
                     this.$router.push(route);
                 } else {
                     this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
@@ -639,7 +616,7 @@
                     this.$toast("功能正在建设中")
                 }
             },
-            //法人用户登录
+            //法人用户卡号
             changeLegalPersonCard(str) {
                 if (str) {
                     MessageBox.prompt('法人社保卡号', '').then(({
@@ -647,11 +624,10 @@
                         action
                     }) => {
                         let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                        console.log('法人信息',LegalPerson);
                         this.getMatterInfo(LegalPerson.xzqh);
                         this.getNewsInfo(LegalPerson.xzqh);
                         this.resData.attnIDNo = value;
-                        console.log('法人信息',this.resData.attnIDNo)
-                        console.log(this.resData)
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
@@ -679,7 +655,7 @@
                         value,
                         action
                     }) => {
-                        this.resData.xzqh = value;
+                        this.resData.uniscid = value;uniscid
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
@@ -692,9 +668,9 @@
                     MessageBox.prompt('输入参保地编码', '').then(({
                         value,
                         action
-                    }) => {                    
+                    }) => {
                         let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                        this.resData.uniscid = value;
+                        this.resData.xzqh = value;
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
