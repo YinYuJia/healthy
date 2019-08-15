@@ -122,13 +122,14 @@ export default {
     },
     created(){
         this.checkJump();
-        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
-        this.form.AAB301=user.xzqh;
-        this.requset2();
     },
     methods:{
+        // 绑定成功后执行的请求
         changeFlag(val){
             this.bindingFlag = val;
+            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            this.form.AAB301=user.xzqh;
+            this.requset1();
         },
         // 跳转前检查用户是否法人绑定
         checkJump(){
@@ -140,6 +141,7 @@ export default {
                 console.log('绑定',resData)
                 if(resData.enCode == 1000){
                     if(resData.LS_DS[0].USEGUL == '1'){
+                        sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
                         this.bindingFlag = false;
                     }else{
                         this.bindingFlag = true;
@@ -264,9 +266,9 @@ export default {
             }
             // this.$router.push('/legalChangeDetail');
         },
-        requset1(a){
+        requset1(){
                 // 封装数据
-                let params = this.formatSubmitData1(a);
+                let params = this.formatSubmitData1();
                 // 开始请求
                 this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy9029/9029', params).then((resData) => {
                     //   成功   1000
@@ -281,30 +283,6 @@ export default {
                     //   失败  1001
                       console.log('返回信息失败',resData)
                       this.$toast(resData.msg);
-                        return;
-                    }else{
-                        this.$toast('业务出错');
-                        return;
-                    }
-                })
-        },
-        requset2(){
-                let params = this.formatSubmitData2();
-                // 开始请求
-                console.log('parmas------',params)
-                this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7610/getRecord', params).then((resData) => {
-                    console.log('返回成功信息',resData)
-                    //   成功   1000
-                    if ( resData.enCode == 1000 ) {
-                        console.log("LS_DS",resData)
-                        this.AAB001=resData.LS_DS[0].AAB001;
-                        console.log("AAB001",this.AAB001)
-                        this.AAB004=resData.LS_DS[0].AAB004;
-                        // console.log('form1',this.form1)
-                        this.requset1(resData.LS_DS[0].AAB001)
-                    }else if (resData.enCode == 1001 ) {
-                    //   失败  1001
-                        this.$toast(resData.msg);
                         return;
                     }else{
                         this.$toast('业务出错');
@@ -329,25 +307,12 @@ export default {
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;
         },
-        formatSubmitData1(a){
+        formatSubmitData1(){
             let submitForm = {};
             // 加入用户名和电子社保卡号
-            submitForm.AAB001=a;
+            submitForm.AAB001=sessionStorage.getItem('LOGINNAME');
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9029");
-            return params;
-        },
-        formatSubmitData2(){
-            let submitForm = {};
-            // 加入用户名和电子社保卡号
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAC002 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                submitForm.AAC002=submitForm.AAE135=sessionStorage.getItem('idCard');
-                
-            }
-            // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7610");
             return params;
         },
     }

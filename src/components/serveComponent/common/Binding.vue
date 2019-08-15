@@ -109,6 +109,7 @@ export default {
             .then((resData) => {
                 console.log(resData);
                 if(resData.enCode == 1000){
+                    sessionStorage.setItem('LOGINNAME',this.form.userName);
                     this.$emit('changeFlag', false);
                 }else{
                     this.$toast(resData.msg)
