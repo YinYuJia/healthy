@@ -26,7 +26,7 @@
               <span>统一社会信用代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB003" type="tel" maxlength="20" placeholder="请输入" />
+              <input v-model="form.AAB003" type="text" maxlength="20" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -34,7 +34,7 @@
               <span>单位名称：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB004" type="tel" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB004" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
 
@@ -60,7 +60,7 @@
               <span>地址详情：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE006" type="tel" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAE006" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -68,7 +68,7 @@
               <span>邮政编码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE007" type="text" maxlength="6" placeholder="请输入" />
+              <input v-model="form.AAE007" type="tel" maxlength="6" placeholder="请输入" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -89,7 +89,7 @@
               <span>主管部门/总机构：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB023" type="tel" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB023" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -155,7 +155,7 @@
               <span>批准成立单位：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE048" type="tel" maxlength="20" placeholder="请输入" />
+              <input v-model="form.AAE048" type="text" maxlength="20" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -172,7 +172,7 @@
               <span>批准文号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB012" type="tel" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB012" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -184,7 +184,7 @@
               <span>法人代表姓名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB013" type="tel" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB013" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -192,7 +192,7 @@
               <span>法人代表身份证号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BAB014" type="tel" maxlength="20" placeholder="请输入" />
+              <input v-model="form.BAB014" type="text" maxlength="20" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -208,7 +208,7 @@
               <span>专管员姓名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE281" type="tel" maxlength="50" placeholder="请输入" />
+              <input v-model="form.BKE281" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -245,7 +245,7 @@
               <span>缴费开户名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE009" type="tel" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAE009" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -253,7 +253,7 @@
               <span>缴费银行账号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE010" type="tel" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAE010" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -444,7 +444,8 @@ export default {
         //   成功   1000
         if (resData.enCode == 1000) {
           console.log('返回信息成功', resData)
-          this.$router.push({ path: '/legalChangeDetail' })
+          this.$store.dispatch('REGISTER_INFO', resData);
+          this.$router.push({ path: '/registerTwo' })
         } else if (resData.enCode == 1001) {
           //   失败  1001
           console.log('返回信息失败', resData)
