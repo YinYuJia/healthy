@@ -2,14 +2,14 @@
     <div class="payLimit">
         <!-- 标题 -->
         <Title :title="'缴费年限核定'" :backRouter="'/'"></Title>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="typePicker"
             :propArr="types"
             @confirm="handleTypeConfirm"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="punishPicker"
             :propArr="punish"
@@ -100,7 +100,7 @@
                     <div class="InfoName"><span>提前退休原因</span></div>
                     <div class="InfoText">
                         <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="BKE810VALUE" placeholder="请选择" readonly></div>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>                        
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                         <!-- <el-select v-model="form.BKE810" placeholder="请选择">
                             <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
@@ -129,7 +129,7 @@
                     </div>
                     <input type="text" id="timeAll"  v-model="item.AKC421" placeholder="请输入">
                 </div>
-                
+
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位:</span></div>
                     <div class="InfoText"><input type="text"  v-model="item.AKC422" placeholder="请输入"></div>
@@ -141,15 +141,15 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>证明人:</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input  type="text" v-model="item.AKC425" placeholder="请输入" ></div>                   
+                        <div class="InfoText"><input  type="text" v-model="item.AKC425" placeholder="请输入" ></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>处分:</span></div>
                     <div class="InfoText">
                         <div class="InfoText"><input @click="openPunishPicker(index)" type="text" v-model="item.AKC423VALUE" placeholder="请选择" readonly></div>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>    
-                    </div>               
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
                 </div>
             </div>
             </div>
@@ -267,7 +267,7 @@ export default {
             handler:function(val){
                 if(
                     val.AAE135 != '' && val.BKEVALUE != '' && val.AKC412 != ''&& val.AAB001!=''&&
-                    val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != '' && val.BKE810   != ''
+                    val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != '' && val.BKE810 != ''
                 ){
                     this.flag = true;
                     console.log("flag",this.flag)
@@ -280,7 +280,7 @@ export default {
                 }else{
                     this.canSubmit = false
                 }
-            },            
+            },
             deep: true
         },
         LS_DS:{
@@ -302,7 +302,7 @@ export default {
                     this.LSflag=false;
                     this.canSubmit = false;
                     console.log("LSflag",this.LSflag)
-                }   
+                }
                 if(this.flag==true&&this.LSflag==true){
                     this.canSubmit = true;
                 }else{
@@ -317,9 +317,11 @@ export default {
         this.epFn.setTitle('缴费年限核定')
     },
     methods:{
-        changeFlag(val){
-            this.bindingFlag = val;
-        },
+      // 绑定成功后执行的请求
+      changeFlag(val){
+        this.bindingFlag = val;
+        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+      },
         // 跳转前检查用户是否法人绑定
         checkJump(){
             let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
@@ -330,6 +332,7 @@ export default {
                 console.log('绑定',resData)
                 if(resData.enCode == 1000){
                     if(resData.LS_DS[0].USEGUL == '1'){
+                        sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
                         this.bindingFlag = false;
                     }else{
                         this.bindingFlag = true;
@@ -337,7 +340,6 @@ export default {
                 }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                     this.bindingFlag = true;
-                    console.log('显示',this.bindingFlag);
                 }else{
                     this.$toast('业务出错');
                     this.bindingFlag = true;
@@ -389,7 +391,7 @@ export default {
             let data=new Date()
             this.LS_DS[this.index].BKE700=this.form.AAC003;
             this.LS_DS[this.index].BKE701=this.util.formatDate(data,'yyyy-MM-dd hh:mm:ss')
-            
+
         },
         // 结束工作时间
         openEndPicker(index){
@@ -420,7 +422,7 @@ export default {
                 console.log("AKC421",this.LS_DS[this.index].AKC421)
                 }
             }
-            
+
         },
         // 工龄
         openWorkPicker(){
@@ -489,7 +491,7 @@ export default {
             console.log("index",this.index)
             this.index-=1;
             this.LS_DS.splice(index,1);
-            
+
         },
         //清空搜索框
         deleteSearch(){
@@ -528,15 +530,20 @@ export default {
                     console.log('返回成功信息',resData)
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
-                        console.log("11111",resData.LS_DS[0])
-                        console.log(this.form)
-                        this.form=resData.LS_DS[0];
+                        let user = sessionStorage.getItem("LOGINNAME");//法人的单位编码
+                      console.log("user",user);
+                      console.log("AAB001",resData.LS_DS[0].AAB001)
+                      if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
+                        this.form=resData.LS_DS[0]
                         this.form.AKC412=this.form.AKC412M+((this.form.AKC412)*12);
                         this.form.BKE703=this.form.BKE703;
                         this.form.BKE704=this.form.BKE704;
                         this.form.AAB001=this.form.AAB001;
                         this.form.BKEVALUE=this.form.BKE703+'年'+this.form.BKE704+'个月';
-                        
+                        }else {
+                        this.$toast('该人员不是本单位的职员，请重新查询')
+                        return false
+                      }
                         // console.log("LIST",resData.LS_DS[0].AKC421)
                         // console.log("LIST",resData.LS_DS[0].AKC421.split('-'))
                         // resData.LS_DS.forEach( ele => {
@@ -569,7 +576,7 @@ export default {
                         this.$toast('信息未填写完整');
                         return false;
                     }else{
-                        this.$store.dispatch('SET_PAYLIMIT_OPERATION', this.form);     
+                        this.$store.dispatch('SET_PAYLIMIT_OPERATION', this.form);
                         // 封装数据
                         let params = this.formatSubmitData1();
                         // 开始请求
@@ -761,13 +768,13 @@ export default {
                         width: .4rem;
                         height: .4rem;
                         display: inline-block;
-                        
+
                         .svg-icon{
                             padding-left: .3rem;
                             display:block;
                             width: .4rem;
                             height: .4rem;
-                          
+
                         }
                     }
                 }

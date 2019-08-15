@@ -91,7 +91,7 @@ export default {
             AAB004:"",//单位名称
             params:{
                 address: '', //选择的地址
-                detailAddress: '', //详细地址    
+                detailAddress: '', //详细地址
             },
             canSubmit: false,
             bindingFlag: false,
@@ -102,7 +102,7 @@ export default {
             handler: function(val) {
               // if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != ''
                 if(val.AAB001!=''&&val.AAE007 != '' && val.detailAddress != '' && val.AAB005 != ''
-                    && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != '' 
+                    && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != ''
                     && val.BKB225 != '' && val.AAE005 != ''){
                     this.canSubmit = true;
                 }else{
@@ -122,13 +122,15 @@ export default {
     },
     created(){
         this.checkJump();
-        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
-        this.form.AAB301=user.xzqh;
-        this.requset2();
+        this.epFn.setTitle('单位参保变更')
     },
     methods:{
+        // 绑定成功后执行的请求
         changeFlag(val){
             this.bindingFlag = val;
+            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            this.form.AAB301=user.xzqh;
+            this.requset1();
         },
         // 跳转前检查用户是否法人绑定
         checkJump(){
@@ -140,6 +142,10 @@ export default {
                 console.log('绑定',resData)
                 if(resData.enCode == 1000){
                     if(resData.LS_DS[0].USEGUL == '1'){
+                        sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
+                        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                        this.form.AAB301=user.xzqh;
+                        this.requset1();
                         this.bindingFlag = false;
                     }else{
                         this.bindingFlag = true;
@@ -147,7 +153,6 @@ export default {
                 }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                     this.bindingFlag = true;
-                    console.log('显示',this.bindingFlag);
                 }else{
                     this.$toast('业务出错');
                     this.bindingFlag = true;
@@ -190,9 +195,9 @@ export default {
                         }
                 }else if(this.form.AAB005&&(this.form.AAB005.length!=7||this.form.AAB005.length!=8||this.form.AAB005.length!=11)){
                         this.$toast('请确认填写的号码位数是否正确')
-                        return false;                      
+                        return false;
                 }
-                //法人电话BKE280                     
+                //法人电话BKE280
                 if(this.form.BKE280&&this.form.BKE280.length==11){
                     if(!this.util.checkPhone(this.form.BKE280)){
                         this.$toast('请填写正确的手机号码')
@@ -205,9 +210,9 @@ export default {
                         }
                 }else if(this.form.BKE280&&(this.form.BKE280.length!=7||this.form.BKE280.length!=8||this.form.BKE280.length!=11)){
                         this.$toast('请确认填写的号码位数是否正确')
-                        return false;                      
+                        return false;
                 }
-                //专管员1电话BKE283          
+                //专管员1电话BKE283
                 if(this.form.BKE283&&this.form.BKE283.length==11){
                     if(!this.util.checkPhone(this.form.BKE283)){
                         this.$toast('请填写正确的手机号码')
@@ -220,7 +225,7 @@ export default {
                         }
                 }else if(this.form.BKE283&&(this.form.BKE283.length!=7||this.form.BKE283.length!=8||this.form.BKE283.length!=11)){
                         this.$toast('请确认填写的号码位数是否正确')
-                        return false;                      
+                        return false;
                 }
                 //专管员2电话BAC212
                 if(this.form.BAC212&&this.form.BAC212.length==11){
@@ -235,7 +240,7 @@ export default {
                         }
                 }else if(this.form.BAC212&&(this.form.BAC212.length!=7||this.form.BAC212.length!=8||this.form.BAC212.length!=11)){
                         this.$toast('请确认填写的号码位数是否正确')
-                        return false;                      
+                        return false;
                 }
                 //邮箱验证
                 if(this.form.AAE007){
@@ -264,9 +269,9 @@ export default {
             }
             // this.$router.push('/legalChangeDetail');
         },
-        requset1(a){
+        requset1(){
                 // 封装数据
-                let params = this.formatSubmitData1(a);
+                let params = this.formatSubmitData1();
                 // 开始请求
                 this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy9029/9029', params).then((resData) => {
                     //   成功   1000
@@ -288,66 +293,26 @@ export default {
                     }
                 })
         },
-        requset2(){
-                let params = this.formatSubmitData2();
-                // 开始请求
-                console.log('parmas------',params)
-                this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7610/getRecord', params).then((resData) => {
-                    console.log('返回成功信息',resData)
-                    //   成功   1000
-                    if ( resData.enCode == 1000 ) {
-                        console.log("LS_DS",resData)
-                        this.AAB001=resData.LS_DS[0].AAB001;
-                        console.log("AAB001",this.AAB001)
-                        this.AAB004=resData.LS_DS[0].AAB004;
-                        // console.log('form1',this.form1)
-                        this.requset1(resData.LS_DS[0].AAB001)
-                    }else if (resData.enCode == 1001 ) {
-                    //   失败  1001
-                        this.$toast(resData.msg);
-                        return;
-                    }else{
-                        this.$toast('业务出错');
-                        return;
-                    }
-                })
-        },
         formatSubmitData(){
             let submitForm = Object.assign({},this.form);
             // 加入用户名和电子社保卡号
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                submitForm.AAC003=sessionStorage.getItem('userName');
-                submitForm.AAE135=sessionStorage.getItem('idCard');
-            }
-                submitForm.AAB301=sessionStorage.getItem("GinsengLandCode");//统筹区
+                let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                // console.log("9999",LegalPerson)
+                submitForm.AAC003=LegalPerson.CompanyName;
+                submitForm.AAB301=LegalPerson.xzqh//统筹区
                 submitForm.BKE520='1'
-                submitForm.AAB001=this.AAB001;
+                submitForm.AAB001=sessionStorage.getItem('LOGINNAME');
+                submitForm.AAE135='123456';
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;
         },
-        formatSubmitData1(a){
+        formatSubmitData1(){
             let submitForm = {};
             // 加入用户名和电子社保卡号
-            submitForm.AAB001=a;
+            submitForm.AAB001=sessionStorage.getItem('LOGINNAME');
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9029");
-            return params;
-        },
-        formatSubmitData2(){
-            let submitForm = {};
-            // 加入用户名和电子社保卡号
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAC002 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                submitForm.AAC002=submitForm.AAE135=sessionStorage.getItem('idCard');
-                
-            }
-            // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7610");
             return params;
         },
     }

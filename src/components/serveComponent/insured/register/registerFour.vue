@@ -7,7 +7,14 @@
       <!-- 办理结果 -->
       <DetailStatus nameWidth="1.8rem"></DetailStatus>
       <!-- 邮递信息 -->
-      
+      <div class="picWrap">
+        <p>1、统一社会信用代码证</p>
+        <img :src="img1" alt="">
+      </div>
+      <div class="picWrap">
+        <p>2、社会保险单位参保信息登记表</p>
+        <img :src="img2" alt="">
+      </div>
     </div>
     <Success :flag="successFlag"></Success>
     <!-- 底部 -->
@@ -17,38 +24,40 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       currentStep: 1,
       handleNumber: '',
-      successFlag: 1
-    };
-  },
-  created() {
-    if (this.$route.query.param) {
-      this.successFlag = 2;
+      successFlag: 1,
+      img1: '',
+      img2: ''
     }
-    this.epFn.setTitle('参保登记');
-    this.request();
-    this.request1();
+  },
+  created () {
+    if (this.$route.query.param) {
+      this.successFlag = 2
+    }
+    this.epFn.setTitle('参保登记')
+    this.request()
+    this.request1()
     
   },
   methods: {
-    back() {
+    back () {
       // this.$router.push('/')
     },
-    edit() {
-      this.$router.push('/elseWhere');
+    edit () {
+      this.$router.push('/elseWhere')
     },
     // 撤销提醒
-    backout() {
+    backout () {
       this.$messagebox.confirm('确定撤销吗?').then(() => {
-        this.$router.push('/Index');
-        this.$toast('撤销成功');
-      });
+        this.$router.push('/Index')
+        this.$toast('撤销成功')
+      })
     },
-    request() {
-      let params = this.formatSubmitData();
+    request () {
+      let params = this.formatSubmitData()
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1009/getRecord', params).then(resData => {
         console.log('返回成功信息', resData);
         //   成功   1000
@@ -64,12 +73,12 @@ export default {
           return;
         } else {
           this.$toast('业务出错');
-          return;
+          
         }
-      });
+      })
     },
-    request1() {
-      let params = this.formatSubmitData1();
+    request1 () {
+      let params = this.formatSubmitData1()
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1016/info', params).then(resData => {
         console.log('返回成功信息', resData);
         //   成功   1000
@@ -96,146 +105,67 @@ export default {
         } else if (resData.enCode == 1001) {
           //   失败  1001
           this.$toast(resData.msg);
-          return;
+          
         } else {
           this.$toast('业务出错');
           return;
         }
-      });
+      })
     },
-    formatSubmitData() {
-      let submitForm = {};
-      console.log(submitForm);
-      let AKC030 = sessionStorage.getItem('AKC030');
-      console.log('申请原因', AKC030);
-      if (AKC030 == '1') {
-        console.log(1);
-        submitForm.AGA002 = '确认-00253-013-01';
-      } else if (AKC030 == '2') {
-        console.log(2);
-        submitForm.AGA002 = '确认-00253-013-02';
-      } else if (AKC030 == '3') {
-        console.log(3);
-        submitForm.AGA002 = '确认-00253-013-04';
-      } else if (AKC030 == '4') {
-        console.log(4);
-        submitForm.AGA002 = '确认-00253-013-03';
-      } else if (AKC030 == '5') {
-        console.log(5);
-        submitForm.AGA002 = '确认-00253-013-04';
-      }
-      // submitForm.AGA002 =  "330800253013";
-      submitForm.BKZ019 = this.$route.query.param || '';
+    formatSubmitData () {
+      let submitForm = {}
+      
+      submitForm.BKZ019 = this.$route.query.param || this.$store.state.REGISTER_INFO.BKZ019 || ''
       // 加入用户名和电子社保卡号
       if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-        submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-        submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+        submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name
+        submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard
       } else {
-        this.$toast('未获取到人员基本信息');
+        this.$toast('未获取到人员基本信息')
       }
 
       // 请求参数封装
-      const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '1009');
-      return params;
+      const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '1009')
+      return params
     },
-    formatSubmitData1() {
-      let submitForm = {};
-      let AKC030 = sessionStorage.getItem('AKC030');
-      console.log('申请原因', AKC030);
-      if (AKC030 == '1') {
-        console.log(1);
-        submitForm.AGA002 = '确认-00253-013-01';
-      } else if (AKC030 == '2') {
-        console.log(2);
-        submitForm.AGA002 = '确认-00253-013-02';
-      } else if (AKC030 == '3') {
-        console.log(3);
-        submitForm.AGA002 = '确认-00253-013-04';
-      } else if (AKC030 == '4') {
-        console.log(4);
-        submitForm.AGA002 = '确认-00253-013-03';
-      } else if (AKC030 == '5') {
-        console.log(5);
-        submitForm.AGA002 = '确认-00253-013-04';
-      }
-      // submitForm.AGA002 =  "330800253013";
+    formatSubmitData1 () {
+      let submitForm = {}
+      let AKC030 = sessionStorage.getItem('AKC030')
+      submitForm.AGA002 = '确认-00122-002'
       //从进度查询页面进入接收传参
       if (this.$route.query.param) {
-        submitForm.lx = '1';
-        submitForm.BKZ019 = this.$route.query.param;
+        submitForm.lx = '1'
+        submitForm.BKZ019 = this.$route.query.param
       } else {
-        submitForm.lx = '2';
+        submitForm.lx = '2'
         submitForm.BKZ019 = '';
       }
       // 加入用户名和电子社保卡号
       if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-        submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-        submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+        submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name
+        submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard
       } else {
-        this.$toast('未获取到人员基本信息');
+        this.$toast('未获取到人员基本信息')
       }
 
       // 请求参数封装
-      const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '1016');
-      return params;
+      const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '1016')
+      return params
     }
   }
-};
+}
 </script>
 
-
 <style lang="less" scoped>
-.elseDetail {
-  width: 100%;
-  .Content {
-    margin-bottom: 1.4rem;
-    .MailInfo {
-      width: 100%;
-      padding: 0 0.3rem;
-      margin-top: 0.15rem;
-      background: white;
-      .InfoLine {
-        height: 1.2rem;
-        position: relative;
-        font-size: 0.28rem;
-        display: flex;
-        border-bottom: 0.01rem solid #d5d5d5;
-        .InfoName {
-          width: 1.8rem;
-          line-height: 1.2rem;
-          text-align: left;
-          span {
-            height: 0.6rem;
-            line-height: 0.6rem;
-            color: #666;
-            letter-spacing: 0;
-          }
-        }
-        .InfoText {
-          width: 5.1rem;
-          color: #000;
-          line-height: 1.2rem;
-          display: flex;
-          position: relative;
-          align-items: center;
-        }
-        &:nth-child(5) {
-          height: 1.6rem;
-          .InfoText {
-            height: 1.6rem;
-            textarea {
-              border: none;
-              color: #000;
-              width: 5rem;
-              line-height: 0.45rem;
-            }
-          }
-        }
-        &:last-child {
-          border-bottom: none;
-        }
-      }
-    }
+.picWrap{
+  background-color: #fff;
+  padding-top: 20px;
+  p{
+    font-size: .32rem;
+    text-align: left;
+  }
+  img{
+    width:100%;
   }
 }
 </style>

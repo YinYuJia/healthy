@@ -326,8 +326,6 @@ export default {
     form: {
       handler: function (val) {
         for (var key in val) {
-          console.log(key, val[key])
-
           if (!val[key]) {
             this.canSubmit = false
             break
@@ -347,8 +345,31 @@ export default {
     this.getSelectInfo('AAB006')
     this.getSelectInfo('AAE008')
     this.getSelectInfo('BAB451')
+    this.getFromInfo()
   },
   methods: {
+    // 获取回填信息
+    getFromInfo () {
+      const submitForm = {}
+      submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name || '陈志相'
+      submitForm.AAB301 = sessionStorage.getItem('GinsengLandCode') || '003310'
+      submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard || '330327197412201736'
+      const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100-3')
+      this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getDetail', params).then(resData => {
+        if (resData.enCode == 1000) {
+          for (var key in this.form) {
+            this.form[key] = resData.LS_DS_16[key]
+          }
+          // this.form = resData.LS_DS_16
+        } else if (resData.enCode == 1001) {
+          //   失败  1001
+          console.log('返回信息失败', resData)
+          this.$toast(resData.msg)
+        } else {
+          this.$toast('业务出错')
+        }
+      })
+    },
     // 获取下拉选项
     getSelectInfo (val) {
       const submitForm = {
@@ -385,6 +406,7 @@ export default {
     openStartPicker1 () {
       this.$refs.startPicker1.open()
     },
+    // 选择框的确认事件，加VALUE中文显示
     chooseData () {
       this.form[this.selectName + 'VALUE'] = this.label
       this.form[this.selectName] = this.value
@@ -404,7 +426,7 @@ export default {
     },
     chooseCity (val) {
       console.log(val)
-
+      // 这里有地址的汉字和code
       this.form.address = val.name
     },
     onChooseChange (picker, values) {
@@ -444,7 +466,7 @@ export default {
         //   成功   1000
         if (resData.enCode == 1000) {
           console.log('返回信息成功', resData)
-          this.$store.dispatch('REGISTER_INFO', resData);
+          this.$store.dispatch('REGISTER_INFO', resData)
           this.$router.push({ path: '/registerTwo' })
         } else if (resData.enCode == 1001) {
           //   失败  1001

@@ -66,6 +66,7 @@ import medicalInsuranceAccount from '@/components/serveComponent/personal/search
 import searchInsuredInfo from '@/components/serveComponent/personal/searchInsuredInfo/searchInsuredInfo'
 import searchInsuredResult from '@/components/serveComponent/personal/searchInsuredInfo/searchInsuredResult'
 import searchProgress from '@/components/serveComponent/personal/searchProgress/searchProgress'
+import legalSearchProgress from '@/components/serveComponent/personal/legalSearchProgress/legalSearchProgress'
 import searchFee from '@/components/serveComponent/personal/searchFee/searchFee'
 import searchFeeResult from '@/components/serveComponent/personal/searchFee/searchFeeResult'
 import searchRecord from '@/components/serveComponent/personal/searchRecord/searchRecord'
@@ -383,6 +384,11 @@ export default new Router({
       path: '/searchProgress',
       name: 'searchProgress',
       component: searchProgress
+    },
+    {
+      path: '/legalSearchProgress',
+      name: 'legalSearchProgress',
+      component: legalSearchProgress
     },
     {
       path: '/searchFee',
