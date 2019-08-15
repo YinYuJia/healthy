@@ -122,7 +122,6 @@
                 tel: "0571-88808880",
                 imgurl: "",
                 hotMsg: [],
-                iconFlag: false,
                 isClear: true,
                 iconList: [], //图标列表,
                 isVisible: false,
@@ -146,7 +145,6 @@
             }
         },
         mounted() {
-            console.log('---this.$build', this.$build)
             // 跑马灯效果
             setTimeout(() => {
                 // this.srcollLine()
@@ -185,12 +183,12 @@
                         }
                     })
                 }
-            } else {
+            } else { //测试环境
                 sessionStorage.setItem('userType', 2);
                 sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
             }
-            // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
+            // 清空零星报销的Vuex
             let SET_SMALL_REIM_SUBMIT = {
                 AAS301: '', //参保地统筹省编码
                 AAB301: '', //参保地统筹市编码
@@ -237,15 +235,10 @@
             }
             console.log('dddddd引入浙理办SDKddddddd', dd)
             this.epFn.setTitle('医疗保障专区')
-            // 获取参保地
-            if (sessionStorage.getItem("GinsengLandCode") == "339900") {
-                this.iconFlag = true; //省本级设置为true
-            } else {
-                this.iconFlag = false; //其他情况设置为false
-            }
             // 获取当前城市信息
             this.$ep.selectLocalCity((data) => {
                 console.log('selectLocalCity成功回调', data)
+                sessionStorage.setItem("GinsengLandName", data.cityName)
             }, (error) => {
                 console.log('selectLocalCity失败回调', error)
             })
@@ -431,9 +424,6 @@
                     this.toScrollLeft(textWidth, box);
                 }
             },
-            query1() {
-                console.log("query")
-            },
             hint() {
                 this.$toast("功能正在建设中");
             },
@@ -517,12 +507,10 @@
             },
             //药品目录
             medicalList() {
-                console.log(1)
                 this.$router.push("/SearchInfoMedicalList");
             },
             //异地定点医院
             elseWhereHospital() {
-                console.log(2)
                 let item = {}
                 if (this.lat == "" && this.lng == "") {
                     item.lat = "30.274643833098636"
@@ -543,7 +531,9 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                if (sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode").slice(0,4) == "3310") {
+                let areaId = sessionStorage.getItem("GinsengLandCode");
+                console.log(areaId.slice(0,4));
+                if (areaId == "339900" || areaId.slice(0,4) == '3310') {
                     this.$router.push(route);
                 } else {
                     this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
@@ -587,13 +577,6 @@
                             // 调用首页事项和咨询管理
                             this.getMatterInfo(sessionStorage.getItem("GinsengLandCode"));
                             this.getNewsInfo(sessionStorage.getItem("GinsengLandCode"));
-                            if (sessionStorage.getItem("GinsengLandCode") == "339900") {
-                                this.iconFlag = true; //省本级设置为true
-                                this.isTips = false
-                            } else {
-                                this.iconFlag = false; //其他情况设置为false
-                                this.isTips = true
-                            }
                         } else {
                             dd.ready({
                                 developer: 'daip@dtdream.com',
@@ -654,6 +637,7 @@
                     }) => {
                         let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
                         console.log('法人信息',LegalPerson);
+                        sessionStorage.setItem('GinsengLandCode',LegalPerson.xzqh)
                         this.getMatterInfo(LegalPerson.xzqh);
                         this.getNewsInfo(LegalPerson.xzqh);
                         this.resData.attnIDNo = value;

@@ -125,7 +125,7 @@ export default {
     submit () {
       if (this.canSubmit) {
         const submitForm = {
-          BKZ019: this.$store.state.REGISTER_INFO.BKZ019 || '123',
+          BKZ019: this.$store.state.REGISTER_INFO.BKZ019 || '',
           photoIdList: this.photoIdList1 + ',' + this.photoIdList2
         }
         const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100-2')
