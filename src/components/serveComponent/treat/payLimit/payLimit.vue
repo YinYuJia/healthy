@@ -147,7 +147,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>处分:</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openPunishPicker(index)" type="text" v-model="item.AKC423" placeholder="请选择" readonly></div>
+                        <div class="InfoText"><input @click="openPunishPicker(index)" type="text" v-model="item.AKC423VALUE" placeholder="请选择" readonly></div>
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>    
                     </div>               
                 </div>
@@ -530,7 +530,7 @@ export default {
                     if ( resData.enCode == 1000 ) {
                         console.log("11111",resData.LS_DS[0])
                         console.log(this.form)
-                        this.form=resData.LS_DS[0]
+                        this.form=resData.LS_DS[0];
                         this.form.AKC412=this.form.AKC412M+((this.form.AKC412)*12);
                         this.form.BKE703=this.form.BKE703;
                         this.form.BKE704=this.form.BKE704;
@@ -543,7 +543,6 @@ export default {
                         //     ele.timeStart = ele.AKC421.split('-')[0]
                         //     ele.timeEnd = ele.AKC421.split('-')[1]
                         // })
-                        this.LS_DS=resData.LS_DS;
                         // console.log('form1',this.form1)
                         this.showAll=true;
                     }else if (resData.enCode == 1001 ) {
