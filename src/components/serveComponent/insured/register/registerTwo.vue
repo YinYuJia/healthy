@@ -19,22 +19,22 @@
 </template>
 
 <script>
-import { MessageBox } from 'mint-ui';
+import { MessageBox } from 'mint-ui'
 export default {
-  data() {
+  data () {
     return {
       reportImg: ''
     }
   },
-  created() {
+  created () {
     if (this.$route.query.isEdit) {
       MessageBox({
         title: '提示',
         message: '您已修改信息，请重新下载登记表'
       })
     }
-    console.log(this.$store.state.REGISTER_INFO);
-    
+    console.log(this.$store.state.REGISTER_INFO)
+
     this.reportImg = this.$store.state.REGISTER_INFO.imgUrl
   },
   methods: {
@@ -54,9 +54,10 @@ export default {
   height: 100%;
   position: absolute;
   width: 100%;
+  margin-bottom:  1.65rem;
 }
 .picWrap {
-  height: 5rem;
+  // height: 12rem;
 }
 .reportImgClass{
   width: 100%;
