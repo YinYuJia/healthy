@@ -64,6 +64,8 @@
       }
     },
     created() {
+
+
       this.epFn.setTitle('我的事项')
       this.$nextTick(() => {
         let heightTop = document.getElementById("titleContent").offsetHeight;
@@ -177,35 +179,35 @@
         // 封装数据
         let params = this.formatSubmitData();
         // 开始请求
-        this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1018/getList', params).then((resData) => {
+        this.$axios.post(this.epFn.ApiUrl() + '/h5/9104/distanceHospital', params).then((resData) => {
           console.log('返回成功信息', resData)
           //   成功   1000
           if (resData.enCode == 1000) {
-            if (resData.LS_DS.length > 0 && resData.LS_DS.length < 10) {
-              this.isShow = false;
-            }
-            if (resData.LS_DS.length > 0) {
-              this.itemGroup = [...this.itemGroup, ...resData.LS_DS]
-              //向上取整
-              let Num = Math.ceil(resData.pages / this.pageSize);
-              this.totalPage = Num;
-              console.log("totalPage", this.totalPage)
-              let Num111 = Number(this.pageNum);
-              this.pageNum = Num111
-              if (this.totalPage > this.pageNum) {
-                console.log("up", Num111)
-                this.pageNum += 1;
-                console.log("down", this.pageNum)
-                let Num222 = this.pageNum.toString();
-                this.pageNum = Num222
-                console.log('pageNum', this.pageNum)
-                this.allLoaded = false
-                console.log(this.allLoaded)
-              }
-            } else {
-              // this.allLoaded=true
-              this.isShow = true;
-            }
+            // if (resData.LS_DS.length > 0 && resData.LS_DS.length < 10) {
+            //   this.isShow = false;
+            // }
+            // if (resData.LS_DS.length > 0) {
+            //   this.itemGroup = [...this.itemGroup, ...resData.LS_DS]
+            //   //向上取整
+            //   let Num = Math.ceil(resData.pages / this.pageSize);
+            //   this.totalPage = Num;
+            //   console.log("totalPage", this.totalPage)
+            //   let Num111 = Number(this.pageNum);
+            //   this.pageNum = Num111
+            //   if (this.totalPage > this.pageNum) {
+            //     console.log("up", Num111)
+            //     this.pageNum += 1;
+            //     console.log("down", this.pageNum)
+            //     let Num222 = this.pageNum.toString();
+            //     this.pageNum = Num222
+            //     console.log('pageNum', this.pageNum)
+            //     this.allLoaded = false
+            //     console.log(this.allLoaded)
+            //   }
+            // } else {
+            //   // this.allLoaded=true
+            //   this.isShow = true;
+            // }
           } else if (resData.enCode == 1001) {
             //   失败  1001
             this.$toast(resData.msg);
@@ -217,19 +219,18 @@
         })
       },
       formatSubmitData() {
+
         let submitForm = {};
+        let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
         submitForm.BOD037 = this.BOD037 //办件状态
         submitForm.pageNum = this.pageNum //页码
         // 加入用户名和电子社保卡号
-        if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-          submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-          submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-        } else {
-          this.$toast("未获取到人员基本信息");
-        }
+          submitForm.userId=LegalPerson.userId
+          submitForm.BKZ019='0'
+          submitForm.BKE520='1'
         // 请求参数封装
         console.log('submitForm', submitForm)
-        const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, "1018");
+        const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, "9104");
         return params;
       },
       loadBottom() {
