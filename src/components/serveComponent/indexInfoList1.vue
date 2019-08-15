@@ -177,7 +177,9 @@
             // 判断是否法人登录 如果登录 直接跳转法人页面
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
-            const ssoToken = sessionStorage.getItem("ssoToken")
+            
+            const ssoToken = this.util.paramStr("ssoToken")
+            
             if (ssoToken != 'undefined' && ssoToken != null && ssoToken != '') {
                 this.$router.push("/indexInfoList")
             }
@@ -217,12 +219,8 @@
                 this.ifShow = true //显示输入人名社保卡
                 this.showPerson = false //默认隐藏法人用户登录
             } else if (this.$build == "2") {
-                // 法人登录
-                if (sessionStorage.getItem("iflegal") == 2) {
-                    this.isLegalLogin()
-                } else {
-                    // 个人登录
-                    console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
+                个人登录
+                console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
                     var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
                     console.log(globalConfigObj.userType == undefined)
                     if (globalConfigObj.userType == undefined) {
@@ -238,7 +236,6 @@
                             params: globalConfigObj
                         })
                     }
-                }
             }
             console.log('dddddd引入浙理办SDKddddddd', dd)
             this.epFn.setTitle('医疗保障专区')

@@ -27,7 +27,6 @@
             console.log('identifier-----', identifier)
             console.log('type-----', type)
             console.log('aga001-----', aga001)
-           
             
             // return
             if (userType == '2') {  // 法人登录
