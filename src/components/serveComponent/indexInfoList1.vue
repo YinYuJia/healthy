@@ -219,7 +219,7 @@
                 this.ifShow = true //显示输入人名社保卡
                 this.showPerson = false //默认隐藏法人用户登录
             } else if (this.$build == "2") {
-                个人登录
+                // 个人登录
                 console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
                     var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
                     console.log(globalConfigObj.userType == undefined)
@@ -350,7 +350,7 @@
                             this.$router.push(route.pop());
                         } else {
                             if (url.indexOf("?") != -1) {
-                                url = url + '&&' + this.util.getToken()
+                                url = url + '&' + this.util.getToken()
                             } else {
                                 url = url + '?' + this.util.getToken()
                             }

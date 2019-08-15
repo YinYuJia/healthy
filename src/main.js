@@ -175,10 +175,6 @@ export default vConsole;
 Vue.prototype.$build = "1"
 const isShow = false
 
-
-
-
-
 console.log('ddddddd', dd)
 // 1 个人登录 2 法人登录
 if (isShow) {
