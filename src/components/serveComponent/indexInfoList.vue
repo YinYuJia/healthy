@@ -613,7 +613,7 @@
                         value,
                         action
                     }) => {
-                        if(value == ""){
+                        if(value == null){
                             this.resData.xzqh = "339900"
                         }else{
                             this.resData.xzqh = value;
