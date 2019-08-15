@@ -10,46 +10,46 @@
             <div class="MailInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位邮编:</span></div>
-                    <div class="InfoText"></div>
+                    <div class="InfoText">{{form.AAE007}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位地址:</span></div>
-                    <div class="InfoText"></div>
-                </div>
-                <div class="InfoLine">
-                    <div class="InfoName"><span>住址详情:</span></div>
-                    <div class="InfoText"><textarea ></textarea></div>
+                    <div class="InfoText">{{form.AAE006}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位电话:</span></div>
-                    <div class="InfoText"></div>
+                    <div class="InfoText">{{form.AAB005}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法人代表电话:</span></div>
-                    <div class="InfoText"></div>
+                    <div class="InfoText">{{form.BKE280}}</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员姓名:</span></div>
-                    <div class="InfoText"></div>
+                    <div class="InfoName"><span>专管员1姓名:</span></div>
+                    <div class="InfoText">{{form.BKE281}}</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员电话:</span></div>
-                    <div class="InfoText"></div>
+                    <div class="InfoName"><span>专管员1电话:</span></div>
+                    <div class="InfoText">{{form.BKE283}}</div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>专管员2姓名:</span></div>
+                    <div class="InfoText">{{form.BAC210}}</div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>专管员2电话:</span></div>
+                    <div class="InfoText">{{form.BAC212}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员所在部门:</span></div>
-                    <div class="InfoText"></div>
-                </div>
-                <div class="InfoLine">
-                    <div class="InfoName"><span>法人代表电话:</span></div>
-                    <div class="InfoText"></div>
+                    <div class="InfoText">{{form.BKB225}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>邮箱:</span></div>
-                    <div class="InfoText"></div>
+                    <div class="InfoText">{{form.AAE005}}</div>
                 </div>
                 <!-- 进度时间 -->
-                <ProgressDate  replyDate=""  progressDate=""></ProgressDate>
+                <ProgressDate nameWidth="2.2rem"  :replyDate='form.AAE036'  :progressDate='form.BAE019'></ProgressDate>
             </div>
         </div>
         <Success :flag="successFlag"></Success>
@@ -118,7 +118,7 @@ export default {
                 console.log('返回成功信息',resData)
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
-                    // this.form=resData.LS_DS
+                    this.form=resData.LS_DS_15;
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);
@@ -180,7 +180,8 @@ export default {
                     }
                 }
                 .InfoText{
-                    line-height: 1.2rem;
+                    height: 100%;
+                    text-align: left;
                     display: flex;
                     position: relative;
                     align-items: center;
