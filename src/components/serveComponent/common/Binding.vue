@@ -4,34 +4,33 @@
         <div class="bg">
             <svg-icon icon-class="login_bg"></svg-icon>
         </div>
-        <div class="title"><span>医保经办系统</span></div>
         <div class="content">
+            <!-- 标题 -->
+            <div class="contentTitle"><span>医保经办系统</span></div>
+            <!-- 输入栏 -->
             <div class="loginBox">
-                <div class="userName">
+                <div class="loginLine">
                     <svg-icon icon-class="login_user"></svg-icon>
-                    <input class="text" type="text" v-model="form.userName" placeholder="请输入用户名"/>
-                    <div class="clear">
-                        <svg-icon icon-class="login_clear" v-if="form.userName" @click="deleteUserName()"></svg-icon>
-                    </div>
+                    <input placeholder="请输入用户名" v-model="form.userName" />
+                    <svg-icon v-if="form.userName!=''" @click="deleteUserName" icon-class="login_clear"></svg-icon>
                 </div>
-                <div class="passWord">
+                <div class="loginLine">
                     <svg-icon icon-class="login_password"></svg-icon>
-                    <input class="text" type="password" v-model="form.passWord" placeholder="请输入密码"/>
-                    <div class="clear">
-                        <svg-icon icon-class="login_clear" v-if="form.passWord" @click="deletePassWord()"></svg-icon>
-                    </div>
+                    <input placeholder="请输入密码" type="password" v-model="form.passWord" />
+                    <svg-icon v-if="form.passWord!=''" @click="deletePassWord" icon-class="login_clear"></svg-icon>
                 </div>
-                <div class="test">
+                <div class="loginLine">
                     <svg-icon icon-class="login_test"></svg-icon>
-                    <input class="text" v-model="form.code" type="text" placeholder="请输入验证码"/>
-                    <div class="imgBox">
-                        <img @click="changeCode" :src="imgUrl" />
+                    <input placeholder="请输入验证码" v-model="form.code" />
+                    <div @click="changeCode" class="imgBox">
+                        <img :src="imgUrl" />
                     </div>
                 </div>
             </div>
-            
-            <div><button class="SubmitBtn" @click="submit"  :class="{'active': canSubmit == true}" ><span>绑定</span></button></div>
-
+            <!-- 按钮 -->
+            <div class="SubmitBtn" @click="submit()" :class="{'active': canSubmit == true}">
+                <span>绑定</span>
+            </div>
         </div>
     </div>
 </div>
@@ -52,7 +51,7 @@ export default {
             form:{
                 userName:"",//用户名
                 passWord:"",//密码
-                // code: "", //验证码
+                code: "", //验证码
             },
             imgUrl: '',
             canClick: true, //是否能点击刷新，控制点击频率
@@ -69,7 +68,7 @@ export default {
     watch: {
         form:{
             handler:function(val){
-                if(val.userName!="" && val.passWord!=""){
+                if(val.userName!="" && val.passWord!="" && val.code!=""){
                     this.canSubmit=true;
                 }else{
                     this.canSubmit=false;
@@ -103,7 +102,7 @@ export default {
                 OTHERINFO: JSON.parse(sessionStorage.getItem('LegalPerson')).userId,
                 LOGINNAME: this.form.userName,
                 PASSWD: md5(this.form.passWord),
-                // code: this.form.code.toUpperCase(),
+                code: this.form.code.toUpperCase(),
             }
             console.log('params', params);
             this.$axios.post( this.epFn.ApiUrl() + '/H5/jy9103/distanceHospital', params)
@@ -147,127 +146,53 @@ export default {
                 height: 100%;
             }
         }
-        .title{
-            margin-left: .5rem;
-            margin-top: 2.67rem;
-            width: 4.8rem;
-            height: .64rem;
-            background: none;
-            text-align: left;
-            span{   
-                font-family: MicrosoftYaHei;
+        .content{
+            height: 9.5rem;
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            margin-top: -9.5rem/2;
+            padding: 0 .4rem;
+            .contentTitle{
                 font-size: .48rem;
                 color: #FFFFFF;
-                letter-spacing: 2px;
+                letter-spacing: .02rem;
+                text-align: left;
             }
-        }
-        .content{
-                     
             .loginBox{
-                width: 6.7rem;
-                height: 6.93rem;
-                background: #FFFFFF;
-                border-radius: 10px;
-                position: absolute;
-                left: .4rem;
-                top: 4.67rem;
-                .userName{
-                    height: 1.2rem;
-                    line-height: 1.2rem;
-                    text-align: left;
-                    margin-left: .6rem;
-                    margin-right: .6rem;
-                    margin-top: .5rem;
+                width: 100%;
+                height: 6.5rem;
+                background: #FFF;
+                border-radius: .1rem;
+                margin-top: 1.35rem;
+                padding: .2rem .4rem 0;
+                .loginLine{
+                    height: 1.35rem;
+                    display: flex;
+                    align-items: center;
+                    font-size: .28rem;
+                    color: #999999;
+                    letter-spacing: 0;
                     border-bottom: 1px solid #DDDDDD;
                     .svg-icon{
-                        display: inline;
-                        width: .5rem;
                         height: .5rem;
-                    }
-                    .text{
-                        width: 3.8rem;
-                        display: inline-block;
-                        margin-left: .4rem;
-                        font-family: MicrosoftYaHei;
-                        font-size: .28rem;
-                        color: #999999;
-                        letter-spacing: 0;
-                        border: none;
-                    }
-                    .clear{
                         width: .5rem;
-                        height: .5rem;
-                        display: inline-block;
-                        .svg-icon{
-                            width: 100%;
-                            height: 100%;
-                            display: block;
-                            margin-top: .1rem;
+                        &:first-child{
+                            margin-right: .4rem;
                         }
                     }
-                }
-                .passWord{
-                    height: 1.2rem;
-                    line-height: 1.2rem;
-                    text-align: left;
-                    margin-left: .6rem;
-                    margin-top: .5rem;
-                    margin-right: .6rem;
-                    border-bottom: 1px solid #DDDDDD;
-                    .svg-icon{
-                        display: inline-block;
-                        width: .5rem;
+                    input{
+                        width: 80%;
                         height: .5rem;
-                    }
-                    .text{
-                        width: 3.8rem;
-                        display: inline-block;
-                        margin-left: .4rem;
-                        font-family: MicrosoftYaHei;
-                        font-size: .28rem;
-                        color: #999999;
-                        letter-spacing: 0;
                         border: none;
-                    }
-                    .clear{
-                        width: .5rem;
-                        height: .5rem;
-                        display: inline-block;
-                        .svg-icon{
-                            width: 100%;
-                            height: 100%;
-                            display: block;
-                            margin-top: .1rem;
+                        &:last-child{
+                            width: 40%;
                         }
-                    }
-                }
-                .test{
-                    height: 1.2rem;
-                    line-height: 1.2rem;
-                    text-align: left;
-                    margin-left: .6rem;
-                    margin-top: .5rem;
-                    margin-right: .6rem;
-                    border-bottom: 1px solid #DDDDDD;
-                    .svg-icon{
-                        display: inline-block;
-                        width: .5rem;
-                        height: .5rem;
-                    }
-                    .text{
-                        width: 2.42rem;
-                        display: inline-block;
-                        margin-left: .4rem;
-                        font-family: MicrosoftYaHei;
-                        font-size: .28rem;
-                        color: #999999;
-                        letter-spacing: 0;
-                        border: none;
                     }
                     .imgBox{
-                        display: inline-block;
-                        width: 1.8rem;
-                        height: 0.72rem;
+                        width: 2rem;
+                        height: 0.8rem;
+                        background: #EEE;
                         img{
                             height: 100%;
                             width: 100%;
@@ -276,33 +201,21 @@ export default {
                 }
             }
             .SubmitBtn {
-                display: block;
-                background: #F2F2F2;
-                color: #B4B4B4;
-                border-radius: .1rem;
-                border: none;
-                width: 6.6rem;
                 height: 1.05rem;
-                margin-left: .4rem;
-                margin-top: 7.3rem;
-                position: relative;
-                z-index: 1;
-                margin-bottom: 3rem;
-                span{
-                    font-family: MicrosoftYaHei;
-                    font-size: .36rem;
-                    color: #FFFFFF;
-                    letter-spacing: 0;
-                    text-align: center;
-                }
+                width: 100%;
+                border-radius: .05rem;
+                line-height: 1.05rem;
+                background: #F2F2F2;;
+                font-size: .36rem;
+                color: #B4B4B4;
+                letter-spacing: 0;
+                text-align: center;
             }
             .active{
                 background: #1492FF;
                 color: #FFFFFF;
             }
-        }            
-
-
+        }
     }
 }
 </style>
