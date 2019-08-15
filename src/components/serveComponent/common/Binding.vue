@@ -24,7 +24,9 @@
                 <div class="test">
                     <svg-icon icon-class="login_test"></svg-icon>
                     <input class="text" v-model="form.code" type="text" placeholder="请输入验证码"/>
-                    <img @click="changeCode" :src="imgUrl" />
+                    <div class="imgBox">
+                        <img @click="changeCode" :src="imgUrl" />
+                    </div>
                 </div>
             </div>
             
@@ -91,7 +93,7 @@ export default {
                 this.canClick = false
                 setTimeout( ()=> {
                     this.canClick = true
-                },1500)
+                },1000)
             }else{
                 return
             }
@@ -262,8 +264,14 @@ export default {
                         letter-spacing: 0;
                         border: none;
                     }
-                    img{
+                    .imgBox{
                         display: inline-block;
+                        width: 2rem;
+                        height: 0.8rem;
+                        img{
+                            height: 100%;
+                            width: 100%;
+                        }
                     }
                 }
             }
