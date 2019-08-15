@@ -164,7 +164,7 @@
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showAll"></Footer>
         <!-- 法人绑定 -->
-        <Binding :flag="bindingFlag"></Binding>
+        <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding>
     </div>
 </template>
 
@@ -317,6 +317,9 @@ export default {
         this.epFn.setTitle('缴费年限核定')
     },
     methods:{
+        changeFlag(val){
+            this.bindingFlag = val;
+        },
         // 跳转前检查用户是否法人绑定
         checkJump(){
             let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
@@ -527,32 +530,19 @@ export default {
                     if ( resData.enCode == 1000 ) {
                         console.log("11111",resData.LS_DS[0])
                         console.log(this.form)
-                        this.form=resData
+                        this.form=resData.LS_DS[0]
                         this.form.AKC412=this.form.AKC412M+((this.form.AKC412)*12);
                         this.form.BKE703=this.form.BKE703;
                         this.form.BKE704=this.form.BKE704;
                         this.form.AAB001=this.form.AAB001;
                         this.form.BKEVALUE=this.form.BKE703+'年'+this.form.BKE704+'个月';
-                        console.log("111111",this.form.BKE810=='0')
-                        if(this.form.BKE810=='0'){
-                            this.BKE810VALUE='无'
-                            this.uncheck1();
-                        }else if(this.form.BKE810=='1'){
-                            this.BKE810VALUE='因病'
-                        }else if(this.form.BKE810=='2'){
-                            this.BKE810VALUE='特殊工种'
-                        }else if(this.form.BKE810=='3'){
-                            this.BKE810VALUE='符合公务员法'
-                        }else if(this.form.BKE810=='4'){
-                            this.BKE810VALUE='因符合浙委办'
-                        }
                         
-                        console.log("LIST",resData.LS_DS[0].AKC421)
-                        console.log("LIST",resData.LS_DS[0].AKC421.split('-'))
-                        resData.LS_DS.forEach( ele => {
-                            ele.timeStart = ele.AKC421.split('-')[0]
-                            ele.timeEnd = ele.AKC421.split('-')[1]
-                        })
+                        // console.log("LIST",resData.LS_DS[0].AKC421)
+                        // console.log("LIST",resData.LS_DS[0].AKC421.split('-'))
+                        // resData.LS_DS.forEach( ele => {
+                        //     ele.timeStart = ele.AKC421.split('-')[0]
+                        //     ele.timeEnd = ele.AKC421.split('-')[1]
+                        // })
                         this.LS_DS=resData.LS_DS;
                         // console.log('form1',this.form1)
                         this.showAll=true;

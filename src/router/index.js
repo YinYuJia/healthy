@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/serveComponent/index'
+import GlobalConfig from '@/components/serveComponent/GlobalConfig'
 import indexInfoList from '@/components/serveComponent/indexInfoList'
 import indexInfoList1 from '@/components/serveComponent/indexInfoList1'
 import goDetail from '@/components/serveComponent/goDetail'
@@ -102,6 +103,11 @@ export default new Router({
       path: '/Index',
       name: 'Index',
       component: Index
+    },
+    {
+      path: '/GlobalConfig',
+      name: 'GlobalConfig',
+      component: GlobalConfig
     },
     {
       path: '/',

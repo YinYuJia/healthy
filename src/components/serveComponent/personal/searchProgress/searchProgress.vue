@@ -83,6 +83,7 @@
                 // 开始请求
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1034/info', params).then((resData) => {
                     console.log('返回成功信息', resData)
+                    
                     //   成功   1000
                     if (resData.enCode == 1000) {
                         let path = '';

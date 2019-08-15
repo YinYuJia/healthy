@@ -21,7 +21,27 @@ function formatDate (date, fmt) {
 function padLeftZero (str) {
     return ('00' + str).substr(str.length)
 }
-
+function paramStr(name) {
+    var url = window.location.href || window.location.hash
+    var after = url.split("?")[1];
+    if (after) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var r = after.match(reg);
+      if (r != null) {
+        var a = '8afac8196b0b9ab2016b46f1c6e36c4e-ticket#/';
+        var str1 = decodeURIComponent(r[2])
+        var str = ''
+        if (str1.substr(str1.length - 2, 2) == '#/') {
+          str = str1.substr(0, str1.length - 2)
+          return str
+        } else {
+          return decodeURIComponent(r[2])
+        }
+      } else {
+        return null;
+      }
+    }
+  }
 // 日期转换为Number
 function DateToNumber(date){
     let dateNum = date.replace(/-/g,'');
@@ -142,6 +162,7 @@ function getToken() {
 export default{
     formatDate,
     DateToNumber,
+    paramStr,
     NumberToDate,
     checkPhone,
     checkHomePhone,

@@ -112,7 +112,8 @@ Object.keys(filters).forEach(key => { //过滤器
 
 // Svg 图片
 {
-  /* <svg-icon icon-class="1"  className = "Svg" /> */ }
+  /* <svg-icon icon-class="1"  className = "Svg" /> */
+}
 /* eslint-disable no-new */
 
 
@@ -180,6 +181,7 @@ if (isShow) {
   console.log(2)
   // Vue.prototype.$isUserLogin = '1'
   router.beforeEach((to, from, next) => {
+
     dd.ready({
         developer: 'daip@dtdream.com',
         usage: [
@@ -193,6 +195,25 @@ if (isShow) {
             sessionStorage.setItem("userType", data.userType)
             console.log("data获取用户类型", data)
             if (data.userType == '0' || data.userType == '1') {
+              // 如果是个人登录 获取url参数
+              // ------------事项url配置截取sp分成对象保存到session里面开始---------start
+              var sp = paramStr('sp')
+              console.log(sp)
+              if (sp != "" && sp != undefined && sp != null) {
+                const arr1 = sp.split("|")
+                let obj = {}
+                arr1.map((item, index) => {
+                  console.log(item.split("=")[0] + '------' + item.split("=")[1])
+                  console.log()
+                  obj[item.split("=")[0]] = item.split("=")[1]
+                })
+                console.log('obj---', obj)
+                sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
+              } else {
+                sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
+              }
+              // ------------事项url配置截取sp分成对象保存到session里面---------end
+
               sessionStorage.setItem("iflegal", data.userType)
               const code = 'yibaozs';
               console.log('code', code)
@@ -202,7 +223,7 @@ if (isShow) {
               var token = sessionStorage.getItem("getToken")
               console.log('token-------------', token)
               //59.202.42.147:23030
-              if (token != "" && token != undefined && token != null) {
+              if (token != "" && token != 'undefined' && token != null) {
                 axios.post(ApiUrl() + "/H5/jy2005/info", {
                   "token": token,
                   "tradeCode": "2005"
@@ -261,14 +282,29 @@ if (isShow) {
                   window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode=" + code;
                 }
               }
-            } else if(data.userType == '2') {
+            } else if (data.userType == '2') {
               console.log('法人登录')
+              console.log("window.location.href", window.location.href)
+              var arr = window.location.href.split("?")
+              if (window.location.href.indexOf("ssoToken") != -1) {
+                console.log('----', arr)
+                const arr1 = arr[1].split("&")
+                let obj = {}
+                arr1.map((item, index) => {
+                  console.log(item.split("=")[0] + '------' + item.split("=")[1])
+                  obj[item.split("=")[0]] = item.split("=")[1]
+                })
+                console.log('obj---', obj)
+                sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
+              } else {
+                sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
+              }
               var ssoToken = paramStr("ssoToken");
-          
+
               console.log('ssoToken', ssoToken)
               if (ssoToken != "" && ssoToken != undefined && ssoToken != null) {
-                 sessionStorage.setItem("ssoToken",ssoToken)
-                 next();
+                sessionStorage.setItem("ssoToken", ssoToken)
+                next();
               } else {
                 window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=?epsoft=1'
               }
