@@ -330,6 +330,7 @@ export default {
                 console.log('绑定',resData)
                 if(resData.enCode == 1000){
                     if(resData.LS_DS[0].USEGUL == '1'){
+                        sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
                         this.bindingFlag = false;
                     }else{
                         this.bindingFlag = true;
@@ -337,7 +338,6 @@ export default {
                 }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                     this.bindingFlag = true;
-                    console.log('显示',this.bindingFlag);
                 }else{
                     this.$toast('业务出错');
                     this.bindingFlag = true;
