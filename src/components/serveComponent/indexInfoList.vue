@@ -173,6 +173,12 @@
                         console.log('返回成功信息', resData);
                         //  保存法人信息对象
                         sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
+                        // 请求图标和咨询
+                        if(resData.xzqh == ""){
+                            resData.xzqh == "339900"
+                        }
+                        this.getMatterInfo(resData.xzqh);
+                        this.getNewsInfo(resData.xzqh);
                         var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
                         if (globalConfigObj.userType == undefined) {} else {
                             // url事项配置 跳转路由
@@ -238,7 +244,6 @@
             // 获取当前城市信息
             this.$ep.selectLocalCity((data) => {
                 console.log('selectLocalCity成功回调', data)
-                sessionStorage.setItem("GinsengLandName", data.cityName)
             }, (error) => {
                 console.log('selectLocalCity失败回调', error)
             })
@@ -302,7 +307,7 @@
             jumpToUrl(url, status) {
                 // status为1是失效状态
                 if (status == '1') {
-                    this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
+                    this.$toast('您所在的区域暂未开通');
                     return;
                 } else {
                     // 省本级项目 todo 单位参保登记
@@ -318,27 +323,6 @@
                         }
                     }
                 }
-            },
-            // 跳转前检查用户是否法人绑定
-            checkJump() {
-                let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                let params = {
-                    OTHERINFO: user.userId
-                }
-                this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
-                    if (resData.enCode == 1000) {
-                        return true;
-                    } else if (resData.enCode == 1001) {
-                        this.$router.push('login');
-                        //   失败  1001
-                        this.$toast(resData.msg);
-                        return;
-                    } else {
-                        this.$toast('业务出错');
-                        return;
-                    }
-                    console.log(resData);
-                })
             },
             //动态获取事项信息
             getMatterInfo(code) {
@@ -536,7 +520,7 @@
                 if (areaId == "339900" || areaId.slice(0,4) == '3310') {
                     this.$router.push(route);
                 } else {
-                    this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
+                    this.$toast('您所在的区域暂未开通');
                     return;
                 }
             },
