@@ -10,7 +10,7 @@
         </div>
         <div style="display:block;">
 
-        <svg-icon @click="uploadImg(1)" icon-class="serveComponent_upload" />
+        <svg-icon @click="uploadImg('21')" icon-class="serveComponent_upload" />
         </div>
       </div>
       <div class="uploadHint">2.社会保险单位参保信息登记表</div>
@@ -21,7 +21,7 @@
         </div>
         <div>
 
-        <svg-icon @click="uploadImg(2)" icon-class="serveComponent_upload" />
+        <svg-icon @click="uploadImg('22')" icon-class="serveComponent_upload" />
         </div>
       </div>
     </div>
@@ -41,7 +41,9 @@ export default {
         img2: ''
       },
       imgUrl: '',
-      canSubmit: false
+      canSubmit: false,
+      photoIdList1: '',
+      photoIdList2: ''
     }
   },
   created () {
@@ -89,16 +91,19 @@ export default {
                 // 加入照片
                 submitForm.photoList = data.picPath[0]
                 // 类型为附件
-                submitForm.PTX001 = '2'
+                // PTX001  21为统一社会信用代码证  22为社会保险单位参保信息登记表
+                submitForm.PTX001 = index
                 const params = This.epFn.commonRequsetData(This.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '2006')
                 // 图片上传后台
                 This.$axios.post(This.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
                   //   成功   1000
                   if (resData.enCode == 1000) {
-                    if (index == 1) {
+                    if (index == '21') {
                       This.picWrap.img1 = data.picPath[0]
+                      This.photoIdList1 = resData.photoId
                     } else {
                       This.picWrap.img2 = data.picPath[0]
+                      This.photoIdList2 = resData.photoId
                     }
                   } else if (resData.enCode == 1001) {
                     //   失败  1001
@@ -119,7 +124,22 @@ export default {
     },
     submit () {
       if (this.canSubmit) {
-        this.$router.push({path: '/registerFour'})
+        const submitForm = {
+          BKZ019: this.$store.state.REGISTER_INFO.BKZ019 || '123',
+          photoIdList: this.photoIdList1 + ',' + this.photoIdList2
+        }
+        const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100-2')
+        this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/updPhoto', params).then(resData => {
+          if (resData.enCode == 1000) {
+            this.$router.push({path: '/registerFour'})
+          } else if (resData.enCode == 1001) {
+          //   失败  1001
+            console.log('返回信息失败', resData)
+            this.$toast(resData.msg)
+          } else {
+            this.$toast('业务出错')
+          }
+        })
       }
     }
   }
