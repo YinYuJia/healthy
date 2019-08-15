@@ -78,11 +78,7 @@
                 </div>
             </div>
             <div v-if="workStatus=='06'" class="CompleteInfo">
-                <div class="CompleteTitle">已补充材料({{completeList.length}})</div>
-                <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
-                    {{item.BKE265}}
-                </div>
-                <!-- <div class="CompleteLine" style="color:#1492FF">已补充</div> -->
+                <div class="CompleteLine" style="color:#1492FF">材料已补充</div>
             </div>
         </div>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>

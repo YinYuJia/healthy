@@ -1,77 +1,95 @@
 <template>
-    <div id="app">
-		<div class="picWrap"><img src="" alt=""></div>
-		<div class="tips">
-      <p><i class="el-icon-warning" style="color:#05AEF0"></i>温馨提示</p>
-			<p>请下载该登记表，并于敲章后重新上传。</p>
-		</div>
-      <div class="box">
-        <div class="footer">
-          <mt-button class="btn1" type="default">下载登记表</mt-button>
-          <mt-button class="btn2" type="primary" @click="goUpload">上传附件</mt-button>
-        </div>
+  <div id="app">
+    <div class="picWrap">
+      <img :src="reportImg" class="reportImgClass" alt />
+    </div>
+    <div class="tips">
+      <p>
+        <i class="el-icon-warning" style="color:#05AEF0"></i>温馨提示
+      </p>
+      <p>请下载该登记表，并于敲章后重新上传。</p>
+    </div>
+    <div class="box">
+      <div class="footer">
+        <mt-button class="btn1" type="default" @click="downReport">下载登记表</mt-button>
+        <mt-button class="btn2" type="primary" @click="goUpload">上传附件</mt-button>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
-import { MessageBox } from 'mint-ui'
+import { MessageBox } from 'mint-ui';
 export default {
-  created () {
+  data() {
+    return {
+      reportImg: ''
+    }
+  },
+  created() {
     if (this.$route.query.isEdit) {
       MessageBox({
         title: '提示',
         message: '您已修改信息，请重新下载登记表'
       })
     }
+    console.log(this.$store.state.REGISTER_INFO);
+    
+    this.reportImg = this.$store.state.REGISTER_INFO.imgUrl
   },
   methods: {
     goUpload () {
-      this.$router.push({path: '/registerThree'})
+      this.$router.push({ path: '/registerThree' })
+    },
+    downReport () {
+      window.location.href = this.$store.state.REGISTER_INFO.pdfUrl
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-#app{
-	background: #fff;
-	height: 100%;
-	position: absolute;
-	width: 100%;
+#app {
+  background: #fff;
+  height: 100%;
+  position: absolute;
+  width: 100%;
 }
-.picWrap{
-	height: 5rem;
+.picWrap {
+  height: 5rem;
 }
-.tips{
-	font-size: .24rem;
-	text-align: left;
-	color: #000;
-	line-height: 2;
+.reportImgClass{
+  width: 100%;
+}
+.tips {
+  font-size: 0.24rem;
+  text-align: left;
+  color: #000;
+  line-height: 2;
   margin-left: 30px;
   font-family: PingFangSC-Regular;
   opacity: 0.45;
 }
 .box {
   position: fixed;
-  bottom: .3rem;
-  left: .3rem;
-  right: .3rem;
+  bottom: 0.3rem;
+  left: 0.3rem;
+  right: 0.3rem;
   .footer {
     display: flex;
     .btn1 {
       flex: 1;
-      background: #FFFFFF;
-      border: 1px solid #C9C9C9;
+      background: #ffffff;
+      border: 1px solid #c9c9c9;
       border-radius: 5px;
       width: 3.45rem;
       height: 1.05rem;
-      margin-right: .3rem;
+      margin-right: 0.3rem;
     }
 
     .btn2 {
       flex: 1;
-      background: #1492FF;
+      background: #1492ff;
       border-radius: 5px;
       width: 3.45rem;
       height: 1.05rem;
