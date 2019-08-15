@@ -21,11 +21,13 @@
                         <svg-icon icon-class="login_clear" v-if="form.passWord" @click="deletePassWord()"></svg-icon>
                     </div>
                 </div>
-                <!-- <div class="test">
+                <div class="test">
                     <svg-icon icon-class="login_test"></svg-icon>
                     <input class="text" v-model="form.code" type="text" placeholder="请输入验证码"/>
-                    <img @click="changeCode" :src="imgUrl" />
-                </div> -->
+                    <div class="imgBox">
+                        <img @click="changeCode" :src="imgUrl" />
+                    </div>
+                </div>
             </div>
             
             <div><button class="SubmitBtn" @click="submit"  :class="{'active': canSubmit == true}" ><span>绑定</span></button></div>
@@ -52,7 +54,8 @@ export default {
                 passWord:"",//密码
                 // code: "", //验证码
             },
-            // imgUrl: '',
+            imgUrl: '',
+            canClick: true, //是否能点击刷新，控制点击频率
         }
     },
     computed: {
@@ -60,9 +63,9 @@ export default {
             return this.flag
         }
     },
-    // created(){
-    //     this.imgUrl = this.epFn.ApiUrl() +  '/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
-    // },
+    created(){
+        this.imgUrl = this.epFn.ApiUrl() +  '/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
+    },
     watch: {
         form:{
             handler:function(val){
@@ -84,8 +87,16 @@ export default {
         },
         // 获取验证码
         changeCode(){
-            this.imgUrl = this.imgUrl.split('&')[0]
-            this.imgUrl = this.imgUrl + '&date=' + new Date();
+            if(this.canClick){
+                this.imgUrl = this.imgUrl.split('&')[0]
+                this.imgUrl = this.imgUrl + '&num=' + Math.random(10)
+                this.canClick = false
+                setTimeout( ()=> {
+                    this.canClick = true
+                },1000)
+            }else{
+                return
+            }
         },
         submit(){
             let params = {
@@ -253,8 +264,14 @@ export default {
                         letter-spacing: 0;
                         border: none;
                     }
-                    img{
+                    .imgBox{
                         display: inline-block;
+                        width: 1.8rem;
+                        height: 0.72rem;
+                        img{
+                            height: 100%;
+                            width: 100%;
+                        }
                     }
                 }
             }

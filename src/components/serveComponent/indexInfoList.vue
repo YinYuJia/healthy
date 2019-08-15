@@ -52,15 +52,15 @@
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                    <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                    <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                </div>
-            </div> -->
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                            <div class="swiper-slide">
+                                <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                            <div class="swiper-slide">
+                                <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                        </div>
+                    </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -69,10 +69,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-            </swipe> -->
+                        <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                    </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -122,11 +122,10 @@
                 tel: "0571-88808880",
                 imgurl: "",
                 hotMsg: [],
-                iconFlag: false,
                 isClear: true,
                 iconList: [], //图标列表,
                 isVisible: false,
-                resData:{
+                resData: {
                     CompanyName: "浙江政务网法人测试用户",
                     CompanyRegNumber: "91330103704789206U",
                     CompanyType: "企业法人",
@@ -146,7 +145,6 @@
             }
         },
         mounted() {
-            console.log('---this.$build', this.$build)
             // 跑马灯效果
             setTimeout(() => {
                 // this.srcollLine()
@@ -164,8 +162,8 @@
             // 判断是否法人登录
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR------', sessionStorage.getItem('isClear'));
+            console.log("全局实现配置法人参数", JSON.parse(sessionStorage.getItem("globalConfigObj")))
             if (this.$build == '2') {
-
                 const ssoToken = sessionStorage.getItem("ssoToken")
                 console.log('----法人ssoToken----', ssoToken)
                 if (ssoToken != undefined && ssoToken != '' && ssoToken != null) {
@@ -175,14 +173,22 @@
                         console.log('返回成功信息', resData);
                         //  保存法人信息对象
                         sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
+                        var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
+                        if (globalConfigObj.userType == undefined) {} else {
+                            // url事项配置 跳转路由
+                            this.$router.push({
+                                name: globalConfigObj.identifier,
+                                params: globalConfigObj
+                            })
+                        }
                     })
                 }
-            } else {
+            } else { //测试环境
                 sessionStorage.setItem('userType', 2);
                 sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
             }
-            // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
+            // 清空零星报销的Vuex
             let SET_SMALL_REIM_SUBMIT = {
                 AAS301: '', //参保地统筹省编码
                 AAB301: '', //参保地统筹市编码
@@ -229,15 +235,10 @@
             }
             console.log('dddddd引入浙理办SDKddddddd', dd)
             this.epFn.setTitle('医疗保障专区')
-            // 获取参保地
-            if (sessionStorage.getItem("GinsengLandCode") == "339900") {
-                this.iconFlag = true; //省本级设置为true
-            } else {
-                this.iconFlag = false; //其他情况设置为false
-            }
             // 获取当前城市信息
             this.$ep.selectLocalCity((data) => {
                 console.log('selectLocalCity成功回调', data)
+                sessionStorage.setItem("GinsengLandName", data.cityName)
             }, (error) => {
                 console.log('selectLocalCity失败回调', error)
             })
@@ -317,6 +318,27 @@
                         }
                     }
                 }
+            },
+            // 跳转前检查用户是否法人绑定
+            checkJump() {
+                let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                let params = {
+                    OTHERINFO: user.userId
+                }
+                this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
+                    if (resData.enCode == 1000) {
+                        return true;
+                    } else if (resData.enCode == 1001) {
+                        this.$router.push('login');
+                        //   失败  1001
+                        this.$toast(resData.msg);
+                        return;
+                    } else {
+                        this.$toast('业务出错');
+                        return;
+                    }
+                    console.log(resData);
+                })
             },
             //动态获取事项信息
             getMatterInfo(code) {
@@ -402,9 +424,6 @@
                     this.toScrollLeft(textWidth, box);
                 }
             },
-            query1() {
-                console.log("query")
-            },
             hint() {
                 this.$toast("功能正在建设中");
             },
@@ -488,12 +507,10 @@
             },
             //药品目录
             medicalList() {
-                console.log(1)
                 this.$router.push("/SearchInfoMedicalList");
             },
             //异地定点医院
             elseWhereHospital() {
-                console.log(2)
                 let item = {}
                 if (this.lat == "" && this.lng == "") {
                     item.lat = "30.274643833098636"
@@ -514,7 +531,9 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                if (sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode").slice(0,4) == "3310") {
+                let areaId = sessionStorage.getItem("GinsengLandCode");
+                console.log(areaId.slice(0,4));
+                if (areaId == "339900" || areaId.slice(0,4) == '3310') {
                     this.$router.push(route);
                 } else {
                     this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
@@ -558,13 +577,6 @@
                             // 调用首页事项和咨询管理
                             this.getMatterInfo(sessionStorage.getItem("GinsengLandCode"));
                             this.getNewsInfo(sessionStorage.getItem("GinsengLandCode"));
-                            if (sessionStorage.getItem("GinsengLandCode") == "339900") {
-                                this.iconFlag = true; //省本级设置为true
-                                this.isTips = false
-                            } else {
-                                this.iconFlag = false; //其他情况设置为false
-                                this.isTips = true
-                            }
                         } else {
                             dd.ready({
                                 developer: 'daip@dtdream.com',
@@ -610,7 +622,7 @@
                     }) => {
                         sessionStorage.setItem('changeLegalPersonName', value);
                         console.log("法人用户名", sessionStorage.getItem('changeLegalPersonName'))
-                        console.log('法人信息',this.resData.attnName = value)
+                        console.log('法人信息', this.resData.attnName = value)
                     });
                 } else {
                     this.$toast("功能正在建设中")
@@ -625,9 +637,12 @@
                     }) => {
                         let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
                         console.log('法人信息',LegalPerson);
+                        sessionStorage.setItem('GinsengLandCode',LegalPerson.xzqh)
                         this.getMatterInfo(LegalPerson.xzqh);
                         this.getNewsInfo(LegalPerson.xzqh);
                         this.resData.attnIDNo = value;
+                        console.log('法人信息', this.resData.attnIDNo)
+                        console.log(this.resData)
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
@@ -635,17 +650,18 @@
                 }
             },
             // 法人userId更改
-            changeLegalPersonUserId(str){
+            changeLegalPersonUserId(str) {
                 if (str) {
                     MessageBox.prompt('输入UserId', '').then(({
                         value,
                         action
                     }) => {
+                        let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
                         this.resData.userId = value;
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
-                    this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))
+                    this.$toast('功能正在建设中', JSON.parse(sessionStorage.getItem("LegalPerson")))
                 }
             },
             // 单位编码更改

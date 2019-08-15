@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/serveComponent/index'
+import GlobalConfig from '@/components/serveComponent/GlobalConfig'
 import indexInfoList from '@/components/serveComponent/indexInfoList'
 import indexInfoList1 from '@/components/serveComponent/indexInfoList1'
 import goDetail from '@/components/serveComponent/goDetail'
@@ -65,6 +66,7 @@ import medicalInsuranceAccount from '@/components/serveComponent/personal/search
 import searchInsuredInfo from '@/components/serveComponent/personal/searchInsuredInfo/searchInsuredInfo'
 import searchInsuredResult from '@/components/serveComponent/personal/searchInsuredInfo/searchInsuredResult'
 import searchProgress from '@/components/serveComponent/personal/searchProgress/searchProgress'
+import legalSearchProgress from '@/components/serveComponent/personal/legalSearchProgress/legalSearchProgress'
 import searchFee from '@/components/serveComponent/personal/searchFee/searchFee'
 import searchFeeResult from '@/components/serveComponent/personal/searchFee/searchFeeResult'
 import searchRecord from '@/components/serveComponent/personal/searchRecord/searchRecord'
@@ -101,6 +103,11 @@ export default new Router({
       path: '/Index',
       name: 'Index',
       component: Index
+    },
+    {
+      path: '/GlobalConfig',
+      name: 'GlobalConfig',
+      component: GlobalConfig
     },
     {
       path: '/',
@@ -377,6 +384,11 @@ export default new Router({
       path: '/searchProgress',
       name: 'searchProgress',
       component: searchProgress
+    },
+    {
+      path: '/legalSearchProgress',
+      name: 'legalSearchProgress',
+      component: legalSearchProgress
     },
     {
       path: '/searchFee',

@@ -259,10 +259,13 @@ export default {
                 }else if(Type == 2){
                     resList.forEach((ele,index) =>{
                         ele.children.forEach(innerEle =>{
-                            innerEle.jumpUrl = innerEle.personJumpUrl;
+                            innerEle.jumpUrl = innerEle.unitJumpUrl;
                         })
                         if(ele.children.length != 0){
-                            this.titleList.push(ele.iconCategoryName);
+                            this.titleList.push({
+                                name: ele.iconCategoryName,
+                                index: index
+                            });
                         }
                     })
                 }
