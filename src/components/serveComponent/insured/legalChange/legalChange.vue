@@ -122,6 +122,7 @@ export default {
     },
     created(){
         this.checkJump();
+        this.epFn.setTitle('单位参保变更')
     },
     methods:{
         // 绑定成功后执行的请求
@@ -149,7 +150,6 @@ export default {
                 }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                     this.bindingFlag = true;
-                    console.log('显示',this.bindingFlag);
                 }else{
                     this.$toast('业务出错');
                     this.bindingFlag = true;
