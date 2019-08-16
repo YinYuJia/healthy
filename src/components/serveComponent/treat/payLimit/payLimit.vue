@@ -265,15 +265,18 @@ export default {
     watch:{
         form:{
             handler:function(val){
-                if(
-                    val.AAE135 != '' && val.BKEVALUE != '' && val.AKC412 != ''&& val.AAB001!=''&&
-                    val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != '' && val.BKE810 != ''
+                
+                    // val.AAE135 != '' && val.BKEVALUE != '' && val.AKC412 != ''&& val.AAB001!=''&&
+                    // val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != ''
+                if(val.BKE810 != ''&&val.AKC412 != ''&&val.AAE041!=''
                 ){
                     this.flag = true;
                     console.log("flag",this.flag)
+                    console.log("111121",this.form)
                 }else{
                     this.flag = false;
                     console.log("flag",this.flag)
+                    console.log("111",this.form)
                 }
                 if(this.flag==true&&this.LSflag==true){
                     this.canSubmit = true;
@@ -460,6 +463,13 @@ export default {
             console.log("类型",val);
             this.form.BKE810 = val.value;
             this.BKE810VALUE = val.label;
+            console.log("value",val.value)
+            console.log("label",val.label)
+            console.log("value1",this.form.BKE810)
+            console.log("label1",this.BKE810VALUE)
+            console.log(this.flag)
+            console.log(this.form)
+
         },
         //处分类型选择
         openPunishPicker(index){
