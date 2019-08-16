@@ -155,6 +155,8 @@ function decimalPoint(num){
 
 //   获取token拼接地市url信息
 function getToken() {
+    // 获取政务网token
+    console.log('获取政务网token---util',sessionStorage.getItem("getToken"))
     return 'token=' + sessionStorage.getItem("getToken");
     // return 'token=' + 13456546917;
 }
