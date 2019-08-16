@@ -197,6 +197,7 @@ export default {
                 // submitForm.AGA002 =  "330800123004";
                 // 加入用户名和电子社保卡号
                 submitForm.BKZ019=this.$route.query.param||""
+                console.log('接收到的身份证号',sessionStorage.getItem('payLimitAAE135'))
                 if(sessionStorage.getItem('payLimitAAE135')!=null){
                 submitForm.AAE135=sessionStorage.getItem('payLimitAAE135')
                 }
@@ -216,6 +217,7 @@ export default {
                     submitForm.lx="2";
                     submitForm.BKZ019="";
                 }
+                console.log('接收到的身份证号',sessionStorage.getItem('payLimitAAE135'))
                 if(sessionStorage.getItem('payLimitAAE135')!=null){
                 submitForm.AAE135=sessionStorage.getItem('payLimitAAE135')
                 }

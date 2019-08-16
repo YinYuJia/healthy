@@ -106,6 +106,8 @@ export default {
             let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
             let name=sessionStorage.getItem('personName')
             let id=sessionStorage.getItem('personId')
+            console.log('name',name)
+            console.log('id',id)
             submitForm.AGA002 =  "公共服务-00501-004";
             submitForm.AAC003 =LegalPerson.attnName|| name;
             submitForm.BKZ019 =this.$route.query.param||""
@@ -136,6 +138,8 @@ export default {
             let submitForm = {}
             let name=sessionStorage.getItem('personName')
             let id=sessionStorage.getItem('personId')
+            console.log('name',name)
+            console.log('id',id)
             submitForm.AGA002 =  "公共服务-00501-004";
             //从进度查询页面进入接收传参
             if(this.$route.query.param){

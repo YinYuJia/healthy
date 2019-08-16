@@ -102,6 +102,8 @@ export default {
             },
             canSubmit: false,
             bindingFlag: false,
+            personName:"",
+            personId:""
         }
     },
     watch:{
@@ -139,6 +141,7 @@ export default {
                     value,
                     action
                 }) => {
+                    this.personName=value;
                     sessionStorage.setItem('personName', value);
                 });
             } else {
@@ -152,6 +155,7 @@ export default {
                     value,
                     action
                 }) => {
+                    this.personId=value;
                     sessionStorage.setItem('personId', value);
                 });
             } else {
