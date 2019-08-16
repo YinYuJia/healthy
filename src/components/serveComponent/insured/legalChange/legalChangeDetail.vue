@@ -75,6 +75,9 @@ export default {
         }
     },
     created(){
+        if(this.$route.query.param){
+            this.successFlag = 2;
+        }
         this.request();
         this.request1();
     },

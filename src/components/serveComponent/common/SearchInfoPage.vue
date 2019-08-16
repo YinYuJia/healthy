@@ -24,7 +24,7 @@
         <div class="SearchBtn" @click="search">搜索</div>
       </div>
     </div>
-    <div class="content1" :style="{height:height,fontSize:'16px'}">
+    <div class="content1" :style="{height:height,fontSize:'16px'}" v-if="!bank">
         <mt-loadmore
           :bottom-method="loadBottom"
           :bottom-all-loaded="allLoaded"
@@ -37,6 +37,23 @@
               :key="index"
               @click="chooseHospital(item.AAA102,item.AAA103)"
             >{{ item.AAA103 | tooLong}}</li>
+          </ul>
+        </mt-loadmore>
+        <div class="footer" v-if="isShow">没有更多数据了~</div>
+    </div>
+    <div class="content1" :style="{height:height,fontSize:'16px'}" v-if="bank">
+        <mt-loadmore
+          :bottom-method="loadBottom"
+          :bottom-all-loaded="allLoaded"
+          ref="loadmore"
+        >
+          <ul class="ListContent">
+            <li
+              class="List"
+              v-for="(item,index) in List"
+              :key="index"
+              @click="chooseHospital(item.BAC048,item.AAE008)"
+            >{{ item.BAC048 | tooLong}}</li>
           </ul>
         </mt-loadmore>
         <div class="footer" v-if="isShow">没有更多数据了~</div>
@@ -89,6 +106,10 @@ export default {
     title:{
         type: String,
         default: "搜索"
+    },
+    bank:{
+        type: Boolean,
+        default:false
     }
   },
   watch:{
@@ -133,7 +154,7 @@ export default {
     // this.$nextTick(() => {
     //   document.body.addEventListener('touchmove',function(e){
     //     e.preventDefault(); //阻止默认事件(上下滑动)
-    //   })\
+    //   })
     // })
   },
   mounted () {
@@ -149,48 +170,93 @@ export default {
     },
     // 获取医院列表
     getList() {
-      // 封装数据
-      let params = this.formatSubmitData();
-      // 开始请求
-      this.$axios.post(this.epFn.ApiUrl()+"/h5/jy2001/optionInformationList",params).then(resData => {
-          console.log("返回成功信息", resData.LS_DS);
-          //   成功   1000
-          if (resData.enCode == 1000) {
-            
-            // this.$toast("提交成功");
-            if (resData.LS_DS.length > 0) {
-              this.List = [...this.List, ...resData.LS_DS];
-              let pageNum = Math.ceil(this.List.length / this.params.pageSize);
-              //向上取整
-              this.params.pageNum = pageNum;
-              // 总页数
-              if (resData.pages > pageNum) {
-                this.params.pageNum += 1;
-                this.allLoaded = false;
+      if(this.bank){
+        // 封装数据
+        let params = this.formatSubmitData1();
+        // 开始请求
+        this.$axios.post(this.epFn.ApiUrl()+"/H5/jy9101/9101",params).then(resData => {
+            console.log("返回成功信息", resData.LS_DS);
+            //   成功   1000
+            if (resData.enCode == 1000) {
+              
+              // this.$toast("提交成功");
+              if (resData.LS_DS.length > 0) {
+                this.List = [...this.List, ...resData.LS_DS];
+                let pageNum = Math.ceil(this.List.length / 20);
+                //向上取整
+                this.params.pageNum = pageNum;
+                // 总页数
+                if (resData.SPAGE > pageNum) {
+                  this.params.pageNum += 1;
+                  this.allLoaded = false;
+                  sessionStorage.setItem("params", JSON.stringify(this.params));
+                  // sessionStorage.setItem("pointList", JSON.stringify(this.List));
+                }else{
+                  this.isShow = true
+                }
+                if(resData.pages<=20){
+                  this.isShow = true
+                  this.allLoaded = true;
+                }
+                sessionStorage.setItem("pointList", JSON.stringify(this.List));
                 sessionStorage.setItem("params", JSON.stringify(this.params));
-                // sessionStorage.setItem("pointList", JSON.stringify(this.List));
+                // sessionStorage.setItem("params", JSON.stringify(this.params));
               }else{
-                this.isShow = true
+                  this.isShow = true
               }
-              if(resData.pages<=15){
-                this.isShow = true
-                this.allLoaded = true;
-              }
-              sessionStorage.setItem("pointList", JSON.stringify(this.List));
-              sessionStorage.setItem("params", JSON.stringify(this.params));
-              // sessionStorage.setItem("params", JSON.stringify(this.params));
-            }else{
-                this.isShow = true
+            } else if (resData.enCode == 1001) {
+              //   失败  1001
+              this.$toast(resData.msg);
+              return;
+            } else {
+              this.$toast("业务出错");
+              return;
             }
-          } else if (resData.enCode == 1001) {
-            //   失败  1001
-            this.$toast(resData.msg);
-            return;
-          } else {
-            this.$toast("业务出错");
-            return;
-          }
-        });
+          });
+      }else{
+        // 封装数据
+        let params = this.formatSubmitData();
+        // 开始请求
+        this.$axios.post(this.epFn.ApiUrl()+"/h5/jy2001/optionInformationList",params).then(resData => {
+            console.log("返回成功信息", resData.LS_DS);
+            //   成功   1000
+            if (resData.enCode == 1000) {
+              
+              // this.$toast("提交成功");
+              if (resData.LS_DS.length > 0) {
+                this.List = [...this.List, ...resData.LS_DS];
+                let pageNum = Math.ceil(this.List.length / this.params.pageSize);
+                //向上取整
+                this.params.pageNum = pageNum;
+                // 总页数
+                if (resData.pages > pageNum) {
+                  this.params.pageNum += 1;
+                  this.allLoaded = false;
+                  sessionStorage.setItem("params", JSON.stringify(this.params));
+                  // sessionStorage.setItem("pointList", JSON.stringify(this.List));
+                }else{
+                  this.isShow = true
+                }
+                if(resData.pages<=15){
+                  this.isShow = true
+                  this.allLoaded = true;
+                }
+                sessionStorage.setItem("pointList", JSON.stringify(this.List));
+                sessionStorage.setItem("params", JSON.stringify(this.params));
+                // sessionStorage.setItem("params", JSON.stringify(this.params));
+              }else{
+                  this.isShow = true
+              }
+            } else if (resData.enCode == 1001) {
+              //   失败  1001
+              this.$toast(resData.msg);
+              return;
+            } else {
+              this.$toast("业务出错");
+              return;
+            }
+          });
+      }
     },
     deleteSearch(){
       this.params.AAA102 = '';
@@ -243,6 +309,15 @@ export default {
         submitForm,
         "2001"
       );
+      return params;
+    },
+    formatSubmitData1() {
+      let submitForm = {};
+      submitForm.BAC048=this.params.AAA102//模糊查询
+      submitForm.OUTNUMBER = '20'; 
+      submitForm.PAGE = this.params.pageNum.toString();
+      // 请求参数封装
+      const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9101')
       return params;
     },
     open(){
