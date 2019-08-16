@@ -256,6 +256,10 @@
               <input v-model="form.AAE010" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
+                <div class="changeUserBtn" >
+                    <div class="btn" @click="changeCompanyName(true)">更改法人用户名</div>
+                    <div class="btn" @click="changeCompanyCode(true)">更改法人身份证</div>
+                </div>
           <div class="bgc"></div>
         </div>
       </div>
@@ -319,7 +323,9 @@ export default {
         BKE520: '1' // 数据来源类别
       },
       startDate: new Date(),
-      canSubmit: false
+      canSubmit: false,
+      personName:"",
+      personId:""
     }
   },
   watch: {
@@ -348,6 +354,34 @@ export default {
     this.getFromInfo()
   },
   methods: {
+    //个人用户登录
+    changeCompanyName(str) {
+        if (str) {
+            MessageBox.prompt('法人姓名', '').then(({
+                value,
+                action
+            }) => {
+                this.personName=value;
+                sessionStorage.setItem('personName', value);
+            });
+        } else {
+            this.$toast("功能正在建设中")
+        }
+    },
+    //个人用户登录
+    changeCompanyCode(str) {
+        if (str) {
+            MessageBox.prompt('法人身份证', '').then(({
+                value,
+                action
+            }) => {
+                this.personId=value;
+                sessionStorage.setItem('personId', value);
+            });
+        } else {
+            this.$toast("功能正在建设中")
+        }
+    },
     // 获取回填信息
     getFromInfo () {
       const submitForm = {}
@@ -486,6 +520,14 @@ export default {
       submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name || '陈志相'
       submitForm.AAB301 = sessionStorage.getItem('GinsengLandCode') || '003310'
       submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard || '330327197412201736'
+      let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+      console.log("person",LegalPerson)
+      // console.log("9999",LegalPerson)
+      submitForm.AAC003=LegalPerson.attnName||this.personName;//单位名称
+      submitForm.userId=LegalPerson.userId;//userId
+      submitForm.AAB301=LegalPerson.xzqh//统筹区
+      submitForm.AAE135=LegalPerson.attnIDNo||this.personId;//身份证号
+      submitForm.BKE520='1'
       // 请求参数封装
 
       return params
@@ -571,6 +613,19 @@ export default {
         &:last-of-type(2) {
           // border-bottom: none;
         }
+      }
+      .changeUserBtn {
+          display: flex;
+          justify-content: space-around;
+          .btn {
+              height: .6rem;
+              line-height: .6rem;
+              width: 3.5rem;
+              border: 1px solid #DDD;
+              font-size: .36rem;
+              border-radius: .2rem;
+              background: #FFF;
+          }
       }
     }
     .Hint {
