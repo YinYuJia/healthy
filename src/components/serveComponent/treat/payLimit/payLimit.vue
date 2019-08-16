@@ -268,7 +268,7 @@ export default {
                 
                     // val.AAE135 != '' && val.BKEVALUE != '' && val.AKC412 != ''&& val.AAB001!=''&&
                     // val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != ''
-                if(val.BKE810 != ''&&val.AKC412 != ''&&val.AAE041!=''
+                if(val.AKC412 != ''&&val.AAE041!=''
                 ){
                     this.flag = true;
                     console.log("flag",this.flag)
