@@ -1,5 +1,14 @@
 <template>
     <div class="indexInfoList">
+        <div class="mask" v-show="isMask">
+            <div class="mask_div">
+                <div class="mask_div_text">
+                    <h1 class="mask_div_text_h1">系统更新中,请稍后使用</h1>
+                    <h1 class="mask_div_text_h2">内部测试人员请输入密码进行测试</h1>
+                </div>
+                <input class="mask_input" type="password" name="" v-model="epPasword" id="">
+            </div>
+        </div>
         <!-- 提示 -->
         <div class="Hint" v-if="isTips">
             <div class="HintContent">
@@ -49,54 +58,54 @@
                 </div>
             </div>
             <!-- <div class="iconList">
-                            <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
-                                <svg-icon icon-class="serveComponent_icon5" />
-                                <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
-                                <div class="text">零星报销</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('transferRenewing','关系转移接续')">
-                                <svg-icon icon-class="serveComponent_icon6" />
-                                <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
-                                <div class="text">医保转接</div>
-                            </div>
-                            <div class="iconBox" v-if="iconFlag" @click="showDetail('searchFee','费用信息查询')">
-                                <svg-icon icon-class="serveComponent_icon_19" />
-                                <div class="text">费用信息</div>
-                              </div>
-                            <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
-                                <svg-icon icon-class="serveComponent_icon8" />
-                                <div class="text">办事进度</div>
-                            </div>
-                            <div class="iconBox" v-if="iconFlag" @click="showDetail('searchBaseInfo','个人信息查询')">
-                                <svg-icon icon-class="serveComponent_icon_16" />
-                                <div class="text">参保信息</div>
-                            </div>
-                            <div class="iconBox" v-if="iconFlag" @click="showDetail('searchInsuredInfo','参保信息查询')">
-                                <svg-icon icon-class="serveComponent_icon_17" />
-                                <div class="text">征缴信息</div>
-                            </div>
-                            <div class="iconBox" v-if="iconFlag" @click="showDetail('getProof','领取就医凭证')">
-                                <svg-icon icon-class="serveComponent_icon11" />
-                                <div class="text">就医凭证</div>
-                            </div>
-                            <div class="iconBox" v-if="iconFlag" @click="goRouter('indexInfoListMore')">
-                                <svg-icon icon-class="serveComponent_icon12" />
-                                <div class="text">更多</div>
-                            </div>
-                        </div> -->
+                                <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
+                                    <svg-icon icon-class="serveComponent_icon5" />
+                                    <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
+                                    <div class="text">零星报销</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('transferRenewing','关系转移接续')">
+                                    <svg-icon icon-class="serveComponent_icon6" />
+                                    <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
+                                    <div class="text">医保转接</div>
+                                </div>
+                                <div class="iconBox" v-if="iconFlag" @click="showDetail('searchFee','费用信息查询')">
+                                    <svg-icon icon-class="serveComponent_icon_19" />
+                                    <div class="text">费用信息</div>
+                                  </div>
+                                <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
+                                    <svg-icon icon-class="serveComponent_icon8" />
+                                    <div class="text">办事进度</div>
+                                </div>
+                                <div class="iconBox" v-if="iconFlag" @click="showDetail('searchBaseInfo','个人信息查询')">
+                                    <svg-icon icon-class="serveComponent_icon_16" />
+                                    <div class="text">参保信息</div>
+                                </div>
+                                <div class="iconBox" v-if="iconFlag" @click="showDetail('searchInsuredInfo','参保信息查询')">
+                                    <svg-icon icon-class="serveComponent_icon_17" />
+                                    <div class="text">征缴信息</div>
+                                </div>
+                                <div class="iconBox" v-if="iconFlag" @click="showDetail('getProof','领取就医凭证')">
+                                    <svg-icon icon-class="serveComponent_icon11" />
+                                    <div class="text">就医凭证</div>
+                                </div>
+                                <div class="iconBox" v-if="iconFlag" @click="goRouter('indexInfoListMore')">
+                                    <svg-icon icon-class="serveComponent_icon12" />
+                                    <div class="text">更多</div>
+                                </div>
+                            </div> -->
         </div>
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                                    <div class="swiper-slide">
-                                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                                    <div class="swiper-slide">
-                                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                                </div>
-                            </div> -->
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                                        <div class="swiper-slide">
+                                            <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                                        <div class="swiper-slide">
+                                            <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                                    </div>
+                                </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -105,10 +114,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                            </swipe> -->
+                                    <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                                    <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                                </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -142,6 +151,8 @@
     export default {
         data() {
             return {
+                epPasword: "",
+                isMask: true, // 控制mask显示隐藏
                 isTips: false,
                 provice: false,
                 name: "",
@@ -173,13 +184,19 @@
                 observeParents: true, //修改swiper的父元素时，自动初始化swiper
             })
         },
+        watch: {
+            epPasword: function(val) {
+                console.log("old----", val)
+                if (val == 'epsoft') {
+                    this.isMask = false;
+                }
+            }
+        },
         created() {
             // 判断是否法人登录 如果登录 直接跳转法人页面
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
-            
             const ssoToken = this.util.paramStr("ssoToken")
-            
             if (ssoToken != 'undefined' && ssoToken != null && ssoToken != '') {
                 this.$router.push("/indexInfoList")
             }
@@ -221,21 +238,20 @@
             } else if (this.$build == "2") {
                 // 个人登录
                 console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
-                    var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
-                    console.log(globalConfigObj.userType == undefined)
-                    if (globalConfigObj.userType == undefined) {
-                        // 证明不是url事项配置 走正常逻辑
-                        this.ifShow = false; //隐藏输入人名社保卡
-                        this.setNativeMsg(); //浙理办打包需要打开
-                        this.getUserRegion(); // 自动获取参保地
-                        
-                    } else {
-                        // url事项配置 跳转路由
-                        this.$router.push({
-                            name: globalConfigObj.identifier,
-                            params: globalConfigObj
-                        })
-                    }
+                var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
+                console.log(globalConfigObj.userType == undefined)
+                if (globalConfigObj.userType == undefined) {
+                    // 证明不是url事项配置 走正常逻辑
+                    this.ifShow = false; //隐藏输入人名社保卡
+                    this.setNativeMsg(); //浙理办打包需要打开
+                    this.getUserRegion(); // 自动获取参保地
+                } else {
+                    // url事项配置 跳转路由
+                    this.$router.push({
+                        name: globalConfigObj.identifier,
+                        params: globalConfigObj
+                    })
+                }
             }
             console.log('dddddd引入浙理办SDKddddddd', dd)
             this.epFn.setTitle('医疗保障专区')
@@ -772,6 +788,57 @@
 <style lang="less" scoped>
     .indexInfoList {
         width: 100%;
+        .mask {
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, .5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 99999;
+            .mask_div {
+                height: 5rem;
+                width: 6rem;
+                background-color: #fff;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 30%;
+                border-radius: 5px;
+                .mask_div_text {
+                    width: 96%;
+                    height: 3rem;
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    top: 10px;
+                    background-color: #aaa;
+                    .mask_div_text_h1 {
+                        font-size: .4rem;
+                        margin-top: 20px;
+                        color: #fff;
+                    }
+                    .mask_div_text_h2 {
+                        font-size: .3rem;
+                        margin-top: 20px;
+                        color: #ddd;
+                    }
+                }
+                .mask_input {
+                width: 96%;
+                height: .7rem;
+                font-size: .35rem;
+                border-radius: 20px;
+                background-color: #eee;
+                position: absolute;
+                text-indent: 5px;
+                top: 75%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            }
+            
+        }
         .Hint {
             width: 100%;
             padding: 0 .3rem;

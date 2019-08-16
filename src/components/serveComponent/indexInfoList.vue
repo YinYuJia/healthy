@@ -306,11 +306,12 @@
                     return;
                 } else {
                     // 省本级项目 todo 单位参保登记
-                    if (url.split('/').pop() == 'legalChange' || url.split('/').pop() == 'payLimit' || url.split('/').pop() == 'register') {
+                    if (url.split('/').pop() == 'legalChange' || url.split('/').pop() == 'payLimit' || url.split('/').pop() == 'legalSearchProgress' || url.split('/').pop() == 'register') {
                         this.$router.push(url.split('/').pop());
                     } else {
                         // 其他项目跳转
-                        if (sessionStorage.getItem("GinsengLandCode") == "339900") {
+                        let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                        if (LegalPerson.xzqh == "339900") {
                             let route = url.split('/');
                             this.$router.push(route.pop());
                         } else {
@@ -319,7 +320,7 @@
                     }
                 }
             },
-            //动态获取事项信息
+            //动态获取法人图标
             getMatterInfo(code) {
                 let params = {
                     "areaId": code,
@@ -329,19 +330,10 @@
                     console.log('获取区域事项', resData)
                     let resList = resData.list;
                     console.log('图标sdk成功')
-                    let iconList = [];
-                    let userType = sessionStorage.getItem('userType')
-                    if (userType == 1 || userType == 0) {
-                        iconList = resList.personList;
-                        iconList.forEach(ele => {
-                            ele.jumpUrl = ele.personJumpUrl
-                        });
-                    } else if (userType == 2) {
-                        iconList = resList.unitList;
-                        iconList.forEach(ele => {
-                            ele.jumpUrl = ele.unitJumpUrl
-                        });
-                    }
+                    let iconList = resList.unitList;
+                    iconList.forEach(ele => {
+                        ele.jumpUrl = ele.unitJumpUrl
+                    });
                     // 自动补齐图标
                     this.iconList = iconList
                     console.log('图标列表', this.iconList);
@@ -510,8 +502,8 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                let areaId = sessionStorage.getItem("GinsengLandCode");
-                console.log(areaId.slice(0,4));
+                let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                let areaId = LegalPerson.xzqh
                 if (areaId == "339900" || areaId.slice(0,4) == '3310') {
                     this.$router.push(route);
                 } else {
@@ -613,7 +605,7 @@
                         value,
                         action
                     }) => {
-                        if(value == null){
+                        if(value == null || value == ""){
                             this.resData.xzqh = "339900"
                         }else{
                             this.resData.xzqh = value;
