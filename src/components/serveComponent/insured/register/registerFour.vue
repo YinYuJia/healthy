@@ -83,25 +83,9 @@ export default {
         console.log('返回成功信息', resData);
         //   成功   1000
         if (resData.enCode == 1000) {
-          // this.form={...this.form,...resData.LS_DS_06}
-          // this.List=[...this.List,...resData.LS_DS_06]
-          // this.form={...this.form,...this.List[0]}
-          let LS = resData.LS_DS_06;
+          // this.img1=resData.
           this.form = { ...this.form, ...LS };
           console.log('form', this.form);
-          console.log('form1', this.form.AAQ011VALUE);
-          console.log('form2', this.form.AAB301VALUE);
-          if (this.form.AAQ011VALUE == undefined) {
-            this.form.AAQ011VALUE = '';
-          }
-          if (this.form.AAE011VALUE == undefined) {
-            this.form.AAE011VALUE = '';
-          }
-          this.form.AAE030 = this.util.NumberToDate(this.form.AAE030);
-          this.form.AAE031 = this.util.NumberToDate(this.form.AAE031);
-          this.AAS011000 = this.form.AAS011VALUE + this.form.AAE011VALUE + this.form.AAQ011VALUE;
-          this.AAB301000 = this.form.AAS301VALUE + this.form.AAB301VALUE;
-          this.handleNumber = resData.LS_DS_06.BKZ019;
         } else if (resData.enCode == 1001) {
           //   失败  1001
           this.$toast(resData.msg);
@@ -116,13 +100,10 @@ export default {
       let submitForm = {}
       
       submitForm.BKZ019 = this.$route.query.param || this.$store.state.REGISTER_INFO.BKZ019 || ''
-      // 加入用户名和电子社保卡号
-      if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-        submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name
-        submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard
-      } else {
-        this.$toast('未获取到人员基本信息')
-      }
+      let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+      console.log("LegalPerson",LegalPerson)
+      submitForm.AAC003 = LegalPerson.attnName
+      submitForm.AAE135 = LegalPerson.attnIDNo
 
       // 请求参数封装
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '1009')
@@ -135,18 +116,15 @@ export default {
       //从进度查询页面进入接收传参
       if (this.$route.query.param) {
         submitForm.lx = '1'
-        submitForm.BKZ019 = this.$route.query.param
+        submitForm.BKZ019 = this.$route.query.param || this.$store.state.REGISTER_INFO.BKZ019 
       } else {
         submitForm.lx = '2'
-        submitForm.BKZ019 = '';
+        submitForm.BKZ019 = '' || this.$store.state.REGISTER_INFO.BKZ019 ;
       }
-      // 加入用户名和电子社保卡号
-      if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-        submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name
-        submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard
-      } else {
-        this.$toast('未获取到人员基本信息')
-      }
+      let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+      console.log("LegalPerson",LegalPerson)
+      submitForm.AAC003 = LegalPerson.attnName
+      submitForm.AAE135 = LegalPerson.attnIDNo
 
       // 请求参数封装
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '1016')
