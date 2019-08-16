@@ -439,7 +439,7 @@
                     _this.hotMsg.forEach(ele => {
                         ele.src = ele.synopsisUrl;
                     })
-                    this.hotMsg.splice(0, 5);
+                    this.hotMsg.slice(0, 5);
                     console.log('获取资讯列表', _this.hotMsg);
                 })
             },

@@ -2,8 +2,19 @@
   <div class="legalChange">
     <Title :title="'参保登记'" :backRouter="'/'"></Title>
     <!-- MintUI弹出框区域 -->
-    <mt-datetime-picker type="date" ref="startPicker" :startDate="startDate" v-model="dateVal" @confirm="handleStartConfirm"></mt-datetime-picker>
-    <mt-datetime-picker type="date" ref="startPicker1" :startDate="startDate" v-model="dateVal1" @confirm="handleStartConfirm1"></mt-datetime-picker>
+    <mt-datetime-picker 
+    type="date" ref="startPicker" 
+    :startDate="startDate" 
+    v-model="dateVal" 
+    @confirm="handleStartConfirm">
+    </mt-datetime-picker>
+    <mt-datetime-picker 
+    type="date" 
+    ref="startPicker1" 
+    :startDate="startDate" 
+    v-model="dateVal1" 
+    @confirm="handleStartConfirm1">
+    </mt-datetime-picker>
     <mt-popup class="cityPicker" v-model="showCityPicker" position="bottom">
       <mt-picker :showToolbar="true" :slots="chooseArr" valueKey="AAA103" @change="onChooseChange">
         <div class="btnBox">
@@ -60,7 +71,7 @@
               <span>地址详情：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE006" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.addressDetail" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -155,7 +166,7 @@
               <span>批准成立单位：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE048" type="text" maxlength="20" placeholder="请输入" />
+              <input v-model="form.AAE048" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="InfoLine">
@@ -224,7 +235,7 @@
               <span>专管员所在部门：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE285" type="text" maxlength="51" placeholder="请输入" />
+              <input v-model="form.BKE285" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -236,7 +247,7 @@
               <span>缴费开户银行：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE008VALUE" @click="openPicker('AAE008')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAE008VALUE" @click="chooseBank()" type="text"  placeholder="请选择" readonly />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -261,6 +272,7 @@
       </div>
     </div>
     <Footer btnText="下一步" :canSubmit="canSubmit" @submit="submit()"></Footer>
+    <SearchInfoPage ref="bank" :bank='true' @childrenClick="bankClick" title="选择银行"></SearchInfoPage>
   </div>
 </template>
 
@@ -285,6 +297,7 @@ export default {
       dateVal1: '',
       form: {
         address: '',
+        addressDetail:'',//详细地址
         AAB003: '', // 统一社会信用代码
         AAB004: '', // 单位名称
         AAB023: '', // 主管部门或总机构
@@ -309,7 +322,7 @@ export default {
         BKE281: '', // 单位专管员姓名
         BKE283: '', // 单位专管员手机
         BKE285: '', // 单位专管员所在部门
-        AAE005: '', // 电话
+        AAE005: '', // 联系电话
         AAE008: '', // 缴费开户银行
         AAE008VALUE: '', // 缴费开户银行
         AAE009: '', // 缴费银行户名
@@ -326,13 +339,15 @@ export default {
   watch: {
     form: {
       handler: function (val) {
-        for (var key in val) {
-          if (!val[key]) {
-            this.canSubmit = false
-            break
-          } else {
-            this.canSubmit = true
-          }
+        if(val.address!=''&&val.addressDetail!=''){
+          val.AAE006=val.address+','+val.addressDetail;
+        }
+        if(val.AAB023!=''&&val.AAB019!=''&&val.AAE007!=''&&val.AAB020!=''&&val.AAB021!=''&&val.AAB022!=''
+        &&val.AAB006!=''&&val.AAB036!=''&&val.AAE048!=''&&val.AAB011!=''&&val.AAB012!=''&&val.AAB013!=''&&val.BAB014!=''&&val.BKE280!=''&&val.BKE281!=''
+        &&val.BKE283!=''&&val.BKE285!=''&&val.AAE005!=''&&val.AAE008!=''&&val.AAE009!=''&&val.AAE010!=''&&val.BAB451!=''&&val.AAE006!=''){
+          this.canSubmit = true
+        }else{
+          this.canSubmit = false
         }
       },
       deep: true
@@ -349,6 +364,17 @@ export default {
     this.getFromInfo()
   },
   methods: {
+    // 选择就诊医院
+    chooseBank(){
+        this.$refs.bank.open();
+    },
+    bankClick(name,code){
+      console.log(name)
+      this.form.AAE008VALUE=name;
+      this.form.AAE008=name;
+        // this.form.hospitalName = name
+        // this.form.AKB020 = code
+    },
     //个人用户登录
     changeCompanyName(str) {
         if (str) {
@@ -389,7 +415,7 @@ export default {
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getDetail', params).then(resData => {
         if (resData.enCode == 1000) {
           for (var key in this.form) {
-            this.form[key] = resData.LS_DS_16[key]
+              // this.form=resData.LS_DS_16;
           }
           // this.form = resData.LS_DS_16
         } else if (resData.enCode == 1001) {
@@ -408,7 +434,8 @@ export default {
         'AAA100': val,
         'pageNum': '0',
         'AAE013': '',
-        'AAA052': ''
+        'AAA052': '',
+        'pageSize':'40'
       }
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '2001')
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2001/optionInformationList', params).then(resData => {
@@ -456,7 +483,7 @@ export default {
       this.chooseArr[0].values = this.selectObject[value]
     },
     chooseCity (val) {
-      console.log(val)
+      console.log("选择城市",val)
       // 这里有地址的汉字和code
       this.form.address = val.name
     },
@@ -470,43 +497,78 @@ export default {
     submit () {
       if (this.canSubmit === false) {
         return false
-      }
-      if (!this.util.checkPhone(this.form.AAE005)) {
-        this.$toast('请填写正确的手机号码')
-        return false
-      }
-      if (this.form.AAE007.toString.length == 6) {
-        this.$toast('请填写正确的邮政编码')
-        return false
+      }else{
+            //法人电话BKE280
+            if(this.form.BKE280&&this.form.BKE280.length==11){
+                if(!this.util.checkPhone(this.form.BKE280)){
+                    this.$toast('请填写正确的手机号码')
+                    return false;
+                    }
+            }else if(this.form.BKE280&&(this.form.BKE280.length==7||this.form.BKE280.length==8)){
+                if(!this.util.checkHomePhone(this.form.BKE280)){
+                    this.$toast('请填写正确的电话号码')
+                    return false;
+                    }
+            }else if(this.form.BKE280&&(this.form.BKE280.length!=7||this.form.BKE280.length!=8||this.form.BKE280.length!=11)){
+                    this.$toast('请确认填写的号码位数是否正确')
+                    return false;
+            }
+            //专管员电话BKE283
+            if(this.form.BKE283&&this.form.BKE283.length==11){
+                if(!this.util.checkPhone(this.form.BKE283)){
+                    this.$toast('请填写正确的手机号码')
+                    return false;
+                    }
+            }else if(this.form.BKE283&&(this.form.BKE283.length==7||this.form.BKE283.length==8)){
+                if(!this.util.checkHomePhone(this.form.BKE283)){
+                    this.$toast('请填写正确的电话号码')
+                    return false;
+                    }
+            }else if(this.form.BKE283&&(this.form.BKE283.length!=7||this.form.BKE283.length!=8||this.form.BKE283.length!=11)){
+                    this.$toast('请确认填写的号码位数是否正确')
+                    return false;
+            }
+            //联系电话AAE005
+            if(this.form.AAE005&&this.form.AAE005.length==11){
+                if(!this.util.checkPhone(this.form.AAE005)){
+                    this.$toast('请填写正确的手机号码')
+                    return false;
+                    }
+            }else if(this.form.AAE005&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+                if(!this.util.checkHomePhone(this.form.AAE005)){
+                    this.$toast('请填写正确的电话号码')
+                    return false;
+                    }
+            }else if(this.form.AAE005&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
+                    this.$toast('请确认填写的号码位数是否正确')
+                    return false;
+            }      
+            if (this.form.AAE007.toString.length == 6) {
+                  this.$toast('请填写正确的邮政编码')
+                  return false
+            }      
+            if (!this.util.idCard(this.form.BAB014)) {
+                  this.$toast('请填写正确的法人代表身份证号')
+                  return false
+            }
+            let params = this.formatSubmitData()
+            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
+              //   成功   1000
+              if (resData.enCode == 1000) {
+                console.log('返回信息成功', resData)
+                this.$store.dispatch('REGISTER_INFO', resData)
+                this.$router.push({ path: '/registerTwo' })
+              } else if (resData.enCode == 1001) {
+                //   失败  1001
+                console.log('返回信息失败', resData)
+                this.$toast(resData.msg)
+              } else {
+                this.$toast('业务出错')
+              }
+            })
+
       }
 
-      if (!this.util.idCard(this.form.BAB014)) {
-        this.$toast('请填写正确的法人代表身份证号')
-        return false
-      }
-      if (!this.util.checkPhone(this.form.BKE280)) {
-        this.$toast('请填写正确的法人代表电话')
-        return false
-      }
-      if (!this.util.checkPhone(this.form.BKE283)) {
-        this.$toast('请填写正确的专管员手机')
-        return false
-      }
-      let params = this.formatSubmitData()
-      this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
-        //   成功   1000
-        if (resData.enCode == 1000) {
-          console.log('返回信息成功', resData)
-          this.$store.dispatch('REGISTER_INFO', resData)
-          this.$router.push({ path: '/registerTwo' })
-        } else if (resData.enCode == 1001) {
-          //   失败  1001
-          console.log('返回信息失败', resData)
-          this.$toast(resData.msg)
-        } else {
-          this.$toast('业务出错')
-        }
-      })
       // this.$router.push('/legalChangeDetail');
     },
     formatSubmitData () {
