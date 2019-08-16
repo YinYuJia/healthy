@@ -63,7 +63,11 @@ export default {
         }
     },
     created(){
-        this.imgUrl = this.epFn.ApiUrl() +  '/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
+        if( this.$build == '1') {
+         this.imgUrl = this.epFn.ApiUrl() +  'http://47.98.234.226:7000/api/api/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
+        }else{
+         this.imgUrl = this.epFn.ApiUrl() +  '//ybj.zjzwfw.gov.cn/api/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
+        }
     },
     watch: {
         form:{
