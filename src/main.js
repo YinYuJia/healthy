@@ -184,7 +184,7 @@ var vConsole = new Vconsole()
 export default vConsole;
 
 // 1  网新恩普包  2  浙理办包
-Vue.prototype.$build = "2"
+Vue.prototype.$build = "1"
 const isShow = false
 
 
