@@ -58,7 +58,7 @@
                     <div class="InfoName"><span>邮箱：</span></div>
                     <div class="InfoText"><input v-model="form.AAE005" type="text" maxlength="20" placeholder="请输入"></div>
                 </div>
-                <div class="changeUserBtn" >
+                <div class="changeUserBtn" v-if="asd" >
                     <div class="btn" @click="changeCompanyName(true)">更改法人用户名</div>
                     <div class="btn" @click="changeCompanyCode(true)">更改法人身份证</div>
                 </div>
@@ -80,6 +80,7 @@ import {
 export default {
     data(){
         return{
+            asd:true,
             form:{
                 AAB001: '', //单位编码
                 AAE007: '', //单位邮编
@@ -130,6 +131,11 @@ export default {
         }
     },
     created(){
+        if( this.$build == 1) {
+            this.asd = true
+        }else{
+            this.asd = false;
+        }
         this.checkJump();
         this.epFn.setTitle('单位参保变更')
     },

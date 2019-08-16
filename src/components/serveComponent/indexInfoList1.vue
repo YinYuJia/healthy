@@ -151,7 +151,7 @@
         data() {
             return {
                 epPasword: "",
-                isMask: true, // 控制mask显示隐藏
+                isMask: false, // 控制mask显示隐藏
                 isTips: false,
                 provice: false,
                 name: "",
@@ -697,24 +697,7 @@
                         sessionStorage.setItem('idCard', value);
                         this.setNativeMsg();
                         this.getUserRegion();
-                        dd.ready({
-                                developer: 'daip@dtdream.com',
-                                usage: [
-                                    'dd.biz.user.getUserType',
-                                ],
-                                remark: '获取用户登录类型'
-                            },
-                            () => {
-                                dd.biz.user.getUserType({
-                                    onSuccess: (data) => {
-                                        sessionStorage.setItem("userType", data.userType)
-                                    },
-                                    onFail: (error) => {
-                                        console.log("data获取用户类型", error)
-                                        next()
-                                    }
-                                })
-                            })
+                        sessionStorage.setItem("userType", 1)
                     });
                 } else {
                     this.$toast('功能正在建设中')
