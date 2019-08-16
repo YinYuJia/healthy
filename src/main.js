@@ -202,6 +202,7 @@ if (isShow) {
      // 成功回调 保存到session
      sessionStorage.setItem("userType", data.userType)
      console.log("data获取用户类型", data)
+    
      // 如果是0 或者1 那么是个人登录
      if (data.userType == '0' || data.userType == '1') {
        // url事项配置截取url参数方法  ------开始
@@ -339,7 +340,6 @@ if (isShow) {
 
 } else {
  console.log("######-----", dd)
-
 
   dd.biz.user.getUserType({
     onSuccess: (data) => {
@@ -514,7 +514,7 @@ if (isShow) {
 //    })
 
 // }
-// document.addEventListener('JSBridgeReady',function() {
+
   new Vue({
     el: '#app',
     store,
@@ -524,6 +524,6 @@ if (isShow) {
     },
     template: '<App/>'
   })
-// },false)
+
 
 
