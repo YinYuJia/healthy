@@ -11,6 +11,7 @@
         <div class="Content">
             <!-- 基本信息 -->
             <UserBaseInfo></UserBaseInfo>
+            <div class="company"><p class="companyName">{{AAB004}}</p><p class="companyCode">{{AAB001}}</p></div>
             <!-- 变更信息 -->
             <div class="ChangeInfo">
                 <div class="InfoLine">
@@ -60,7 +61,7 @@
             </div>
         </div>
         <!-- 办事指南 -->
-        <!-- <GuideIcon AGA002="331400501005"></GuideIcon> -->
+        <GuideIcon AGA002="331400501005"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
         <!-- 法人绑定 -->
@@ -78,18 +79,19 @@ export default {
                 AAE006: '', //单位地址
                 AAB005: '', //单位电话
                 BKE280: '', //法人电话
-                BKE281: '', //专管员姓名
-                BKE283: '', //专管员电话
+                BKE281: '', //专管员1姓名
+                BAC210: '', //专管员2姓名
+                BKE283: '', //专管员1电话
+                BAC212: '', //专管员2电话
                 BKB225: '', //专管员部门
                 AAE005: '', //单位邮箱
-                BKZ019: '', //经办编号暂为空
                 AAB301: '',  //统筹区
-
             },
-            AAB001:"",//单位编号
+            AAB001:"",//单位编码
+            AAB004:"",//单位名称
             params:{
                 address: '', //选择的地址
-                detailAddress: '', //详细地址    
+                detailAddress: '', //详细地址
             },
             canSubmit: false,
             bindingFlag: false,
@@ -99,8 +101,9 @@ export default {
         form:{
             handler: function(val) {
               // if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != ''
-                if(val.AAE007 != '' && val.detailAddress != '' && val.AAB005 != ''
-                    && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != '' && val.BKB225 != '' && val.AAE005 != ''){
+                if(val.AAB001!=''&&val.AAE007 != '' && val.detailAddress != '' && val.AAB005 != ''
+                    && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != ''
+                    && val.BKB225 != '' && val.AAE005 != ''){
                     this.canSubmit = true;
                 }else{
                     this.canSubmit = false;
@@ -119,25 +122,30 @@ export default {
     },
     created(){
         this.checkJump();
-        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
-        this.form.AAB301=user.xzqh;
-        // this.requset2();
-        // this.requset1();
+        this.epFn.setTitle('单位参保变更')
     },
     methods:{
+        // 绑定成功后执行的请求
         changeFlag(val){
             this.bindingFlag = val;
+            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            this.form.AAB301=user.xzqh;
+            this.requset1();
         },
         // 跳转前检查用户是否法人绑定
         checkJump(){
-            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
             let params = {
-                OTHERINFO: user.userId
+                OTHERINFO: LegalPerson.userId
             }
             this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
                 console.log('绑定',resData)
                 if(resData.enCode == 1000){
                     if(resData.LS_DS[0].USEGUL == '1'){
+                        sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
+                        let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                        this.form.AAB301=LegalPerson.xzqh;
+                        this.requset1();
                         this.bindingFlag = false;
                     }else{
                         this.bindingFlag = true;
@@ -145,7 +153,6 @@ export default {
                 }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                     this.bindingFlag = true;
-                    console.log('显示',this.bindingFlag);
                 }else{
                     this.$toast('业务出错');
                     this.bindingFlag = true;
@@ -165,13 +172,82 @@ export default {
         submit(){
             console.log(1111)
             console.log(this.canSubmit)
+
             if(this.canSubmit == false){
+                this.$toast('信息未填写完整')
                 return false;
             }else{
                 // 检验邮箱格式
                 if(!this.util.checkMail(this.form.AAE005)){
                     this.$toast("邮箱格式不正确");
                     return false;
+                }
+                //单位电话AAB005
+                if(this.form.AAB005&&this.form.AAB005.length==11){
+                    if(!this.util.checkPhone(this.form.AAB005)){
+                        this.$toast('请填写正确的手机号码')
+                        return false;
+                        }
+                }else if(this.form.AAB005&&(this.form.AAB005.length==7||this.form.AAB005.length==8)){
+                    if(!this.util.checkHomePhone(this.form.AAB005)){
+                        this.$toast('请填写正确的电话号码')
+                        return false;
+                        }
+                }else if(this.form.AAB005&&(this.form.AAB005.length!=7||this.form.AAB005.length!=8||this.form.AAB005.length!=11)){
+                        this.$toast('请确认填写的号码位数是否正确')
+                        return false;
+                }
+                //法人电话BKE280
+                if(this.form.BKE280&&this.form.BKE280.length==11){
+                    if(!this.util.checkPhone(this.form.BKE280)){
+                        this.$toast('请填写正确的手机号码')
+                        return false;
+                        }
+                }else if(this.form.BKE280&&(this.form.BKE280.length==7||this.form.BKE280.length==8)){
+                    if(!this.util.checkHomePhone(this.form.BKE280)){
+                        this.$toast('请填写正确的电话号码')
+                        return false;
+                        }
+                }else if(this.form.BKE280&&(this.form.BKE280.length!=7||this.form.BKE280.length!=8||this.form.BKE280.length!=11)){
+                        this.$toast('请确认填写的号码位数是否正确')
+                        return false;
+                }
+                //专管员1电话BKE283
+                if(this.form.BKE283&&this.form.BKE283.length==11){
+                    if(!this.util.checkPhone(this.form.BKE283)){
+                        this.$toast('请填写正确的手机号码')
+                        return false;
+                        }
+                }else if(this.form.BKE283&&(this.form.BKE283.length==7||this.form.BKE283.length==8)){
+                    if(!this.util.checkHomePhone(this.form.BKE283)){
+                        this.$toast('请填写正确的电话号码')
+                        return false;
+                        }
+                }else if(this.form.BKE283&&(this.form.BKE283.length!=7||this.form.BKE283.length!=8||this.form.BKE283.length!=11)){
+                        this.$toast('请确认填写的号码位数是否正确')
+                        return false;
+                }
+                //专管员2电话BAC212
+                if(this.form.BAC212&&this.form.BAC212.length==11){
+                    if(!this.util.checkPhone(this.form.BAC212)){
+                        this.$toast('请填写正确的手机号码')
+                        return false;
+                        }
+                }else if(this.form.BAC212&&(this.form.BAC212.length==7||this.form.BAC212.length==8)){
+                    if(!this.util.checkHomePhone(this.form.BAC212)){
+                        this.$toast('请填写正确的电话号码')
+                        return false;
+                        }
+                }else if(this.form.BAC212&&(this.form.BAC212.length!=7||this.form.BAC212.length!=8||this.form.BAC212.length!=11)){
+                        this.$toast('请确认填写的号码位数是否正确')
+                        return false;
+                }
+                //邮箱验证
+                if(this.form.AAE007){
+                    if(!this.util.postOffic(this.form.AAE007)){
+                        this.$toast('请确认填写的邮编是否正确');
+                        return false;
+                    }
                 }
                 let params = this.formatSubmitData();
                 console.log("params",params)
@@ -193,9 +269,9 @@ export default {
             }
             // this.$router.push('/legalChangeDetail');
         },
-        requset1(a){
+        requset1(){
                 // 封装数据
-                let params = this.formatSubmitData1(a);
+                let params = this.formatSubmitData1();
                 // 开始请求
                 this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy9029/9029', params).then((resData) => {
                     //   成功   1000
@@ -217,64 +293,26 @@ export default {
                     }
                 })
         },
-        requset2(){
-                let params = this.formatSubmitData2();
-                // 开始请求
-                console.log('parmas------',params)
-                this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7610/getRecord', params).then((resData) => {
-                    console.log('返回成功信息',resData)
-                    //   成功   1000
-                    if ( resData.enCode == 1000 ) {
-                        console.log("LS_DS",resData)
-                        this.AAB001=resData.LS_DS[0].AAB001;
-                        console.log("AAB001",resData.LS_DS[0].AAB001)
-                        // console.log('form1',this.form1)
-                        this.requset1(resData.LS_DS[0].AAB001)
-                    }else if (resData.enCode == 1001 ) {
-                    //   失败  1001
-                        this.$toast(resData.msg);
-                        return;
-                    }else{
-                        this.$toast('业务出错');
-                        return;
-                    }
-                })
-        },
         formatSubmitData(){
             let submitForm = Object.assign({},this.form);
             // 加入用户名和电子社保卡号
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                submitForm.AAC003=sessionStorage.getItem('userName');
-                submitForm.AAE135=sessionStorage.getItem('idCard');
-            }
-                submitForm.AAB301=sessionStorage.getItem("GinsengLandCode");//统筹区
+                let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                console.log("person",LegalPerson)
+                // console.log("9999",LegalPerson)
+                submitForm.AAC003=LegalPerson.CompanyName;//单位名称
+                submitForm.AAB301=LegalPerson.xzqh//统筹区
                 submitForm.BKE520='1'
+                submitForm.AAE135=sessionStorage.getItem('LOGINNAME');//单位编码
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;
         },
-        formatSubmitData1(a){
+        formatSubmitData1(){
             let submitForm = {};
             // 加入用户名和电子社保卡号
-            submitForm.AAB001=a;
+            submitForm.AAB001=sessionStorage.getItem('LOGINNAME');
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9029");
-            return params;
-        },
-        formatSubmitData2(){
-            let submitForm = {};
-            // 加入用户名和电子社保卡号
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAC002 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                submitForm.AAC002=submitForm.AAE135=sessionStorage.getItem('idCard');
-                
-            }
-            // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7610");
             return params;
         },
     }
@@ -287,6 +325,20 @@ export default {
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
+        .company{
+            width: 100%;
+            padding: .3rem .3rem;
+            background: white;
+            text-align: left;
+            .companyName{
+                font-size: .4rem;
+                margin-top: .2rem;
+            }
+            .companyCode{
+                font-size: .18rem;
+                margin-top: .2rem;
+            }
+        }
         .ChangeInfo{
             width: 100%;
             padding: 0 .3rem;
