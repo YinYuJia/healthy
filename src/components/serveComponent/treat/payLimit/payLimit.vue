@@ -119,13 +119,13 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>开始工作时间:</span></div>
                     <div class="InfoText">
-                        <input type="text" @click="openStartPicker(index)"  v-model="item.timeStart" placeholder="请输入">
+                        <input type="text" @click="openStartPicker(index)"  v-model="item.timeStart" placeholder="请输入" readonly>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束工作时间:</span></div>
                     <div class="InfoText">
-                        <input type="text" @click="openEndPicker(index)"  v-model="item.timeEnd" placeholder="请输入">
+                        <input type="text" @click="openEndPicker(index)"  v-model="item.timeEnd" placeholder="请输入" readonly>
                     </div>
                     <input type="text" id="timeAll"  v-model="item.AKC421" placeholder="请输入">
                 </div>

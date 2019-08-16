@@ -11,7 +11,7 @@
         <div class="Content">
             <!-- 基本信息 -->
             <UserBaseInfo></UserBaseInfo>
-            <div class="company"><p class="companyName">{{AAB004}}</p><p class="companyCode">{{AAB001}}</p></div>
+            <div class="company"><p class="companyName">{{form.AAB004}}</p><p class="companyCode">{{form.AAB001}}</p></div>
             <!-- 变更信息 -->
             <div class="ChangeInfo">
                 <div class="InfoLine">
