@@ -134,17 +134,17 @@ export default {
         },
         // 跳转前检查用户是否法人绑定
         checkJump(){
-            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
             let params = {
-                OTHERINFO: user.userId
+                OTHERINFO: LegalPerson.userId
             }
             this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
                 console.log('绑定',resData)
                 if(resData.enCode == 1000){
                     if(resData.LS_DS[0].USEGUL == '1'){
                         sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
-                        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                        this.form.AAB301=user.xzqh;
+                        let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                        this.form.AAB301=LegalPerson.xzqh;
                         this.requset1();
                         this.bindingFlag = false;
                     }else{
@@ -297,11 +297,12 @@ export default {
             let submitForm = Object.assign({},this.form);
             // 加入用户名和电子社保卡号
                 let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                submitForm.AAC003=sessionStorage.getItem('userName');
-                submitForm.AAE135=sessionStorage.getItem('idCard');
+                console.log("person",LegalPerson)
+                // console.log("9999",LegalPerson)
+                submitForm.AAC003=LegalPerson.CompanyName;//单位名称
                 submitForm.AAB301=LegalPerson.xzqh//统筹区
                 submitForm.BKE520='1'
-                submitForm.AAB001=sessionStorage.getItem('LOGINNAME');
+                submitForm.AAE135=sessionStorage.getItem('LOGINNAME');//单位编码
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;

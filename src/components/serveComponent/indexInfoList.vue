@@ -306,7 +306,7 @@
                     return;
                 } else {
                     // 省本级项目 todo 单位参保登记
-                    if (url.split('/').pop() == 'legalChange' || url.split('/').pop() == 'payLimit' || url.split('/').pop() == 'legalSearchProgress') {
+                    if (url.split('/').pop() == 'legalChange' || url.split('/').pop() == 'payLimit' || url.split('/').pop() == 'legalSearchProgress' || url.split('/').pop() == 'register') {
                         this.$router.push(url.split('/').pop());
                     } else {
                         // 其他项目跳转
