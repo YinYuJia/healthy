@@ -256,7 +256,7 @@
               <input v-model="form.AAE010" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
-                <div class="changeUserBtn" >
+                <div class="changeUserBtn" v-if="asd" >
                     <div class="btn" @click="changeCompanyName(true)">更改法人用户名</div>
                     <div class="btn" @click="changeCompanyCode(true)">更改法人身份证</div>
                 </div>
@@ -272,6 +272,7 @@
 export default {
   data () {
     return {
+      asd:true,
       showCityPicker: false,
       selectName: '',
       label: '',
@@ -344,6 +345,11 @@ export default {
     }
   },
   created () {
+    if( this.$build == 1) {
+        this.asd = true
+    }else{
+        this.asd = false;
+    }
     this.getSelectInfo('AAB019')
     this.getSelectInfo('AAB020')
     this.getSelectInfo('AAB021')
