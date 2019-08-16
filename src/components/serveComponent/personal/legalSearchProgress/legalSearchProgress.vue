@@ -179,7 +179,7 @@
         // 封装数据
         let params = this.formatSubmitData();
         // 开始请求
-        this.$axios.post(this.epFn.ApiUrl() + '/h5/9104/distanceHospital', params).then((resData) => {
+        this.$axios.post(this.epFn.ApiUrl() + '/H5/jy9104/distanceHospital', params).then((resData) => {
           console.log('返回成功信息', resData)
           //   成功   1000
           if (resData.enCode == 1000) {
@@ -219,19 +219,16 @@
         })
       },
       formatSubmitData() {
-
         let submitForm = {};
         let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-        submitForm.BOD037 = this.BOD037 //办件状态
-        submitForm.pageNum = this.pageNum //页码
         // 加入用户名和电子社保卡号
-          submitForm.userId=LegalPerson.userId
-          submitForm.BKZ019='0'
-          submitForm.BKE520='1'
+        submitForm.userId= LegalPerson.userId
+        submitForm.pageNum=this.pageNum // 页码
+        submitForm.BKE520='1' //申请渠道
+        
         // 请求参数封装
         console.log('submitForm', submitForm)
-        const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, "9104");
-        return params;
+        return submitForm;
       },
       loadBottom() {
         console.log("加载")

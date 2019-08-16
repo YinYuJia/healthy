@@ -306,10 +306,11 @@
                     return;
                 } else {
                     // 省本级项目 todo 单位参保登记
-                    if (url.split('/').pop() == 'legalChange' || url.split('/').pop() == 'payLimit') {
+                    if (url.split('/').pop() == 'legalChange' || url.split('/').pop() == 'payLimit' || url.split('/').pop() == 'legalSearchProgress') {
                         this.$router.push(url.split('/').pop());
                     } else {
                         // 其他项目跳转
+                        
                         if (sessionStorage.getItem("GinsengLandCode") == "339900") {
                             let route = url.split('/');
                             this.$router.push(route.pop());
