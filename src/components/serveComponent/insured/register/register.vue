@@ -351,9 +351,11 @@ export default {
     // 获取回填信息
     getFromInfo () {
       const submitForm = {}
-      submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name || '陈志相'
-      submitForm.AAB301 = sessionStorage.getItem('GinsengLandCode') || '003310'
-      submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard || '330327197412201736'
+      let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+      console.log("LegalPerson",LegalPerson)
+      submitForm.AAC003 = LegalPerson.attnName || '陈志相'
+      submitForm.AAB301 = LegalPerson.xzqh || '339900'
+      submitForm.AAE135 = LegalPerson.attnIDNo || '330327197412201736'
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100-3')
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getDetail', params).then(resData => {
         if (resData.enCode == 1000) {

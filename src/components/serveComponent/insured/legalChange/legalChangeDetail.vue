@@ -103,11 +103,12 @@ export default {
         formatSubmitData(){
             let submitForm ={}
             let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            let name=sessionStorage.getItem('personName')
+            let id=sessionStorage.getItem('personId')
             submitForm.AGA002 =  "公共服务-00501-004";
-            submitForm.AAC003=LegalPerson.CompanyName;
-            submitForm.BKZ019=this.$route.query.param||""
-            submitForm.AAE135 = '123456';
-            submitForm.AAC003=LegalPerson.CompanyName;
+            submitForm.AAC003 =LegalPerson.attnName|| name;
+            submitForm.BKZ019 =this.$route.query.param||""
+            submitForm.AAE135 = LegalPerson.attnIDNo|| id;
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
             return params;
@@ -132,7 +133,8 @@ export default {
         },
         formatSubmitData1(){
             let submitForm = {}
-            console.log(submitForm)
+            let name=sessionStorage.getItem('personName')
+            let id=sessionStorage.getItem('personId')
             submitForm.AGA002 =  "公共服务-00501-004";
             //从进度查询页面进入接收传参
             if(this.$route.query.param){
@@ -143,8 +145,8 @@ export default {
                 submitForm.BKZ019="";
             }
             let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-            submitForm.AAE135 = '123456';
-            submitForm.AAC003=LegalPerson.CompanyName;
+            submitForm.AAE135 = LegalPerson.attnIDNo|| id;
+            submitForm.AAC003 =LegalPerson.attnName|| name;
             
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");

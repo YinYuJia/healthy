@@ -87,7 +87,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>退休工资</span></div>
-                    <div class="InfoText"><input type="tel"  @blur="setMoney" maxlength="4" v-model="form.AAE041" placeholder="请输入">元</div>
+                    <div class="InfoText"><input type="tel"  @blur="setMoney"  v-model="form.AAE041" placeholder="请输入">元</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName">
@@ -119,13 +119,13 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>开始工作时间:</span></div>
                     <div class="InfoText">
-                        <input type="text" @click="openStartPicker(index)"  v-model="item.timeStart" placeholder="请输入">
+                        <input type="text" @click="openStartPicker(index)"  v-model="item.timeStart" placeholder="请输入" readonly>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束工作时间:</span></div>
                     <div class="InfoText">
-                        <input type="text" @click="openEndPicker(index)"  v-model="item.timeEnd" placeholder="请输入">
+                        <input type="text" @click="openEndPicker(index)"  v-model="item.timeEnd" placeholder="请输入" readonly>
                     </div>
                     <input type="text" id="timeAll"  v-model="item.AKC421" placeholder="请输入">
                 </div>
