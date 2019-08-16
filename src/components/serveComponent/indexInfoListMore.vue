@@ -195,14 +195,18 @@ export default {
         let SET_ENCLOSURE=[]
         this.$store.dispatch('SET_ENCLOSURE',SET_ENCLOSURE)
         this.epFn.setTitle('医疗保障专区');
-        this.getMatterInfo(sessionStorage.getItem("GinsengLandCode")); //获取列表
-
+        if(sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '1'){
+            this.getMatterInfo(sessionStorage.getItem("GinsengLandCode")); //获取列表
+        }else{
+            let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            this.getMatterInfo(LegalPerson.xzqh); //获取列表
+        }
     },
     methods:{
         // 跳转配置的地址
         jumpToUrl(url,status){
             if(status == '1'){
-                this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
+                this.$toast('该区域暂未开通');
                 return;
             }else{
                 // 省本级项目
@@ -210,16 +214,27 @@ export default {
                     this.$router.push(url.split('/').pop());
                 }else{
                     // 其他项目跳转
-                    if(sessionStorage.getItem("GinsengLandCode") == "339900"){
-                        let route = url.split('/');
-                        this.$router.push(route.pop());
+                    let userType = sessionStorage.getItem('userType')
+                    if(userType == 0 || userType == 1){
+                        if(sessionStorage.getItem('GinsengLandCode') == "339900"){
+                            let route = url.split('/');
+                            this.$router.push(route.pop());
+                        }else{
+                            window.location.href = url;
+                        }
                     }else{
-                        window.location.href = url;
+                        let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                        if(LegalPerson.xzqh == "339900"){
+                            let route = url.split('/');
+                            this.$router.push(route.pop());
+                        }else{
+                            window.location.href = url;
+                        }
                     }
                 }
             }
         },
-        //动态获取事项信息
+        //动态获取图标
         getMatterInfo(code) {
             let Type=sessionStorage.getItem('userType');
             let userType;
