@@ -89,6 +89,8 @@
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
             <div class="btn" @click="changeLegalPersonRegion(true)">参保地</div>
+            <div class="btn" @click="changeLegalPersonId(true)">法人身份证号</div>
+            <div class="btn" @click="changeLegalPersonName(true)">法人姓名</div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
             <button class="btn" @click="change()">切换</button>
@@ -613,6 +615,42 @@
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                         this.getMatterInfo(this.resData.xzqh);
                         this.getNewsInfo(this.resData.xzqh);
+                    });
+                } else {
+                    this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))
+                }
+            },
+            // 法人身份证变更
+            changeLegalPersonId(str){
+                if (str) {
+                    MessageBox.prompt('输入法人身份证', '').then(({
+                        value,
+                        action
+                    }) => {
+                        if(value == null || value == ""){
+                            this.resData.attnIDNo = ""
+                        }else{
+                            this.resData.attnIDNo = value;
+                        }
+                        sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
+                    });
+                } else {
+                    this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))
+                }
+            },
+            // 法人用户名变更
+            changeLegalPersonName(str){
+                if (str) {
+                    MessageBox.prompt('输入法人用户名', '').then(({
+                        value,
+                        action
+                    }) => {
+                        if(value == null || value == ""){
+                            this.resData.attnName = ""
+                        }else{
+                            this.resData.attnName = value;
+                        }
+                        sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
                     this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))

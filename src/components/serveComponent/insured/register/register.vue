@@ -256,10 +256,6 @@
               <input v-model="form.AAE010" type="text" maxlength="50" placeholder="请输入" />
             </div>
           </div>
-                <div class="changeUserBtn" v-if="asd" >
-                    <div class="btn" @click="changeCompanyName(true)">更改法人用户名</div>
-                    <div class="btn" @click="changeCompanyCode(true)">更改法人身份证</div>
-                </div>
           <div class="bgc"></div>
         </div>
       </div>
@@ -325,8 +321,6 @@ export default {
       },
       startDate: new Date(),
       canSubmit: false,
-      personName:"",
-      personId:""
     }
   },
   watch: {
@@ -345,11 +339,6 @@ export default {
     }
   },
   created () {
-    if( this.$build == 1) {
-        this.asd = true
-    }else{
-        this.asd = false;
-    }
     this.getSelectInfo('AAB019')
     this.getSelectInfo('AAB020')
     this.getSelectInfo('AAB021')
@@ -393,9 +382,9 @@ export default {
       const submitForm = {}
       let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
       console.log("LegalPerson",LegalPerson)
-      submitForm.AAC003 = LegalPerson.attnName || '陈志相'
-      submitForm.AAB301 = LegalPerson.xzqh || '339900'
-      submitForm.AAE135 = LegalPerson.attnIDNo || '330327197412201736'
+      submitForm.AAC003 = LegalPerson.attnName 
+      submitForm.AAB301 = LegalPerson.xzqh
+      submitForm.AAE135 = LegalPerson.attnIDNo 
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100-3')
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getDetail', params).then(resData => {
         if (resData.enCode == 1000) {
@@ -406,7 +395,7 @@ export default {
         } else if (resData.enCode == 1001) {
           //   失败  1001
           console.log('返回信息失败', resData)
-          this.$toast(resData.msg)
+          // this.$toast(resData.msg)
         } else {
           this.$toast('业务出错')
         }
@@ -523,16 +512,13 @@ export default {
     formatSubmitData () {
       let submitForm = Object.assign({}, this.form)
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100') // 加入用户名和电子社保卡号
-      submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name || '陈志相'
-      submitForm.AAB301 = sessionStorage.getItem('GinsengLandCode') || '003310'
-      submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard || '330327197412201736'
       let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
       console.log("person",LegalPerson)
       // console.log("9999",LegalPerson)
-      submitForm.AAC003=LegalPerson.attnName||this.personName;//单位名称
+      submitForm.AAC003=LegalPerson.attnName;//单位名称
       submitForm.userId=LegalPerson.userId;//userId
       submitForm.AAB301=LegalPerson.xzqh//统筹区
-      submitForm.AAE135=LegalPerson.attnIDNo||this.personId;//身份证号
+      submitForm.AAE135=LegalPerson.attnIDNo;//身份证号
       submitForm.BKE520='1'
       // 请求参数封装
 
