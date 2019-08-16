@@ -171,10 +171,9 @@ function ApiUrl() {
   }
 }
 
-import Vconsole from 'vconsole';
-var vConsole = new Vconsole()
-export default vConsole;
-
+// import Vconsole from 'vconsole';
+// var vConsole = new Vconsole()
+// export default vConsole;
 
 
 console.log('------欢迎进入APP首页main.js---20190715__01---')
@@ -421,11 +420,7 @@ if (isShow) {
 }
 
 
-
-
-
 // document.addEventListener('JSBridgeReady',function () {
-
 
   new Vue({
     el: '#app',

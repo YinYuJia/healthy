@@ -52,15 +52,15 @@
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                            <div class="swiper-slide">
-                                <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                            <div class="swiper-slide">
-                                <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                        </div>
-                    </div> -->
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                                    <div class="swiper-slide">
+                                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                                    <div class="swiper-slide">
+                                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                                </div>
+                            </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -69,10 +69,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                        <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                    </swipe> -->
+                                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                            </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -157,11 +157,13 @@
         },
         created() {
             // 判断是否法人登录
+            
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR------', sessionStorage.getItem('isClear'));
-            console.log("全局实现配置法人参数", JSON.parse(sessionStorage.getItem("globalConfigObj")))
+            
             if (this.$build == '2') {
-                const ssoToken = sessionStorage.getItem("ssoToken")
+                this.ifShow =  false
+                const ssoToken = this.util.paramStr("ssoToken");
                 console.log('----法人ssoToken----', ssoToken)
                 if (ssoToken != undefined && ssoToken != '' && ssoToken != null) {
                     this.$axios.post(this.epFn.ApiUrl() + '/H5/jy2009/getUserInfo', {
@@ -171,22 +173,52 @@
                         //  保存法人信息对象
                         sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
                         // 请求图标和咨询
-                        if(resData.xzqh == ""){
+                        if (resData.xzqh == "") {
                             resData.xzqh == "339900"
                         }
                         this.getMatterInfo(resData.xzqh);
                         this.getNewsInfo(resData.xzqh);
-                        var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
-                        if (globalConfigObj.userType == undefined) {} else {
-                            // url事项配置 跳转路由
-                            this.$router.push({
-                                name: globalConfigObj.identifier,
-                                params: globalConfigObj
+
+                        console.log('法人登录222')
+                        console.log("window.location.href", window.location.href)
+                        var arr = window.location.href.split("?")
+                        if (window.location.href.indexOf("ssoToken") != -1) {
+                            console.log('----', arr)
+                            const arr1 = arr[1].split("&")
+                            let obj = {}
+                            arr1.map((item, index) => {
+                                console.log(item.split("=")[0] + '------' + item.split("=")[1])
+                                obj[item.split("=")[0]] = item.split("=")[1]
                             })
+                            console.log('obj---', obj)
+                            // ----------------------获取事项配置url结束---------------------
+                            sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
+                        } else {
+                            sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
+
+                        }
+                        console.log("全局实现配置法人参数", JSON.parse(sessionStorage.getItem("globalConfigObj")))
+                        if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '{}') {
+                            // 证明不是url事项配置 走正常逻辑
+                            this.ifShow = false; //隐藏输入人名社保卡
+                        } else {
+                            if (globalConfigObj.userType == undefined) {
+                                // 证明不是url事项配置 走正常逻辑
+                                this.ifShow = false; //隐藏输入人名社保卡
+                            } else {
+                                // url事项配置 跳转路由
+                                this.$router.push({
+                                    name: globalConfigObj.identifier,
+                                    params: globalConfigObj
+                                })
+                            }
                         }
                     })
+                } else {
+                     window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=indexInfoList?epsoft=1'
                 }
             } else { //测试环境
+            this.ifShow =  true
                 sessionStorage.setItem('userType', 2);
                 sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
             }
@@ -221,41 +253,8 @@
             this.$store.dispatch('SET_ENCLOSURE', SET_ENCLOSURE)
             // 清空结束
             console.log("$build", this.$build)
-            //  切换打包环境  1 网新恩普包  2  浙理办包
-            if (this.$build == "1") {
-                this.ifShow = true //显示输入人名社保卡
-                this.showPerson = false //默认隐藏法人用户登录
-            } else if (this.$build == "2") {
-                // 法人登录
-                if (sessionStorage.getItem("iflegal") == 2) {
-                    this.isLegalLogin()
-                } else {
-                    // 个人登录
-                    this.ifShow = false; //隐藏输入人名社保卡
-                    this.setNativeMsg(); //浙理办打包需要打开
-                    this.getUserRegion(); // 自动获取参保地
-                }
-            }
             console.log('dddddd引入浙理办SDKddddddd', dd)
             this.epFn.setTitle('医疗保障专区')
-            // 获取当前城市信息
-            this.$ep.selectLocalCity((data) => {
-                console.log('selectLocalCity成功回调', data)
-            }, (error) => {
-                console.log('selectLocalCity失败回调', error)
-            })
-            // 获取当前地理位置
-            this.$ep.locationGet((data) => {
-                console.log('locationGet成功回调', data)
-                let lat = data.latitude.toString();
-                let lng = data.longitude.toString();
-                this.lat = lat;
-                this.lng = lng;
-                console.log("lng", this.lng)
-                console.log("lat", this.lat)
-            }, (error) => {
-                console.log('locationGet失败回调', error)
-            })
         },
         filters: {
             msgLength: function(val) {
@@ -269,26 +268,6 @@
         methods: {
             change() {
                 this.$router.push('/')
-            },
-            // 判断是否法人登录
-            isLegalLogin() {
-                console.log("----法人登录成功token-------", sessionStorage.getItem("ssoToken"))
-                const ssoToken = sessionStorage.getItem("ssoToken")
-                if (ssoToken != undefined && ssoToken != null && ssoToken != '') {
-                    if (ssoToken != undefined && ssoToken != '' && ssoToken != null) {
-                        // 请求法人信息
-                        this.$axios.post(this.epFn.ApiUrl() + '/H5/jy2009/getUserInfo', {
-                            ssoToken: ssoToken
-                            // ssoToken:'a1e99379-3fcc-451f-a041-c8ab14008a6c'
-                        }).then((resData) => {
-                            console.log('返回成功信息', resData);
-                            // 存贮法人信息
-                            sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
-                        })
-                    }
-                } else {
-                    console.log("'法人登录失败")
-                }
             },
             // 资讯跳转详情
             goDetail(item) {
@@ -506,7 +485,7 @@
             goRouter(route) {
                 let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
                 let areaId = LegalPerson.xzqh
-                if (areaId == "339900" || areaId.slice(0,4) == '3310') {
+                if (areaId == "339900" || areaId.slice(0, 4) == '3310') {
                     this.$router.push(route);
                 } else {
                     this.$toast('您所在的区域暂未开通');
@@ -601,15 +580,15 @@
                 }
             },
             // 参保地变更
-            changeLegalPersonRegion(str){
+            changeLegalPersonRegion(str) {
                 if (str) {
                     MessageBox.prompt('输入参保地编码', '').then(({
                         value,
                         action
                     }) => {
-                        if(value == null || value == ""){
+                        if (value == null || value == "") {
                             this.resData.xzqh = "339900"
-                        }else{
+                        } else {
                             this.resData.xzqh = value;
                         }
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
@@ -617,43 +596,43 @@
                         this.getNewsInfo(this.resData.xzqh);
                     });
                 } else {
-                    this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))
+                    this.$toast('功能正在建设中', JSON.parse(sessionStorage.getItem("LegalPerson")))
                 }
             },
             // 法人身份证变更
-            changeLegalPersonId(str){
+            changeLegalPersonId(str) {
                 if (str) {
                     MessageBox.prompt('输入法人身份证', '').then(({
                         value,
                         action
                     }) => {
-                        if(value == null || value == ""){
+                        if (value == null || value == "") {
                             this.resData.attnIDNo = ""
-                        }else{
+                        } else {
                             this.resData.attnIDNo = value;
                         }
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
-                    this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))
+                    this.$toast('功能正在建设中', JSON.parse(sessionStorage.getItem("LegalPerson")))
                 }
             },
             // 法人用户名变更
-            changeLegalPersonName(str){
+            changeLegalPersonName(str) {
                 if (str) {
                     MessageBox.prompt('输入法人用户名', '').then(({
                         value,
                         action
                     }) => {
-                        if(value == null || value == ""){
+                        if (value == null || value == "") {
                             this.resData.attnName = ""
-                        }else{
+                        } else {
                             this.resData.attnName = value;
                         }
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
-                    this.$toast('功能正在建设中',JSON.parse(sessionStorage.getItem("LegalPerson")))
+                    this.$toast('功能正在建设中', JSON.parse(sessionStorage.getItem("LegalPerson")))
                 }
             },
             showWork(url, item, itemInfo) {
