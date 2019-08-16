@@ -9,11 +9,11 @@
       <!-- 邮递信息 -->
       <div class="picWrap">
         <p>1、统一社会信用代码证</p>
-        <img :src="img1" alt="">
+        <img v-for="item in imgList1" :key="item" :src="item" alt="">
       </div>
       <div class="picWrap">
         <p>2、社会保险单位参保信息登记表</p>
-        <img :src="img2" alt="">
+        <img v-for="item in imgList2" :key="item" :src="item" alt="">
       </div>
     </div>
     <Success :flag="successFlag"></Success>
@@ -29,8 +29,8 @@ export default {
       currentStep: 1,
       handleNumber: '',
       successFlag: 1,
-      img1: '',
-      img2: ''
+      imgList1: [],
+      imgList2: []
     }
   },
   created () {
@@ -83,7 +83,13 @@ export default {
         console.log('返回成功信息', resData);
         //   成功   1000
         if (resData.enCode == 1000) {
-          // this.img1=resData.
+          resData.LS_DS_16.photoList.forEach( ele => {
+            if(ele.PTX001 == '21'){
+              this.imgList1.push(ele.PUL002)
+            }else{
+              this.imgList2.push(ele.PUL002)
+            }
+          })
           this.form = { ...this.form, ...LS };
           console.log('form', this.form);
         } else if (resData.enCode == 1001) {
@@ -137,10 +143,11 @@ export default {
 <style lang="less" scoped>
 .picWrap{
   background-color: #fff;
-  padding-top: 20px;
+  padding: .2rem;
   p{
     font-size: .32rem;
     text-align: left;
+    margin-bottom: .3rem;
   }
   img{
     width:100%;

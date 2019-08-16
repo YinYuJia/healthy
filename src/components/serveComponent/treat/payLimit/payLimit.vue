@@ -657,6 +657,8 @@ export default {
             submitForm.BKE810 = this.form.BKE810;
             submitForm.LS_DS=[];
             submitForm.LS_DS =[...submitForm.LS_DS,...this.LS_DS];
+            let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            submitForm.userId=LegalPerson.userId;//userId
             
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1025");

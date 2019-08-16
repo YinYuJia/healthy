@@ -36,13 +36,14 @@ export default {
     }
     console.log(this.$store.state.REGISTER_INFO)
     this.reportImg = this.$store.state.REGISTER_INFO.imgUrl
+    console.log("链接",this.$store.state.REGISTER_INFO.pdfUrl)
   },
   methods: {
     goUpload () {
       this.$router.push({ path: '/registerThree' })
     },
     downReport () {
-      window.location.href = this.$store.state.REGISTER_INFO.pdfUrl
+            
             let _this = this;
             console.log(2222)
             var u = navigator.userAgent;
