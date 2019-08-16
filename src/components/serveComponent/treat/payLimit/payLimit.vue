@@ -314,6 +314,7 @@ export default {
     },
     created(){
         this.checkJump();
+
         this.epFn.setTitle('缴费年限核定')
     },
     methods:{
@@ -441,9 +442,9 @@ export default {
             this.check=false;
             this.uncheck=true;
             this.isShow=false;
-            console.log('check1',this.flag)
             this.form.BKE810="";
             this.BKE810VALUE="";
+            console.log('check1',this.flag)
         },
         uncheck1(){
             this.uncheck=false;
@@ -534,12 +535,19 @@ export default {
                       console.log("user",user);
                       console.log("AAB001",resData.LS_DS[0].AAB001)
                       if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
-                        this.form=resData.LS_DS[0]
-                        this.form.AKC412=this.form.AKC412M+((this.form.AKC412)*12);
-                        this.form.BKE703=this.form.BKE703;
-                        this.form.BKE704=this.form.BKE704;
-                        this.form.AAB001=this.form.AAB001;
+                        // this.form=resData.LS_DS[0]
+                        this.form.AKC412=resData.LS_DS[0].AKC412M+((resData.LS_DS[0].AKC412)*12);
+                        this.form.BKE703=resData.LS_DS[0].BKE703;
+                        this.form.BKE704=resData.LS_DS[0].BKE704;
+                        this.form.AAE135=resData.LS_DS[0].AAC002;
+                        this.form.AAC004=resData.LS_DS[0].AAC004;
+                        this.form.AAC006=resData.LS_DS[0].AAC006;
+                        this.form.AAC007=resData.LS_DS[0].AAC007;
+                        this.form.AAC003=resData.LS_DS[0].AAC003;
+                        this.form.AAB004=resData.LS_DS[0].AAB004;
+                        this.form.AAB001=resData.LS_DS[0].AAB001;
                         this.form.BKEVALUE=this.form.BKE703+'年'+this.form.BKE704+'个月';
+                        sessionStorage.setItem('payLimitAAE135',this.form.AAE135)
                         }else {
                         this.$toast('该人员不是本单位的职员，请重新查询')
                         return false
@@ -621,9 +629,8 @@ export default {
             let submitForm ={}
             // 日期传换成Number
             // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
-            let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-            submitForm.AAE135 = '123456';
-            submitForm.AAC003=LegalPerson.CompanyName;
+            submitForm.AAE135 = this.form.AAE135;
+            submitForm.AAC003=this.form.AAC003;
             submitForm.BKE520 = "1"
             submitForm.AKC412 = this.form.AKC412;
             console.log(submitForm.AKC412)

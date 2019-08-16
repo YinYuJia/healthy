@@ -79,7 +79,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>处分:</span></div>
-                        <div class="InfoText">{{item.AKC423}}</div>           
+                        <div class="InfoText">{{item.AKC423|AKC423}}</div>           
                 </div>
             </div>
         </div>
@@ -197,8 +197,9 @@ export default {
                 // submitForm.AGA002 =  "330800123004";
                 // 加入用户名和电子社保卡号
                 submitForm.BKZ019=this.$route.query.param||""
-                submitForm.AAE135 = '123456';
-                submitForm.AAC003=LegalPerson.CompanyName;
+                if(sessionStorage.getItem('payLimitAAE135')!=null){
+                submitForm.AAE135=sessionStorage.getItem('payLimitAAE135')
+                }
                 // 请求参数封装
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
                 return params;
@@ -215,8 +216,9 @@ export default {
                     submitForm.lx="2";
                     submitForm.BKZ019="";
                 }
-                submitForm.AAE135 = '123456';
-                submitForm.AAC003=LegalPerson.CompanyName;
+                if(sessionStorage.getItem('payLimitAAE135')!=null){
+                submitForm.AAE135=sessionStorage.getItem('payLimitAAE135')
+                }
             
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
