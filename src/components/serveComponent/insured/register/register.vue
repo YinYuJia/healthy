@@ -338,7 +338,7 @@ export default {
     form: {
       handler: function (val) {
         if(val.address!=''&&val.addressDetail!=''){
-          val.AAE006=val.address+','+val.addressDetail;
+          val.AAE006=val.address+val.addressDetail;
         }
         if(val.AAB023!=''&&val.AAB019!=''&&val.AAE007!=''&&val.AAB020!=''&&val.AAB021!=''&&val.AAB022!=''
         &&val.AAB006!=''&&val.AAB036!=''&&val.AAE048!=''&&val.AAB011!=''&&val.AAB012!=''&&val.AAB013!=''&&val.BAB014!=''&&val.BKE280!=''&&val.BKE281!=''
