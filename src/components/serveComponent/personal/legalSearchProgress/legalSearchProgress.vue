@@ -179,35 +179,35 @@
         // 封装数据
         let params = this.formatSubmitData();
         // 开始请求
-        this.$axios.post(this.epFn.ApiUrl() + '/H5/jy9104/distanceHospital', params).then((resData) => {
+        this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1018/getList', params).then((resData) => {
           console.log('返回成功信息', resData)
           //   成功   1000
           if (resData.enCode == 1000) {
-            // if (resData.LS_DS.length > 0 && resData.LS_DS.length < 10) {
-            //   this.isShow = false;
-            // }
-            // if (resData.LS_DS.length > 0) {
-            //   this.itemGroup = [...this.itemGroup, ...resData.LS_DS]
-            //   //向上取整
-            //   let Num = Math.ceil(resData.pages / this.pageSize);
-            //   this.totalPage = Num;
-            //   console.log("totalPage", this.totalPage)
-            //   let Num111 = Number(this.pageNum);
-            //   this.pageNum = Num111
-            //   if (this.totalPage > this.pageNum) {
-            //     console.log("up", Num111)
-            //     this.pageNum += 1;
-            //     console.log("down", this.pageNum)
-            //     let Num222 = this.pageNum.toString();
-            //     this.pageNum = Num222
-            //     console.log('pageNum', this.pageNum)
-            //     this.allLoaded = false
-            //     console.log(this.allLoaded)
-            //   }
-            // } else {
-            //   // this.allLoaded=true
-            //   this.isShow = true;
-            // }
+            if (resData.LS_DS.length > 0 && resData.LS_DS.length < 10) {
+              this.isShow = false;
+            }
+            if (resData.LS_DS.length > 0) {
+              this.itemGroup = [...this.itemGroup, ...resData.LS_DS]
+              //向上取整
+              let Num = Math.ceil(resData.count / this.pageSize);
+              this.totalPage = Num;
+              console.log("totalPage", this.totalPage)
+              let Num111 = Number(this.pageNum);
+              this.pageNum = Num111
+              if (this.totalPage > this.pageNum) {
+                console.log("up", Num111)
+                this.pageNum += 1;
+                console.log("down", this.pageNum)
+                let Num222 = this.pageNum.toString();
+                this.pageNum = Num222
+                console.log('pageNum', this.pageNum)
+                this.allLoaded = false
+                console.log(this.allLoaded)
+              }
+            } else {
+              // this.allLoaded=true
+              this.isShow = true;
+            }
           } else if (resData.enCode == 1001) {
             //   失败  1001
             this.$toast(resData.msg);
@@ -222,10 +222,10 @@
         let submitForm = {};
         let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
         // 加入用户名和电子社保卡号
-        submitForm.userId= LegalPerson.userId
-        submitForm.pageNum=this.pageNum // 页码
-        submitForm.BKE520='1' //申请渠道
-        
+        submitForm.pageNum = this.pageNum // 页码
+        submitForm.BOD037 = this.BOD037;
+        submitForm.AAC003 = LegalPerson.attnName;
+        submitForm.AAE135 = LegalPerson.userId;
         // 请求参数封装
         console.log('submitForm', submitForm)
         return submitForm;
