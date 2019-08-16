@@ -172,176 +172,151 @@ var vConsole = new Vconsole()
 export default vConsole;
 
 // 1  网新恩普包  2  浙理办包
-Vue.prototype.$build = "2"
-const isShow = true
+Vue.prototype.$build = "1"
+const isShow = false
 
 // console.log('ddddddd', dd)
 // 1 个人登录 2 法人登录
 if (isShow) {
-  console.log(2)
-  // Vue.prototype.$isUserLogin = '1'
-  const code = 'yibaozs';
-              console.log('code', code)
-              // var ticket = paramStr("ticket") || "8afac0cc6b84c4aa016b8e7fb4662798-ticket";
-              var ticket = paramStr("ticket");
-              console.log('ticket-------------', ticket)
-              var token = sessionStorage.getItem("getToken")
-              console.log('token-------------', token)
-              //59.202.42.147:23030
-              if (token != "" && token != 'undefined' && token != null) {
-                axios.post(ApiUrl() + "/H5/jy2005/info", {
-                  "token": token,
-                  "tradeCode": "2005"
-                }).then(result2 => {
-                  console.log(6)
-                  console.log('result2-----------------', result2)
-                  if (result2.result == "0") {
-                    sessionStorage.setItem("userName", result2.username)
-                    sessionStorage.setItem("idCard", result2.idnum)
-                    console.log('userName', result2.username)
-                    console.log('idCard', result2.idnum)
-                  
-                  } else {
-                    MessageBox.alert(result2.errmsg);
-                    return;
-                  }
-                })
-              } else {
-                if (ticket != "" && ticket != undefined && ticket != null) {
-
-                  console.log(4)
-                  axios.post(ApiUrl() + "/H5/jy2004/info", {
-                    "st": ticket,
-                    "tradeCode": "2004"
-                  }).then(result0 => {
-                    console.log('result0----------------------', result0)
-
-                    if (result0.result == "0") {
-                      sessionStorage.setItem("getToken", result0.token)
-                    } else {
-                      MessageBox.alert(result0.errmsg);
-                      return;
-                      // return;
-                    }
-                    axios.post(ApiUrl() + "/H5/jy2005/info", {
-                      "token": result0.token,
-                      "tradeCode": "2005"
-                    }).then(result1 => {
-                      console.log(5)
-                      console.log('result1------------------', result1)
-                      if (result1.result == "0") {
-                        sessionStorage.setItem("userName", result1.username)
-                        sessionStorage.setItem("idCard", result1.idnum)
-
-                        console.log('userName', result1.username)
-                        console.log('idCard', result1.idnum)
-                      
-                      } else {
-                        MessageBox.alert(result1.errmsg);
-                      }
-                    })
-                  });
-                } else {
-                  console.log(3)
-                  // return;
-                  window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode=" + code;
-                }
-              }
-
-
-        if(false) {
-          dd.ready({
-            developer: 'daip@dtdream.com',
-            usage: [
-              'dd.biz.user.getUserType',
-            ],
-            remark: '获取用户登录类型'
-          },
-          () => {
-            dd.biz.user.getUserType({
-              onSuccess: (data) => {
-                sessionStorage.setItem("userType", data.userType)
-                console.log("data获取用户类型", data)
-                if (data.userType == '0' || data.userType == '1') {
-                  // 如果是个人登录 获取url参数
-                  // ------------事项url配置截取sp分成对象保存到session里面开始---------start
-                  var sp = paramStr('sp')
-                  console.log(sp)
-                  if (sp != "" && sp != undefined && sp != null) {
-                    const arr1 = sp.split("|")
-                    let obj = {}
-                    arr1.map((item, index) => {
-                      console.log(item.split("=")[0] + '------' + item.split("=")[1])
-                      console.log()
-                      obj[item.split("=")[0]] = item.split("=")[1]
-                    })
-                    console.log('obj---', obj)
-                    sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
-                  } else {
-                    sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
-                  }
-                  // ------------事项url配置截取sp分成对象保存到session里面---------end
-    
-                  sessionStorage.setItem("iflegal", data.userType)
-                  
-                } else if (data.userType == '2') {
-                  console.log('法人登录')
-                  console.log("window.location.href", window.location.href)
-                  var arr = window.location.href.split("?")
-                  if (window.location.href.indexOf("ssoToken") != -1) {
-                    console.log('----', arr)
-                    const arr1 = arr[1].split("&")
-                    let obj = {}
-                    arr1.map((item, index) => {
-                      console.log(item.split("=")[0] + '------' + item.split("=")[1])
-                      obj[item.split("=")[0]] = item.split("=")[1]
-                    })
-                    console.log('obj---', obj)
-                    sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
-                  } else {
-                    sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
-                  }
-                  var ssoToken = paramStr("ssoToken");
-    
-                  console.log('ssoToken', ssoToken)
-                  if (ssoToken != "" && ssoToken != undefined && ssoToken != null) {
-                    sessionStorage.setItem("ssoToken", ssoToken)
-                  ;
-                  } else {
-                    window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=?epsoft=1'
-                  }
-                }
-              },
-              onFail: (error) => {
-                console.log("data获取用户类型", error)
-              
-              }
-            })
+  dd.biz.user.getUserType({
+    onSuccess: (data) => {
+      sessionStorage.setItem("userType", data.userType)
+      console.log("data获取用户类型", data)
+      if (data.userType == '0' || data.userType == '1') {
+        var sp = paramStr('sp')
+        console.log(sp)
+        if (sp != "" && sp != undefined && sp != null) {
+          const arr1 = sp.split("|")
+          let obj = {}
+          arr1.map((item, index) => {
+            console.log(item.split("=")[0] + '------' + item.split("=")[1])
+            console.log()
+            obj[item.split("=")[0]] = item.split("=")[1]
           })
+          console.log('obj---', obj)
+          sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
+        } else {
+          sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
         }
+        // ------------事项url配置截取sp分成对象保存到session里面---------end
+
+        sessionStorage.setItem("iflegal", data.userType)
+        const code = 'yibaozs';
+        console.log('code', code)
+        // var ticket = paramStr("ticket") || "8afac0cc6b84c4aa016b8e7fb4662798-ticket";
+        var ticket = paramStr("ticket");
+        console.log('ticket-------------', ticket)
+        var token = sessionStorage.getItem("getToken")
+        console.log('token-------------', token)
+        //59.202.42.147:23030
+        if (token != "" && token != 'undefined' && token != null) {
+          axios.post(ApiUrl() + "/H5/jy2005/info", {
+            "token": token,
+            "tradeCode": "2005"
+          }).then(result2 => {
+            console.log(6)
+            console.log('result2-----------------', result2)
+            if (result2.result == "0") {
+              sessionStorage.setItem("userName", result2.username)
+              sessionStorage.setItem("idCard", result2.idnum)
+              console.log('userName', result2.username)
+              console.log('idCard', result2.idnum)
+              next()
+            } else {
+              MessageBox.alert(result2.errmsg);
+              return;
+            }
+          })
+        } else {
+          if (ticket != "" && ticket != undefined && ticket != null) {
+
+            console.log(4)
+            axios.post(ApiUrl() + "/H5/jy2004/info", {
+              "st": ticket,
+              "tradeCode": "2004"
+            }).then(result0 => {
+              console.log('result0----------------------', result0)
+
+              if (result0.result == "0") {
+                sessionStorage.setItem("getToken", result0.token)
+              } else {
+                MessageBox.alert(result0.errmsg);
+                return;
+                // return;
+              }
+              axios.post(ApiUrl() + "/H5/jy2005/info", {
+                "token": result0.token,
+                "tradeCode": "2005"
+              }).then(result1 => {
+                console.log(5)
+                console.log('result1------------------', result1)
+                if (result1.result == "0") {
+                  sessionStorage.setItem("userName", result1.username)
+                  sessionStorage.setItem("idCard", result1.idnum)
+
+                  console.log('userName', result1.username)
+                  console.log('idCard', result1.idnum)
+                  next()
+                } else {
+                  MessageBox.alert(result1.errmsg);
+                }
+              })
+            });
+          } else {
+            console.log(3)
+            // return;
+            window.location.href = "https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode=" + code;
+          }
+        }
+
+        sessionStorage.setItem("iflegal", data.userType)
+
+      } else if (data.userType == '2') {
+        console.log('法人登录')
+        console.log("window.location.href", window.location.href)
+        var arr = window.location.href.split("?")
+        if (window.location.href.indexOf("ssoToken") != -1) {
+          console.log('----', arr)
+          const arr1 = arr[1].split("&")
+          let obj = {}
+          arr1.map((item, index) => {
+            console.log(item.split("=")[0] + '------' + item.split("=")[1])
+            obj[item.split("=")[0]] = item.split("=")[1]
+          })
+          console.log('obj---', obj)
+          sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
+        } else {
+          sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
+        }
+        var ssoToken = paramStr("ssoToken");
+
+        console.log('ssoToken', ssoToken)
+        if (ssoToken != "" && ssoToken != undefined && ssoToken != null) {
+          sessionStorage.setItem("ssoToken", ssoToken);
+        } else {
+          window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=?epsoft=1'
+        }
+      }
+    },
+    onFail: (error) => {
+      console.log("data获取用户类型", error)
+
+    }
+  })
+
 
 } else {
-  console.log("######-----",dd)
+  console.log("######-----", dd)
 
-    dd.ready({
-      developer: 'daip@dtdream.com',
-      usage: [
-        'dd.biz.user.getUserType',
-      ],
-      remark: '获取用户登录类型'
+  dd.biz.user.getUserType({
+    onSuccess: (data) => {
+      console.log("获取用户类型------", data.userType)
+      sessionStorage.setItem("userType", data.userType)
     },
-    () => {
-      dd.biz.user.getUserType({
-        onSuccess: (data) => {
-          console.log("获取用户类型------",data.userType)
-          sessionStorage.setItem("userType", data.userType)
-        },
-        onFail: (error) => {
-          console.log("data获取用户类型", error)
-
-        }
-      })
-    })
+    onFail: (error) => {
+      console.log("data获取用户类型", error)
+    }
+  })
 
 }
 

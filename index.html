@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <!-- 移动端禁止缩放 -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <title>医保专区</title>
-    <!-- 引入浙理办SDK -->   
-    <script type="text/javascript" src="//jssdk.yyhj.zjzwfw.gov.cn/jsbridge/v2.0.0/bridge.min.js"></script>
-    <!-- <script type="text/javascript" src="//jssdk.yyhj.zjzwfw.gov.cn/jsbridge/v2.0.0/bridge.min.js"></script> -->
-    <script src="//pv.sohu.com/cityjson?ie=utf-8"></script>
-      <script type="text/javascript">
-        
 
+<head>
+  <meta charset="utf-8">
+  <!-- 移动端禁止缩放 -->
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <title>医保专区</title>
+  <!-- 引入浙理办SDK -->
+  <script type="text/javascript" src="//jssdk.yyhj.zjzwfw.gov.cn/jsbridge/v2.0.0/bridge.min.js"></script>
+  <!-- <script type="text/javascript" src="//jssdk.yyhj.zjzwfw.gov.cn/jsbridge/v2.0.0/bridge.min.js"></script> -->
+  <script src="//pv.sohu.com/cityjson?ie=utf-8"></script>
+  <script type="text/javascript">
+    dd.ready({
+        developer: 'daip@dtdream.com',
+        usage: [
+          'dd.biz.user.getUserType', //获取用户类型
+        ],
+        remark: '获取用户登录类型'
+      },
+      () => {
+         console.log("------正在注册浙理办SDK组件-------")
+      })
+  </script>
+  <!-- <script type="text/javascript" src="./static//bridge.min.js"></script> -->
+</head>
 
-      </script>
-    <!-- <script type="text/javascript" src="./static//bridge.min.js"></script> -->
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
 </html>
