@@ -22,8 +22,19 @@
   <!-- built files will be auto injected -->
 </body>
 <script type="text/javascript">
-  
-
+  window.onload = function() {
+  dd.ready({
+  developer: 'daip@dtdream.com',
+  usage: [
+    'dd.biz.user.getUserType', //获取用户类型
+    'dd.biz.util.selectLocalCity'
+  ],
+  remark: '获取用户登录类型'
+},function() {
+  console.log('bingo');
+})
+}
+console.log(12344333)
   
 
   </script>
