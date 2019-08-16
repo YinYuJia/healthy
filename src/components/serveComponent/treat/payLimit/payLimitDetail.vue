@@ -200,6 +200,11 @@ export default {
                 console.log('接收到的身份证号',sessionStorage.getItem('payLimitAAE135'))
                 if(sessionStorage.getItem('payLimitAAE135')!=null){
                 submitForm.AAE135=sessionStorage.getItem('payLimitAAE135')
+                }else{
+                    let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                    console.log("LegalPerson",LegalPerson)
+                    submitForm.AAC003 = LegalPerson.attnName
+                    submitForm.AAE135 = LegalPerson.attnIDNo
                 }
                 // 请求参数封装
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
@@ -220,6 +225,11 @@ export default {
                 console.log('接收到的身份证号',sessionStorage.getItem('payLimitAAE135'))
                 if(sessionStorage.getItem('payLimitAAE135')!=null){
                 submitForm.AAE135=sessionStorage.getItem('payLimitAAE135')
+                }else{
+                    let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                    console.log("LegalPerson",LegalPerson)
+                    submitForm.AAC003 = LegalPerson.attnName
+                    submitForm.AAE135 = LegalPerson.attnIDNo
                 }
             
             // 请求参数封装
