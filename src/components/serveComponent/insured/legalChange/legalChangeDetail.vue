@@ -25,19 +25,19 @@
                     <div class="InfoText">{{form.BKE280}}</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员1姓名:</span></div>
+                    <div class="InfoName"><span>专管员姓名1:</span></div>
                     <div class="InfoText">{{form.BKE281}}</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员1电话:</span></div>
+                    <div class="InfoName"><span>专管员电话1:</span></div>
                     <div class="InfoText">{{form.BKE283}}</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员2姓名:</span></div>
+                    <div class="InfoName"><span>专管员姓名2:</span></div>
                     <div class="InfoText">{{form.BAC210}}</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员2电话:</span></div>
+                    <div class="InfoName"><span>专管员电话2:</span></div>
                     <div class="InfoText">{{form.BAC212}}</div>
                 </div>
                 <div class="InfoLine">
@@ -69,7 +69,8 @@ export default {
                 {step:1,name:'申请'},
                 {step:2,name:'受理'},
                 {step:3,name:'审核'},
-                {step:4,name:'办结'}
+                {step:4,name:'送达'},
+                {step:5,name:'办结'}
             ],
         }
     },
