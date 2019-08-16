@@ -4,14 +4,12 @@
     <!-- MintUI弹出框区域 -->
     <mt-datetime-picker 
     type="date" ref="startPicker" 
-    :startDate="startDate" 
     v-model="dateVal" 
     @confirm="handleStartConfirm">
     </mt-datetime-picker>
     <mt-datetime-picker 
     type="date" 
     ref="startPicker1" 
-    :startDate="startDate" 
     v-model="dateVal1" 
     @confirm="handleStartConfirm1">
     </mt-datetime-picker>

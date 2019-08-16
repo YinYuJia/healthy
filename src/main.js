@@ -179,7 +179,7 @@ export default vConsole;
 
 console.log('------欢迎进入APP首页main.js---20190715__01---')
 // 1  网新恩普包  2  浙理办包
-Vue.prototype.$build = "2"
+Vue.prototype.$build = "1"
 const isShow = false
 
 console.log("------正在注册浙理办SDK组件-------")
