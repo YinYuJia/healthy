@@ -197,8 +197,14 @@ export default {
                 // submitForm.AGA002 =  "330800123004";
                 // 加入用户名和电子社保卡号
                 submitForm.BKZ019=this.$route.query.param||""
+                console.log('接收到的身份证号',sessionStorage.getItem('payLimitAAE135'))
                 if(sessionStorage.getItem('payLimitAAE135')!=null){
                 submitForm.AAE135=sessionStorage.getItem('payLimitAAE135')
+                }else{
+                    let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                    console.log("LegalPerson",LegalPerson)
+                    submitForm.AAC003 = LegalPerson.attnName
+                    submitForm.AAE135 = LegalPerson.attnIDNo
                 }
                 // 请求参数封装
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
@@ -216,8 +222,14 @@ export default {
                     submitForm.lx="2";
                     submitForm.BKZ019="";
                 }
+                console.log('接收到的身份证号',sessionStorage.getItem('payLimitAAE135'))
                 if(sessionStorage.getItem('payLimitAAE135')!=null){
                 submitForm.AAE135=sessionStorage.getItem('payLimitAAE135')
+                }else{
+                    let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                    console.log("LegalPerson",LegalPerson)
+                    submitForm.AAC003 = LegalPerson.attnName
+                    submitForm.AAE135 = LegalPerson.attnIDNo
                 }
             
             // 请求参数封装

@@ -102,6 +102,8 @@ export default {
             },
             canSubmit: false,
             bindingFlag: false,
+            personName:"",
+            personId:""
         }
     },
     watch:{
@@ -139,6 +141,7 @@ export default {
                     value,
                     action
                 }) => {
+                    this.personName=value;
                     sessionStorage.setItem('personName', value);
                 });
             } else {
@@ -152,6 +155,7 @@ export default {
                     value,
                     action
                 }) => {
+                    this.personId=value;
                     sessionStorage.setItem('personId', value);
                 });
             } else {
@@ -332,10 +336,10 @@ export default {
                 let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
                 console.log("person",LegalPerson)
                 // console.log("9999",LegalPerson)
-                submitForm.AAC003=LegalPerson.CompanyName;//单位名称
+                submitForm.AAC003=LegalPerson.attnName||this.personName;//单位名称
                 submitForm.AAB301=LegalPerson.xzqh//统筹区
                 submitForm.BKE520='1'
-                submitForm.AAE135=sessionStorage.getItem('LOGINNAME');//单位编码
+                submitForm.AAE135=LegalPerson.attnIDNo||this.personId;//身份证号
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;
