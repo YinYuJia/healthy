@@ -35,7 +35,6 @@ export default {
       })
     }
     console.log(this.$store.state.REGISTER_INFO)
-
     this.reportImg = this.$store.state.REGISTER_INFO.imgUrl
   },
   methods: {
