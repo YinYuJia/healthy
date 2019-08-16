@@ -346,6 +346,7 @@ export default {
                 submitForm.AAB301=LegalPerson.xzqh//统筹区
                 submitForm.BKE520='1'
                 submitForm.AAE135=LegalPerson.attnIDNo||this.personId;//身份证号
+                submitForm.userId=LegalPerson.userId;//userId
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
             return params;
