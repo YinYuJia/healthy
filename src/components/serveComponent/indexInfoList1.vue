@@ -2,12 +2,11 @@
     <div class="indexInfoList">
         <div class="mask" v-show="isMask">
             <div class="mask_div">
-                <div class="mask_div_text">
-                    <h1 class="mask_div_text_h1">系统更新中,请稍后使用</h1>
-                    <h1 class="mask_div_text_h2">内部测试人员请输入密码进行测试</h1>
-                </div>
+                <svg-icon class="content" icon-class="内容"></svg-icon>
                 <input class="mask_input" type="password" name="" v-model="epPasword" id="">
+                <button class="loginButton" @click="loginIn"></button>
             </div>
+
         </div>
         <!-- 提示 -->
         <div class="Hint" v-if="isTips">
@@ -184,14 +183,14 @@
                 observeParents: true, //修改swiper的父元素时，自动初始化swiper
             })
         },
-        watch: {
-            epPasword: function(val) {
-                console.log("old----", val)
-                if (val == 'epsoft') {
-                    this.isMask = false;
-                }
-            }
-        },
+        // watch: {
+        //     epPasword: function(val) {
+        //         console.log("old----", val)
+        //         if (val == 'epsoft') {
+        //             this.isMask = false;
+        //         }
+        //     }
+        // },
         created() {
             // 判断是否法人登录 如果登录 直接跳转法人页面
             sessionStorage.setItem('isClear', this.isClear)
@@ -316,6 +315,17 @@
             }
         },
         methods: {
+            //弹窗登录
+            loginIn() {
+                if(this.epPasword == 'epsoft') {
+                //   this.$message({
+                //   message: '验证成功！',
+                //   type: 'success'
+                // });
+                this.isMask = false;
+                } 
+                this.epPasword = '';
+            },
             change() {
                 this.$router.push('/indexInfoList')
             },
@@ -813,29 +823,33 @@
                     transform: translateX(-50%);
                     top: 10px;
                     background-color: #aaa;
-                    .mask_div_text_h1 {
-                        font-size: .4rem;
-                        margin-top: 20px;
-                        color: #fff;
-                    }
-                    .mask_div_text_h2 {
-                        font-size: .3rem;
-                        margin-top: 20px;
-                        color: #ddd;
-                    }
+                }
+                .content {
+                        width: 6.2rem;
+                        height: 7.8rem;
                 }
                 .mask_input {
-                width: 96%;
-                height: .7rem;
-                font-size: .35rem;
-                border-radius: 20px;
-                background-color: #eee;
+                width: 76%;
+                height: 0.7rem;
+                font-size: 0.35rem;
                 position: absolute;
                 text-indent: 5px;
-                top: 75%;
+                top: 82%;
                 left: 50%;
+                -webkit-transform: translateX(-50%);
                 transform: translateX(-50%);
-            }
+                margin-left: .4rem;
+                border: none;
+                }
+                .loginButton {
+                        position: absolute;
+                        top: 128%;
+                        border: none; 
+                        background: none;
+                        left: 5%;
+                        width: 93%;
+                        height: 21%;
+                }
             }
             
         }
