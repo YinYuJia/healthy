@@ -44,6 +44,9 @@ Vue.use(Mint);
 
 // 使用utils
 import Util from './utils/util'
+
+
+
 Vue.prototype.util = Util;
 
 
@@ -168,15 +171,15 @@ function ApiUrl() {
   }
 }
 
-
-
-console.log('------欢迎进入APP首页main.js---20190715__01---')
 import Vconsole from 'vconsole';
 var vConsole = new Vconsole()
 export default vConsole;
 
+
+
+console.log('------欢迎进入APP首页main.js---20190715__01---')
 // 1  网新恩普包  2  浙理办包
-Vue.prototype.$build = "1"
+Vue.prototype.$build = "2"
 const isShow = false
 
 console.log("------正在注册浙理办SDK组件-------")
@@ -421,7 +424,7 @@ if (isShow) {
 
 
 
-document.addEventListener('JSBridgeReady',function () {
+// document.addEventListener('JSBridgeReady',function () {
 
 
   new Vue({
@@ -433,7 +436,7 @@ document.addEventListener('JSBridgeReady',function () {
     },
     template: '<App/>'
   })
- },false)
+//  },false)
 
 
 

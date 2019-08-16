@@ -1,5 +1,5 @@
-let otherJS = '//jssdk.yyhj.zjzwfw.gov.cn/jsbridge/v2.0.0/bridge.min.js'
-document.write('<scr' + 'ipt type="text/javascript" src="'+otherJS+'"></scr' + 'ipt>');
+// let otherJS = '//jssdk.yyhj.zjzwfw.gov.cn/jsbridge/v2.0.0/bridge.min.js'
+// document.write('<scr' + 'ipt type="text/javascript" src="'+otherJS+'"></scr' + 'ipt>');
 export default  {
      setTitle(title) {
         dd.ready({
