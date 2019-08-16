@@ -58,6 +58,10 @@
                     <div class="InfoName"><span>邮箱：</span></div>
                     <div class="InfoText"><input v-model="form.AAE005" type="text" maxlength="20" placeholder="请输入"></div>
                 </div>
+                <div class="changeUserBtn" >
+                    <div class="btn" @click="changeCompanyName(true)">更改法人用户名</div>
+                    <div class="btn" @click="changeCompanyCode(true)">更改法人身份证</div>
+                </div>
             </div>
         </div>
         <!-- 办事指南 -->
@@ -70,6 +74,9 @@
 </template>
 
 <script>
+import {
+    MessageBox
+} from 'mint-ui';
 export default {
     data(){
         return{
@@ -125,6 +132,32 @@ export default {
         this.epFn.setTitle('单位参保变更')
     },
     methods:{
+        //个人用户登录
+        changeCompanyName(str) {
+            if (str) {
+                MessageBox.prompt('法人姓名', '').then(({
+                    value,
+                    action
+                }) => {
+                    sessionStorage.setItem('personName', value);
+                });
+            } else {
+                this.$toast("功能正在建设中")
+            }
+        },
+        //个人用户登录
+        changeCompanyCode(str) {
+            if (str) {
+                MessageBox.prompt('法人身份证', '').then(({
+                    value,
+                    action
+                }) => {
+                    sessionStorage.setItem('personId', value);
+                });
+            } else {
+                this.$toast("功能正在建设中")
+            }
+        },
         // 绑定成功后执行的请求
         changeFlag(val){
             this.bindingFlag = val;
@@ -397,6 +430,19 @@ export default {
                 }
                 &:last-child{
                     border-bottom: none;
+                }
+            }
+            .changeUserBtn {
+                display: flex;
+                justify-content: space-around;
+                .btn {
+                    height: .6rem;
+                    line-height: .6rem;
+                    width: 3.5rem;
+                    border: 1px solid #DDD;
+                    font-size: .36rem;
+                    border-radius: .2rem;
+                    background: #FFF;
                 }
             }
         }
