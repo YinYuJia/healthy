@@ -180,7 +180,7 @@ const isShow = false
 if (isShow) {
   console.log(2)
   // Vue.prototype.$isUserLogin = '1'
-  router.beforeEach((to, from, next) => {
+
 
     dd.ready({
         developer: 'daip@dtdream.com',
@@ -235,7 +235,7 @@ if (isShow) {
                     sessionStorage.setItem("idCard", result2.idnum)
                     console.log('userName', result2.username)
                     console.log('idCard', result2.idnum)
-                    next()
+                  
                   } else {
                     MessageBox.alert(result2.errmsg);
                     return;
@@ -270,7 +270,7 @@ if (isShow) {
 
                         console.log('userName', result1.username)
                         console.log('idCard', result1.idnum)
-                        next()
+                      
                       } else {
                         MessageBox.alert(result1.errmsg);
                       }
@@ -304,7 +304,7 @@ if (isShow) {
               console.log('ssoToken', ssoToken)
               if (ssoToken != "" && ssoToken != undefined && ssoToken != null) {
                 sessionStorage.setItem("ssoToken", ssoToken)
-                next();
+              ;
               } else {
                 window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=?epsoft=1'
               }
@@ -312,13 +312,15 @@ if (isShow) {
           },
           onFail: (error) => {
             console.log("data获取用户类型", error)
-            next()
+          
           }
         })
       })
-  })
+
 } else {
-  dd.ready({
+  console.log("######-----",dd)
+
+    dd.ready({
       developer: 'daip@dtdream.com',
       usage: [
         'dd.biz.user.getUserType',
@@ -328,14 +330,17 @@ if (isShow) {
     () => {
       dd.biz.user.getUserType({
         onSuccess: (data) => {
+          console.log("获取用户类型------",data.userType)
           sessionStorage.setItem("userType", data.userType)
+        
         },
         onFail: (error) => {
           console.log("data获取用户类型", error)
-          next()
+        
         }
       })
     })
+
 }
 
 new Vue({
