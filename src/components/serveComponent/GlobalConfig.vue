@@ -30,7 +30,7 @@
             
             // return
             if (userType == '2') {  // 法人登录
-               window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=?epsoft=1&userType=' + userType + '&type=' + type + '&identifier=' + identifier                       
+               window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=indexInfoList?epsoft=1&userType=' + userType + '&type=' + type + '&identifier=' + identifier                       
             //    window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=legalPerson?aga001=' + aga001 + '&userType=' + userType + '&type=' + type + '&identifier=' + identifier                       
             } else {// 个人登录
                window.location.href = 'https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode=yibaozs&goto=epsoft=1|aga001=' + aga001 + '|userType=' + userType + '|type=' + type + '|identifier=' + identifier
