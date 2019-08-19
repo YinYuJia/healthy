@@ -281,7 +281,8 @@ export default {
         height: 100%;
         margin-bottom: 1.4rem;
         .SearchInfo{
-            height:2.4rem;
+            //height:2.4rem;
+            height: auto;
             width: 100%;
             background: white;
             padding: 0 .3rem;
