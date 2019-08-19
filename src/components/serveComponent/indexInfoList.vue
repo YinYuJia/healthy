@@ -199,6 +199,7 @@
 
                         }
                         console.log("全局实现配置法人参数", JSON.parse(sessionStorage.getItem("globalConfigObj")))
+                        const globalConfigObj = JSON.parse(sessionStorage.getItem("globalConfigObj"))
                         if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '{}') {
                             // 证明不是url事项配置 走正常逻辑
                             this.ifShow = false; //隐藏输入人名社保卡
