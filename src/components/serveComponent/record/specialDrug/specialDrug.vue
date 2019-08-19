@@ -73,7 +73,7 @@
             <span>项目类型</span>
           </div>
           <div class="InfoText">
-            <input @click="openProjectTypePicker()" type="text" v-model="BKE253VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+            <input @click="openProjectTypePicker()" type="text" v-model="BKE253VALUE" placeholder="请选择" readonly :disabled="typeDisabled"><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
           </div>
         </div>
         <div class="InfoLine">
@@ -284,20 +284,37 @@ export default {
       useMedical:false,
       value5:"",
       secondTreat:false,//展现第二疗程
-      AKC226Control:false
+      AKC226Control:false,
+      typeDisabled: false, //项目类型默认可选择
     };
   },
   created() {
+    // 根据路由配置项目类型子项选中
+    let type = this.$route.params.type
+    if(type){
+      let label = ''
+      let value = ''
+      switch(type) {
+        case 1: label = '诊疗'; value = '2'; break;
+        case 2: label = '药品'; value = '1'; break;
+        default: label = ''; value = ''; break;
+      }
+      this.BKE253VALUE = label
+      this.form.BKE253 = value
+      //原因变为不可选择
+      this.typeDisabled = true
+    }
+    // 设置标题
     this.epFn.setTitle('特治特药备案')
-               let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
-           let GinsengLandName = sessionStorage.getItem("GinsengLandName")
+    let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
+    let GinsengLandName = sessionStorage.getItem("GinsengLandName")
 
-           console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
-           this.AAB301000 = GinsengLandName
-           this.form.AAB301 = GinsengLandCode
-           this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
-           console.log('this.form.AAS301',this.form.AAS301)
-           console.log('this.form.AAB301',this.form.AAB301)
+    console.log('GinsengLandCode',GinsengLandCode,'GinsengLandName',GinsengLandName)
+    this.AAB301000 = GinsengLandName
+    this.form.AAB301 = GinsengLandCode
+    this.form.AAS301 = GinsengLandCode.substring(0,2) + '0000'
+    console.log('this.form.AAS301',this.form.AAS301)
+    console.log('this.form.AAB301',this.form.AAB301)
     // this.form = this.$store.state.SET_SPECIAL_DRUG;
     // this.form.canbao = this.$store.state.SET_USER_DETAILINFO.regionName
     // this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
@@ -451,6 +468,7 @@ export default {
       this.$refs.projectTypePicker.open();
     },
     handleProjectTypeConfirm(val){
+      console.log(val);
       this.form.BKE253 = val.value;
       this.BKE253VALUE = val.label;
     },
