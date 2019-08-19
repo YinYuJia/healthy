@@ -59,12 +59,12 @@
                         <input   type="text" readonly="quotreadolyquot" v-model="AAE013VALUE" placeholder="请选择" >
                     </div>
                 </div>
-                <div class="InfoLine" v-if="printType=='child'">
+                <!-- <div class="InfoLine" v-if="printType=='child'">
                     <div class="InfoName"><span>子女姓名：</span></div>
                     <div class="InfoText">
                         <input type="text" readonly="quotreadolyquot" v-model="AAE014VALUE" placeholder="请输入">
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <!-- 按钮 -->
