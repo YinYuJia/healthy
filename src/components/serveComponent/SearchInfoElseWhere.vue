@@ -190,13 +190,6 @@ export default {
       // submitForm.AAA100 = this.type; //机构参数
       // submitForm.AAE013 = this.AAE013 //关联性类别码
       // submitForm.AAA052 = this.AAA052  //关联性类别值
-      // 加入用户名和电子社保卡号
-      if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-        submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-        submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-      } else {
-        this.$toast("未获取到人员基本信息");
-      }
       // 请求参数封装
       const params = this.epFn.commonRequsetData(
         this.$store.state.SET_NATIVEMSG.PublicHeader,
