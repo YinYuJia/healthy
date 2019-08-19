@@ -328,7 +328,6 @@ export default {
         BAB451: '', // 经济来源
         BAB451VALUE: '', // 经济来源
         AAE006: '', // 联系地址
-        BKE520: '1' // 数据来源类别
       },
       startDate: new Date(),
       canSubmit: false,
@@ -570,6 +569,7 @@ export default {
       // this.$router.push('/legalChangeDetail');
     },
     formatSubmitData () {
+      // 请求参数封装
       let submitForm = Object.assign({}, this.form)
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100') // 加入用户名和电子社保卡号
       let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
@@ -579,8 +579,8 @@ export default {
       submitForm.userId=LegalPerson.userId;//userId
       submitForm.AAB301=LegalPerson.xzqh//统筹区
       submitForm.AAE135=LegalPerson.attnIDNo;//身份证号
-      submitForm.BKE520='1'
-      // 请求参数封装
+      submitForm.BKE520='1'//数据来源
+      
 
       return params
     }

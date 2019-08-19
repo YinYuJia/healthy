@@ -10,10 +10,10 @@
         </div>
         <!-- 头部 -->
         <div class="indexHeader">
-            <svg-icon icon-class="serveComponent_background" />
+            <svg-icon icon-class="serveComponent_newbackground" />
             <div class="headerText">医疗保障专区</div>
             <div class="headerInfo">汇聚浙江省医疗保障服务</div>
-            <div class="headerPad">
+            <!-- <div class="headerPad">
                 <div class="iconBox" @click="socialCard">
                     <svg-icon v-if="1" icon-class="serveComponent_icon1" />
                     <svg-icon v-if="0" icon-class="serveComponent_grey_1" />
@@ -34,7 +34,7 @@
                     <svg-icon v-if="0" icon-class="serveComponent_grey_3" />
                     <div class="text">医保账户</div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
@@ -484,14 +484,7 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                let areaId = LegalPerson.xzqh
-                if (areaId == "339900" || areaId.slice(0, 4) == '3310') {
-                    this.$router.push(route);
-                } else {
-                    this.$toast('您所在的区域暂未开通');
-                    return;
-                }
+                  this.$router.push(route);
             },
             setNativeMsg() {
                 this.$store.dispatch('SET_NATIVEMSG', {
@@ -735,10 +728,10 @@
             }
         } // 头部
         .indexHeader {
-            height: 3.4rem;
+            height: 2.3rem;
             position: relative;
             .svg-icon {
-                height: 3.4rem;
+                height: 2.3rem;
                 width: 100%;
             }
             .headerText {
@@ -797,7 +790,8 @@
         .iconContent {
             // height: 4.74rem;
             background: #FFF;
-            padding: 1.8rem .2rem 0 .2rem;
+            // padding: 1.8rem .2rem 0 .2rem;
+            padding: .2rem .2rem 0 .2rem;
             .iconList {
                 display: -webkit-box;
                 /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
