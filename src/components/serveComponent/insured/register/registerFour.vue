@@ -6,6 +6,7 @@
       <WorkProgress :currentStep="currentStep"></WorkProgress>
       <!-- 办理结果 -->
       <DetailStatus nameWidth="1.8rem"></DetailStatus>
+      <ProgressDate class="picWrap" nameWidth="1.8rem"  :replyDate="AAE036"  :progressDate="BAE019"></ProgressDate>
       <!-- 邮递信息 -->
       <div class="picWrap">
         <p>1、统一社会信用代码证</p>
@@ -30,7 +31,9 @@ export default {
       handleNumber: '',
       successFlag: 1,
       imgList1: [],
-      imgList2: []
+      imgList2: [],
+      AAE036: '',
+      BAE019:''
     }
   },
   created () {
@@ -80,9 +83,11 @@ export default {
     request1 () {
       let params = this.formatSubmitData1()
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1016/info', params).then(resData => {
-        console.log('返回成功信息', resData);
+        console.log('返回info信息', resData);
         //   成功   1000
         if (resData.enCode == 1000) {
+          this.AAE036 = resData.AAE036
+          this.BAE019 = resData.BAE019
           resData.LS_DS_16.photoList.forEach( ele => {
             if(ele.PTX001 == '21'){
               this.imgList1.push(ele.PUL002)
