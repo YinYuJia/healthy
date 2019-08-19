@@ -674,12 +674,7 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                if (sessionStorage.getItem("GinsengLandCode") == "339900" || sessionStorage.getItem("GinsengLandCode") == "331099") {
-                    this.$router.push(route);
-                } else {
-                    this.$toast(sessionStorage.getItem("GinsengLandName") + '暂未开通');
-                    return;
-                }
+                   this.$router.push(route);
             },
             setNativeMsg() {
                 this.$store.dispatch('SET_NATIVEMSG', {
@@ -1011,7 +1006,8 @@
         .iconContent {
             // height: 4.74rem;
             background: #FFF;
-            padding: 1.8rem .2rem 0 .2rem;
+            // padding: 1.8rem .2rem 0 .2rem;
+            padding: 1.4rem .2rem 0 .2rem;
             .iconList {
                 display: -webkit-box;
                 /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
