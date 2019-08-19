@@ -1,28 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <!-- 移动端禁止缩放 -->
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <title>医保专区</title>
-    <!-- 引入浙理办SDK -->   
-    <script type="text/javascript" src="//jssdk.yyhj.zjzwfw.gov.cn/jsbridge/v2.0.0/bridge.min.js"></script>
-    <!-- <script type="text/javascript" src="//jssdk.yyhj.zjzwfw.gov.cn/jsbridge/v2.0.0/bridge.min.js"></script> -->
-    <script src="//pv.sohu.com/cityjson?ie=utf-8"></script>
-      <script type="text/javascript">
-        var Ip=returnCitySN['cip']
-        var cityname=returnCitySN['cname']
-        console.log('---Ip----',Ip)
-        console.log('---cityname----',cityname)
-        localStorage.setItem('Ip', Ip)
-        localStorage.setItem('cityname', cityname)
-      </script>
-    <!-- <script type="text/javascript" src="./static//bridge.min.js"></script> -->
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <!-- 移动端禁止缩放 -->
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <title>医保专区</title>
+  <!-- 引入浙理办SDK -->
+  <script type="text/javascript" src="//jssdk.yyhj.zjzwfw.gov.cn/jsbridge/v2.0.0/bridge.min.js"></script>
+  <!-- <script type="text/javascript"  src="//JSSDK-API.yyhj.zjzwfw.gov.cn/jssdk/index.js"></script> -->
+  <!-- JSSDK-API url为应用开放平台主域名+ -->
+  <script src="//pv.sohu.com/cityjson?ie=utf-8"></script>
+
+  <!-- <script type="text/javascript" src="./static//bridge.min.js"></script> -->
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+<script type="text/javascript">
+  window.onload = function() {
+//   dd.ready({
+//   developer: 'daip@dtdream.com',
+//   usage: [
+//     'dd.biz.user.getUserType', //获取用户类型
+//     'dd.biz.util.selectLocalCity',
+//     'dd.lightAppJssdk.user.getTicket'
+//   ],
+//   remark: '获取用户登录类型'
+// },function() {
+//   console.log('bingo');
+// })
+}
+console.log(12344333)
+  
+
+  </script>
 </html>

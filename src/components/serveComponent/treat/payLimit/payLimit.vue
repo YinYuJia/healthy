@@ -2,14 +2,14 @@
     <div class="payLimit">
         <!-- 标题 -->
         <Title :title="'缴费年限核定'" :backRouter="'/'"></Title>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="typePicker"
             :propArr="types"
             @confirm="handleTypeConfirm"
             >
         </SelectCity>
-        <SelectCity 
+        <SelectCity
             :type="1"
             ref="punishPicker"
             :propArr="punish"
@@ -51,22 +51,22 @@
                 <div class="infoBox">
                     <svg-icon icon-class="payLimit_bg"/>
                     <div class="infoName">
-                        <span class="name">{{form1.AAC003}}</span>
-                        <span class="sex">/{{form1.AAC004|AAC004}}</span>
+                        <span class="name">{{form.AAC003}}</span>
+                        <span class="sex">/{{form.AAC004|AAC004}}</span>
                     </div>
                     <div class="infoAddress">
                         <div class="IconImg">
                             <svg-icon icon-class="payLimit_compony"/>
                         </div>
-                        <span>{{form1.AAB004}}</span>
+                        <span>{{form.AAB004}}</span>
                     </div>
                     <div class="infoMessage">
                         <div class="birth">
-                            <div class="infoMessageBirth">{{form1.AAC006}}</div>
+                            <div class="infoMessageBirth">{{form.AAC006}}</div>
                             <div class="infoMessageText">出生日期</div>
                         </div>
                         <div class="work">
-                            <div class="infoMessageWork">{{form1.AAC007}}</div>
+                            <div class="infoMessageWork">{{form.AAC007}}</div>
                             <div class="infoMessageText">参加工作时间</div>
                         </div>
                     </div>
@@ -77,8 +77,8 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>连续工龄:</span></div>
                     <div class="InfoText">
-                        <input type="tel" @click="openWorkPicker" v-model="form.BKEVALUE" placeholder="请输入" readonly>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <input type="tel" v-model="form.BKEVALUE" placeholder="请输入"  readonly>
+                        <!-- <svg-icon icon-class="serveComponent_arrowRight"></svg-icon> -->
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -87,7 +87,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>退休工资</span></div>
-                    <div class="InfoText"><input type="tel"  @blur="setMoney" maxlength="4" v-model="form.AAE041" placeholder="请输入">元</div>
+                    <div class="InfoText"><input type="tel"  @blur="setMoney"  v-model="form.AAE041" placeholder="请输入">元</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName">
@@ -100,7 +100,7 @@
                     <div class="InfoName"><span>提前退休原因</span></div>
                     <div class="InfoText">
                         <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="BKE810VALUE" placeholder="请选择" readonly></div>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>                        
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                         <!-- <el-select v-model="form.BKE810" placeholder="请选择">
                             <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value">
                             </el-option>
@@ -108,7 +108,8 @@
                     </div>
                 </div>
             </div>
-            <div class="simpleNote" v-for="(item,index) in LS_DS" :key=index  v-if="showAll" >
+            <div  v-if="showAll">
+            <div class="simpleNote" v-for="(item,index) in LS_DS" :key=index  >
                 <div class="InfoTitle">
                     <div class="InfoName"><span>简历{{index+1}}</span></div>
                     <div class="InfoText">
@@ -118,17 +119,17 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>开始工作时间:</span></div>
                     <div class="InfoText">
-                        <input type="text" @click="openStartPicker(index)"  v-model="item.timeStart" placeholder="请输入">
+                        <input type="text" @click="openStartPicker(index)"  v-model="item.timeStart" placeholder="请输入" readonly>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>结束工作时间:</span></div>
                     <div class="InfoText">
-                        <input type="text" @click="openEndPicker(index)"  v-model="item.timeEnd" placeholder="请输入">
+                        <input type="text" @click="openEndPicker(index)"  v-model="item.timeEnd" placeholder="请输入" readonly>
                     </div>
                     <input type="text" id="timeAll"  v-model="item.AKC421" placeholder="请输入">
                 </div>
-                
+
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位:</span></div>
                     <div class="InfoText"><input type="text"  v-model="item.AKC422" placeholder="请输入"></div>
@@ -140,16 +141,17 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>证明人:</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input  type="text" v-model="item.AKC425" placeholder="请输入" ></div>                   
+                        <div class="InfoText"><input  type="text" v-model="item.AKC425" placeholder="请输入" ></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>处分:</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openPunishPicker(index)" type="text" v-model="item.punishValue" placeholder="请选择" readonly></div>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>    
-                    </div>               
+                        <div class="InfoText"><input @click="openPunishPicker(index)" type="text" v-model="item.AKC423VALUE" placeholder="请选择" readonly></div>
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
                 </div>
+            </div>
             </div>
             <div class="newSimpleNote" v-if="showAll">
                 <div class="newAdd" @click="newSimpleNote()" :class="{'active': canSubmit == true}">
@@ -161,6 +163,8 @@
         <GuideIcon AGA002="330800123004"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showAll"></Footer>
+        <!-- 法人绑定 -->
+        <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding>
     </div>
 </template>
 
@@ -168,6 +172,7 @@
 export default {
     data() {
         return {
+            bindingFlag: false,
             showAll:false,//展示所有内容
             isShow:false,//显示提前退休原因
             dateVal: new Date(), //默认绑定的时间
@@ -185,7 +190,6 @@ export default {
                 AAE041:'',//退休工资
                 BKE810:'',//提前退休
             },
-            form1:{},
             index:0,//第几项
             flag:false,//判断基础信息是否填写完整
             LSflag:false,//判断简历信息是否填写完整
@@ -196,40 +200,40 @@ export default {
                 AKC424:'',//职务
                 AKC425:'',//证明人
                 AKC423:'0',//处分数值
-                punishValue:'无',//处分中文
+                AKC423VALUE:'无',//处分中文
             }],
             canSubmit: false,
             punish:[
                 {
-                    value:'0',
+                    value: '0',
                     label:'无'
                 },
                 {
-                    value:'1',
+                    value: '1',
                     label:'劳教'
                 },
                 {
-                    value:'2',
+                    value: '2',
                     label:'劳改'
                 },
                 {
-                    value:'3',
+                    value: '3',
                     label:'开除'
                 },
                 {
-                    value:'4',
+                    value: '4',
                     label:'除名'
                 },
                 {
-                    value:'5',
+                    value: '5',
                     label:'自动离职'
                 },
                 {
-                    value:'6',
+                    value: '6',
                     label:'辞职'
                 },
                 {
-                    value:'7',
+                    value: '7',
                     label:'长病假'
                 }
             ],
@@ -261,24 +265,26 @@ export default {
     watch:{
         form:{
             handler:function(val){
-                if(
-                    val.AAE135 != '' && val.BKEVALUE != '' && val.AKC412 != ''&& val.AAB001!=''&&
-                    val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != '' && val.BKE810   != ''
+                
+                    // val.AAE135 != '' && val.BKEVALUE != '' && val.AKC412 != ''&& val.AAB001!=''&&
+                    // val.BKE703 != '' && val.BKE704 != ''&& val.AAE041 != ''
+                if(val.AKC412 != ''&&val.AAE041!=''
                 ){
                     this.flag = true;
                     console.log("flag",this.flag)
+                    console.log("111121",this.form)
                 }else{
                     this.flag = false;
                     console.log("flag",this.flag)
+                    console.log("111",this.form)
                 }
                 if(this.flag==true&&this.LSflag==true){
                     this.canSubmit = true;
                 }else{
                     this.canSubmit = false
                 }
-            },            
+            },
             deep: true
-
         },
         LS_DS:{
             handler:function(val){
@@ -291,7 +297,7 @@ export default {
                 // }
 
                 if(val[this.index].AKC421!=''&&val[this.index].AKC422!='' &&val[this.index].AKC424!=''
-                && val[this.index].AKC425!=''&&val[this.index].AKC423!=''&&val[this.index].punishValue!=''){
+                && val[this.index].AKC425!=''&&val[this.index].AKC423!=''&&val[this.index].AKC423VALUE!=''){
                     this.LSflag=true;
                     this.canSubmit = true;
                     console.log("LSflag",this.LSflag)
@@ -299,7 +305,7 @@ export default {
                     this.LSflag=false;
                     this.canSubmit = false;
                     console.log("LSflag",this.LSflag)
-                }   
+                }
                 if(this.flag==true&&this.LSflag==true){
                     this.canSubmit = true;
                 }else{
@@ -310,9 +316,41 @@ export default {
         }
     },
     created(){
+        this.checkJump();
+
         this.epFn.setTitle('缴费年限核定')
     },
     methods:{
+      // 绑定成功后执行的请求
+      changeFlag(val){
+        this.bindingFlag = val;
+        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+      },
+        // 跳转前检查用户是否法人绑定
+        checkJump(){
+            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            let params = {
+                OTHERINFO: user.userId
+            }
+            this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
+                console.log('绑定',resData)
+                if(resData.enCode == 1000){
+                    if(resData.LS_DS[0].USEGUL == '1'){
+                        sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
+                        this.bindingFlag = false;
+                    }else{
+                        this.bindingFlag = true;
+                    }
+                }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                    this.bindingFlag = true;
+                }else{
+                    this.$toast('业务出错');
+                    this.bindingFlag = true;
+                    return false;
+                }
+            })
+        },
         setYear(){
             if(!/^[0-9]+$/.test(this.form.AKC412)){
                 this.form.AKC412='';
@@ -338,7 +376,6 @@ export default {
             let newLS_DS = this.LS_DS[this.index];
             newLS_DS.timeStart = date;
             this.LS_DS.splice(this.index,1,newLS_DS);
-
             this.LS_DS[this.index].timeStart=date;
             let start=this.LS_DS[this.index].timeStart;
             let end=this.LS_DS[this.index].timeEnd;
@@ -356,9 +393,9 @@ export default {
                 }
             }
             let data=new Date()
-            this.LS_DS[this.index].BKE700=this.form1.AAC003;
+            this.LS_DS[this.index].BKE700=this.form.AAC003;
             this.LS_DS[this.index].BKE701=this.util.formatDate(data,'yyyy-MM-dd hh:mm:ss')
-            
+
         },
         // 结束工作时间
         openEndPicker(index){
@@ -389,7 +426,7 @@ export default {
                 console.log("AKC421",this.LS_DS[this.index].AKC421)
                 }
             }
-            
+
         },
         // 工龄
         openWorkPicker(){
@@ -398,8 +435,8 @@ export default {
         chooseWork(val){
             console.log(val)
             this.form.BKEVALUE= val.name;
-            this.form.BKE703=val.code[0]
-            this.form.BKE704=val.code[1]
+            this.form.BKE703=val.code[0];
+            this.form.BKE704=val.code[1];
             console.log(this.form)
             console.log("9999",val)
         },
@@ -408,9 +445,9 @@ export default {
             this.check=false;
             this.uncheck=true;
             this.isShow=false;
-            console.log('check1',this.flag)
             this.form.BKE810="";
             this.BKE810VALUE="";
+            console.log('check1',this.flag)
         },
         uncheck1(){
             this.uncheck=false;
@@ -426,6 +463,13 @@ export default {
             console.log("类型",val);
             this.form.BKE810 = val.value;
             this.BKE810VALUE = val.label;
+            console.log("value",val.value)
+            console.log("label",val.label)
+            console.log("value1",this.form.BKE810)
+            console.log("label1",this.BKE810VALUE)
+            console.log(this.flag)
+            console.log(this.form)
+
         },
         //处分类型选择
         openPunishPicker(index){
@@ -435,8 +479,8 @@ export default {
         //处分值获取
         handlePunishConfirm(val){
             console.log("处分",val)
+            this.LS_DS[this.index].AKC423VALUE=val.label;
             this.LS_DS[this.index].AKC423=val.value;
-            this.LS_DS[this.index].punishValue=val.label;
         },
         //新增简历
         newSimpleNote(){
@@ -447,7 +491,7 @@ export default {
             obj.AKC422='',//单位
             obj.AKC425='',//证明人
             obj.AKC423='0',//处分数值
-            obj.punishValue='无',//处分中文
+            obj.AKC423VALUE='无',//处分中文
             this.index+=1;
             console.log(this.index)
             this.LS_DS.push(obj)
@@ -458,7 +502,7 @@ export default {
             console.log("index",this.index)
             this.index-=1;
             this.LS_DS.splice(index,1);
-            
+
         },
         //清空搜索框
         deleteSearch(){
@@ -476,7 +520,6 @@ export default {
                             return true
                         }else{
                             console.log("key1",item[key])
-
                             return false
                         }
                     }
@@ -498,15 +541,34 @@ export default {
                     console.log('返回成功信息',resData)
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
-                        console.log("11111",resData.LS_DS[0])
-                        console.log(this.form)
-
-                        this.form1=resData.LS_DS[0]
-                        this.form.AKC412=this.form1.AKC412M+((this.form1.AKC412)*12);
-                        this.form.BKE703=this.form1.BKE703;
-                        this.form.BKE704=this.form1.BKE704;
-                        this.form.AAB001=this.form1.AAB001;
-                        console.log(this.form)
+                        let user = sessionStorage.getItem("LOGINNAME");//法人的单位编码
+                      console.log("user",user);
+                      console.log("AAB001",resData.LS_DS[0].AAB001)
+                      if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
+                        // this.form=resData.LS_DS[0]
+                        this.form.AKC412=resData.LS_DS[0].AKC412M+((resData.LS_DS[0].AKC412)*12);
+                        this.form.BKE703=resData.LS_DS[0].BKE703;
+                        this.form.BKE704=resData.LS_DS[0].BKE704;
+                        this.form.AAE135=resData.LS_DS[0].AAC002;
+                        this.form.AAC004=resData.LS_DS[0].AAC004;
+                        this.form.AAC006=resData.LS_DS[0].AAC006;
+                        this.form.AAC007=resData.LS_DS[0].AAC007;
+                        this.form.AAC003=resData.LS_DS[0].AAC003;
+                        this.form.AAB004=resData.LS_DS[0].AAB004;
+                        this.form.AAB001=resData.LS_DS[0].AAB001;
+                        this.form.BKEVALUE=this.form.BKE703+'年'+this.form.BKE704+'个月';
+                        sessionStorage.setItem('payLimitAAE135',this.form.AAE135)
+                        }else {
+                        this.$toast('该人员不是本单位的职员，请重新查询')
+                        return false
+                      }
+                        // console.log("LIST",resData.LS_DS[0].AKC421)
+                        // console.log("LIST",resData.LS_DS[0].AKC421.split('-'))
+                        // resData.LS_DS.forEach( ele => {
+                        //     ele.timeStart = ele.AKC421.split('-')[0]
+                        //     ele.timeEnd = ele.AKC421.split('-')[1]
+                        // })
+                        // console.log('form1',this.form1)
                         this.showAll=true;
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
@@ -532,7 +594,7 @@ export default {
                         this.$toast('信息未填写完整');
                         return false;
                     }else{
-                        this.$store.dispatch('SET_PAYLIMIT_OPERATION', this.form);     
+                        this.$store.dispatch('SET_PAYLIMIT_OPERATION', this.form);
                         // 封装数据
                         let params = this.formatSubmitData1();
                         // 开始请求
@@ -577,22 +639,27 @@ export default {
             let submitForm ={}
             // 日期传换成Number
             // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
-            submitForm.BKE520 = "1"
-            submitForm.AAC003 = this.form1.AAC003;
             submitForm.AAE135 = this.form.AAE135;
+            submitForm.AAC003=this.form.AAC003;
+            submitForm.BKE520 = "1"
             submitForm.AKC412 = this.form.AKC412;
             console.log(submitForm.AKC412)
             console.log(typeof submitForm.AKC412)
-            submitForm.AAC007 = this.form1.AAC007;
+            submitForm.AAC004 = this.form.AAC004;
+            submitForm.AAC006 = this.form.AAC006;
+            submitForm.AAC007 = this.form.AAC007;
             submitForm.AAB001 = this.form.AAB001;
             console.log(typeof submitForm.AAB001)
-            submitForm.AAB004 = this.form1.AAB004;
+            submitForm.AAB004 = this.form.AAB004;
             submitForm.BKE703 = this.form.BKE703;
             submitForm.BKE704 = this.form.BKE704;
             submitForm.AAE041 = this.form.AAE041;
             submitForm.BKE810 = this.form.BKE810;
             submitForm.LS_DS=[];
             submitForm.LS_DS =[...submitForm.LS_DS,...this.LS_DS];
+            let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            submitForm.userId=LegalPerson.userId;//userId
+            
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1025");
             return params;
@@ -716,13 +783,13 @@ export default {
                         width: .4rem;
                         height: .4rem;
                         display: inline-block;
-                        
+
                         .svg-icon{
                             padding-left: .3rem;
                             display:block;
                             width: .4rem;
                             height: .4rem;
-                          
+
                         }
                     }
                 }

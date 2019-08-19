@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/serveComponent/index'
+import GlobalConfig from '@/components/serveComponent/GlobalConfig'
 import indexInfoList from '@/components/serveComponent/indexInfoList'
 import indexInfoList1 from '@/components/serveComponent/indexInfoList1'
 import goDetail from '@/components/serveComponent/goDetail'
@@ -8,13 +9,17 @@ import indexInfoListMore from '@/components/serveComponent/indexInfoListMore'
 import BusinessGuide from '@/components/serveComponent/BusinessGuide'
 import CompleteUpload from '@/components/serveComponent/CompleteUpload'
 
-import First from '@/components/First';
+import First from '@/components/First'
 
 // import Work from '@/components/Work';
 // import TreatmentReimbursement from '@/components/commonComponent/Work/TreatmentReimbursement';
 // import TReimbursement1 from '@/components/commonComponent/Work/TreatmentReimbursement/TReimbursement1'
 // import SubmitReimbursement from '@/components/commonComponent/Work/TreatmentReimbursement/SubmitReimbursement'
 // import EventDetail from '@/components/commonComponent/Work/TreatmentReimbursement/EventDetail_1'
+import register from '@/components/serveComponent/insured/register/register'
+import registerTwo from '@/components/serveComponent/insured/register/registerTwo'
+import registerThree from '@/components/serveComponent/insured/register/registerThree'
+import registerFour from '@/components/serveComponent/insured/register/registerFour'
 import getProof from '@/components/serveComponent/insured/getProof/getProof'
 import getDetail from '@/components/serveComponent/insured/getProof/getDetail'
 import nearbySite from '@/components/serveComponent/common/NearbySite'
@@ -29,6 +34,8 @@ import transferRenewing from '@/components/serveComponent/insured/transferRenewi
 import transferDetail from '@/components/serveComponent/insured/transferRenewing/transferDetail'
 import elseWhere from '@/components/serveComponent/record/elseWhere/elseWhere'
 import elseDetail from '@/components/serveComponent/record/elseWhere/elseDetail'
+import legalElseWhere from '@/components/serveComponent/record/legalElseWhere/legalElseWhere'
+import legalElseDetail from '@/components/serveComponent/record/legalElseWhere/legalElseDetail'
 import turnOut from '@/components/serveComponent/record/turnOut/turnOut'
 import turnDetail from '@/components/serveComponent/record/turnOut/turnDetail'
 import abroadTake from '@/components/serveComponent/record/abroadTake/abroadTake'
@@ -40,7 +47,6 @@ import specialDrug from '@/components/serveComponent/record/specialDrug/specialD
 import specialDrugDetail from '@/components/serveComponent/record/specialDrug/specialDrugDetail'
 import chronicDisease from '@/components/serveComponent/record/chronicDisease/chronicDisease'
 import chronicDiseaseDetail from '@/components/serveComponent/record/chronicDisease/chronicDiseaseDetail'
-// import SearchInfoPage from '@/components/serveComponent/record/chronicDisease/SearchInfoPage'
 import mendChangeCard from '@/components/serveComponent/others/mendChangeCard/mendChangeCard'
 import mendChangeDetail from '@/components/serveComponent/others/mendChangeCard/mendChangeDetail'
 import baseInfoChange from '@/components/serveComponent/others/baseInfoChange/baseInfoChange'
@@ -60,6 +66,7 @@ import medicalInsuranceAccount from '@/components/serveComponent/personal/search
 import searchInsuredInfo from '@/components/serveComponent/personal/searchInsuredInfo/searchInsuredInfo'
 import searchInsuredResult from '@/components/serveComponent/personal/searchInsuredInfo/searchInsuredResult'
 import searchProgress from '@/components/serveComponent/personal/searchProgress/searchProgress'
+import legalSearchProgress from '@/components/serveComponent/personal/legalSearchProgress/legalSearchProgress'
 import searchFee from '@/components/serveComponent/personal/searchFee/searchFee'
 import searchFeeResult from '@/components/serveComponent/personal/searchFee/searchFeeResult'
 import searchRecord from '@/components/serveComponent/personal/searchRecord/searchRecord'
@@ -68,6 +75,7 @@ import searchTreatResult from '@/components/serveComponent/personal/searchTreat/
 import medicalDetail from '@/components/serveComponent/medicalDetail'
 import SearchInfoElseWhere from '@/components/serveComponent/SearchInfoElseWhere'
 import SearchInfoMedicalList from '@/components/serveComponent/SearchInfoMedicalList'
+import login from '@/components/serveComponent/login'
 
 Vue.use(Router)
 
@@ -75,11 +83,17 @@ export default new Router({
   routes: [
     // 首页
     {
-      path: '/indexInfoList1',
+      path: '/indexInfoList',
       name: 'indexInfoListComponent',
       component: indexInfoList
     },
-    //首页资讯详情
+    // 登录
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+    // 首页资讯详情
     {
       path: '/goDetail',
       name: 'goDetail',
@@ -89,6 +103,11 @@ export default new Router({
       path: '/Index',
       name: 'Index',
       component: Index
+    },
+    {
+      path: '/GlobalConfig',
+      name: 'GlobalConfig',
+      component: GlobalConfig
     },
     {
       path: '/',
@@ -187,6 +206,16 @@ export default new Router({
       component: elseDetail
     },
     {
+      path: '/legalElseWhere',
+      name: 'legalElseWhere',
+      component: legalElseWhere
+    },
+    {
+      path: '/legalElseDetail',
+      name: 'legalElseDetail',
+      component: legalElseDetail
+    },
+    {
       path: '/turnOut',
       name: 'turnOut',
       component: turnOut
@@ -255,6 +284,26 @@ export default new Router({
       path: '/baseInfoChange',
       name: 'baseInfoChange',
       component: baseInfoChange
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
+    },
+    {
+      path: '/registerTwo',
+      name: 'registerTwo',
+      component: registerTwo
+    },
+    {
+      path: '/registerThree',
+      name: 'registerThree',
+      component: registerThree
+    },
+    {
+      path: '/registerFour',
+      name: 'registerFour',
+      component: registerFour
     },
     {
       path: '/baseInfoChangeDetail',
@@ -337,6 +386,11 @@ export default new Router({
       component: searchProgress
     },
     {
+      path: '/legalSearchProgress',
+      name: 'legalSearchProgress',
+      component: legalSearchProgress
+    },
+    {
       path: '/searchFee',
       name: 'searchFee',
       component: searchFee
@@ -403,11 +457,11 @@ export default new Router({
     //   component: EventDetail
     // },
   ],
-  scrollBehavior(to,from,savedPosition){
-    if(savedPosition){
-      return savedPosition;
-    }else{
-      return {x:0,y:0}
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {x: 0, y: 0}
     }
   }
 })

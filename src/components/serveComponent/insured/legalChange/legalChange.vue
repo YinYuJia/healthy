@@ -1,15 +1,17 @@
 <template>
     <div class="legalChange">
         <Title :title="'参保信息变更'" :backRouter="'/'"></Title>
-        <SelectCity 
+        <SelectCity
             :type="3"
             ref="cityPicker"
+            :jy9028='true'
             @confirm="chooseCity"
             >
         </SelectCity>
         <div class="Content">
             <!-- 基本信息 -->
             <UserBaseInfo></UserBaseInfo>
+            <div class="company"><p class="companyName">{{form.AAB004}}</p><p class="companyCode">{{form.AAB001}}</p></div>
             <!-- 变更信息 -->
             <div class="ChangeInfo">
                 <div class="InfoLine">
@@ -18,11 +20,11 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位地址：</span></div>
-                    <div class="InfoText"><input v-model="form.address" @click="openCityPicker" type="text" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                    <div class="InfoText"><input v-model="params.address" @click="openCityPicker" type="text" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>地址详情：</span></div>
-                    <div class="InfoText"><textarea v-model="form.detailAddress" placeholder="请输入"></textarea></div>
+                    <div class="InfoText"><textarea v-model="params.detailAddress" placeholder="请输入"></textarea></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位电话：</span></div>
@@ -30,15 +32,23 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>法人代表电话：</span></div>
-                    <div class="InfoText"><input v-model="form.BKE280" type="tel" maxlength="10" placeholder="请输入"></div>
+                    <div class="InfoText"><input v-model="form.BKE280" type="tel" maxlength="11" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员姓名：</span></div>
+                    <div class="InfoName"><span>专管员姓名1：</span></div>
                     <div class="InfoText"><input v-model="form.BKE281" type="text" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>专管员电话：</span></div>
-                    <div class="InfoText"><input v-model="form.BKE283" type="tel" maxlength="10" placeholder="请输入"></div>
+                    <div class="InfoName"><span>专管员电话1：</span></div>
+                    <div class="InfoText"><input v-model="form.BKE283" type="tel" maxlength="11" placeholder="请输入"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>专管员姓名2：</span></div>
+                    <div class="InfoText"><input v-model="form.BAC210" type="text" placeholder="请输入"></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>专管员电话2：</span></div>
+                    <div class="InfoText"><input v-model="form.BAC212" type="tel" maxlength="11" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>专管员所在部门：</span></div>
@@ -46,96 +56,307 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>邮箱：</span></div>
-                    <div class="InfoText"><input v-model="form.AAE005" type="text" maxlength="10" placeholder="请输入"></div>
+                    <div class="InfoText"><input v-model="form.AAE005" type="text" maxlength="20" placeholder="请输入"></div>
+                </div>
+                <div class="changeUserBtn" v-if="asd" >
+                    <div class="btn" @click="changeCompanyName(true)">更改法人用户名</div>
+                    <div class="btn" @click="changeCompanyCode(true)">更改法人身份证</div>
                 </div>
             </div>
         </div>
         <!-- 办事指南 -->
-        <!-- <GuideIcon AGA002="331400501005"></GuideIcon> -->
+        <GuideIcon AGA002="331400501005"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <!-- 法人绑定 -->
+        <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding>
     </div>
 </template>
 
 <script>
+import {
+    MessageBox
+} from 'mint-ui';
 export default {
     data(){
         return{
+            asd:true,
             form:{
-                AAB001: '03C', //单位编码
+                AAB001: '', //单位编码
                 AAE007: '', //单位邮编
                 AAE006: '', //单位地址
-                address: '', //选择的地址
-                detailAddress: '', //详细地址
                 AAB005: '', //单位电话
                 BKE280: '', //法人电话
-                BKE281: '', //专管员姓名
-                BKE283: '', //专管员电话
+                BKE281: '', //专管员1姓名
+                BAC210: '', //专管员2姓名
+                BKE283: '', //专管员1电话
+                BAC212: '', //专管员2电话
                 BKB225: '', //专管员部门
                 AAE005: '', //单位邮箱
-                BKZ019: '', //经办编号暂为空
-                BKE520: '1' //数据来源 掌上
+                AAB301: '',  //统筹区
+            },
+            AAB001:"",//单位编码
+            AAB004:"",//单位名称
+            params:{
+                address: '', //选择的地址
+                detailAddress: '', //详细地址
             },
             canSubmit: false,
+            bindingFlag: false,
+            personName:"",
+            personId:""
         }
     },
     watch:{
         form:{
             handler: function(val) {
-                if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != '' 
-                    && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != '' && val.BKB225 != '' && val.AAE005 != ''){
+              // if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != ''
+                if(val.AAB001!=''&&val.AAE007 != '' && val.detailAddress != '' && val.AAB005 != ''
+                    && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != ''
+                    && val.BKB225 != '' && val.AAE005 != ''){
                     this.canSubmit = true;
                 }else{
                     this.canSubmit = false;
                 }
             },
             deep:true
+        },
+        params:{
+            handler:function(val){
+                if(val.address!=''&&val.detailAddress!=''){
+                    this.form.AAE006=val.address+val.detailAddress;
+                }
+            },
+            deep:true
         }
     },
     created(){
+        if( this.$build == 1) {
+            this.asd = true
+        }else{
+            this.asd = false;
+        }
+        this.checkJump();
+        this.epFn.setTitle('单位参保变更')
     },
     methods:{
+        //个人用户登录
+        changeCompanyName(str) {
+            if (str) {
+                MessageBox.prompt('法人姓名', '').then(({
+                    value,
+                    action
+                }) => {
+                    this.personName=value;
+                    sessionStorage.setItem('personName', value);
+                });
+            } else {
+                this.$toast("功能正在建设中")
+            }
+        },
+        //个人用户登录
+        changeCompanyCode(str) {
+            if (str) {
+                MessageBox.prompt('法人身份证', '').then(({
+                    value,
+                    action
+                }) => {
+                    this.personId=value;
+                    sessionStorage.setItem('personId', value);
+                });
+            } else {
+                this.$toast("功能正在建设中")
+            }
+        },
+        // 绑定成功后执行的请求
+        changeFlag(val){
+            this.bindingFlag = val;
+            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            this.form.AAB301=user.xzqh;
+            this.requset1();
+        },
+        // 跳转前检查用户是否法人绑定
+        checkJump(){
+            let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            let params = {
+                OTHERINFO: LegalPerson.userId
+            }
+            this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
+                console.log('绑定',resData)
+                if(resData.enCode == 1000){
+                    if(resData.LS_DS[0].USEGUL == '1'){
+                        sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
+                        let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                        this.form.AAB301=LegalPerson.xzqh;
+                        this.requset1();
+                        this.bindingFlag = false;
+                    }else{
+                        this.bindingFlag = true;
+                    }
+                }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                    this.bindingFlag = true;
+                }else{
+                    this.$toast('业务出错');
+                    this.bindingFlag = true;
+                    return false;
+                }
+            })
+        },
         // 选择城市
         openCityPicker(){
             this.$refs.cityPicker.open();
         },
         chooseCity(val){
-            this.form.address= val.name;
+            this.params.address= val.name;
+            console.log("address",this.params.address)
         },
         // 提交
         submit(){
-            if(this.canSubmit == false){
-                return false;
-            }
-            // 检验邮箱格式
-            if(!this.util.checkMail(this.form.AAE005)){
-                this.$toast("邮箱格式不正确");
-                return false;
-            }
-            let params = this.formatSubmitData();
-            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1035/getRecord', params).then((resData) => {
-                console.log('返回成功信息',resData)
-                //   成功   1000
-                if ( resData.enCode == 1000 ) {
+            console.log(1111)
+            console.log(this.canSubmit)
 
-                }else if (resData.enCode == 1001 ) {
-                //   失败  1001
-                    this.$toast(resData.msg);
-                    return;
-                }else{
-                    this.$toast('业务出错');
-                    return;
+            if(this.canSubmit == false){
+                this.$toast('信息未填写完整')
+                return false;
+            }else{
+                // 检验邮箱格式
+                if(!this.util.checkMail(this.form.AAE005)){
+                    this.$toast("邮箱格式不正确");
+                    return false;
                 }
-            })
+                //单位电话AAB005
+                if(this.form.AAB005&&this.form.AAB005.length==11){
+                    if(!this.util.checkPhone(this.form.AAB005)){
+                        this.$toast('请填写正确的手机号码')
+                        return false;
+                        }
+                }else if(this.form.AAB005&&(this.form.AAB005.length==7||this.form.AAB005.length==8)){
+                    if(!this.util.checkHomePhone(this.form.AAB005)){
+                        this.$toast('请填写正确的电话号码')
+                        return false;
+                        }
+                }else if(this.form.AAB005&&(this.form.AAB005.length!=7||this.form.AAB005.length!=8||this.form.AAB005.length!=11)){
+                        this.$toast('请确认填写的号码位数是否正确')
+                        return false;
+                }
+                //法人电话BKE280
+                if(this.form.BKE280&&this.form.BKE280.length==11){
+                    if(!this.util.checkPhone(this.form.BKE280)){
+                        this.$toast('请填写正确的手机号码')
+                        return false;
+                        }
+                }else if(this.form.BKE280&&(this.form.BKE280.length==7||this.form.BKE280.length==8)){
+                    if(!this.util.checkHomePhone(this.form.BKE280)){
+                        this.$toast('请填写正确的电话号码')
+                        return false;
+                        }
+                }else if(this.form.BKE280&&(this.form.BKE280.length!=7||this.form.BKE280.length!=8||this.form.BKE280.length!=11)){
+                        this.$toast('请确认填写的号码位数是否正确')
+                        return false;
+                }
+                //专管员1电话BKE283
+                if(this.form.BKE283&&this.form.BKE283.length==11){
+                    if(!this.util.checkPhone(this.form.BKE283)){
+                        this.$toast('请填写正确的手机号码')
+                        return false;
+                        }
+                }else if(this.form.BKE283&&(this.form.BKE283.length==7||this.form.BKE283.length==8)){
+                    if(!this.util.checkHomePhone(this.form.BKE283)){
+                        this.$toast('请填写正确的电话号码')
+                        return false;
+                        }
+                }else if(this.form.BKE283&&(this.form.BKE283.length!=7||this.form.BKE283.length!=8||this.form.BKE283.length!=11)){
+                        this.$toast('请确认填写的号码位数是否正确')
+                        return false;
+                }
+                //专管员2电话BAC212
+                if(this.form.BAC212&&this.form.BAC212.length==11){
+                    if(!this.util.checkPhone(this.form.BAC212)){
+                        this.$toast('请填写正确的手机号码')
+                        return false;
+                        }
+                }else if(this.form.BAC212&&(this.form.BAC212.length==7||this.form.BAC212.length==8)){
+                    if(!this.util.checkHomePhone(this.form.BAC212)){
+                        this.$toast('请填写正确的电话号码')
+                        return false;
+                        }
+                }else if(this.form.BAC212&&(this.form.BAC212.length!=7||this.form.BAC212.length!=8||this.form.BAC212.length!=11)){
+                        this.$toast('请确认填写的号码位数是否正确')
+                        return false;
+                }
+                //邮箱验证
+                if(this.form.AAE007){
+                    if(!this.util.postOffic(this.form.AAE007)){
+                        this.$toast('请确认填写的邮编是否正确');
+                        return false;
+                    }
+                }
+                let params = this.formatSubmitData();
+                console.log("params",params)
+                this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1035/getRecord', params).then((resData) => {
+                    //   成功   1000
+                    if ( resData.enCode == 1000 ) {
+                      console.log('返回信息成功',resData)
+                      this.$router.push({path: '/legalChangeDetail'});
+                    }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                      console.log('返回信息失败',resData)
+                      this.$toast(resData.msg);
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
+                })
+            }
             // this.$router.push('/legalChangeDetail');
+        },
+        requset1(){
+                // 封装数据
+                let params = this.formatSubmitData1();
+                // 开始请求
+                this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy9029/9029', params).then((resData) => {
+                    //   成功   1000
+                    if ( resData.enCode == 1000 ) {
+                      console.log('返回信息成功',resData)
+                      this.form=resData.LS_DS[0];
+                    //   if(isNaN(this.form.AAE006)){
+                    //       this.form.AAE006=''
+                    //   }
+                      console.log("form",this.form)
+                    }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                      console.log('返回信息失败',resData)
+                      this.$toast(resData.msg);
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
+                })
         },
         formatSubmitData(){
             let submitForm = Object.assign({},this.form);
             // 加入用户名和电子社保卡号
-            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+                let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
+                console.log("person",LegalPerson)
+                // console.log("9999",LegalPerson)
+                submitForm.AAC003=LegalPerson.attnName||this.personName;//单位名称
+                submitForm.AAB301=LegalPerson.xzqh//统筹区
+                submitForm.BKE520='1'
+                submitForm.AAE135=LegalPerson.attnIDNo||this.personId;//身份证号
+                submitForm.userId=LegalPerson.userId;//userId
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
+            return params;
+        },
+        formatSubmitData1(){
+            let submitForm = {};
+            // 加入用户名和电子社保卡号
+            submitForm.AAB001=sessionStorage.getItem('LOGINNAME');
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9029");
             return params;
         },
     }
@@ -148,6 +369,20 @@ export default {
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
+        .company{
+            width: 100%;
+            padding: .3rem .3rem;
+            background: white;
+            text-align: left;
+            .companyName{
+                font-size: .4rem;
+                margin-top: .2rem;
+            }
+            .companyCode{
+                font-size: .18rem;
+                margin-top: .2rem;
+            }
+        }
         .ChangeInfo{
             width: 100%;
             padding: 0 .3rem;
@@ -206,6 +441,19 @@ export default {
                 }
                 &:last-child{
                     border-bottom: none;
+                }
+            }
+            .changeUserBtn {
+                display: flex;
+                justify-content: space-around;
+                .btn {
+                    height: .6rem;
+                    line-height: .6rem;
+                    width: 3.5rem;
+                    border: 1px solid #DDD;
+                    font-size: .36rem;
+                    border-radius: .2rem;
+                    background: #FFF;
                 }
             }
         }

@@ -17,6 +17,7 @@
     "element-ui": "^2.7.0",
     "install": "^0.12.2",
     "iscroll": "^5.2.0",
+    "js-md5": "^0.7.3",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "mint-ui": "^2.2.13",

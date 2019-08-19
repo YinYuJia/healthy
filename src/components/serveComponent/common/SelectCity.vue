@@ -59,22 +59,26 @@ export default {
             type: Boolean,
             default: false
         },
-        jy7206:{
+        jy7206:{//异地就医备案
             type: Boolean,
             default: false
         },
-        jy7209:{
+        jy7209:{//转外就医
             type: Boolean,
             default: false
         },
-        jy7100:{
+        jy7100:{//转移接续
             type: Boolean,
             default: false
         },
-        work:{
+        jy9028:{//单位信息变更
+            type:Boolean,
+            default:false
+        },
+        work:{//工龄
             type: Boolean,
             default: false
-        }
+        },
     },
     data(){
         return {
@@ -156,21 +160,23 @@ export default {
                 this.fullCity[0].values = this.epFn.tzAddress();
                 this.fullCity[0].defaultIndex=0;
                 this.insuredCity[0].defaultIndex=0;
-            }else if(this.jy7206){
+            }else if(this.jy7206){//异地就医备案
                 this.request('7206')
                 // this.insuredCity[0].values = this.epFn.excludeZj();
                 // this.fullCity[0].values = this.epFn.excludeZj();
                 // this.fullCity[0].defaultIndex = 0;
                 // this.insuredCity[0].defaultIndex = 0;
-            }else if(this.jy7209){
+            }else if(this.jy7209){//转外就医
                 this.request('7209')
                 // this.insuredCity[0].values = this.epFn.excludeProvince();
                 // this.fullCity[0].values = this.epFn.excludeProvince();
                 // this.fullCity[0].defaultIndex = 10;
                 // this.insuredCity[0].defaultIndex = 10;
-            }else if(this.jy7100){
+            }else if(this.jy7100){//转移接续
                 this.request('7100')
-            }else if(this.work){
+            }else if(this.jy9028){//单位信息变更
+                this.request('9028')
+            }else if(this.work){//工龄
                 this.insuredCity[0].values= this.epFn.workYear();
                 this.fullCity[0].values= this.epFn.workYear();
                 this.fullCity[0].defaultIndex = 0;

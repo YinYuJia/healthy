@@ -9,6 +9,7 @@ import Success from '@/components/serveComponent/common/Success'
 import PhotoView from '@/components/serveComponent/common/PhotoView'
 import GuideIcon from '@/components/serveComponent/common/GuideIcon'
 import DetailStatus from '@/components/serveComponent/common/DetailStatus'
+import Binding from '@/components/serveComponent/common/Binding'
 
 
 function plugin(Vue) {
@@ -26,6 +27,7 @@ function plugin(Vue) {
     Vue.component('PhotoView',PhotoView);
     Vue.component('GuideIcon',GuideIcon);
     Vue.component('DetailStatus',DetailStatus);
+    Vue.component('Binding',Binding);
 }
 
 export default plugin

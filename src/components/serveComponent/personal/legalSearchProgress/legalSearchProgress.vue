@@ -88,24 +88,15 @@
                     if (resData.enCode == 1000) {
                         let path = '';
                         switch(resData.AGA002){
-                            case '确认-00122-043': path = '/getDetail';break; //领取就医凭证
-                            case '公共服务-00501-005': path = '/changeDetail';break; //参保信息变更
-                            case '公共服务-00501-004': path = '/legalChangeDetail';break; //单位参保信息变更
-                            case '公共服务-00512-002': path = '/transferDetail';break; //关系转移接续
-                            case '确认-00253-013-01': path = '/elseDetail';break; //异地就医
-                            case '确认-00253-013-02': path = '/elseDetail';break; //异地就医
-                            case '确认-00253-013-03': path = '/elseDetail';break; //异地就医
-                            case '确认-00253-013-04': path = '/elseDetail';break; //异地就医
-                            case '确认-00253-002': path = '/turnDetail';break; //转外就医
-                            case '确认-00253-001': path = '/abroadDetail';break; //出国带药
-                            case '确认-00253-023': path = '/familyDetail';break; //家庭共济
-                            case '确认-00253-003-01': path = '/specialDrugDetail';break; //特治特药
-                            case '确认-00253-003-02': path = '/specialDrugDetail';break; //特治特药
-                            case '确认-00253-004-01': path = '/chronicDiseaseDetail';break; //规定病种（慢病）
-                            case '给付-00007-019-01': path = '/smallReimDetail';break; //零星报销
-                            case '给付-00007-019-02': path = '/smallReimDetail';break; //零星报销
-                            case '确认-00123-004': path = '/payLimitDetail';break; //缴费年限
-                        }
+							case '确认-00122-002': path = '/registerFour';break; //单位新参保
+							case '公共服务-00501-004': path = '/legalChangeDetail'; break; //单位变更
+							case '确认-00123-004': path = '/payLimitDetail'; break; //单位变更
+							default: path = ''; break;
+						}
+						if(path == ''){
+							this.$toast('该事项暂未开通');
+							return;
+						}
                         this.$router.push({
                             path: path,
                             query: {
@@ -218,16 +209,13 @@
                 })
             },
             formatSubmitData() {
-                let submitForm = {};
+				let submitForm = {};
+				let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
                 submitForm.BOD037 = this.BOD037 //办件状态
                 submitForm.pageNum = this.pageNum //页码
                 // 加入用户名和电子社保卡号
-                if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
-                    submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-                    submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-                } else {
-                    this.$toast("未获取到人员基本信息");
-                }
+				submitForm.AAC003 = LegalPerson.attnName;
+				submitForm.AAE135 = LegalPerson.userId;
                 // 请求参数封装
                 console.log('submitForm', submitForm)
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, "1018");

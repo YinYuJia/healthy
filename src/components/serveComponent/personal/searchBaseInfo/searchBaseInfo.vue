@@ -99,7 +99,7 @@ export default {
                 console.log('返回成功信息',resData)
                 //   成功   1000
                     if ( resData.enCode == 1000 ) {
-                        if(resData.LS_DS){ 
+                        if(resData.LS_DS){
                             this.form={...this.form,...resData.LS_DS[0]}
                             if(this.form.AAE005.length > 11){
                                 this.form.AAE005 = "";
@@ -113,7 +113,7 @@ export default {
                         this.$toast('业务出错');
                         return;
                     }
-            
+
         })
     },
     methods: {
@@ -126,7 +126,7 @@ export default {
                 submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
             }else {
-                
+
                 this.$toast("未获取到人员基本信息");
             }
             // 请求参数封装
@@ -152,7 +152,7 @@ export default {
                 display: flex;
                 border-bottom: .01rem solid #D5D5D5;
                 .InfoName{
-                    width: 4rem;
+                    width: 8rem;
                     line-height: 1.2rem;
                     text-align: left;
                     span{
