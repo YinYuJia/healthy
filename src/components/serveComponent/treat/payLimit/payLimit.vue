@@ -358,7 +358,7 @@ export default {
             }
         },
         setMoney(){
-            if(!/^[0-9]+$/.test(this.form.AAE041)){
+            if(!/^\d*\.{0,1}\d{0,5}$/.test(this.form.AAE041)){
                 this.form.AAE041='';
                 this.$toast("退休工资只能输入数字");
             }
@@ -385,7 +385,7 @@ export default {
             console.log("end",end)
             if(start&&end){
                 if(start-end>=0){
-                    this.$toast('开始日期需小于结束日期');
+                    this.$toast('开始工作时间请小于结束工作时间');
                     this.LS_DS[this.index].timeStart= '';
                 }else{
                     this.LS_DS[this.index].AKC421=start+"-"+end
@@ -419,7 +419,7 @@ export default {
             console.log("end",end)
             if(start&&end){
                 if(end-start<=0){
-                    this.$toast('结束日期需大于开始日期');
+                    this.$toast('结束工作时间请大于开始工作时间');
                     this.LS_DS[this.index].timeEnd= '';
                 }else{
                 this.LS_DS[this.index].AKC421=start+"-"+end
