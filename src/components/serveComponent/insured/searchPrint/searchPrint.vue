@@ -21,6 +21,13 @@
             @confirm="handleYearConfirm"
             >
         </SelectCity>
+        <!-- 子女姓名 -->
+        <SelectCity
+            :type="1"
+            ref="childPicker"
+            :propArr="childList"
+            @confirm="handleChildConfirm">
+        </SelectCity>
         <!-- 弹出框结束 -->
         <Title :title="'打印参保证明'" :backRouter="'/'"></Title>
         <div class="Content">
@@ -37,31 +44,31 @@
                 <div class="InfoLine" v-if="printType=='person'">
                     <div class="InfoName"><span>查询月数：</span></div>
                     <div class="InfoText">
-                        <input @click="openMonthPicker()" type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <input @click="openMonthPicker()" readonly type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine" v-if="printType=='all'">
                     <div class="InfoName"><span>查询年度：</span></div>
                     <div class="InfoText">
-                        <input @click="openYearPicker()" type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <input  type="text" readonly="quotreadolyquot" v-model="AAE012VALUE" placeholder="请选择" >
                     </div>
                 </div>
                 <div class="InfoLine" v-if="printType=='record'">
                     <div class="InfoName"><span>查询年度：</span></div>
                     <div class="InfoText">
-                        <input @click="openYearPicker()" type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <input   type="text" readonly="quotreadolyquot" v-model="AAE013VALUE" placeholder="请选择" >
                     </div>
                 </div>
                 <div class="InfoLine" v-if="printType=='child'">
                     <div class="InfoName"><span>子女姓名：</span></div>
                     <div class="InfoText">
-                        <input @click="openMonthPicker()" type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <input type="text" readonly="quotreadolyquot" v-model="AAE014VALUE" placeholder="请输入">
                     </div>
                 </div>
             </div>
         </div>
         <!-- 按钮 -->
-        <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <Footer :canSubmit='canSubmit' @submit="submit(printType)"></Footer>
     </div>
 </template>
 
@@ -79,6 +86,9 @@ export default {
             },
             canbao:"",
             AAE011VALUE: '24',
+            AAE012VALUE: '',
+            AAE013VALUE: '',
+            AAE014VALUE: '',
             options:[
                 {value: '12', label: '12'},
                 {value: '24', label: '24'},
@@ -86,7 +96,14 @@ export default {
                 {value: '48', label: '48'},
             ],
             canSubmit: false,
-            yearList:[]//查询年度列表
+            yearList:[
+                {value: '2015', label: '2015'},
+                {value: '2016', label: '2016'},
+                {value: '2017', label: '2017'},
+                {value: '2018', label: '2018'},
+                {value: '2019', label: '2019'},
+            ],//查询年度列表
+            childList: [], // 子女列表
         }
     },
     watch:{
@@ -102,11 +119,15 @@ export default {
         }
     },
     created () {
+        var now = new Date();
+        var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000);
+        var year = date.getFullYear();
+        console.log("year", year)
+        this.AAE012VALUE = year - 1;
+        this.AAE013VALUE = year - 1;
         this.printType = this.$route.query.printType;
         console.log("type", this.printType)
-        if (this.printType == 'person') {
-          this.epFn.setTitle('个人参保证明')
-          this.form = this.$store.state.SET_SEARCH_PRINT;
+        this.form = this.$store.state.SET_SEARCH_PRINT;
           this.form.canbao = this.$store.state.SET_USER_DETAILINFO.regionName
           this.form.AAB301 = this.$store.state.SET_USER_DETAILINFO.AAB301
 
@@ -118,6 +139,8 @@ export default {
           console.log(this.AAB301000 == "")
           this.form.AAB301 = GinsengLandCode
           this.form.AAS301 = GinsengLandCode.substring(0, 2) + '0000'
+        if (this.printType == 'person') {
+          this.epFn.setTitle('个人参保证明')
           // this.form.AAC003 = this.$store.state.SET_NATIVEMSG.name
           // this.form.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
         } else if (this.printType == 'all') {
@@ -162,17 +185,38 @@ export default {
         openYearPicker(){
             this.$refs.yearPicker.open();
         },
+        openChildPicker() {
+            this.$refs.childPicker.open();
+        },
+        handleChildConfirm(val) {
+            this.AAE014VALUE = val.label
+        },
         handleYearConfirm(val){
             console.log(val);
             this.form.AAE011 = val.value;
-            this.AAE011VALUE = val.label;
+            this.AAE012VALUE = val.label;
         },
-        submit(){
+        submit(print){
+            console.log('print', print)
             if(this.canSubmit == false){
                 this.$toast('信息未填写完整');
                 return false;
             }else{
-                let submitForm = JSON.parse(JSON.stringify(this.form)); //深拷贝
+                if(print == 'person') {
+                    this.personSubmit();
+                } else {
+                    if(print == "all") {
+                        this.elseSubmit(9026)
+                    } else if(print == 'child') {
+                        this.elseSubmit(9027)
+                    } else if(print == 'record') {
+                        this.elseSubmit(9025)
+                    }
+                }
+            }
+        },
+        personSubmit() {
+             let submitForm = JSON.parse(JSON.stringify(this.form)); //深拷贝
                 submitForm.BKE520 = "1"
 
                 // 加入用户名和电子社保卡号
@@ -204,8 +248,28 @@ export default {
                     .catch((error) => {
                         console.log(error)
                     })
-            }
         },
+        elseSubmit(code) {
+            console.log("1234", code)
+            let AAC002 = sessionStorage.getItem("idCard") 
+            console.log("AAC:", AAC002)
+            this.$axios.post(this.epFn.ApiUrl() + '/H5/jy0003/getAreaList', {
+                AAC002: AAC002,
+                trade: code + ''
+            })
+                    .then((resData) => {
+                        console.log(resData);
+                        sessionStorage.setItem("searchPrintData",JSON.stringify(resData))
+                        if(resData.enCode==1000){
+                            this.$router.push('/insuredDownload');
+                        }else if(resData.enCode==1001){
+                            this.$toast(resData.msg)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+        }
     }
 }
 </script>
@@ -276,6 +340,9 @@ export default {
 </style>
 
 <style>
+input:disabled {
+    background-color: #fff
+}
 .searchPrint .el-select .el-input__inner{
     padding-right: 0;
     text-align: right;
