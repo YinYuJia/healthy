@@ -164,21 +164,22 @@
             if (this.$build == '2') {
                 this.ifShow =  false
                 const ssoToken = this.util.paramStr("ssoToken");
-                console.log('----法人ssoToken----', ssoToken)
+                console.log('----法人ssoToken1111111111111111111----', ssoToken)
                 if (ssoToken != undefined && ssoToken != '' && ssoToken != null) {
                     this.$axios.post(this.epFn.ApiUrl() + '/H5/jy2009/getUserInfo', {
                         ssoToken: ssoToken
                     }).then((resData) => {
                         console.log('返回成功信息', resData);
                         //  保存法人信息对象
-                        sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
                         // 请求图标和咨询
-                        if (resData.xzqh == "") {
-                            resData.xzqh == "339900"
-                        }
+                        // if (resData.xzqh == "" || resData.xzqh == null ) {
+                        //     resData.xzqh == "339900"
+                        // }
+                        
+                        resData.xzqh = "339900"
                         this.getMatterInfo(resData.xzqh);
                         this.getNewsInfo(resData.xzqh);
-
+                        sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
                         console.log('法人登录222')
                         console.log("window.location.href", window.location.href)
                         var arr = window.location.href.split("?")
@@ -198,6 +199,7 @@
 
                         }
                         console.log("全局实现配置法人参数", JSON.parse(sessionStorage.getItem("globalConfigObj")))
+                        const globalConfigObj = JSON.parse(sessionStorage.getItem("globalConfigObj"))
                         if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '{}') {
                             // 证明不是url事项配置 走正常逻辑
                             this.ifShow = false; //隐藏输入人名社保卡

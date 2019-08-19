@@ -228,6 +228,11 @@ export default {
                             let route = url.split('/');
                             this.$router.push(route.pop());
                         }else{
+                            if (url.indexOf("?") != -1) {
+                                url = url + '&' + 'token=' + sessionStorage.getItem("getToken");
+                            } else {
+                                url = url + '?' + 'token=' + sessionStorage.getItem("getToken");
+                            }
                             window.location.href = url;
                         }
                     }

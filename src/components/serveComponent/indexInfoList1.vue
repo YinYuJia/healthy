@@ -140,6 +140,7 @@
         //     }
         // },
         created() {
+            
             // 判断登录状态
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
@@ -459,9 +460,9 @@
                             this.$router.push(route.pop());
                         } else {
                             if (url.indexOf("?") != -1) {
-                                url = url + '&' + this.util.getToken()
+                                url = url + '&' + 'token=' + sessionStorage.getItem("getToken");
                             } else {
-                                url = url + '?' + this.util.getToken()
+                                url = url + '?' + 'token=' + sessionStorage.getItem("getToken");
                             }
                             window.location.href = url;
                         }
