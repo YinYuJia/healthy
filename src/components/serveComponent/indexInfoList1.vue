@@ -140,6 +140,7 @@
         //     }
         // },
         created() {
+            
             // 判断登录状态
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
