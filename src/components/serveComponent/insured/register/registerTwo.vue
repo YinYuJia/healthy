@@ -37,25 +37,27 @@ export default {
     console.log(this.$store.state.REGISTER_INFO)
     this.reportImg = this.$store.state.REGISTER_INFO.imgUrl
     console.log("链接",this.$store.state.REGISTER_INFO.pdfUrl)
+    this.pdfUrl=this.$store.state.REGISTER_INFO.pdfUrl
   },
   methods: {
     goUpload () {
       this.$router.push({ path: '/registerThree' })
     },
     downReport () {
-            
-            let _this = this;
-            console.log(2222)
-            var u = navigator.userAgent;
-            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-            console.log("是否为苹果设备",isiOS);
-            if ( isiOS ) {
+            console.log('pdf路径',this.pdfUrl)
+            window.location.href = this.pdfUrl
+            // let _this = this;
+            // console.log(2222)
+            // var u = navigator.userAgent;
+            // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            // console.log("是否为苹果设备",isiOS);
+            // if ( isiOS ) {
 
-                window.location.href = _this.pdfUrl
+            //     window.location.href = _this.pdfUrl
 
-            }else{
+            // }else{
                 
-                window.location.href = _this.pdfUrl
+            //     window.location.href = _this.pdfUrl
 
                 // dd.ready({
                 // developer: 'daip@dtdream.com',
@@ -71,7 +73,7 @@ export default {
                 //     })
                 // })
             }
-    }
+    
   }
 }
 </script>
@@ -89,6 +91,7 @@ export default {
 }
 .reportImgClass{
   width: 100%;
+  height: 100%;
 }
 .tips {
   font-size: 0.24rem;

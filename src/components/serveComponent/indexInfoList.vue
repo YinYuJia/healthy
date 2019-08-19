@@ -10,10 +10,10 @@
         </div>
         <!-- 头部 -->
         <div class="indexHeader">
-            <svg-icon icon-class="serveComponent_background" />
+            <svg-icon icon-class="serveComponent_newbackground" />
             <div class="headerText">医疗保障专区</div>
             <div class="headerInfo">汇聚浙江省医疗保障服务</div>
-            <div class="headerPad">
+            <!-- <div class="headerPad">
                 <div class="iconBox" @click="socialCard">
                     <svg-icon v-if="1" icon-class="serveComponent_icon1" />
                     <svg-icon v-if="0" icon-class="serveComponent_grey_1" />
@@ -34,7 +34,7 @@
                     <svg-icon v-if="0" icon-class="serveComponent_grey_3" />
                     <div class="text">医保账户</div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
@@ -164,21 +164,22 @@
             if (this.$build == '2') {
                 this.ifShow =  false
                 const ssoToken = this.util.paramStr("ssoToken");
-                console.log('----法人ssoToken----', ssoToken)
+                console.log('----法人ssoToken1111111111111111111----', ssoToken)
                 if (ssoToken != undefined && ssoToken != '' && ssoToken != null) {
                     this.$axios.post(this.epFn.ApiUrl() + '/H5/jy2009/getUserInfo', {
                         ssoToken: ssoToken
                     }).then((resData) => {
                         console.log('返回成功信息', resData);
                         //  保存法人信息对象
-                        sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
                         // 请求图标和咨询
-                        if (resData.xzqh == "") {
-                            resData.xzqh == "339900"
-                        }
+                        // if (resData.xzqh == "" || resData.xzqh == null ) {
+                        //     resData.xzqh == "339900"
+                        // }
+                        
+                        resData.xzqh = "339900"
                         this.getMatterInfo(resData.xzqh);
                         this.getNewsInfo(resData.xzqh);
-
+                        sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
                         console.log('法人登录222')
                         console.log("window.location.href", window.location.href)
                         var arr = window.location.href.split("?")
@@ -198,6 +199,7 @@
 
                         }
                         console.log("全局实现配置法人参数", JSON.parse(sessionStorage.getItem("globalConfigObj")))
+                        const globalConfigObj = JSON.parse(sessionStorage.getItem("globalConfigObj"))
                         if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '{}') {
                             // 证明不是url事项配置 走正常逻辑
                             this.ifShow = false; //隐藏输入人名社保卡
@@ -483,14 +485,7 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                let areaId = LegalPerson.xzqh
-                if (areaId == "339900" || areaId.slice(0, 4) == '3310') {
-                    this.$router.push(route);
-                } else {
-                    this.$toast('您所在的区域暂未开通');
-                    return;
-                }
+                  this.$router.push(route);
             },
             setNativeMsg() {
                 this.$store.dispatch('SET_NATIVEMSG', {
@@ -734,10 +729,10 @@
             }
         } // 头部
         .indexHeader {
-            height: 3.4rem;
+            height: 2.3rem;
             position: relative;
             .svg-icon {
-                height: 3.4rem;
+                height: 2.3rem;
                 width: 100%;
             }
             .headerText {
@@ -796,7 +791,8 @@
         .iconContent {
             // height: 4.74rem;
             background: #FFF;
-            padding: 1.8rem .2rem 0 .2rem;
+            // padding: 1.8rem .2rem 0 .2rem;
+            padding: .2rem .2rem 0 .2rem;
             .iconList {
                 display: -webkit-box;
                 /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */

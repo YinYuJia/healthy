@@ -328,7 +328,6 @@ export default {
         BAB451: '', // 经济来源
         BAB451VALUE: '', // 经济来源
         AAE006: '', // 联系地址
-        BKE520: '1' // 数据来源类别
       },
       startDate: new Date(),
       canSubmit: false,
@@ -338,7 +337,7 @@ export default {
     form: {
       handler: function (val) {
         if(val.address!=''&&val.addressDetail!=''){
-          val.AAE006=val.address+val.addressDetail;
+          val.AAE006=val.address+'|'+val.addressDetail;
         }
         if(val.AAB023!=''&&val.AAB019!=''&&val.AAE007!=''&&val.AAB020!=''&&val.AAB021!=''&&val.AAB022!=''
         &&val.AAB006!=''&&val.AAB036!=''&&val.AAE048!=''&&val.AAB011!=''&&val.AAB012!=''&&val.AAB013!=''&&val.BAB014!=''&&val.BKE280!=''&&val.BKE281!=''
@@ -412,10 +411,79 @@ export default {
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100-3')
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getDetail', params).then(resData => {
         if (resData.enCode == 1000) {
-          for (var key in this.form) {
-              // this.form=resData.LS_DS_16;
-          }
-          // this.form = resData.LS_DS_16
+          // for (var key in this.form) {
+          //     // this.form=resData.LS_DS_16;
+          // }
+        // address: '',
+        // addressDetail:'',//详细地址
+        // AAB003: '', // 统一社会信用代码
+        // AAB004: '', // 单位名称
+        // AAB023: '', // 主管部门或总机构
+        // AAB019: '', // 单位类型
+        // AAB019VALUE: '', // 单位类型
+        // AAE007: '', // 邮政编码
+        // AAB020: '', // 经济类型
+        // AAB020VALUE: '', // 经济类型
+        // AAB021: '', // 隶属关系
+        // AAB021VALUE: '', // 隶属关系
+        // AAB022: '', // 行业代码
+        // AAB022VALUE: '', // 行业代码
+        // AAB006: '', // 法人登记证种类
+        // AAB006VALUE: '', // 法人登记证种类
+        // AAB036: '', // 发证日期
+        // AAE048: '', // 批准成立单位
+        // AAB011: '', // 批准日期
+        // AAB012: '', // 批准文号
+        // AAB013: '', // 法人代表姓名
+        // BAB014: '', // 法人身份证号码
+        // BKE280: '', // 法人电话
+        // BKE281: '', // 单位专管员姓名
+        // BKE283: '', // 单位专管员手机
+        // BKE285: '', // 单位专管员所在部门
+        // AAE005: '', // 联系电话
+        // AAE008: '', // 缴费开户银行
+        // AAE008VALUE: '', // 缴费开户银行
+        // AAE009: '', // 缴费银行户名
+        // AAE010: '', // 缴费银行账号
+        // BAB451: '', // 经济来源
+        // BAB451VALUE: '', // 经济来源
+        // AAE006: '', // 联系地址
+          this.form.AAB003 = resData.LS_DS_16.AAB003;
+          this.form.address = resData.LS_DS_16.AAE006.split('|')[0];
+          this.form.addressDetail =  resData.LS_DS_16.AAE006.split('|')[1];
+          this.form.AAB004 = resData.LS_DS_16.AAB004;
+          this.form.AAB023 = resData.LS_DS_16.AAB023;
+          this.form.AAB004 = resData.LS_DS_16.AAB004;
+          this.form.AAB019 = resData.LS_DS_16.AAB019;
+          this.form.AAB019VALUE = resData.LS_DS_16.AAB019VALUE;
+          this.form.AAE007 = resData.LS_DS_16.AAE007;
+          this.form.AAB020 = resData.LS_DS_16.AAB020;
+          this.form.AAB020VALUE = resData.LS_DS_16.AAB020VALUE;
+          this.form.AAB021 = resData.LS_DS_16.AAB021;
+          this.form.AAB021VALUE = resData.LS_DS_16.AAB021VALUE;
+          this.form.AAB022 = resData.LS_DS_16.AAB022;
+          this.form.AAB022VALUE = resData.LS_DS_16.AAB022VALUE;
+          this.form.AAB006 = resData.LS_DS_16.AAB006;
+          this.form.AAB006VALUE = resData.LS_DS_16.AAB006VALUE;
+          this.form.AAB036 = resData.LS_DS_16.AAB036;
+          this.form.AAE048 = resData.LS_DS_16.AAE048;
+          this.form.AAB011 = resData.LS_DS_16.AAB011;
+          this.form.AAB012 = resData.LS_DS_16.AAB012;
+          this.form.AAB013 = resData.LS_DS_16.AAB013;
+          this.form.BAB014 = resData.LS_DS_16.BAB014;
+          this.form.BKE280 = resData.LS_DS_16.BKE280;
+          this.form.BKE281 = resData.LS_DS_16.BKE281;
+          this.form.BKE283 = resData.LS_DS_16.BKE283;
+          this.form.BKE285 = resData.LS_DS_16.BKE285;
+          this.form.AAE005 = resData.LS_DS_16.AAE005;
+          this.form.AAE008 = resData.LS_DS_16.AAE008;
+          this.form.AAE008VALUE = resData.LS_DS_16.AAE008VALUE;
+          this.form.AAE009 = resData.LS_DS_16.AAE009;
+          this.form.AAE010 = resData.LS_DS_16.AAE010;
+          this.form.BAB451 = resData.LS_DS_16.BAB451;
+          this.form.BAB451VALUE = resData.LS_DS_16.BAB451VALUE;
+          this.form.AAE006 = resData.LS_DS_16.AAE006;
+          
         } else if (resData.enCode == 1001) {
           //   失败  1001
           console.log('返回信息失败', resData)
@@ -570,6 +638,7 @@ export default {
       // this.$router.push('/legalChangeDetail');
     },
     formatSubmitData () {
+      // 请求参数封装
       let submitForm = Object.assign({}, this.form)
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100') // 加入用户名和电子社保卡号
       let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
@@ -579,8 +648,8 @@ export default {
       submitForm.userId=LegalPerson.userId;//userId
       submitForm.AAB301=LegalPerson.xzqh//统筹区
       submitForm.AAE135=LegalPerson.attnIDNo;//身份证号
-      submitForm.BKE520='1'
-      // 请求参数封装
+      submitForm.BKE520='1'//数据来源
+      
 
       return params
     }
@@ -663,7 +732,7 @@ export default {
           }
         }
         &:last-of-type(2) {
-          // border-bottom: none;
+          border-bottom: none;
         }
       }
       .changeUserBtn {
