@@ -152,7 +152,7 @@ export default {
                 display: flex;
                 border-bottom: .01rem solid #D5D5D5;
                 .InfoName{
-                    width: 6rem;
+                    width: 8rem;
                     line-height: 1.2rem;
                     text-align: left;
                     span{
