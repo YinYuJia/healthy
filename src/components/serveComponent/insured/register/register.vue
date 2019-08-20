@@ -35,7 +35,7 @@
               <span>统一社会信用代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB003" type="text" maxlength="20" placeholder="请输入" />
+              <input v-model="form.AAB003" type="text" maxlength="20" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -43,7 +43,7 @@
               <span>单位名称：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB004" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB004" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
 
@@ -52,7 +52,7 @@
               <span>联系电话：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE005" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.AAE005" type="tel" maxlength="11" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -60,7 +60,7 @@
               <span>单位地址：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.address" @click="openPickerCity" type="text" placeholder="请选择" readonly />
+              <input v-model="form.address" @click="openPickerCity" type="text" placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -69,7 +69,7 @@
               <span>地址详情：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.addressDetail" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.addressDetail" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -77,7 +77,7 @@
               <span>邮政编码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE007" type="tel" maxlength="6" placeholder="请输入" />
+              <input v-model="form.AAE007" type="tel" maxlength="6" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -89,7 +89,7 @@
               <span>单位类型：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB019VALUE" @click="openPicker('AAB019')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB019VALUE" @click="openPicker('AAB019')" type="text" placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -98,7 +98,7 @@
               <span>主管部门/总机构：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB023" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB023" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -106,7 +106,7 @@
               <span>经济类型：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB020VALUE" @click="openPicker('AAB020')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB020VALUE" @click="openPicker('AAB020')" type="text" placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -115,7 +115,7 @@
               <span>隶属关系：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB021VALUE" @click="openPicker('AAB021')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB021VALUE" @click="openPicker('AAB021')" type="text" placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -124,7 +124,7 @@
               <span>经济来源：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BAB451VALUE" @click="openPicker('BAB451')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.BAB451VALUE" @click="openPicker('BAB451')" type="text" placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -133,7 +133,7 @@
               <span>行业代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB022VALUE" @click="openPicker('AAB022')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB022VALUE" @click="openPicker('AAB022')" type="text" placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -146,7 +146,7 @@
               <span>法人登记证种类：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB006VALUE" @click="openPicker('AAB006')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB006VALUE" @click="openPicker('AAB006')" type="text" placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -155,7 +155,7 @@
               <span>发证日期：</span>
             </div>
             <div class="InfoText">
-              <input @click="openStartPicker" type="text" v-model="form.AAB036" placeholder="请选择" readonly />
+              <input @click="openStartPicker" type="text" v-model="form.AAB036" placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -164,7 +164,7 @@
               <span>批准成立单位：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE048" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAE048" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -172,7 +172,7 @@
               <span>批准日期：</span>
             </div>
             <div class="InfoText">
-              <input @click="openStartPicker1" type="text" v-model="form.AAB011" placeholder="请选择" readonly />
+              <input @click="openStartPicker1" type="text" v-model="form.AAB011" placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -181,7 +181,7 @@
               <span>批准文号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB012" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB012" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -193,7 +193,7 @@
               <span>法人代表姓名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB013" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB013" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -201,7 +201,7 @@
               <span>法人代表身份证号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BAB014" type="text" maxlength="20" placeholder="请输入" />
+              <input v-model="form.BAB014" type="text" maxlength="20" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -209,7 +209,7 @@
               <span>法人代表电话：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE280" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.BKE280" type="tel" maxlength="11" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -217,7 +217,7 @@
               <span>专管员姓名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE281" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.BKE281" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -225,7 +225,7 @@
               <span>专管员手机：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE283" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.BKE283" type="tel" maxlength="11" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -233,7 +233,7 @@
               <span>专管员所在部门：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE285" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.BKE285" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -245,7 +245,7 @@
               <span>缴费开户银行：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE008VALUE" @click="chooseBank()" type="text"  placeholder="请选择" readonly />
+              <input v-model="form.AAE008VALUE" @click="chooseBank()" type="text"  placeholder="请选择" readonly :onchange="valueChange()" />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -254,7 +254,7 @@
               <span>缴费开户名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE009" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAE009" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="InfoLine">
@@ -262,7 +262,7 @@
               <span>缴费银行账号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE010" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAE010" type="text" maxlength="50" placeholder="请输入" :onchange="valueChange()" />
             </div>
           </div>
           <div class="bgc"></div>
@@ -328,7 +328,9 @@ export default {
         BAB451: '', // 经济来源
         BAB451VALUE: '', // 经济来源
         AAE006: '', // 联系地址
+        BKZ019:''//经办编号
       },
+      ifChange:false,
       startDate: new Date(),
       canSubmit: false,
     }
@@ -361,6 +363,10 @@ export default {
     this.getFromInfo()
   },
   methods: {
+    valueChange(){
+      console.log('改变了值');
+      this.ifChange=true;
+    },
     // 选择就诊医院
     chooseBank(){
         this.$refs.bank.open();
@@ -411,6 +417,8 @@ export default {
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100-3')
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getDetail', params).then(resData => {
         if (resData.enCode == 1000) {
+          this.ifChange=false;
+          console.log("结果",resData)
           // for (var key in this.form) {
           //     // this.form=resData.LS_DS_16;
           // }
@@ -483,6 +491,7 @@ export default {
           this.form.BAB451 = resData.LS_DS_16.BAB451;
           this.form.BAB451VALUE = resData.LS_DS_16.BAB451VALUE;
           this.form.AAE006 = resData.LS_DS_16.AAE006;
+          this.form.BKZ019 = resData.LS_DS_16.BKZ019;
           
         } else if (resData.enCode == 1001) {
           //   失败  1001
@@ -621,6 +630,10 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
               //   成功   1000
               if (resData.enCode == 1000) {
+                if(this.ifChange){
+                  this.$toast('信息有修改，请重新下载并上传')
+                }
+                    
                 console.log('返回信息成功', resData)
                 this.$store.dispatch('REGISTER_INFO', resData)
                 this.$router.push({ path: '/registerTwo' })
