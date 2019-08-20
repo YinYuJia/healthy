@@ -24,6 +24,7 @@
                             <div class="iconBox" v-for="icon in listLine.children" :key="icon.blockAppId"  @click="jumpToUrl(icon.jumpUrl,icon.status)">
                                 <div class="photoBox"><img :src="icon.outPicUrl" /></div>
                                 <div class="text">{{icon.mattersName}}</div>
+                                <svg-icon v-if="icon.mattersId == 40 || icon.mattersId == 41" class="provinceIcon" icon-class="serveComponent_province" />
                             </div>
                         </div>
                     </div>
