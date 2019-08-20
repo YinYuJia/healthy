@@ -332,6 +332,7 @@ export default {
         AAE006: '', // 联系地址
         BKZ019:''//经办编号
       },
+      form1:{},
       startDate: new Date(),
       canSubmit: false,
     }
@@ -341,7 +342,7 @@ export default {
       handler: function (val) {
         if(val.AAB023!=''&&val.AAB019!=''&&val.AAE007!=''&&val.AAB020!=''&&val.AAB021!=''&&val.AAB022!=''
         &&val.AAB006!=''&&val.AAB036!=''&&val.AAE048!=''&&val.AAB011!=''&&val.AAB012!=''&&val.AAB013!=''&&val.BAB014!=''&&val.BKE280!=''&&val.BKE281!=''
-        &&val.BKE283!=''&&val.BKE285!=''&&val.AAE005!=''&&val.AAE008!=''&&val.AAE009!=''&&val.AAE010!=''&&val.BAB451!=''&&val.AAE006!=''){
+        &&val.BKE283!=''&&val.BKE285!=''&&val.AAE005!=''&&val.AAE008!=''&&val.AAE009!=''&&val.AAE010!=''&&val.BAB451!=''&&val.AAE006!=''&&val.AAB003){
           this.canSubmit = true
         }else{
           this.canSubmit = false
@@ -630,11 +631,11 @@ export default {
                   this.$toast('请填写正确的法人代表身份证号')
                   return false
             }
-            for(let item in this.form){
-              if(this.form[item] != this.form1[item]){
-                console.log("999999999",this.form[item],this.form1[item])
-              }
-            }
+            // for(let item in this.form){
+            //   if(this.form[item] != this.form1[item]){
+            //     console.log("999999999",this.form[item],this.form1[item])
+            //   }
+            // }
             let params = this.formatSubmitData()
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
               //   成功   1000
