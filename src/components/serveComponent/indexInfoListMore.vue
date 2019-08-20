@@ -226,12 +226,12 @@ export default {
                             if (url.indexOf("?") != -1) {
                                 
                                 url = url + '&' + 'token=' + sessionStorage.getItem("getToken");
-                                // url = url + '&' + 'token=' + '8afac8196c756f1f016ca95e09863323-commonToken'
+                                // url = url + '&' + 'token=' + '8afac8196c756f1f016cac693beb2088-commonToken'
                                 // console.log(url)
                                 // return
                             } else {
                                 url = url + '?' + 'token=' + sessionStorage.getItem("getToken");
-                                // url = url + '&' + 'token=' + '8afac8196c756f1f016ca95e09863323-commonToken'
+                                // url = url + '&' + 'token=' + '8afac8196c756f1f016cac693beb2088-commonToken'
                                 // console.log(url)
                                 // return
                             }
