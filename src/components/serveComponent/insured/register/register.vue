@@ -351,10 +351,13 @@ export default {
     },
     params:{
       handler:function(val){
+        console.log(val)
         if(val.address!=''&&val.addressDetail!=''){
           this.form.AAE006=val.address+'|'+val.addressDetail;
+          console.log(this.form.AAE006)
         }
-      }
+      },
+      deep:true
     }
   },
   created () {
@@ -561,7 +564,7 @@ export default {
     chooseCity (val) {
       console.log("选择城市",val)
       // 这里有地址的汉字和code
-      this.form.address = val.name
+      this.params.address = val.name
     },
     onChooseChange (picker, values) {
       if (values[0] !== undefined) {
