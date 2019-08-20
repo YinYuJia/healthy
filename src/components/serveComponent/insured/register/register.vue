@@ -352,7 +352,7 @@ export default {
     params:{
       handler:function(val){
         if(val.address!=''&&val.addressDetail!=''){
-          this.form.AAE006=val.address+val.addressDetail;
+          this.form.AAE006=val.address+'|'+val.addressDetail;
         }
       }
     }

@@ -114,6 +114,7 @@ export default {
                 console.log(resData);
                 if(resData.enCode == 1000){
                     sessionStorage.setItem('LOGINNAME',this.form.userName);
+                    this.$toast('绑定成功')
                     this.$emit('changeFlag', false);
                 }else{
                     this.$toast(resData.msg)
