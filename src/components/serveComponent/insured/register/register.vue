@@ -362,6 +362,7 @@ export default {
     }
   },
   created () {
+    console.log("22",JSON.stringify(this.form1)=='{}')
     this.getSelectInfo('AAB019')
     this.getSelectInfo('AAB020')
     this.getSelectInfo('AAB021')
@@ -640,12 +641,16 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
               //   成功   1000
               if (resData.enCode == 1000) {
-                  for(let item in this.form){
-                    if(this.form[item] != this.form1[item]){
-                      console.log("999999999",this.form[item],this.form1[item])
-                      this.$toast('信息有修改，请重新下载并上传')
-                    }
+              if(JSON.stringify(this.form1)=='{}'){
+                  console.log('首次参保')
+              }else{
+                for(let item in this.form){
+                  if(this.form[item] != this.form1[item]){
+                    console.log("999999999",this.form[item],this.form1[item])
+                    this.$toast('信息有修改，请重新下载并上传')
                   }
+                }
+              }
                 console.log('返回信息成功', resData)
                 this.$store.dispatch('REGISTER_INFO', resData)
                 this.$router.push({ path: '/registerTwo' })
