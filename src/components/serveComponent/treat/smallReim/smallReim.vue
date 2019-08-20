@@ -127,8 +127,8 @@ export default {
             let label = ''
             let value = ''
             switch(type) {
-                case 1: label = '门诊'; value = '1'; break;
-                case 2: label = '住院'; value = '3'; break;
+                case '1': label = '门诊'; value = '1'; break;
+                case '2': label = '住院'; value = '3'; break;
                 default: label = ''; value = ''; break;
             }
             this.form.AKA078VALUE = label
