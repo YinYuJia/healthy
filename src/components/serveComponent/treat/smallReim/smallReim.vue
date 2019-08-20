@@ -30,7 +30,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊类型：</span></div>
-                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="form.AKA078VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                    <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="form.AKA078VALUE" placeholder="请选择" readonly :disabled="typeDisabled"><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊日期：</span></div>
@@ -73,7 +73,8 @@ export default {
                 {value: '1',label: '门诊'},
                 {value: '3',label: '住院'}
             ],
-            ifClear:true
+            ifClear:true,
+            typeDisabled: false, //就诊类型默认可选择
         }
     },
     watch:{
@@ -94,6 +95,7 @@ export default {
         },
     },
     created() {
+        // 设置标题
         this.epFn.setTitle('零星报销')
         //初始化电子发票
         let arr={};
@@ -119,8 +121,21 @@ export default {
             console.log(111)
             this.form=JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_1))
         }
-
-        console.log("1188888",this.form)
+        // 根据路由配置项目类型子项选中
+        let type = this.$route.params.type
+        if(type){
+            let label = ''
+            let value = ''
+            switch(type) {
+                case 1: label = '门诊'; value = '1'; break;
+                case 2: label = '住院'; value = '3'; break;
+                default: label = ''; value = ''; break;
+            }
+            this.form.AKA078VALUE = label
+            this.form.AKA078 = value
+            //原因变为不可选择
+            this.typeDisabled = true
+        }
     },
     methods: {
         // 选择就诊医院
@@ -274,6 +289,9 @@ export default {
                         letter-spacing: 0;
                         text-align: right;
                         border: none;
+                    }
+                    input:disabled{
+                        background:  #FFF;
                     }
                 }
                 &:last-child{
