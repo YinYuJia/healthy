@@ -359,7 +359,6 @@
                                     // ----------------------获取事项配置url开始---------------------
                                     this.$router.push("/indexInfoList")
                                     
-                                    
                                 }
                             },
                             onFail: (error) => {

@@ -40,14 +40,14 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>拟回国日期</span></div>
                     <div class="InfoText">
-                        <div class="InfoText"><input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                        <div class="InfoText"><input type="text" v-model="form.AAE031" placeholder="请选择" readonly></div>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>取药机构</span></div>
                     <div class="InfoText">
                         <!-- @click="gotoTakeDrug()" -->
-                        <div class="InfoText"><input type="text" @click="chooseHospital" v-model="form.AKB020Name" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+                        <div class="InfoText"><input type="text" @click="chooseHospital" v-model="form.AKB020Name" placeholder="请选择" readonly :disabled="clickDisabled"><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -106,9 +106,14 @@
                 },
                 dateVal: new Date(), //默认绑定的时间
                 canSubmit: false,
+                clickDisabled: true //能够点击取药机构
             }
         },
         created () {
+            // 延迟后让取药机构变为可点击
+            setTimeout(()=>{
+                this.clickDisabled = false
+            },200)
             this.epFn.setTitle('出国带药备案')
             let GinsengLandCode = sessionStorage.getItem("GinsengLandCode")
             let GinsengLandName = sessionStorage.getItem("GinsengLandName")
@@ -154,6 +159,10 @@
             },
         },
         methods: {
+            getEndDate(startDate){
+                let endDate = startDate.getTime() + 90*3600*24*1000
+                this.form.AAE031 = this.util.formatDate(new Date(endDate),'yyyy-MM-dd')
+            },
             // 查看大图
             showBigPhoto(val){
                 this.imgUrl = val;
@@ -370,6 +379,9 @@
                         letter-spacing: 0;
                         text-align: right;
                         border: none;
+                    }
+                    input:disabled{
+                        background: #FFF;
                     }
                 }
                 &:last-child {
