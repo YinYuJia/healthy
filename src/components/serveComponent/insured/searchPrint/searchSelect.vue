@@ -50,7 +50,7 @@
     watch:{
     },
     created () {
-
+      this.epFn.setTitle('医保证明')
     },
     methods:{
       goPrint(item) {

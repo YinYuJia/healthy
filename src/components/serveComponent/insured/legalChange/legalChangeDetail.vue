@@ -127,6 +127,8 @@ export default {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
                     this.form=resData.LS_DS_15;
+                    let address=resData.LS_DS_15.AAE006;
+                    this.form.AAE006=address.split('|')[0]+address.split('|')[1]
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);
