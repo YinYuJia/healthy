@@ -221,7 +221,7 @@
                 }
             } else { //测试环境
             this.ifShow =  true
-                sessionStorage.setItem('userType', 2);
+                sessionStorage.setItem('userType', "2");
                 sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
             }
             console.log('获取token', sessionStorage.getItem('getToken'))

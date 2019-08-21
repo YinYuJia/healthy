@@ -78,6 +78,9 @@
                 </div>
                 <div class="imgBox"><img :src=item.src></div>
             </div>
+            <div class="moreInfo" v-if="showMoreInfoBtn">
+                <span @click="goDetail('more')">更多内容<svg-icon icon-class="serveComponent_arrowLineRight"/></span>
+            </div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeUsername(true)">更改用户名</div>
@@ -115,6 +118,7 @@
                 iconList: [], //图标列表,
                 isVisible: false,
                 isClear: true,
+                showMoreInfoBtn: false, //更多咨询按钮
             }
         },
         mounted() {
@@ -434,13 +438,16 @@
             },
             // 资讯跳转详情
             goDetail(item) {
-                console.log("item:", item)
-                this.$router.push({
-                    path: "/goDetail",
-                    query: {
-                        param: item
-                    }
-                })
+                if(item == 'more'){
+                    this.$router.push({path:'/moreHotMsg'})
+                }else{
+                    this.$router.push({
+                        path: "/goDetail",
+                        query: {
+                            param: item
+                        }
+                    })
+                }
             },
             // 跳转配置的地址
             jumpToUrl(url, status) {
@@ -469,7 +476,7 @@
                     }
                 }
             },
-            //动态获取事项信息
+            //获取图标列表
             getMatterInfo(code) {
                 let params = {
                     "areaId": code,
@@ -507,28 +514,30 @@
                     return ''
                 }
             },
-            // ·列表
+            // 获取咨询列表
             getNewsInfo(code) {
-                let _this = this;
                 let userType = sessionStorage.getItem('userType')
                 let params = {
                     "areaId": code,
-                    "statusType": userType //1代表个人2代表单位
+                    "statusType": userType, //1代表个人2代表单位
+                    "pageNum": "1",
+                    "pageSize": "3"
                 };
-                _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                    console.log('resData', resData)
+                this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
                     if (this.isClear == true) {
                         sessionStorage.setItem('isClear', true)
                     } else if (this.isClear == false) {
                         sessionStorage.setItem('isClear', true)
                     }
-                    _this.hotMsg = resData.list;
-                    console.log("hotMsg", _this.hotMsg)
-                    _this.hotMsg.forEach(ele => {
+                    this.hotMsg = resData.list;
+                    this.hotMsg.forEach(ele => {
                         ele.src = ele.synopsisUrl;
                     })
-                    this.hotMsg.slice(0, 5);
-                    console.log('获取资讯列表', _this.hotMsg);
+                    if(resData.list.length > 2){
+                        this.showMoreInfoBtn = true
+                    }
+                    this.hotMsg = this.hotMsg.slice(0, 2);
+                    console.log('获取资讯列表', this.hotMsg);
                 })
             },
             // 跑马灯效果
@@ -1159,6 +1168,17 @@
                         width: 100%;
                         border-radius: .05rem
                     }
+                }
+            }
+            .moreInfo{
+                height: 1.1rem;
+                padding-top: .26rem;
+                span{
+                    display: block;
+                    font-size: .28rem;
+                    color: #999999;
+                    letter-spacing: 0;
+                    line-height: .36rem;
                 }
             }
         }

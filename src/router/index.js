@@ -5,6 +5,7 @@ import GlobalConfig from '@/components/serveComponent/GlobalConfig'
 import indexInfoList from '@/components/serveComponent/indexInfoList'
 import indexInfoList1 from '@/components/serveComponent/indexInfoList1'
 import goDetail from '@/components/serveComponent/goDetail'
+import moreHotMsg from '@/components/serveComponent/moreHotMsg'
 import indexInfoListMore from '@/components/serveComponent/indexInfoListMore'
 import BusinessGuide from '@/components/serveComponent/BusinessGuide'
 import CompleteUpload from '@/components/serveComponent/CompleteUpload'
@@ -99,6 +100,11 @@ export default new Router({
       path: '/goDetail',
       name: 'goDetail',
       component: goDetail
+    },
+    {
+      path: '/moreHotMsg',
+      name: 'moreHotMsg',
+      component: moreHotMsg
     },
     {
       path: '/Index',
