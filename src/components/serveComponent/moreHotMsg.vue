@@ -37,8 +37,8 @@ export default {
             hotMsg: [],
             userType: '', //用户类型
             areaId: '', //区域编码
-            pageSize: '10',
-            pageNum: '1',
+            pageSize: '1',
+            pageNum: 1,
         }
     },
     created() {
@@ -68,16 +68,12 @@ export default {
     methods: {
         // 资讯跳转详情
         goDetail(item) {
-            if(item == 'more'){
-                this.$router.push({path:'/moreHotMsg'})
-            }else{
-                this.$router.push({
-                    path: "/goDetail",
-                    query: {
-                        param: item
-                    }
-                })
-            }
+            this.$router.push({
+                path: "/goDetail",
+                query: {
+                    param: item
+                }
+            })
         },
         // 获取咨询列表
         getNewsInfo() {
@@ -88,13 +84,14 @@ export default {
                 "pageSize": this.pageSize
             };
             this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                if (resData.list.length > 0 && resData.list.length < 10) {
-                    this.isShow = false;
-                }
-                this.hotMsg = resData.list;
+                // if (resData.list.length > 0 && resData.list.length < 10) {
+                //     this.isShow = false;
+                this.hotMsg = [...this.hotMsg, ...resData.list]
                 this.hotMsg.forEach(ele => {
                     ele.src = ele.synopsisUrl;
                 })
+                this.allLoaded = false
+                this.pageNum++
                 console.log('获取资讯列表', this.hotMsg);
             })
         },
@@ -112,6 +109,9 @@ export default {
 
 <style lang="less" scoped>
 .moreHotMsg{
+    .mint-loadmore{
+        font-size: .28rem;
+    }
     .hotMsg {
         background: #FFF;
         padding: 0 .32rem;
