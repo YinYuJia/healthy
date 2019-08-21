@@ -332,6 +332,7 @@ export default {
         AAE006: '', // 联系地址
         BKZ019:''//经办编号
       },
+      form1:{},
       startDate: new Date(),
       canSubmit: false,
     }
@@ -341,7 +342,7 @@ export default {
       handler: function (val) {
         if(val.AAB023!=''&&val.AAB019!=''&&val.AAE007!=''&&val.AAB020!=''&&val.AAB021!=''&&val.AAB022!=''
         &&val.AAB006!=''&&val.AAB036!=''&&val.AAE048!=''&&val.AAB011!=''&&val.AAB012!=''&&val.AAB013!=''&&val.BAB014!=''&&val.BKE280!=''&&val.BKE281!=''
-        &&val.BKE283!=''&&val.BKE285!=''&&val.AAE005!=''&&val.AAE008!=''&&val.AAE009!=''&&val.AAE010!=''&&val.BAB451!=''&&val.AAE006!=''){
+        &&val.BKE283!=''&&val.BKE285!=''&&val.AAE005!=''&&val.AAE008!=''&&val.AAE009!=''&&val.AAE010!=''&&val.BAB451!=''&&val.AAE006!=''&&val.AAB003){
           this.canSubmit = true
         }else{
           this.canSubmit = false
@@ -351,13 +352,17 @@ export default {
     },
     params:{
       handler:function(val){
+        console.log(val)
         if(val.address!=''&&val.addressDetail!=''){
-          this.form.AAE006=val.address+val.addressDetail;
+          this.form.AAE006=val.address+'|'+val.addressDetail;
+          console.log(this.form.AAE006)
         }
-      }
+      },
+      deep:true
     }
   },
   created () {
+    console.log("22",JSON.stringify(this.form1)=='{}')
     this.getSelectInfo('AAB019')
     this.getSelectInfo('AAB020')
     this.getSelectInfo('AAB021')
@@ -561,7 +566,7 @@ export default {
     chooseCity (val) {
       console.log("选择城市",val)
       // 这里有地址的汉字和code
-      this.form.address = val.name
+      this.params.address = val.name
     },
     onChooseChange (picker, values) {
       if (values[0] !== undefined) {
@@ -627,21 +632,25 @@ export default {
                   this.$toast('请填写正确的法人代表身份证号')
                   return false
             }
-            for(let item in this.form){
-              if(this.form[item] != this.form1[item]){
-                console.log("999999999",this.form[item],this.form1[item])
-              }
-            }
+            // for(let item in this.form){
+            //   if(this.form[item] != this.form1[item]){
+            //     console.log("999999999",this.form[item],this.form1[item])
+            //   }
+            // }
             let params = this.formatSubmitData()
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
               //   成功   1000
               if (resData.enCode == 1000) {
-                  for(let item in this.form){
-                    if(this.form[item] != this.form1[item]){
-                      console.log("999999999",this.form[item],this.form1[item])
-                      this.$toast('信息有修改，请重新下载并上传')
-                    }
+              if(JSON.stringify(this.form1)=='{}'){
+                  console.log('首次参保')
+              }else{
+                for(let item in this.form){
+                  if(this.form[item] != this.form1[item]){
+                    console.log("999999999",this.form[item],this.form1[item])
+                    this.$toast('信息有修改，请重新下载并上传')
                   }
+                }
+              }
                 console.log('返回信息成功', resData)
                 this.$store.dispatch('REGISTER_INFO', resData)
                 this.$router.push({ path: '/registerTwo' })

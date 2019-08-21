@@ -8,7 +8,7 @@
             </div>
         </div>
         <!-- 基本信息列表 -->
-        <div class="Content" v-if="activeIndex == 1">
+        <div class="Content" v-show="activeIndex == 1">
             <div class="ListInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理部门:</span></div>
@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="Content" v-if="activeIndex == 2">
+        <div class="Content" v-show="activeIndex == 2">
                 <div class="ListInfo"  v-for="(item,index) in itemArr" :key="index">
                 <div class="InfoLine">
                     <div class="InfoName"><span>材料名称:</span></div>
@@ -144,7 +144,6 @@ export default {
                     if(resData.LS_DS0[0]!=undefined){
                         this.form={...this.form,...resData.LS_DS0[0]}
                     }
-                    console.log(this.form.matSettingBasis)
                     let ADDRESS=this.form.acceptAddress;
                     let HTML=this.form.matSettingBasis;
                     let Basistext=this.removeAllSpace(HTML)

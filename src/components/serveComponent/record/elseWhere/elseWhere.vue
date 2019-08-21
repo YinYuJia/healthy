@@ -156,10 +156,10 @@ export default {
             let value = ''
             let chooseFlag = false // 二次选择
             switch(type) {
-                case 1: label = '退休异地安置'; value = '1'; break;
-                case 2: label = '在职驻外工作学习'; value = '2'; break;
-                case 3: label = '异地生育'; value = '4'; break;
-                case 4: ; chooseFlag = true; break;
+                case '1': label = '退休异地安置'; value = '1'; break;
+                case '2': label = '在职驻外工作学习'; value = '2'; break;
+                case '3': label = '异地生育'; value = '4'; break;
+                case '4': ; chooseFlag = true; break;
                 default: label = ''; break;
             }
             if(chooseFlag == false){

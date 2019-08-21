@@ -295,8 +295,8 @@ export default {
       let label = ''
       let value = ''
       switch(type) {
-        case 1: label = '诊疗'; value = '2'; break;
-        case 2: label = '药品'; value = '1'; break;
+        case '1': label = '诊疗'; value = '2'; break;
+        case '2': label = '药品'; value = '1'; break;
         default: label = ''; value = ''; break;
       }
       this.BKE253VALUE = label

@@ -24,7 +24,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>地址详情：</span></div>
-                    <div class="InfoText"><textarea v-model="params.detailAddress" placeholder="请输入"></textarea></div>
+                    <div class="InfoText"><textarea v-model="params.addressDetail" placeholder="请输入"></textarea></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位电话：</span></div>
@@ -124,7 +124,7 @@ export default {
         params:{
             handler:function(val){
                 if(val.address!=''&&val.detailAddress!=''){
-                    this.form.AAE006=val.address+val.detailAddress;
+                    this.form.AAE006=val.address+"|"+val.detailAddress;
                 }
             },
             deep:true
@@ -319,8 +319,10 @@ export default {
                 this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy9029/9029', params).then((resData) => {
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
-                      console.log('返回信息成功',resData)
-                      this.form=resData.LS_DS[0];
+                    console.log('返回信息成功',resData)
+                    this.form=resData.LS_DS[0];
+                    this.params.address = resData.LS_DS[0].AAE006.split('|')[0];
+                    this.params.addressDetail = resData.LS_DS[0].AAE006.split('|')[1];
                     //   if(isNaN(this.form.AAE006)){
                     //       this.form.AAE006=''
                     //   }
