@@ -619,11 +619,14 @@
                         value,
                         action
                     }) => {
+                        console.log("输完用户名的数据前",this.resData)
+
                         if (value == null || value == "") {
                             this.resData.attnName = ""
                         } else {
                             this.resData.attnName = value;
                         }
+                        console.log("输完用户名的数据后",this.resData)
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
