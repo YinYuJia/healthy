@@ -1,7 +1,22 @@
 <template>
     <div class="moreHotMsg">
+        <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+            <!-- 列表 -->
+            <div class="hotMsg">
+                <div class="msgLine" v-for="(item,index) in hotMsg" :key="index" @click="goDetail(item)">
+                    <div class="textBox">
+                        <div class="textInfo">{{item.name | msgLength}}</div>
+                        <div class="dateInfo">{{item.time}}</div>
+                    </div>
+                    <div class="imgBox"><img :src=item.src></div>
+                </div>
+            </div>
+        </mt-loadmore>
+        <div v-if="isShow">
+            <div class="tip">没有更多事项了</div>
+        </div>
         <!-- 更多资讯 -->
-        <div class="hotMsg">
+        <!-- <div class="hotMsg">
             <div class="msgLine" v-for="(item,index) in hotMsg" :key="index" @click="goDetail(item)">
                 <div class="textBox">
                     <div class="textInfo">{{item.name | msgLength}}</div>
@@ -9,7 +24,7 @@
                 </div>
                 <div class="imgBox"><img :src=item.src></div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -17,20 +32,24 @@
 export default {
     data() {
         return{
+            allLoaded: true,
+            isShow: true,
             hotMsg: [],
             userType: '', //用户类型
             areaId: '', //区域编码
-            pageSize: '15',
-            pageNum: '1'
+            pageSize: '10',
+            pageNum: '1',
         }
     },
     created() {
         this.epFn.setTitle('热点资讯')
         let userType = sessionStorage.getItem('userType')
         if(userType == '0' || userType == '1'){
+            console.log("个人用户")
             this.userType = '1'
             this.areaId = sessionStorage.getItem("GinsengLandCode")
         }else{
+            console.log("法人用户")
             this.userType = '2'
             let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
             this.areaId = LegalPerson.xzqh
@@ -69,12 +88,23 @@ export default {
                 "pageSize": this.pageSize
             };
             this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
+                if (resData.list.length > 0 && resData.list.length < 10) {
+                    this.isShow = false;
+                }
                 this.hotMsg = resData.list;
                 this.hotMsg.forEach(ele => {
                     ele.src = ele.synopsisUrl;
                 })
                 console.log('获取资讯列表', this.hotMsg);
             })
+        },
+        loadBottom() {
+            console.log("加载")
+            if (!this.allLoaded) {
+                this.getNewsInfo();
+            }
+            this.allLoaded = true;
+            this.$refs.loadmore.onBottomLoaded();
         },
     }
 }
@@ -123,6 +153,11 @@ export default {
                 }
             }
         }
+    }
+    .tip{
+        font-size: .28rem;
+        line-height: .5rem;
+        color: #999;
     }
 }
 </style>

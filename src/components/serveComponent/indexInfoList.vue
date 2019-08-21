@@ -85,6 +85,9 @@
                 </div>
                 <div class="imgBox"><img :src=item.src></div>
             </div>
+            <div class="moreInfo" v-if="showMoreInfoBtn">
+                <span @click="goDetail('more')">更多内容<svg-icon icon-class="serveComponent_arrowLineRight"/></span>
+            </div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
@@ -122,6 +125,7 @@
                 isClear: true,
                 iconList: [], //图标列表,
                 isVisible: false,
+                showMoreInfoBtn: false, //更多咨询按钮
                 resData: {
                     CompanyName: "浙江政务网法人测试用户",
                     CompanyRegNumber: "91330103704789206U",
@@ -273,13 +277,16 @@
             },
             // 资讯跳转详情
             goDetail(item) {
-                console.log("item:", item)
-                this.$router.push({
-                    path: "/goDetail",
-                    query: {
-                        param: item
-                    }
-                })
+                if(item == 'more'){
+                    this.$router.push({path:'/moreHotMsg'})
+                }else{
+                    this.$router.push({
+                        path: "/goDetail",
+                        query: {
+                            param: item
+                        }
+                    })
+                }
             },
             // 跳转配置的地址
             jumpToUrl(url, status) {
@@ -322,13 +329,15 @@
                     console.log('图标列表', this.iconList);
                 })
             },
-            // ·列表
+            // 获取咨询列表
             getNewsInfo(code) {
                 let _this = this;
                 let userType = sessionStorage.getItem('userType')
                 let params = {
                     "areaId": code,
-                    "statusType": 2 //1代表个人2代表单位
+                    "statusType": 2, //1代表个人2代表单位
+                    "pageNum": "1",
+                    "pageSize": "3"
                 };
                 _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
                     console.log('resData', resData)
@@ -342,7 +351,10 @@
                     _this.hotMsg.forEach(ele => {
                         ele.src = ele.synopsisUrl;
                     })
-                    this.hotMsg.slice(0,5);
+                    if(resData.list.length > 2){
+                        this.showMoreInfoBtn = true
+                    }
+                    this.hotMsg = this.hotMsg.slice(0, 2);
                     console.log('获取资讯列表', _this.hotMsg);
                 })
             },
@@ -946,6 +958,17 @@
                         width: 100%;
                         border-radius: .05rem
                     }
+                }
+            }
+            .moreInfo{
+                height: 1.1rem;
+                padding-top: .26rem;
+                span{
+                    display: block;
+                    font-size: .28rem;
+                    color: #999999;
+                    letter-spacing: 0;
+                    line-height: .36rem;
                 }
             }
         }
