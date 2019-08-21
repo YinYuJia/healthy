@@ -118,7 +118,7 @@ export default {
                 display: flex;
                 border-bottom: .01rem solid #D5D5D5;
                 .InfoName{
-                    width: 4rem;
+                    width: 100%;
                     line-height: 1.2rem;
                     text-align: left;
                     span{
