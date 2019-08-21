@@ -33,11 +33,11 @@ export default {
     data() {
         return{
             allLoaded: true,
-            isShow: true,
+            isShow: false,
             hotMsg: [],
             userType: '', //用户类型
             areaId: '', //区域编码
-            pageSize: '1',
+            pageSize: '10',
             pageNum: 1,
         }
     },
@@ -84,14 +84,16 @@ export default {
                 "pageSize": this.pageSize
             };
             this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                // if (resData.list.length > 0 && resData.list.length < 10) {
-                //     this.isShow = false;
                 this.hotMsg = [...this.hotMsg, ...resData.list]
                 this.hotMsg.forEach(ele => {
                     ele.src = ele.synopsisUrl;
                 })
                 this.allLoaded = false
                 this.pageNum++
+                if(resData.list.length == 0){
+                    this.allLoaded = true
+                    this.isShow = true;
+                }
                 console.log('获取资讯列表', this.hotMsg);
             })
         },
