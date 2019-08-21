@@ -86,7 +86,8 @@ export default {
   width: 100%;
   margin-bottom:  1.65rem;
 }
-.picWrap {
+.picWrap { 
+  height: 100%;
   // height: 12rem;
 }
 .reportImgClass{
@@ -96,9 +97,12 @@ export default {
 .tips {
   font-size: 0.24rem;
   text-align: left;
+  position: relative;
+  top: -20%;
   color: #000;
-  line-height: 2;
+  line-height: 1rem;
   margin-left: 30px;
+  padding-bottom: 2rem;
   font-family: PingFangSC-Regular;
   opacity: 0.45;
 }
