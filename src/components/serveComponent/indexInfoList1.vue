@@ -109,7 +109,7 @@
                 name: "",
                 lat: "",
                 lng: "",
-                ifShow: true,
+                ifShow: false,
                 tel: "0571-88808880",
                 imgurl: "",
                 hotMsg: [],
@@ -145,14 +145,9 @@
         //     }
         // },
         created() {
-            
             // 判断登录状态
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
-            // const ssoToken = this.util.paramStr("ssoToken")
-            // if (ssoToken != 'undefined' && ssoToken != null && ssoToken != '') {
-            //     this.$router.push("/indexInfoList")
-            // }
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT = {
@@ -201,7 +196,7 @@
                         onSuccess: (data) => {
                             console.log("获取用户类型------", data.userType)
                             sessionStorage.setItem("userType", data.userType)
-                            if( data.userType == '2') {
+                            if (data.userType == '2') {
                                 this.$router.push("/indexInfoList")
                             }
                         },
@@ -228,29 +223,9 @@
                                 console.log("data获取用户类型", data)
                                 // 如果是0 或者1 那么是个人登录
                                 if (data.userType == '0' || data.userType == '1') {
-                                    // url事项配置截取url参数方法  ------开始
-                                    var sp = this.util.paramStr('sp')
-                                    console.log(sp == undefined)
-                                    if (sp != "" && sp != undefined && sp != null) {
-                                        const arr1 = sp.split("|")
-                                        let obj = {}
-                                        arr1.map((item, index) => {
-                                            console.log(item.split("=")[0] + '------' + item.split("=")[1])
-                                            console.log()
-                                            obj[item.split("=")[0]] = item.split("=")[1]
-                                        })
-                                        console.log('obj---', obj)
-                                        // url事项配置截取url参数方法  ------结束 如果有存入对象
-                                        sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
-                                    } else {
-                                        // 如果没有 对象存空
-                                        sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
-                                    }
-                                    // ------------事项url配置截取sp分成对象保存到session里面---------end
-                                    console.log('---globalConfigObj---', sessionStorage.getItem("globalConfigObj"))
+                                    //  获取事项url参数方法
                                     const code = 'yibaozs';
                                     console.log('code', code)
-                                    // var ticket = paramStr("ticket") || "8afac0cc6b84c4aa016b8e7fb4662798-ticket";
                                     var ticket = this.util.paramStr("ticket");
                                     console.log('ticket-------------', ticket)
                                     var token = sessionStorage.getItem("getToken")
@@ -269,27 +244,8 @@
                                                 console.log('userName', result2.username)
                                                 console.log('idCard', result2.idnum)
                                                 // 个人登录
-                                                console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
-                                                var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
-                                                if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '') {
-                                                    // 证明不是url事项配置 走正常逻辑
-                                                    this.ifShow = false; //隐藏输入人名社保卡
-                                                    this.setNativeMsg(); //浙理办打包需要打开
-                                                    this.getUserRegion(); // 自动获取参保地
-                                                } else {
-                                                    if (globalConfigObj.userType == undefined) {
-                                                        // 证明不是url事项配置 走正常逻辑
-                                                        this.ifShow = false; //隐藏输入人名社保卡
-                                                        this.setNativeMsg(); //浙理办打包需要打开
-                                                        this.getUserRegion(); // 自动获取参保地
-                                                    } else {
-                                                        // url事项配置 跳转路由
-                                                        this.$router.push({
-                                                            name: globalConfigObj.identifier,
-                                                            params: globalConfigObj
-                                                        })
-                                                    }
-                                                }
+                                                //  获取事项url参数方法
+                                                this.globalConfigObj()
                                             } else {
                                                 MessageBox.alert(result2.errmsg);
                                                 return;
@@ -323,27 +279,7 @@
                                                         console.log('userName', result1.username)
                                                         console.log('idCard', result1.idnum)
                                                         // 个人登录
-                                                        console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
-                                                        var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
-                                                        if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '') {
-                                                            // 证明不是url事项配置 走正常逻辑
-                                                            this.ifShow = false; //隐藏输入人名社保卡
-                                                            this.setNativeMsg(); //浙理办打包需要打开
-                                                            this.getUserRegion(); // 自动获取参保地
-                                                        } else {
-                                                            if (globalConfigObj.userType == undefined) {
-                                                                // 证明不是url事项配置 走正常逻辑
-                                                                this.ifShow = false; //隐藏输入人名社保卡
-                                                                this.setNativeMsg(); //浙理办打包需要打开
-                                                                this.getUserRegion(); // 自动获取参保地
-                                                            } else {
-                                                                // url事项配置 跳转路由
-                                                                this.$router.push({
-                                                                    name: globalConfigObj.identifier,
-                                                                    params: globalConfigObj
-                                                                })
-                                                            }
-                                                        }
+                                                        this.globalConfigObj()
                                                     } else {
                                                         MessageBox.alert(result1.errmsg);
                                                     }
@@ -363,7 +299,6 @@
                                     // 如果 userType = 2 那么是法人登录
                                     // ----------------------获取事项配置url开始---------------------
                                     this.$router.push("/indexInfoList")
-                                    
                                 }
                             },
                             onFail: (error) => {
@@ -391,7 +326,42 @@
             }
         },
         methods: {
-            
+            globalConfigObj() {
+                // url事项配置截取url参数方法  ------开始
+                var sp = this.util.paramStr('sp')
+                console.log(sp == undefined)
+                if (sp != "" && sp != undefined && sp != null) {
+                    const arr1 = sp.split("|")
+                    let obj = {}
+                    arr1.map((item, index) => {
+                        console.log(item.split("=")[0] + '------' + item.split("=")[1])
+                        console.log()
+                        obj[item.split("=")[0]] = item.split("=")[1]
+                    })
+                    console.log('obj---', obj)
+                    // url事项配置截取url参数方法  ------结束 如果有存入对象
+                    sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
+                } else {
+                    // 如果没有 对象存空
+                    sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
+                }
+                // ------------事项url配置截取sp分成对象保存到session里面---------end
+                console.log('---globalConfigObj---', sessionStorage.getItem("globalConfigObj"))
+                console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
+                var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
+                if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '') {
+                    // 证明不是url事项配置 走正常逻辑
+                    this.ifShow = false; //隐藏输入人名社保卡
+                    this.setNativeMsg(); //浙理办打包需要打开
+                    this.getUserRegion(); // 自动获取参保地
+                } else {
+                    // url事项配置 跳转路由
+                    this.$router.push({
+                        name: globalConfigObj.identifier,
+                        params: globalConfigObj
+                    })
+                }
+            },
             //弹窗登录
             loginIn() {
                 if (this.epPasword == 'epsoft') {
@@ -684,7 +654,7 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                   this.$router.push(route);
+                this.$router.push(route);
             },
             setNativeMsg() {
                 this.$store.dispatch('SET_NATIVEMSG', {
@@ -1015,8 +985,7 @@
         } // 图标区域
         .iconContent {
             // height: 4.74rem;
-            background: #FFF;
-            // padding: 1.8rem .2rem 0 .2rem;
+            background: #FFF; // padding: 1.8rem .2rem 0 .2rem;
             padding: 1.4rem .2rem 0 .2rem;
             .iconList {
                 display: -webkit-box;
