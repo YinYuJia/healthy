@@ -232,25 +232,7 @@
                                     console.log('token-------------', token)
                                     //如果有token直接请求用户信息
                                     if (token != "" && token != 'undefined' && token != null) {
-                                        this.$axios.post(this.ApiUrl() + "/H5/jy2005/info", {
-                                            "token": token,
-                                            "tradeCode": "2005"
-                                        }).then(result2 => {
-                                            console.log(6)
-                                            console.log('result2-----------------', result2)
-                                            if (result2.result == "0") {
-                                                sessionStorage.setItem("userName", result2.username)
-                                                sessionStorage.setItem("idCard", result2.idnum)
-                                                console.log('userName', result2.username)
-                                                console.log('idCard', result2.idnum)
-                                                // 个人登录
-                                                //  获取事项url参数方法
-                                                this.globalConfigObj()
-                                            } else {
-                                                MessageBox.alert(result2.errmsg);
-                                                return;
-                                            }
-                                        })
+                                        this.getTokenInfo(token)
                                     } else {
                                         // 如果有ticket 直接用ticket 换取token  再用token 获取用户信息
                                         if (ticket != "" && ticket != undefined && ticket != null) {
@@ -262,28 +244,12 @@
                                                 console.log('result0----------------------', result0)
                                                 if (result0.result == "0") {
                                                     sessionStorage.setItem("getToken", result0.token)
+                                                    this.getTokenInfo(result0.token)
                                                 } else {
                                                     MessageBox.alert(result0.errmsg);
                                                     return;
                                                     // return;
                                                 }
-                                                this.$axios.post(this.ApiUrl() + "/H5/jy2005/info", {
-                                                    "token": result0.token,
-                                                    "tradeCode": "2005"
-                                                }).then(result1 => {
-                                                    console.log(5)
-                                                    console.log('result1------------------', result1)
-                                                    if (result1.result == "0") {
-                                                        sessionStorage.setItem("userName", result1.username)
-                                                        sessionStorage.setItem("idCard", result1.idnum)
-                                                        console.log('userName', result1.username)
-                                                        console.log('idCard', result1.idnum)
-                                                        // 个人登录
-                                                        this.globalConfigObj()
-                                                    } else {
-                                                        MessageBox.alert(result1.errmsg);
-                                                    }
-                                                })
                                             });
                                         } else {
                                             console.log(3)
@@ -326,6 +292,7 @@
             }
         },
         methods: {
+            // 事项配置url把参数转成对象
             globalConfigObj() {
                 // url事项配置截取url参数方法  ------开始
                 var sp = this.util.paramStr('sp')
@@ -361,6 +328,26 @@
                         params: globalConfigObj
                     })
                 }
+            },
+            // 用token获取人员信息方法
+            getTokenInfo(token) {
+                this.$axios.post(this.ApiUrl() + "/H5/jy2005/info", {
+                    "token": token,
+                    "tradeCode": "2005"
+                }).then(result1 => {
+                    console.log(5)
+                    console.log('result1------------------', result1)
+                    if (result1.result == "0") {
+                        sessionStorage.setItem("userName", result1.username)
+                        sessionStorage.setItem("idCard", result1.idnum)
+                        console.log('userName', result1.username)
+                        console.log('idCard', result1.idnum)
+                        // 个人登录
+                        this.globalConfigObj()
+                    } else {
+                        MessageBox.alert(result1.errmsg);
+                    }
+                })
             },
             //弹窗登录
             loginIn() {
@@ -408,9 +395,11 @@
             },
             // 资讯跳转详情
             goDetail(item) {
-                if(item == 'more'){
-                    this.$router.push({path:'/moreHotMsg'})
-                }else{
+                if (item == 'more') {
+                    this.$router.push({
+                        path: '/moreHotMsg'
+                    })
+                } else {
                     this.$router.push({
                         path: "/goDetail",
                         query: {
@@ -456,6 +445,11 @@
                     console.log('获取区域事项', resData)
                     let resList = resData.list;
                     console.log('图标sdk成功')
+                    if( resList.length == 0 ) {
+                        this.isTips = true
+                    }else{
+                        this.isTips = false
+                    }
                     let iconList = [];
                     let userType = sessionStorage.getItem('userType')
                     if (userType == 1 || userType == 0) {
@@ -503,7 +497,7 @@
                     this.hotMsg.forEach(ele => {
                         ele.src = ele.synopsisUrl;
                     })
-                    if(resData.list.length > 2){
+                    if (resData.list.length > 2) {
                         this.showMoreInfoBtn = true
                     }
                     this.hotMsg = this.hotMsg.slice(0, 2);
@@ -695,10 +689,8 @@
                             this.getNewsInfo(sessionStorage.getItem("GinsengLandCode"));
                             if (sessionStorage.getItem("GinsengLandCode") == "339900") {
                                 this.iconFlag = true; //省本级设置为true
-                                this.isTips = false
                             } else {
                                 this.iconFlag = false; //其他情况设置为false
-                                this.isTips = true
                             }
                         } else {
                             dd.ready({
@@ -1139,10 +1131,10 @@
                     }
                 }
             }
-            .moreInfo{
+            .moreInfo {
                 height: 1.1rem;
                 padding-top: .26rem;
-                span{
+                span {
                     display: block;
                     font-size: .28rem;
                     color: #999999;
