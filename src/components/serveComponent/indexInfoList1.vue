@@ -103,7 +103,7 @@
         data() {
             return {
                 epPasword: "",
-                isMask: false, // 控制mask显示隐藏
+                isMask: true, // 控制mask显示隐藏
                 isTips: false,
                 provice: false,
                 name: "",
