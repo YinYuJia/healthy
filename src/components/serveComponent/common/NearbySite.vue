@@ -106,7 +106,15 @@ export default {
         },
         getSite(){
             let _this = this;
-                            dd.device.location.get ({
+            dd.ready({
+                developer: 'daip@dtdream.com',
+                usage: [
+                    'dd.device.location.get',
+                ],
+                remark: '获取坐标'
+                },
+                function() {
+                dd.device.location.get ({
                     onSuccess: function(data) {
                         _this.longitude = data.longitude;
                         _this.latitude = data.latitude;
@@ -114,6 +122,7 @@ export default {
                     },
                     onFail: function(error) {}
                 })
+            })
         },
         getSite1(){
             let _this = this;
