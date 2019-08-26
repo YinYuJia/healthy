@@ -111,7 +111,7 @@ export default {
         form:{
             handler: function(val) {
               // if(val.AAE007 != '' && val.address != '' && val.detailAddress != '' && val.AAB005 != ''
-                if(val.AAB001!=''&&val.AAE007 != '' && val.detailAddress != '' && val.AAB005 != ''
+                if(val.AAB001!=''&&val.AAE007 != '' && val.AAB005 != ''
                     && val.BKE280 != '' && val.BKE281 != '' && val.BKE283 != ''
                     && val.BKB225 != '' && val.AAE005 != ''){
                     this.canSubmit = true;

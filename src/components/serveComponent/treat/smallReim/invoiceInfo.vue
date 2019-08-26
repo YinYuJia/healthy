@@ -1,5 +1,12 @@
 <template>
     <div class="invoiceInfo">
+        <SelectCity
+            :type="1"
+            ref="wayPicker"
+            :propArr="BKE200s"
+            @confirm="handleWayConfirm"
+            >
+        </SelectCity>
         <Title :title="'零星报销'" :backRouter="'/smallReim'"></Title>
         <!-- 填写进度 -->
         <WorkProgress :currentStep="2" :progress="progress"></WorkProgress>
@@ -8,14 +15,14 @@
             <div class="invoiceContent" v-if="hasInvoice">
                 <div class="invoiceHint">请选择您的报销条目</div>
                 <div class="invoiceList" v-for="(item,index) in invoices" :key="index">
-                    <div class="selectIcon" @click="chooseInvoice(item)">
+                    <div class="selectIcon" @click="chooseInvoice(item,index)">
                         <svg-icon v-if="item.selected" icon-class="serveComponent_select" />
                     </div>
-                    <div class="columnLine"></div>
+                    <!-- <div class="columnLine"></div> -->
                     <div class="textBox">
                         <div class="textLine">
                             <span class="textName">发票号</span>
-                            <span class="textInfo active">{{item.BKE100}}</span>
+                            <span class="textInfoNumber" @click="showBigPhoto(item.BKE554)">{{item.BKE100}}</span>
                         </div>
 
                         <div class="textLine">
@@ -27,20 +34,20 @@
                             <span class="textInfo">{{item.AAE036}}</span>
                         </div>
                     </div>
-                    <div class="PhotoBox"><img :src="item.BKE554" @click="showBigPhoto(item.BKE554)"/></div>
+                    <!-- <div class="PhotoBox"><img :src="item.BKE554" @click="showBigPhoto(item.BKE554)"/></div> -->
                 </div>
             </div>
             <!-- 手动添加发票信息 -->
             <div class="manualContent" v-if="!hasInvoice">
                 <div class="invoiceHint">暂无报销条目，请手动填写/上传发票信息</div>
                 <div class="invoiceList" v-for="(item,index) in invoices" :key="index">
-                    <div class="invoicePhoto">
-                        <img :src="item.photoUrl" class="pic">
+                    <div class="choose">
+                        <svg-icon v-if="item.selected" icon-class="serveComponent_select" />
                     </div>
                     <div class="textBox">
                         <div class="textLine">
                             <span class="textName">发票号码</span>
-                            <span class="textInfo">{{item.BKE100}}</span>
+                            <span class="textInfoNumber" @click="showBigPhoto(item.photoUrl)">{{item.BKE100}}</span>
                         </div>
                         <div class="textLine">
                             <span class="textName">发票金额</span>
@@ -49,11 +56,54 @@
                         <div class="textLine">
                             <span class="textName">发票日期</span>
                             <span class="textInfo">{{item.AAE036}}</span>
+                            <div class="deleteBtn" @click="deleteBtn(item,index)">
+                                <svg-icon icon-class='payLimit_delete'></svg-icon>
+                            </div>
                         </div>
                     </div>
-                    <div class="deleteBtn" @click="deleteBtn(item,index)">删除</div>
+                    <!-- <div class="deleteBtn" @click="deleteBtn(item,index)">删除</div> -->
                 </div>
                 <div class="plusInvoice" @click="plusInvoice()">+ 添加发票信息</div>
+            </div>
+        </div>
+        <!-- 邮递信息 -->
+        <div class="GetInfo">
+            <div class="InfoLine">
+                <div class="InfoName"><span>纸质发票提交方式：</span></div>
+                <div class="InfoText"><input type="text" @click="openWayPicker" v-model="BKE200VALUE" placeholder="请输入" readonly>
+                <svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
+            </div>
+        </div>
+        <div class="MailInfo" v-if="showMail">
+            <div class="InfoLine">
+                <div class="InfoName"><span>邮寄信息：</span></div>
+            </div>
+            <div class="InfoLine">
+                <div class="InfoName"><span>收件人：</span></div>
+                <div class="InfoText"><input type="text" v-model="params.AAE009" readonly></div>
+            </div>
+            <div class="InfoLine">
+                <div class="InfoName"><span>联系方式：</span></div>
+                <div class="InfoText"><input type="tel" maxlength="11" v-model="params.AAE005" readonly></div>
+            </div>
+            <!-- <div class="InfoLine">
+                <div class="InfoName"><span>省市信息</span></div>
+                <div class="InfoText">
+                        <div class="InfoText"><input @click="openCityPicker" type="text" v-model="form.AAE011" placeholder="请选择" readonly></div>
+                </div>
+            </div> -->
+            <div class="InfoLine">
+                <div class="InfoName"><span>详细地址</span></div>
+                <div class="InfoText">
+                    <textarea v-model="params.AAE006"  readonly></textarea>
+                </div>
+            </div>
+        </div>       
+        <div class="Hint" >
+            <div class="HintContent">
+                <p class="HintText">
+                    <i class="el-icon-warning" style="color:rgb(255,160,7)"></i>邮寄时若发生票据丢失等现象，后果需自行承担，请谨慎对待！
+                </p>
             </div>
         </div>
         <!-- 资料上传 -->
@@ -89,8 +139,7 @@ export default {
         return {
             // 提交信息
             form: {
-
-            },
+                },
             imgUrl:'',
             canSubmit: false, //是否可以提交
             progress:[
@@ -108,9 +157,17 @@ export default {
             picArr: [],//附件集合
             picArrNum: [],//附件图片id集合
             invoiceCount: {price:0,count:0}, // 发票合计
+            BKE200s: [
+                {value: '1',label: '自送'},
+                {value: '2',label: '邮寄'}
+            ],
+            showMail:false,
+            BKE200VALUE:"自送",//邮寄方式中文
+            params:{},
         }
     },
     created() {
+        this.getMailInfo();
         console.log(33333,this.$store.state.SET_SMALL_REIM_2);
         this.picArrNum = this.$store.state.SET_SMALL_REIM_2.invoicesImg;
         this.hasInvoice = this.$store.state.IS_INVOICE
@@ -120,7 +177,6 @@ export default {
         // 获取VUEX信息
         this.invoices = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_2.eleInvoices));
         console.log('发票信息',this.invoices);
-
         // 附件集合
         this.picArr = JSON.parse(JSON.stringify(this.$store.state.SET_ENCLOSURE));
         // 封装发票
@@ -157,9 +213,29 @@ export default {
             this.invoiceCount.count = index
             this.invoiceCount.price = price
         }
+        this.form.BKE200='1'//邮寄方式默认为自送
         console.log('发票',this.invoices);
     },
+    watch: {
+      'BKE200VALUE'(val){
+          console.log(val)
+          if(val=='自送'){
+              this.showMail=false
+          }else{
+              this.showMail=true;
+          }
+      }  
+    },
     methods: {
+        // 选择领取方式
+        openWayPicker(){
+            this.$refs.wayPicker.open();
+        },
+        handleWayConfirm(val){
+            console.log(val);
+            this.form.BKE200 = val.value;
+            this.BKE200VALUE = val.label;
+        },
         // 查看大图
         showBigPhoto(val){
             this.imgUrl = val;
@@ -284,6 +360,28 @@ export default {
                 this.$store.dispatch('SET_SMALL_REIM_2',SET_SMALL_REIM_2)
             this.$router.push('/plusInvoice');
         },
+        // 获取邮寄信息
+        getMailInfo(){
+            let submitForm = {}
+            // 加入电子社保卡号
+            submitForm.code = sessionStorage.getItem("GinsengLandCode")//统筹区编码
+            this.$axios.post(this.epFn.ApiUrl() + '/H5/jy0005/getAreaList', submitForm).then((resData) => {
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {
+                    console.log("结果111",resData)
+                     this.params.AAE009 = resData.code.organizationName //收件人
+                     this.params.AAE005 = resData.code.organizationPhone  //手机号码
+                     this.params.AAE006 = resData.code.organizationAddress   //详细地址
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    // this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
         submit(){
             if(!this.picArr.length){
                 this.$toast('请上传附件信息');
@@ -296,6 +394,7 @@ export default {
                 let submitForm = JSON.parse(JSON.stringify(this.$store.state.SET_SMALL_REIM_SUBMIT));
                 submitForm.BKC013 = this.invoiceCount.count;
                 submitForm.AKC264 = this.invoiceCount.price;
+                submitForm.BKE200 = this.form.BKE200;
                 this.$store.dispatch('SET_SMALL_REIM_SUBMIT', submitForm);
 
                 let SET_SMALL_REIM_2 = this.$store.state.SET_SMALL_REIM_2
@@ -330,24 +429,19 @@ export default {
                 padding-top: .4rem;
             }
             .invoiceList{
-                height: 3.3rem;
-                background: #FFF;
-                border-bottom: .02rem solid #D3D3D3;
+                position: relative;
+                height: 2.5rem;
+                border-bottom: .01rem solid #D3D3D3;
                 display: flex;
-                justify-content: space-around;
                 align-items: center;
                 .selectIcon{
-                    height: .4rem;
-                    width: .4rem;
-                    border-radius: .2rem;
-                    background: #D8D8D8;
-                    position: relative;
+                    width: .99rem;
+                    height: 1.99rem;
+                    padding: .257rem 0;
+                    border-right: .01rem solid  #D3D3D3;
                     .svg-icon{
-                        position: absolute;
-                        height: .4rem;
                         width: .4rem;
-                        top: 0;
-                        left: 0;
+                        height: .4rem;
                     }
                 }
                 .columnLine{
@@ -356,27 +450,35 @@ export default {
                     background: #D3D3D3;
                 }
                 .textBox{
-                    height: 2rem;
-                    width: 3rem;
+                    padding: .47rem 0 0.1rem 0 ;
+                    height: 2.5rem;
+                    width: 6.08rem;
                     display: flex;
                     flex-direction: column;
-                    justify-content: space-around;
                     .textLine{
                         display: flex;
-                        .textName{
-                            width: 1.3rem;
+                        margin-left: .45rem;
+                        .textInfoNumber{
                             font-size: .28rem;
+                            color: #1492FF;
+                        }
+                        .textName{
+                            width: 1.4rem;
+                            font-size: .28rem;
+                            text-align: left;
                             color: #666666;
                             letter-spacing: 0;
-                            text-align: left;
                         }
                         .textInfo{
                             font-size: .28rem;
                             color: #000000;
                             letter-spacing: 0;
                         }
-                        .active{
-                            color: #1492FF;
+                        &:nth-child(2){
+                            margin-top: .35rem;
+                        }
+                        &:nth-child(3){
+                            margin-top: .36rem;
                         }
                     }
                 }
@@ -405,28 +507,43 @@ export default {
             }
             .invoiceList{
                 position: relative;
-                height: 3.35rem;
-                border-bottom: .02rem solid #D3D3D3;
+                height: 2.5rem;
+                border-bottom: .01rem solid #D3D3D3;
                 display: flex;
                 align-items: center;
-                .invoicePhoto{
-                    height: 1.5rem;
-                    width: 1.5rem;
-                    background: #D8D8D8;
-                    .pic{
-                        width: 1.5rem;
-                        height: 1.5rem;
+                // .invoicePhoto{
+                //     height: 1.5rem;
+                //     width: 1.5rem;
+                //     background: #D8D8D8;
+                //     .pic{
+                //         width: 1.5rem;
+                //         height: 1.5rem;
+                //     }
+                // }
+                .choose{
+                    width: .99rem;
+                    height: 1.99rem;
+                    padding: .257rem 0;
+                    border-right: .01rem solid  #D3D3D3;
+                    .svg-icon{
+                        width: .4rem;
+                        height: .4rem;
                     }
                 }
                 .textBox{
-                    height: 1.5rem;
-                    width: 5rem;
+                    padding: .47rem 0 0.1rem 0 ;
+                    height: 2.5rem;
+                    width: 7.1rem;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
                     .textLine{
                         display: flex;
-                        margin-left: .28rem;
+                        margin-left: .45rem;
+                        .textInfoNumber{
+                            font-size: .28rem;
+                            color: #1492FF;
+                        }
                         .textName{
                             width: 1.4rem;
                             font-size: .28rem;
@@ -439,21 +556,39 @@ export default {
                             color: #000000;
                             letter-spacing: 0;
                         }
+                        .deleteBtn{
+                            display: inline-block;
+                            margin-left: 1.4rem;
+                            height: .6rem;
+                            width: .6rem;
+                            text-align: center;
+                            position: relative;
+                            right: 0;
+                            font-size: .28rem;
+                            color: #1492FF;
+                            letter-spacing: 0;
+                            .svg-icon{
+                                position: relative;
+                                height: .6rem;
+                                width: .6rem;
+                                top:-.1rem;
+                            }
+                        }
                     }
                 }
-                .deleteBtn{
-                    position: absolute;
-                    bottom: .3rem;
-                    right: .37rem;
-                    height: .6rem;
-                    line-height: .6rem;
-                    width: 1.1rem;
-                    border: .01rem solid #1492FF;
-                    border-radius: .05rem;
-                    font-size: .28rem;
-                    color: #1492FF;
-                    letter-spacing: 0;
-                }
+                // .deleteBtn{
+                //     position: absolute;
+                //     bottom: .3rem;
+                //     right: .37rem;
+                //     height: .6rem;
+                //     line-height: .6rem;
+                //     width: 1.1rem;
+                //     border: .01rem solid #1492FF;
+                //     border-radius: .05rem;
+                //     font-size: .28rem;
+                //     color: #1492FF;
+                //     letter-spacing: 0;
+                // }
                 &:last-child{
                     border-bottom: none;
                 }
@@ -470,10 +605,132 @@ export default {
             }
         }
     }
+    //提示标语
+    .Hint{
+        width: 100%;
+        height: .68rem;
+        font-family: PingFangSC-Regular;
+        font-size: .24rem;
+        text-align: left;
+        background: rgba(255,160,7, .1);
+        
+        i{
+          letter-spacing: 0;
+          margin-right: .2rem;
+
+        }
+        .HintText{
+            letter-spacing: 0;
+            line-height: .68rem;
+            margin-left: .2rem;
+            color: #FFA007;
+        }
+    }
+    //选取方式
+    .GetInfo{
+        width: 100%;
+        margin-top: .15rem;
+        padding: 0 .3rem;
+        background: white;
+        .InfoLine{
+            height: 1.2rem;
+            position: relative;
+            font-size: .28rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: .01rem solid #D5D5D5;
+            .InfoName{
+                color: #000000;
+                line-height: 1.2rem;
+                letter-spacing: 0;
+            }
+            .InfoText {
+                line-height: 1.2rem;
+                display: flex;
+                position: relative;
+                align-items: center;
+                input {
+                    width: 4rem;
+                    height: .6rem;
+                    font-size: .28rem;
+                    color: #000000;
+                    letter-spacing: 0;
+                    text-align: right;
+                    border: none;
+                }
+            }
+            &:last-child{
+                border-bottom: none;
+            }
+        }
+    }
+    //邮寄信息
+    .MailInfo{
+        width: 100%;
+        padding: 0 .28rem;
+        background: white;
+        .InfoLine{
+            height: 1.2rem;
+            position: relative;
+            font-size: .28rem;
+            display: flex;
+            justify-content: space-between;
+            .InfoName{
+                line-height: 1.2rem;
+                span{
+                    height: .6rem;
+                    line-height: .6rem;
+                    color: #000000;
+                    letter-spacing: 0;
+                }
+            }
+            .InfoText {
+                line-height: 1.2rem;
+                display: flex;
+                position: relative;
+                align-items: center;
+                input {
+                    width: 4rem;
+                    height: .6rem;
+                    font-size: .28rem;
+                    color: #000000;
+                    letter-spacing: 0;
+                    text-align: right;
+                    border: none;
+                }
+            }
+            &:last-child{
+                height: 1.6rem;
+                border-bottom: none;
+                .InfoText{
+                    display: flex;
+                    align-items: center;
+                }
+                textarea{
+                    width: 5rem;
+                    height: .84rem;
+                    font-size: .3rem;
+                    color: #000000;
+                    line-height: .42rem;
+                    text-align: right;
+                }
+            }
+        }
+        .InfoLineAdress{
+            border:1px solid #ccc;
+            border-bottom:1px solid #ccc!important;
+            width:100%;
+            margin-top:-1px;
+            textarea{
+                width: 100%;
+                text-align: left !important;
+            }
+        }
+    }
     // 资料上传
     .dataUpload{
         background: #FFF;
-        margin: .16rem 0 1.4rem 0;
+        margin: 0 0 1.4rem 0;
         padding: .37rem .4rem;
         .picWrap{
             display: flex;
