@@ -111,13 +111,17 @@ const webpackConfig = merge(baseWebpackConfig, {
       children: true,
       minChunks: 3
     }),
-
+    // ../../static/zjybapp-static-h5
     // copy custom static assets
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      {
+        from: path.join(__dirname, "../nginx.conf"),
+        to: path.join(__dirname, "../../static/zjybapp-static-h5")
       }
     ])
   ]

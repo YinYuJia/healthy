@@ -26,6 +26,7 @@
             console.log('identifier-----', identifier)
             console.log('type-----', type)
             console.log('aga001-----', aga001)
+            
             dd.ready({
                     developer: 'daip@dtdream.com',
                     usage: [
@@ -37,10 +38,11 @@
                     dd.biz.user.getUserType({
                         onSuccess: (data) => {
                             // 如果是0 或者1 那么是个人登录
+                            console.log('data',data)
+                            
                             if (data.userType == '0' || data.userType == '1') {
                                 console.log("个人登录", data);
-                                return;
-                                // window.location.href = 'https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode=yibaozs&goto=epsoft=1|aga001=' + aga001 + '|userType=' + userType + '|type=' + type + '|identifier=' + identifier
+                                window.location.href = 'https://puser.zjzwfw.gov.cn/sso/mobile.do?action=oauth&scope=1&servicecode=yibaozs&goto=epsoft=1|aga001=' + aga001 + '|userType=' + userType + '|type=' + type + '|identifier=' + identifier
                             } else if (data.userType == '2') {
                                 console.log("法人登录", data);
                                 // return;
