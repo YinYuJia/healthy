@@ -21,6 +21,7 @@
         </div>
       </div>
       <div class="SearchInfo" v-if="visible==true">
+        <div class="InfoLine">
           <div class="InfoName"><span>子女缴费证明</span></div>
           <div class="InfoText">
             <div class="InfoText"><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
