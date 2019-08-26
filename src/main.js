@@ -138,39 +138,6 @@ Object.keys(filters).forEach(key => { //过滤器
 // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
-function paramStr(name) {
-  var url = window.location.href || window.location.hash
-  var after = url.split("?")[1];
-  if (after) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    var r = after.match(reg);
-    if (r != null) {
-      var a = '8afac8196b0b9ab2016b46f1c6e36c4e-ticket#/';
-      var str1 = decodeURIComponent(r[2])
-      var str = ''
-      if (str1.substr(str1.length - 2, 2) == '#/') {
-        str = str1.substr(0, str1.length - 2)
-        return str
-      } else {
-        return decodeURIComponent(r[2])
-      }
-    } else {
-      return null;
-    }
-  }
-}
-
-function ApiUrl() {
-  // return 'http://10.85.159.203:13030' // 吴学文
-  console.log('process.env.NODE_ENV', process.env.NODE_ENV)
-  if (process.env.NODE_ENV == 'development') {
-    return 'http://47.98.48.185:8000/api/api' //服务器
-    // return 'http://192.168.1.189:13030' //吴学文
-  } else {
-    return ''
-  }
-}
-
 import Vconsole from 'vconsole';
 var vConsole = new Vconsole()
 export default vConsole;
@@ -178,9 +145,6 @@ export default vConsole;
 console.log('------欢迎进入APP首页main.js---20190715__01---')
 // 1  网新恩普包  2  浙理办包
 Vue.prototype.$build = "1"
-
-// document.addEventListener('JSBridgeReady',function () {
-
   new Vue({
     el: '#app',
     store,
@@ -190,7 +154,7 @@ Vue.prototype.$build = "1"
     },
     template: '<App/>'
   })
-//  },false)
+
 
 
 

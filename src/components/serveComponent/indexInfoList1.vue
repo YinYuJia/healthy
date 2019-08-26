@@ -78,6 +78,9 @@
                 </div>
                 <div class="imgBox"><img :src=item.src></div>
             </div>
+            <div class="moreInfo" v-if="showMoreInfoBtn">
+                <span @click="goDetail('more')">更多内容<svg-icon icon-class="serveComponent_arrowLineRight"/></span>
+            </div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeUsername(true)">更改用户名</div>
@@ -106,7 +109,7 @@
                 name: "",
                 lat: "",
                 lng: "",
-                ifShow: true,
+                ifShow: false,
                 tel: "0571-88808880",
                 imgurl: "",
                 hotMsg: [],
@@ -115,6 +118,7 @@
                 iconList: [], //图标列表,
                 isVisible: false,
                 isClear: true,
+                showMoreInfoBtn: false, //更多咨询按钮
             }
         },
         mounted() {
@@ -141,14 +145,9 @@
         //     }
         // },
         created() {
-            
             // 判断登录状态
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
-            // const ssoToken = this.util.paramStr("ssoToken")
-            // if (ssoToken != 'undefined' && ssoToken != null && ssoToken != '') {
-            //     this.$router.push("/indexInfoList")
-            // }
             // 清空零星报销的Vuex
             console.log('获取token', sessionStorage.getItem('getToken'))
             let SET_SMALL_REIM_SUBMIT = {
@@ -198,7 +197,7 @@
                         onSuccess: (data) => {
                             console.log("获取用户类型------", data.userType)
                             sessionStorage.setItem("userType", data.userType)
-                            if( data.userType == '2') {
+                            if (data.userType == '2') {
                                 this.$router.push("/indexInfoList")
                             }
                         },
@@ -225,73 +224,16 @@
                                 console.log("data获取用户类型", data)
                                 // 如果是0 或者1 那么是个人登录
                                 if (data.userType == '0' || data.userType == '1') {
-                                    // url事项配置截取url参数方法  ------开始
-                                    var sp = this.util.paramStr('sp')
-                                    console.log(sp == undefined)
-                                    if (sp != "" && sp != undefined && sp != null) {
-                                        const arr1 = sp.split("|")
-                                        let obj = {}
-                                        arr1.map((item, index) => {
-                                            console.log(item.split("=")[0] + '------' + item.split("=")[1])
-                                            console.log()
-                                            obj[item.split("=")[0]] = item.split("=")[1]
-                                        })
-                                        console.log('obj---', obj)
-                                        // url事项配置截取url参数方法  ------结束 如果有存入对象
-                                        sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
-                                    } else {
-                                        // 如果没有 对象存空
-                                        sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
-                                    }
-                                    // ------------事项url配置截取sp分成对象保存到session里面---------end
-                                    console.log('---globalConfigObj---', sessionStorage.getItem("globalConfigObj"))
+                                    //  获取事项url参数方法
                                     const code = 'yibaozs';
                                     console.log('code', code)
-                                    // var ticket = paramStr("ticket") || "8afac0cc6b84c4aa016b8e7fb4662798-ticket";
                                     var ticket = this.util.paramStr("ticket");
                                     console.log('ticket-------------', ticket)
                                     var token = sessionStorage.getItem("getToken")
                                     console.log('token-------------', token)
                                     //如果有token直接请求用户信息
                                     if (token != "" && token != 'undefined' && token != null) {
-                                        this.$axios.post(this.ApiUrl() + "/H5/jy2005/info", {
-                                            "token": token,
-                                            "tradeCode": "2005"
-                                        }).then(result2 => {
-                                            console.log(6)
-                                            console.log('result2-----------------', result2)
-                                            if (result2.result == "0") {
-                                                sessionStorage.setItem("userName", result2.username)
-                                                sessionStorage.setItem("idCard", result2.idnum)
-                                                console.log('userName', result2.username)
-                                                console.log('idCard', result2.idnum)
-                                                // 个人登录
-                                                console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
-                                                var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
-                                                if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '') {
-                                                    // 证明不是url事项配置 走正常逻辑
-                                                    this.ifShow = false; //隐藏输入人名社保卡
-                                                    this.setNativeMsg(); //浙理办打包需要打开
-                                                    this.getUserRegion(); // 自动获取参保地
-                                                } else {
-                                                    if (globalConfigObj.userType == undefined) {
-                                                        // 证明不是url事项配置 走正常逻辑
-                                                        this.ifShow = false; //隐藏输入人名社保卡
-                                                        this.setNativeMsg(); //浙理办打包需要打开
-                                                        this.getUserRegion(); // 自动获取参保地
-                                                    } else {
-                                                        // url事项配置 跳转路由
-                                                        this.$router.push({
-                                                            name: globalConfigObj.identifier,
-                                                            params: globalConfigObj
-                                                        })
-                                                    }
-                                                }
-                                            } else {
-                                                MessageBox.alert(result2.errmsg);
-                                                return;
-                                            }
-                                        })
+                                        this.getTokenInfo(token)
                                     } else {
                                         // 如果有ticket 直接用ticket 换取token  再用token 获取用户信息
                                         if (ticket != "" && ticket != undefined && ticket != null) {
@@ -303,48 +245,12 @@
                                                 console.log('result0----------------------', result0)
                                                 if (result0.result == "0") {
                                                     sessionStorage.setItem("getToken", result0.token)
+                                                    this.getTokenInfo(result0.token)
                                                 } else {
                                                     MessageBox.alert(result0.errmsg);
                                                     return;
                                                     // return;
                                                 }
-                                                this.$axios.post(this.ApiUrl() + "/H5/jy2005/info", {
-                                                    "token": result0.token,
-                                                    "tradeCode": "2005"
-                                                }).then(result1 => {
-                                                    console.log(5)
-                                                    console.log('result1------------------', result1)
-                                                    if (result1.result == "0") {
-                                                        sessionStorage.setItem("userName", result1.username)
-                                                        sessionStorage.setItem("idCard", result1.idnum)
-                                                        console.log('userName', result1.username)
-                                                        console.log('idCard', result1.idnum)
-                                                        // 个人登录
-                                                        console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
-                                                        var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
-                                                        if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '') {
-                                                            // 证明不是url事项配置 走正常逻辑
-                                                            this.ifShow = false; //隐藏输入人名社保卡
-                                                            this.setNativeMsg(); //浙理办打包需要打开
-                                                            this.getUserRegion(); // 自动获取参保地
-                                                        } else {
-                                                            if (globalConfigObj.userType == undefined) {
-                                                                // 证明不是url事项配置 走正常逻辑
-                                                                this.ifShow = false; //隐藏输入人名社保卡
-                                                                this.setNativeMsg(); //浙理办打包需要打开
-                                                                this.getUserRegion(); // 自动获取参保地
-                                                            } else {
-                                                                // url事项配置 跳转路由
-                                                                this.$router.push({
-                                                                    name: globalConfigObj.identifier,
-                                                                    params: globalConfigObj
-                                                                })
-                                                            }
-                                                        }
-                                                    } else {
-                                                        MessageBox.alert(result1.errmsg);
-                                                    }
-                                                })
                                             });
                                         } else {
                                             console.log(3)
@@ -360,7 +266,6 @@
                                     // 如果 userType = 2 那么是法人登录
                                     // ----------------------获取事项配置url开始---------------------
                                     this.$router.push("/indexInfoList")
-                                    
                                 }
                             },
                             onFail: (error) => {
@@ -388,7 +293,63 @@
             }
         },
         methods: {
-            
+            // 事项配置url把参数转成对象
+            globalConfigObj() {
+                // url事项配置截取url参数方法  ------开始
+                var sp = this.util.paramStr('sp')
+                console.log(sp == undefined)
+                if (sp != "" && sp != undefined && sp != null) {
+                    const arr1 = sp.split("|")
+                    let obj = {}
+                    arr1.map((item, index) => {
+                        console.log(item.split("=")[0] + '------' + item.split("=")[1])
+                        console.log()
+                        obj[item.split("=")[0]] = item.split("=")[1]
+                    })
+                    console.log('obj---', obj)
+                    // url事项配置截取url参数方法  ------结束 如果有存入对象
+                    sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
+                } else {
+                    // 如果没有 对象存空
+                    sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
+                }
+                // ------------事项url配置截取sp分成对象保存到session里面---------end
+                console.log('---globalConfigObj---', sessionStorage.getItem("globalConfigObj"))
+                console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
+                var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
+                if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '') {
+                    // 证明不是url事项配置 走正常逻辑
+                    this.ifShow = false; //隐藏输入人名社保卡
+                    this.setNativeMsg(); //浙理办打包需要打开
+                    this.getUserRegion(); // 自动获取参保地
+                } else {
+                    // url事项配置 跳转路由
+                    this.$router.push({
+                        name: globalConfigObj.identifier,
+                        params: globalConfigObj
+                    })
+                }
+            },
+            // 用token获取人员信息方法
+            getTokenInfo(token) {
+                this.$axios.post(this.ApiUrl() + "/H5/jy2005/info", {
+                    "token": token,
+                    "tradeCode": "2005"
+                }).then(result1 => {
+                    console.log(5)
+                    console.log('result1------------------', result1)
+                    if (result1.result == "0") {
+                        sessionStorage.setItem("userName", result1.username)
+                        sessionStorage.setItem("idCard", result1.idnum)
+                        console.log('userName', result1.username)
+                        console.log('idCard', result1.idnum)
+                        // 个人登录
+                        this.globalConfigObj()
+                    } else {
+                        MessageBox.alert(result1.errmsg);
+                    }
+                })
+            },
             //弹窗登录
             loginIn() {
                 if (this.epPasword == 'epsoft') {
@@ -435,13 +396,18 @@
             },
             // 资讯跳转详情
             goDetail(item) {
-                console.log("item:", item)
-                this.$router.push({
-                    path: "/goDetail",
-                    query: {
-                        param: item
-                    }
-                })
+                if (item == 'more') {
+                    this.$router.push({
+                        path: '/moreHotMsg'
+                    })
+                } else {
+                    this.$router.push({
+                        path: "/goDetail",
+                        query: {
+                            param: item
+                        }
+                    })
+                }
             },
             // 跳转配置的地址
             jumpToUrl(url, status) {
@@ -470,7 +436,7 @@
                     }
                 }
             },
-            //动态获取事项信息
+            //获取图标列表
             getMatterInfo(code) {
                 let params = {
                     "areaId": code,
@@ -480,6 +446,11 @@
                     console.log('获取区域事项', resData)
                     let resList = resData.list;
                     console.log('图标sdk成功')
+                    if( resList.length == 0 ) {
+                        this.isTips = true
+                    }else{
+                        this.isTips = false
+                    }
                     let iconList = [];
                     let userType = sessionStorage.getItem('userType')
                     if (userType == 1 || userType == 0) {
@@ -508,28 +479,30 @@
                     return ''
                 }
             },
-            // ·列表
+            // 获取咨询列表
             getNewsInfo(code) {
-                let _this = this;
                 let userType = sessionStorage.getItem('userType')
                 let params = {
                     "areaId": code,
-                    "statusType": userType //1代表个人2代表单位
+                    "statusType": userType, //1代表个人2代表单位
+                    "pageNum": "1",
+                    "pageSize": "3"
                 };
-                _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
-                    console.log('resData', resData)
+                this.$axios.post(this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
                     if (this.isClear == true) {
                         sessionStorage.setItem('isClear', true)
                     } else if (this.isClear == false) {
                         sessionStorage.setItem('isClear', true)
                     }
-                    _this.hotMsg = resData.list;
-                    console.log("hotMsg", _this.hotMsg)
-                    _this.hotMsg.forEach(ele => {
+                    this.hotMsg = resData.list;
+                    this.hotMsg.forEach(ele => {
                         ele.src = ele.synopsisUrl;
                     })
-                    this.hotMsg.slice(0, 5);
-                    console.log('获取资讯列表', _this.hotMsg);
+                    if (resData.list.length > 2) {
+                        this.showMoreInfoBtn = true
+                    }
+                    this.hotMsg = this.hotMsg.slice(0, 2);
+                    console.log('获取资讯列表', this.hotMsg);
                 })
             },
             // 跑马灯效果
@@ -676,7 +649,7 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                   this.$router.push(route);
+                this.$router.push(route);
             },
             setNativeMsg() {
                 this.$store.dispatch('SET_NATIVEMSG', {
@@ -717,10 +690,8 @@
                             this.getNewsInfo(sessionStorage.getItem("GinsengLandCode"));
                             if (sessionStorage.getItem("GinsengLandCode") == "339900") {
                                 this.iconFlag = true; //省本级设置为true
-                                this.isTips = false
                             } else {
                                 this.iconFlag = false; //其他情况设置为false
-                                this.isTips = true
                             }
                         } else {
                             dd.ready({
@@ -1007,8 +978,7 @@
         } // 图标区域
         .iconContent {
             // height: 4.74rem;
-            background: #FFF;
-            // padding: 1.8rem .2rem 0 .2rem;
+            background: #FFF; // padding: 1.8rem .2rem 0 .2rem;
             padding: 1.4rem .2rem 0 .2rem;
             .iconList {
                 display: -webkit-box;
@@ -1160,6 +1130,17 @@
                         width: 100%;
                         border-radius: .05rem
                     }
+                }
+            }
+            .moreInfo {
+                height: 1.1rem;
+                padding-top: .26rem;
+                span {
+                    display: block;
+                    font-size: .28rem;
+                    color: #999999;
+                    letter-spacing: 0;
+                    line-height: .36rem;
                 }
             }
         }

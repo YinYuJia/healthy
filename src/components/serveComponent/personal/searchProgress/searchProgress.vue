@@ -221,6 +221,7 @@
                 let submitForm = {};
                 submitForm.BOD037 = this.BOD037 //办件状态
                 submitForm.pageNum = this.pageNum //页码
+                submitForm.BKE520 = "1" //申请渠道为1，APP端
                 // 加入用户名和电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;

@@ -44,15 +44,15 @@
                 <div class="InfoLine" v-if="printType=='person'">
                     <div class="InfoName"><span>查询月数：</span></div>
                     <div class="InfoText">
-                        <input @click="openMonthPicker()" readonly type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <input @click="openMonthPicker()" type="text" v-model="AAE011VALUE" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
-                <div class="InfoLine" v-if="printType=='all'">
+                <!-- <div class="InfoLine" v-if="printType=='all'">
                     <div class="InfoName"><span>查询年度：</span></div>
                     <div class="InfoText">
                         <input  type="text" readonly="quotreadolyquot" v-model="AAE012VALUE" placeholder="请选择" >
                     </div>
-                </div>
+                </div> -->
                 <div class="InfoLine" v-if="printType=='record'">
                     <div class="InfoName"><span>查询年度：</span></div>
                     <div class="InfoText">
@@ -65,6 +65,10 @@
                         <input type="text" readonly="quotreadolyquot" v-model="AAE014VALUE" placeholder="请输入">
                     </div>
                 </div> -->
+            </div>
+            <!-- 提示 -->
+            <div class="Hint" v-if="printType=='record'">
+                <div class="HintTitle"><i class="el-icon-warning" style="color:#05AEF0"></i>仅供查询上一年度</div>
             </div>
         </div>
         <!-- 按钮 -->
@@ -335,6 +339,25 @@ export default {
                         border-bottom: none;
                     }
                 }
+        }
+        .Hint{
+            margin-top: .45rem;
+            padding: 0 .3rem;
+            opacity: 0.45;
+            font-family: PingFangSC-Regular;
+            font-size: .24rem;
+            color: #f00;
+            text-align: left;
+            .HintTitle{
+                i{
+                    margin-right: .2rem;
+                    letter-spacing: 0;
+                }
+            }
+            .HintText{
+                margin-top: .28rem;
+                letter-spacing: 0;
+            }
         }
     }
 }

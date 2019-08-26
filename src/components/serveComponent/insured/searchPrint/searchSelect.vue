@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-     <div class="SearchInfo">
+     <div class="SearchInfo" v-if="visible==true">
         <div class="InfoLine" @click="goPrint('all')">
           <div class="InfoName"><span>参保（合）凭证（仅限医保转移）</span></div>
           <div class="InfoText">
@@ -20,15 +20,15 @@
           </div>
         </div>
       </div>
-      <div class="SearchInfo">
-        <div class="InfoLine" @click="goPrint('child')">
+      <div class="SearchInfo" v-if="visible==true">
+        <div class="InfoLine"  @click="submit">
           <div class="InfoName"><span>子女缴费证明</span></div>
           <div class="InfoText">
             <div class="InfoText"><svg-icon icon-class="serveComponent_arrowRight"></svg-icon></div>
           </div>
         </div>
       </div>
-      <div class="SearchInfo">
+      <div class="SearchInfo" v-if="visible==true">
         <div class="InfoLine" @click="goPrint('record')">
           <div class="InfoName"><span>个人权益记录单</span></div>
           <div class="InfoText">
@@ -44,17 +44,40 @@
   export default {
     data(){
       return{
-
+        visible: true
       }
     },
     watch:{
     },
     created () {
-      this.epFn.setTitle('医保证明')
+      this.epFn.setTitle('医保证明');
+       if (this.$build == '2') {
+         this.visible = false
+         }
     },
     methods:{
       goPrint(item) {
         this.$router.push({path:'/searchPrint', query:{printType: item}})
+      },
+      submit() {
+        let AAC002 = sessionStorage.getItem("idCard") 
+            console.log("AAC:", AAC002)
+            this.$axios.post(this.epFn.ApiUrl() + '/H5/jy0003/getAreaList', {
+                AAC002: AAC002,
+                trade: '9027'
+            })
+                    .then((resData) => {
+                        console.log(resData);
+                        sessionStorage.setItem("searchPrintData",JSON.stringify(resData))
+                        if(resData.enCode==1000){
+                            this.$router.push('/insuredDownload');
+                        }else if(resData.enCode==1001){
+                            this.$toast(resData.msg)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
       }
     }
   }

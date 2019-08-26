@@ -52,7 +52,7 @@
               <span>联系电话：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE005" type="tel" maxlength="11" placeholder="请输入"  />
+              <input v-model="form.AAE005" type="tel" maxlength="13" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
