@@ -50,6 +50,21 @@
             this.epFn.setTitle('家庭共济')
         },
         methods: {
+            // getList() {
+            //          this.$axios.post(this.epFn.ApiUrl()+'h5/jy9107/getList', AAE135).then((resData) => {
+            //         console.log('返回家庭列表', resData)
+            //         if(resData.enCode == 1000) {
+            //             this.itemGroup = resData
+            //         } else if (resData.enCode == 1001 ) {
+            //         //   失败  1001
+            //             this.$toast(resData.msg);
+            //             return;
+            //         }else{
+            //             this.$toast('业务出错');
+            //             return;
+            //         }
+            //     })
+            // },
             remove(item) {
                 this.dialogVisible = true;
                 console.log("name:", item)
