@@ -203,16 +203,12 @@
             padding: 0 .37rem;
             background: white;
             .NoInfo{
-                    width: .8rem;
-                    margin: auto;
-                    text-align: center;
-                    height: 30rem;
-                    padding-top: 4rem;
                     .svg-icon{
                         height: 3.8rem;
                         width: 3.8rem;
                         left: 50%;
                         margin-left: -1.9rem;
+                        padding-top: 4rem;
                         position: absolute;
                     }
                     .Text{
@@ -223,6 +219,8 @@
                         left: 50%;
                         margin-left: -1.5rem;
                         position: absolute;
+                        padding-top: 8rem;
+
                     }
                 }
             .ListLine {
