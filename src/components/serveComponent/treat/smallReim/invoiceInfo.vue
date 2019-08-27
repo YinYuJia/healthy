@@ -158,8 +158,8 @@ export default {
             picArrNum: [],//附件图片id集合
             invoiceCount: {price:0,count:0}, // 发票合计
             BKE200s: [
-                {value: '1',label: '自送'},
-                {value: '2',label: '邮寄'}
+                {value: '1',label: '邮寄'},
+                {value: '2',label: '自送'}
             ],
             showMail:false,
             BKE200VALUE:"自送",//邮寄方式中文
@@ -213,7 +213,7 @@ export default {
             this.invoiceCount.count = index
             this.invoiceCount.price = price
         }
-        this.form.BKE200='1'//邮寄方式默认为自送
+        this.form.BKE200='2'//邮寄方式默认为自送
         console.log('发票',this.invoices);
     },
     watch: {
