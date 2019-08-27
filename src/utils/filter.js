@@ -236,9 +236,8 @@ export function AKC423( val ) {
 //零星报销邮寄方式
 export function BKE200( val ) {
   let obj = {
-    "1": "自送",
-    "2": "邮寄",
-
+    "1": "邮寄",
+    "2": "自送",
   }
   return obj[val]
 }
