@@ -42,6 +42,10 @@
                     <div class="InfoName"><span>手机号码:</span></div>
                     <div class="InfoText"><span>{{form3.AAE005|tuoMin(3,4)}}</span></div>
                 </div>
+               <div class="InfoLine">
+                    <div class="InfoName"><span>发票提交方式:</span></div>
+                    <div class="InfoText"><span>{{form3.BKE200|BKE200}}</span></div>
+                </div>
             </div>
             <!-- 发票信息 -->
             <div class="invoiceContent" v-if="!invoiceComplete">

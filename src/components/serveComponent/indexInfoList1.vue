@@ -160,6 +160,7 @@
                 BKC013: '', //发票张数
                 AKB020: '', //机构编码（医院编码）
                 AAE005: '', //手机号码
+                BKE200: ''//邮寄方式
             }
             this.$store.dispatch('SET_SMALL_REIM_SUBMIT', SET_SMALL_REIM_SUBMIT)
             let SET_SMALL_REIM_1 = {

@@ -55,7 +55,8 @@ export default {
                 AKC264: '', //发票金额
                 AAE036: '', //发票日期,
                 photoId: '',//图片id
-                photoUrl:''//图片URL
+                photoUrl:'',//图片URL
+                selected:true
             },
             canSubmit: false
         }
@@ -179,6 +180,7 @@ export default {
                                         // 获取图片
                                         This.form.photoUrl = data.picPath[0]
                                         This.form.photoId = resData.photoId
+                                        This.form.selected=true//默认选中的变量
                                     }else if (resData.enCode == 1001 ) {
                                     //   失败  1001
                                         This.$toast(resData.msg);
