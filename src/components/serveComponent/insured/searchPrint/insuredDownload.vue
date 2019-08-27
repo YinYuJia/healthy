@@ -20,7 +20,7 @@
             }
         },
         created() {
-            this.epFn.setTitle('打印参保证明')
+            this.epFn.setTitle('子女缴费证明')
             console.log(JSON.parse(sessionStorage.getItem("searchPrintData")))
             const data = JSON.parse(sessionStorage.getItem("searchPrintData"))
             if (data.enCode == 1000) {
