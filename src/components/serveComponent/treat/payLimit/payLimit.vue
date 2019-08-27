@@ -87,7 +87,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>退休工资</span></div>
-                    <div class="InfoText"><input type="tel"  @blur="setMoney"  v-model="form.AAE041" placeholder="请输入">元</div>
+                    <div class="InfoText"><input type="number"  @blur="setMoney"  v-model="form.AAE041" placeholder="请输入">元</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName">
