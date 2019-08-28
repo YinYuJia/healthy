@@ -80,7 +80,7 @@
                         for(let i = 0;i < this.itemGroup.length; i++) {
                             if(this.itemGroup[i] != ''){
                                 this.noInfo = false;
-                                breakl
+                                break;
                             }
                         }
                         if(this.itemGroup.length == 0) {
