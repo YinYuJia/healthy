@@ -144,11 +144,6 @@ export default {
                     // console.log("resData.LS_DS.length",resData.LS_DS.length)
                     if (resData.LS_DS.length > 0 ) {
                        this.currentStep = Number(resData.LS_DS[0].BOD037)
-                       if(this.currentStep==5){
-                           this.currentStep=4
-                       }else if(this.currentStep==4){
-                           this.currentStep=3
-                       } 
                     }else{
                         this.$toast("暂无状态信息")
                     }

@@ -14,20 +14,22 @@
                         <svg-icon icon-class="noInfo"></svg-icon>
                         <div class="Text">暂无信息</div>
                     </div>
-                    <li class="ListLine" v-for="(item,index) in itemGroup" :key="index" >
-                        <div class="InfoName">
-                            <div class="info">
-                            <div style="display: flex;">
-                            <div class="InfoHead">{{item.BAC003}}</div>
-                            <div class="InfoText1" v-if="item.AAE144 == '配偶'">{{item.AAE144}}</div>
-                            <div class="InfoText2" v-if="item.AAE144 == '子女'">{{item.AAE144}}</div>
-                            <div class="InfoText3" v-if="item.AAE144 == '父母'">{{item.AAE144}}</div>
+                    <div v-for="(item,index) in itemGroup" :key="index">
+                        <li class="ListLine" v-if="item != ''">
+                            <div class="InfoName">
+                                <div class="info">
+                                <div style="display: flex;">
+                                <div class="InfoHead">{{item.BAC003}}</div>
+                                <div class="InfoText1" v-if="item.AAE144 == '配偶'">{{item.AAE144}}</div>
+                                <div class="InfoText2" v-if="item.AAE144 == '子女'">{{item.AAE144}}</div>
+                                <div class="InfoText3" v-if="item.AAE144 == '父母'">{{item.AAE144}}</div>
+                                </div>
+                                <div class="InfoDate">开始时间：{{item.AAE030}}</div>
+                                </div>
+                                <div class="remove" @click="remove(item.BAC003)">解绑</div>
                             </div>
-                            <div class="InfoDate">开始时间：{{item.AAE030}}</div>
-                            </div>
-                            <div class="remove" @click="remove(item.BAC003)">解绑</div>
-                        </div>
-                    </li>
+                        </li>
+                    </div>
                 </ul>
                 <Footer :canSubmit='canSubmit' @submit="add()" btnText="添加解绑人员"></Footer>
         </div>
@@ -46,7 +48,7 @@
                 AAE135: '',
                 AAE011: '',
                 submitForm: {},
-                noInfo: false
+                noInfo: true
             }
         },
         created() {
@@ -64,12 +66,22 @@
                     console.log('返回家庭列表', resData)
                     if (resData.enCode == 1000) {
                         this.itemGroup = [...this.itemGroup, ...resData.LS_DS];
-                        for ( let i = 0;i < this.itemGroup.length; i++) {
-                            this.itemGroup[i].AAE030 = this.util.NumberToDate(this.itemGroup[i].AAE030)
+                        for ( let i = 0;i < resData.LS_DS.length; i++) {
+                            resData.LS_DS[i].AAE030 = this.util.NumberToDate(resData.LS_DS[i].AAE030);
+                            this.itemGroup[i].AAE030 = resData.LS_DS[i].AAE030
+                        }
+                       console.log("list1----:", this.itemGroup)
+                        for(let i = 0;i < this.itemGroup.length; i++) {
                             if (this.itemGroup[i].AAE100 == '无效') {
-                                this.itemGroup.splice(i, 1);
+                                console.log('无效')
+                                this.itemGroup.splice(i, 1, '');
                             }
-                            console.log("list----:", this.itemGroup)
+                        }
+                        for(let i = 0;i < this.itemGroup.length; i++) {
+                            if(this.itemGroup[i] != ''){
+                                this.noInfo = false;
+                                break;
+                            }
                         }
                         if(this.itemGroup.length == 0) {
                             this.noInfo = true;
@@ -110,27 +122,16 @@
                     }).then((resData) => {
                     console.log('返回解绑信息', resData)
                     if(resData.enCode == 1000) {
-                        this.$message({
-                                        message: '解绑成功！',
-                                        type: 'success'
-                                    })
+                        this.$toast('解绑成功');
                         this.itemGroup = [];
                          this.getList();
                          this.dialogVisible = false;
                         this.dialogVisible = false;
                     } else if (resData.enCode == 1001 ) {
                     //   失败  1001
-                        this.$message({
-                                            message: '解绑失败！',
-                                            type: 'error'
-                                        })
                         this.$toast(resData.msg);
                         return;
                     }else{
-                        this.$message({
-                                            message: '业务出错！',
-                                            type: 'error'
-                                        })
                         this.$toast('业务出错');
                         return;
                     }
@@ -202,16 +203,12 @@
             padding: 0 .37rem;
             background: white;
             .NoInfo{
-                    width: .8rem;
-                    margin: auto;
-                    text-align: center;
-                    height: 30rem;
-                    padding-top: 4rem;
                     .svg-icon{
                         height: 3.8rem;
                         width: 3.8rem;
                         left: 50%;
                         margin-left: -1.9rem;
+                        padding-top: 4rem;
                         position: absolute;
                     }
                     .Text{
@@ -222,6 +219,8 @@
                         left: 50%;
                         margin-left: -1.5rem;
                         position: absolute;
+                        padding-top: 8rem;
+
                     }
                 }
             .ListLine {
