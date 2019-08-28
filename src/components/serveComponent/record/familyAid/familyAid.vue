@@ -10,20 +10,26 @@
         </div>
         <div class="content">
                 <ul class="ListInfo">
-                    <li class="ListLine" v-for="(item,index) in itemGroup" :key="index" >
-                        <div class="InfoName">
-                            <div class="info">
-                            <div style="display: flex;">
-                            <div class="InfoHead">{{item.AGA004}}</div>
-                            <div class="InfoText1" v-if="item.type == '配偶'">{{item.type}}</div>
-                            <div class="InfoText2" v-if="item.type == '子女'">{{item.type}}</div>
-                            <div class="InfoText3" v-if="item.type == '父母'">{{item.type}}</div>
+                    <div class="NoInfo" v-if="noInfo">
+                        <svg-icon icon-class="noInfo"></svg-icon>
+                        <div class="Text">暂无信息</div>
+                    </div>
+                    <div v-for="(item,index) in itemGroup" :key="index">
+                        <li class="ListLine" v-if="item != ''">
+                            <div class="InfoName">
+                                <div class="info">
+                                <div style="display: flex;">
+                                <div class="InfoHead">{{item.BAC003}}</div>
+                                <div class="InfoText1" v-if="item.AAE144 == '配偶'">{{item.AAE144}}</div>
+                                <div class="InfoText2" v-if="item.AAE144 == '子女'">{{item.AAE144}}</div>
+                                <div class="InfoText3" v-if="item.AAE144 == '父母'">{{item.AAE144}}</div>
+                                </div>
+                                <div class="InfoDate">开始时间：{{item.AAE030}}</div>
+                                </div>
+                                <div class="remove" @click="remove(item.BAC003)">解绑</div>
                             </div>
-                            <div class="InfoDate">{{item.AAE036}}</div>
-                            </div>
-                            <div class="remove" @click="remove(item.AGA004)">解绑</div>
-                        </div>
-                    </li>
+                        </li>
+                    </div>
                 </ul>
                 <Footer :canSubmit='canSubmit' @submit="add()" btnText="添加解绑人员"></Footer>
         </div>
@@ -35,35 +41,101 @@
             return {
                 pageSize: 10,
                 pageNum: "1",
-                itemGroup: [
-                    {AGA004: '基本医疗保险', AAE036: '2019-05-19 12:09:31', type: '配偶'},
-                    {AGA004: '领取基本医疗保险就医凭证', AAE036: '2019-05-19 12:09:31', type: '子女'},
-                    {AGA004: '基本医疗保险职工参保信息变更登记', AAE036: '2019-05-19 12:09:31', type: '配偶'},
-                    {AGA004: '参保人员查询打印社会保险信息', AAE036: '2019-05-19 12:09:31', type: '父母'},
-                ],
+                itemGroup: [],
                 canSubmit: true,
                 dialogVisible: false,
-                name: ''
+                name: '',
+                AAE135: '',
+                AAE011: '',
+                submitForm: {},
+                noInfo: true
             }
         },
         created() {
-            this.epFn.setTitle('家庭共济')
+            this.epFn.setTitle('家庭共济');
+            this.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            this.AAE011 = this.$store.state.SET_NATIVEMSG.name;
+            this.getList();
         },
         methods: {
+            getList() {
+                    this.$axios.post(this.epFn.ApiUrl()+'/h5/jy9107/getList', {
+                     "data": {AAE135: this.AAE135},
+                     "tradeCode": "9107"
+                     }).then((resData) => {
+                    console.log('返回家庭列表', resData)
+                    if (resData.enCode == 1000) {
+                        this.itemGroup = [...this.itemGroup, ...resData.LS_DS];
+                        for ( let i = 0;i < resData.LS_DS.length; i++) {
+                            resData.LS_DS[i].AAE030 = this.util.NumberToDate(resData.LS_DS[i].AAE030);
+                            this.itemGroup[i].AAE030 = resData.LS_DS[i].AAE030
+                        }
+                       console.log("list1----:", this.itemGroup)
+                        for(let i = 0;i < this.itemGroup.length; i++) {
+                            if (this.itemGroup[i].AAE100 == '无效') {
+                                console.log('无效')
+                                this.itemGroup.splice(i, 1, '');
+                            }
+                        }
+                        for(let i = 0;i < this.itemGroup.length; i++) {
+                            if(this.itemGroup[i] != ''){
+                                this.noInfo = false;
+                                break;
+                            }
+                        }
+                        if(this.itemGroup.length == 0) {
+                            this.noInfo = true;
+                        }
+                    } else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                        this.$toast(resData.msg);
+                        this.noInfo = true;
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
+                })
+            },
             remove(item) {
                 this.dialogVisible = true;
                 console.log("name:", item)
                 this.name = item;
+                this.itemGroup.forEach( e => {
+                    if(e.BAC003 == item) {
+                        this.submitForm.AAE135 = this.AAE135;
+                        this.submitForm.BAC002 = e.BAC002;
+                        this.submitForm.BAC003 = e.BAC003;
+                        this.submitForm.AAE011 = this.AAE011;
+                        this.submitForm.BKE520 = 1;
+                    }
+                })
+                console.log("-----submit:", this.submitForm)
             },
             add() {
                 this.$router.push({path: '/familyAidDel'})
             },
             removeConfirm() {
-                this.$message({
-                    message: '撤销成功！',
-                    type: 'success'
+                this.$axios.post(this.epFn.ApiUrl()+'/h5/jy9108/updRecord', {
+                    "data": this.submitForm,
+                     "tradeCode": "9108"
+                    }).then((resData) => {
+                    console.log('返回解绑信息', resData)
+                    if(resData.enCode == 1000) {
+                        this.$toast('解绑成功');
+                        this.itemGroup = [];
+                         this.getList();
+                         this.dialogVisible = false;
+                        this.dialogVisible = false;
+                    } else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                        this.$toast(resData.msg);
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
                 })
-                this.dialogVisible = false;
             },
             cancel() {
                 this.dialogVisible = false;
@@ -130,6 +202,27 @@
             width: 100%;
             padding: 0 .37rem;
             background: white;
+            .NoInfo{
+                    .svg-icon{
+                        height: 3.8rem;
+                        width: 3.8rem;
+                        left: 50%;
+                        margin-left: -1.9rem;
+                        padding-top: 4rem;
+                        position: absolute;
+                    }
+                    .Text{
+                        font-size: .4rem;
+                        color: #999999;
+                        padding-top: 4rem;
+                        width: 3rem;
+                        left: 50%;
+                        margin-left: -1.5rem;
+                        position: absolute;
+                        padding-top: 8rem;
+
+                    }
+                }
             .ListLine {
                 height: 1.6rem;
                 border-bottom: .01rem solid #D5D5D5;

@@ -78,7 +78,7 @@
         <GuideIcon AGA002="330800253001"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
-    <SearchInfoPage ref="hospita" type="AKB020_DY" @childrenClick="hospitaClick" title="取药机构"></SearchInfoPage>
+    <SearchInfoPage ref="hospita" :jy7208='true' @childrenClick="hospitaClick" title="取药机构"></SearchInfoPage>
 
     </div>
 </template>
