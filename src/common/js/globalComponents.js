@@ -10,6 +10,7 @@ import PhotoView from '@/components/serveComponent/common/PhotoView'
 import GuideIcon from '@/components/serveComponent/common/GuideIcon'
 import DetailStatus from '@/components/serveComponent/common/DetailStatus'
 import Binding from '@/components/serveComponent/common/Binding'
+import IndexMask from '@/components/serveComponent/common/IndexMask'
 
 
 function plugin(Vue) {
@@ -28,6 +29,7 @@ function plugin(Vue) {
     Vue.component('GuideIcon',GuideIcon);
     Vue.component('DetailStatus',DetailStatus);
     Vue.component('Binding',Binding);
+    Vue.component('IndexMask',IndexMask);
 }
 
 export default plugin

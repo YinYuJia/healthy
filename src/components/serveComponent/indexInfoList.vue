@@ -1,6 +1,7 @@
 <template>
     <div class="indexInfoList">
         <!-- 提示 -->
+        <IndexMask></IndexMask>
         <div class="Hint" v-if="isTips">
             <div class="HintContent">
                 <p class="HintText">
