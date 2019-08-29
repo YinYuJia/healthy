@@ -64,6 +64,7 @@ import invoiceDetail from '@/components/serveComponent/treat/smallReim/invoiceDe
 import payLimit from '@/components/serveComponent/treat/payLimit/payLimit'
 import payLimitDetail from '@/components/serveComponent/treat/payLimit/payLimitDetail'
 import lElseWhere from '@/components/serveComponent/treat/legalElseWhere/lElseWhere'
+import lElseWhereDetail from '@/components/serveComponent/treat/legalElseWhere/lElseWhereDetail'
 import searchBaseInfo from '@/components/serveComponent/personal/searchBaseInfo/searchBaseInfo'
 import medicalInsuranceAccount from '@/components/serveComponent/personal/searchBaseInfo/medicalInsuranceAccount'
 import searchInsuredInfo from '@/components/serveComponent/personal/searchInsuredInfo/searchInsuredInfo'
@@ -111,6 +112,11 @@ export default new Router({
       path: '/lElseWhere',
       name: 'lElseWhere',
       component: lElseWhere
+    },
+    {
+      path: '/lElseWhereDetail',
+      name: 'lElseWhereDetail',
+      component: lElseWhereDetail
     },
     {
       path: '/Index',

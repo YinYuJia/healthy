@@ -283,34 +283,25 @@
                         if (resData.LS_DS[0].AAB001 == sessionStorage.getItem('LOGINNAME')) {
                             this.ifShow = true;
                             this.data = resData.LS_DS[0]
-                            console.log('---this.data---', this.data)
                             sessionStorage.setItem("legalData", JSON.stringify(resData.LS_DS[0]))
-                            this.AAB301000 = JSON.parse(sessionStorage.getItem('legalData')).AAE006
-                            this.form.AAC003 = JSON.parse(sessionStorage.getItem('legalData')).AAC003;
-                            this.form.AAE135 = JSON.parse(sessionStorage.getItem('legalData')).AAC002;
-                            this.form.AAB301 = JSON.parse(sessionStorage.getItem('legalData')).AAE007
-                            this.form.AAS301 = JSON.parse(sessionStorage.getItem('legalData')).AAE007.substring(0, 2) + '0000'
-                            console.log(this.form)
+                            let legalData = JSON.parse(sessionStorage.getItem('legalData'))
+                            this.AAB301000 = '浙江省本级' //参保地中文
+                            this.form.AAC003 = legalData.AAC003; // 中文名
+                            this.form.AAE135 = legalData.AAC002; // 社会保障好
+                            this.form.AAB301 = '339900' //参保地市
+                            this.form.AAS301 = '339900'.substring(0, 2) + '0000' // 参保地省
+                            return;
                         } else {
                             this.ifShow = false
-                            this.$message({
-                                message: '该人员不是本单位人员,请从新搜索',
-                                type: 'warning'
-                            });
+                            this.$toast('该人员不是本单位人员,请从新搜索')
                             return;
                         }
                     } else if (resData.enCode == 1001) {
                         this.isShow = false
-                        this.$message({
-                            message: resData.msg,
-                            type: 'warning'
-                        });
+                        this.$toast(resData.msg)
                         return;
                     } else {
-                        this.$message({
-                            message: '业务出错',
-                            type: 'warning'
-                        });
+                        this.$toast("业务报错")
                         return;
                     }
                 })
@@ -398,7 +389,7 @@
                         //   成功   1000
                         if (resData.enCode == 1000) {
                             // this.$toast("提交成功");
-                            this.$router.push("/elseDetail");
+                            this.$router.push("/lElseWhereDetail");
                         } else if (resData.enCode == 1001) {
                             //   失败  1001
                             this.$toast(resData.msg);
