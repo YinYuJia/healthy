@@ -101,7 +101,7 @@
         <GuideIcon AGA002="330800253013"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
-         <!-- 判断是否绑定经办组建-->
+        <!-- 判断是否绑定经办组建-->
         <BindingAgency></BindingAgency>
     </div>
 </template>
@@ -280,23 +280,17 @@
                     console.log('返回成功信息', resData)
                     //   成功   1000
                     if (resData.enCode == 1000) {
-                        this.ifShow = true;
-                        this.data = resData.LS_DS[0]
-                        console.log('---this.data---', this.data)
-                        sessionStorage.setItem("legalData", JSON.stringify(resData.LS_DS[0]))
-                        this.AAB301000 = JSON.parse(sessionStorage.getItem('legalData')).AAE006
-                        this.form.AAC003 = JSON.parse(sessionStorage.getItem('legalData')).AAC003;
-                        this.form.AAE135 = JSON.parse(sessionStorage.getItem('legalData')).AAC002;
-                        this.form.AAB301 = JSON.parse(sessionStorage.getItem('legalData')).AAE007
-                        this.form.AAS301 = JSON.parse(sessionStorage.getItem('legalData')).AAE007.substring(0, 2) + '0000'
-                        console.log(this.form)
-                        return;
                         if (resData.LS_DS[0].AAB001 == sessionStorage.getItem('LOGINNAME')) {
-                            // this.isShow = true
+                            this.ifShow = true;
                             this.data = resData.LS_DS[0]
+                            console.log('---this.data---', this.data)
                             sessionStorage.setItem("legalData", JSON.stringify(resData.LS_DS[0]))
-                            sessionStorage.setItem('legalName', resData.LS_DS[0].AAC003)
-                            sessionStorage.setItem('legalIdCard', resData.LS_DS[0].AAC002)
+                            this.AAB301000 = JSON.parse(sessionStorage.getItem('legalData')).AAE006
+                            this.form.AAC003 = JSON.parse(sessionStorage.getItem('legalData')).AAC003;
+                            this.form.AAE135 = JSON.parse(sessionStorage.getItem('legalData')).AAC002;
+                            this.form.AAB301 = JSON.parse(sessionStorage.getItem('legalData')).AAE007
+                            this.form.AAS301 = JSON.parse(sessionStorage.getItem('legalData')).AAE007.substring(0, 2) + '0000'
+                            console.log(this.form)
                         } else {
                             this.ifShow = false
                             this.$message({
