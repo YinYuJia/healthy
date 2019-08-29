@@ -80,7 +80,6 @@
                         for(let i = 0;i < this.itemGroup.length; i++) {
                             if(this.itemGroup[i] != ''){
                                 this.noInfo = false;
-                                break;
                             }
                         }
                         if(this.itemGroup.length == 0) {
@@ -136,6 +135,13 @@
                         return;
                     }
                 })
+                for(let i = 0;i < this.itemGroup.length; i++) {
+                            if(this.itemGroup[i] != ''){
+                                this.noInfo = false;
+                            } else {
+                                this.noInfo = true;
+                            }
+                        }
             },
             cancel() {
                 this.dialogVisible = false;
