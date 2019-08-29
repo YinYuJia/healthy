@@ -164,7 +164,9 @@
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showAll"></Footer>
         <!-- 法人绑定 -->
-        <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding>
+        <!-- <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding> -->
+         <!-- 判断是否绑定经办组建-->
+        <BindingAgency></BindingAgency>
     </div>
 </template>
 
@@ -172,7 +174,7 @@
 export default {
     data() {
         return {
-            bindingFlag: false,
+            // bindingFlag: false,
             showAll:false,//展示所有内容
             isShow:false,//显示提前退休原因
             dateVal: new Date(), //默认绑定的时间
@@ -322,10 +324,10 @@ export default {
     },
     methods:{
       // 绑定成功后执行的请求
-      changeFlag(val){
-        this.bindingFlag = val;
-        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
-      },
+    //   changeFlag(val){
+    //     this.bindingFlag = val;
+    //     let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+    //   },
         // 跳转前检查用户是否法人绑定
         checkJump(){
             let user = JSON.parse(sessionStorage.getItem("LegalPerson"));

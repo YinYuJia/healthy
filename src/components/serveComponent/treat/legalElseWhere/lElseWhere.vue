@@ -101,6 +101,7 @@
         <GuideIcon AGA002="330800253013"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+         <!-- 判断是否绑定经办组建-->
         <BindingAgency></BindingAgency>
     </div>
 </template>
