@@ -10,6 +10,7 @@ import PhotoView from '@/components/serveComponent/common/PhotoView'
 import GuideIcon from '@/components/serveComponent/common/GuideIcon'
 import DetailStatus from '@/components/serveComponent/common/DetailStatus'
 import Binding from '@/components/serveComponent/common/Binding'
+import BindingAgency from '@/components/serveComponent/common/BindingAgency'
 import IndexMask from '@/components/serveComponent/common/IndexMask'
 
 
@@ -30,6 +31,7 @@ function plugin(Vue) {
     Vue.component('DetailStatus',DetailStatus);
     Vue.component('Binding',Binding);
     Vue.component('IndexMask',IndexMask);
+    Vue.component('BindingAgency',BindingAgency);
 }
 
 export default plugin
