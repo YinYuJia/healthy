@@ -15,27 +15,27 @@
             <div class="headerText">医疗保障专区</div>
             <div class="headerInfo">汇聚浙江省医疗保障服务</div>
             <!-- <div class="headerPad">
-                <div class="iconBox" @click="socialCard">
-                    <svg-icon v-if="1" icon-class="serveComponent_icon1" />
-                    <svg-icon v-if="0" icon-class="serveComponent_grey_1" />
-                    <div class="text">电子社保卡</div>
-                </div>
-                <div class="iconBox" @click="payCode">
-                    <svg-icon v-if="1" icon-class="serveComponent_icon2" />
-                    <svg-icon v-if="0" icon-class="serveComponent_grey_2" />
-                    <div class="text">支付码</div>
-                </div>
-                <div class="iconBox" @click="movePay">
-                    <svg-icon v-if="1" icon-class="serveComponent_icon4" />
-                    <svg-icon v-if="0" icon-class="serveComponent_grey_4" />
-                    <div class="text">移动支付</div>
-                </div>
-                <div class="iconBox" @click="showDetail('medicalInsuranceAccount','医保账户')">
-                    <svg-icon v-if="1" icon-class="serveComponent_icon3" />
-                    <svg-icon v-if="0" icon-class="serveComponent_grey_3" />
-                    <div class="text">医保账户</div>
-                </div>
-            </div> -->
+                        <div class="iconBox" @click="socialCard">
+                            <svg-icon v-if="1" icon-class="serveComponent_icon1" />
+                            <svg-icon v-if="0" icon-class="serveComponent_grey_1" />
+                            <div class="text">电子社保卡</div>
+                        </div>
+                        <div class="iconBox" @click="payCode">
+                            <svg-icon v-if="1" icon-class="serveComponent_icon2" />
+                            <svg-icon v-if="0" icon-class="serveComponent_grey_2" />
+                            <div class="text">支付码</div>
+                        </div>
+                        <div class="iconBox" @click="movePay">
+                            <svg-icon v-if="1" icon-class="serveComponent_icon4" />
+                            <svg-icon v-if="0" icon-class="serveComponent_grey_4" />
+                            <div class="text">移动支付</div>
+                        </div>
+                        <div class="iconBox" @click="showDetail('medicalInsuranceAccount','医保账户')">
+                            <svg-icon v-if="1" icon-class="serveComponent_icon3" />
+                            <svg-icon v-if="0" icon-class="serveComponent_grey_3" />
+                            <div class="text">医保账户</div>
+                        </div>
+                    </div> -->
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
@@ -53,15 +53,15 @@
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                                    <div class="swiper-slide">
-                                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                                    <div class="swiper-slide">
-                                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                                </div>
-                            </div> -->
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                                            <div class="swiper-slide">
+                                                <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                                            <div class="swiper-slide">
+                                                <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                                        </div>
+                                    </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -70,10 +70,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                            </swipe> -->
+                                        <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                                    </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -162,13 +162,12 @@
         },
         created() {
             // 判断是否法人登录
-            
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR------', sessionStorage.getItem('isClear'));
-            
             if (this.$build == '2') {
-                this.ifShow =  false
+                this.ifShow = false
                 const ssoToken = this.util.paramStr("ssoToken");
+                sessionStorage.setItem("ssoToken", ssoToken)
                 console.log('----法人ssoToken1111111111111111111----', ssoToken)
                 if (ssoToken != undefined && ssoToken != '' && ssoToken != null) {
                     this.$axios.post(this.epFn.ApiUrl() + '/H5/jy2009/getUserInfo', {
@@ -180,8 +179,14 @@
                         if (resData.xzqh == "" || resData.xzqh == null || resData.xzqh == undefined) {
                             resData.xzqh == "339900"
                         }
-                        this.getMatterInfo(resData.xzqh);
-                        this.getNewsInfo(resData.xzqh);
+                        if( resData.xzqh == '330000') {
+                            this.getMatterInfo('339900');
+                            this.getNewsInfo('339900');
+                        }else{
+                           this.getMatterInfo(resData.xzqh);
+                           this.getNewsInfo(resData.xzqh);
+                        }
+
                         sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
                         console.log('法人登录222')
                         console.log("window.location.href", window.location.href)
@@ -199,12 +204,10 @@
                             sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
                         } else {
                             sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
-
                         }
                         console.log("全局实现配置法人参数", JSON.parse(sessionStorage.getItem("globalConfigObj")))
                         const globalConfigObj = JSON.parse(sessionStorage.getItem("globalConfigObj"))
-                        if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '{}') {
-                            // 证明不是url事项配置 走正常逻辑
+                        if (JSON.stringify(globalConfigObj) == '{}' || globalConfigObj == undefined || globalConfigObj == '{}' || globalConfigObj == null) {
                             this.ifShow = false; //隐藏输入人名社保卡
                         } else {
                             if (globalConfigObj.userType == undefined) {
@@ -220,10 +223,10 @@
                         }
                     })
                 } else {
-                     window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=indexInfoList?epsoft=1'
+                    window.location.href = 'https://esso.zjzwfw.gov.cn/opensso/spsaehandler/metaAlias/sp?spappurl=https://ybj.zjzwfw.gov.cn/api/H5/jy2009/info?goto=indexInfoList?epsoft=1'
                 }
             } else { //测试环境
-            this.ifShow =  true
+                this.ifShow = true
                 sessionStorage.setItem('userType', "2");
                 sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
             }
@@ -276,9 +279,11 @@
             },
             // 资讯跳转详情
             goDetail(item) {
-                if(item == 'more'){
-                    this.$router.push({path:'/moreHotMsg'})
-                }else{
+                if (item == 'more') {
+                    this.$router.push({
+                        path: '/moreHotMsg'
+                    })
+                } else {
                     this.$router.push({
                         path: "/goDetail",
                         query: {
@@ -304,6 +309,11 @@
                             let route = url.split('/');
                             this.$router.push(route.pop());
                         } else {
+                            if (url.indexOf("?") != -1) {
+                                url = url + '&' + 'ssoToken=' + sessionStorage.getItem("ssoToken");
+                            } else {
+                                url = url + '?' + 'ssoToken=' + sessionStorage.getItem("ssoToken");
+                            }
                             window.location.href = url;
                         }
                     }
@@ -350,7 +360,7 @@
                     _this.hotMsg.forEach(ele => {
                         ele.src = ele.synopsisUrl;
                     })
-                    if(resData.list.length > 2){
+                    if (resData.list.length > 2) {
                         this.showMoreInfoBtn = true
                     }
                     this.hotMsg = this.hotMsg.slice(0, 2);
@@ -496,7 +506,7 @@
                 this.$toast("功能正在建设中")
             },
             goRouter(route) {
-                  this.$router.push(route);
+                this.$router.push(route);
             },
             setNativeMsg() {
                 this.$store.dispatch('SET_NATIVEMSG', {
@@ -630,14 +640,13 @@
                         value,
                         action
                     }) => {
-                        console.log("输完用户名的数据前",this.resData)
-
+                        console.log("输完用户名的数据前", this.resData)
                         if (value == null || value == "") {
                             this.resData.attnName = ""
                         } else {
                             this.resData.attnName = value;
                         }
-                        console.log("输完用户名的数据后",this.resData)
+                        console.log("输完用户名的数据后", this.resData)
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
@@ -804,8 +813,7 @@
         } // 图标区域
         .iconContent {
             // height: 4.74rem;
-            background: #FFF;
-            // padding: 1.8rem .2rem 0 .2rem;
+            background: #FFF; // padding: 1.8rem .2rem 0 .2rem;
             padding: .2rem .2rem 0 .2rem;
             .iconList {
                 display: -webkit-box;
@@ -959,10 +967,10 @@
                     }
                 }
             }
-            .moreInfo{
+            .moreInfo {
                 height: 1.1rem;
                 padding-top: .26rem;
-                span{
+                span {
                     display: block;
                     font-size: .28rem;
                     color: #999999;
