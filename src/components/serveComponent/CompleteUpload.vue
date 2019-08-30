@@ -4,14 +4,20 @@
             <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
             <div class="CompleteLine" v-for="(item,index) in completeList" :key="index">
                 <div class="InfoText">{{item.BKE265}}<span v-if="item.BKE266!=''">（{{item.BKE266}}）</span></div>
-                <div class="Hint">图片格式为jpg、png，不大于2M的文件</div>
                 <div class="PhotoBox">
                     <div class="ImgBox" v-if="item.imgUrl != ''">
                         <img :src="item.imgUrl"/>
                     </div>
                     <svg-icon @click="uploadImg(index)" icon-class="serveComponent_upload"></svg-icon>
                 </div>
-            </div>    
+            </div>
+        </div>
+        <div class="HintContent">
+            <i class="el-icon-warning" style="color:#1492ff"></i>
+            <div class="HintText">
+                <span>温馨提示</span>
+                <span>图片格式为jpg、png，不大于2M的文件。</span>
+            </div>
         </div>
         <Footer @submit="submit()" :canSubmit="canSubmit"></Footer>
     </div>
@@ -149,41 +155,37 @@ export default {
 
 <style lang="less" scoped>
 .CompleteUpload{
-    width: 100%;
-    background: #FFF;
-    padding: .5rem .2rem .2rem .2rem;
     .Content{
-        margin-bottom: 1.4rem;
+        width: 100%;
+        background: #FFF;
+        padding: .5rem .2rem .2rem .2rem;
         .CompleteTitle{
             font-size: .28rem;
             letter-spacing: 0;
             text-align: left;
         }
         .CompleteLine{
-            padding: .2rem 0 .1rem 0;
+            padding: .26rem 0 .1rem 0;
             text-align: left;
             font-size: .28rem;
             letter-spacing: 0;
-            &:last-child{
-                margin-bottom:1.7rem;
-            }
-            .Hint{
-                color: #999;
-                padding: .2rem .3rem;
-            }
             .PhotoBox{
                 padding-left: .3rem;
                 display: flex;
+                flex-wrap: wrap;
+                margin-top: .32rem;
                 .ImgBox{
                     height: 1.5rem;
                     width: 1.5rem;
                     margin-right: .2rem;
+                    margin-top: .1rem;
                     img{
                         height: 100%;
                         width: 100%;
                     }
                 }
                 .svg-icon{
+                    margin-top: .1rem;
                     height: 1.5rem;
                     width: 1.5rem;
                 }
@@ -191,7 +193,27 @@ export default {
 
         }
     }
-    
+    .HintContent{
+        display: flex;
+        margin-top: .3rem;
+        .el-icon-warning{
+            font-size: .3rem;
+            margin-left: .3rem;
+        }
+        .HintText{
+            font-size: .28rem;
+            color: #999999;
+            letter-spacing: 0;
+            margin-left: .2rem;
+            span{
+                display: block;
+                text-align: left;
+                &:last-child{
+                    margin-top: 20px;
+                }
+            }
+        }
+    }
 
 }
 </style>
