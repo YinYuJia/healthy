@@ -335,6 +335,7 @@ export default {
       form1:{},
       startDate: new Date(),
       canSubmit: false,
+      ifReady:false,
     }
   },
   watch: {
@@ -377,7 +378,6 @@ export default {
           let params = {};
           params.sydwTycode=this.form.AAB003;
           console.log('----params----',params)
-
           this.$axios.post( this.epFn.ApiUrl() +  '/H5/jy0006/getAreaList', params)
           .then((resData) => {
 
@@ -385,6 +385,7 @@ export default {
                   console.log("返回成功信息",resData)
               }else{
                   this.$toast(resData.msg)
+
               }
           }).catch((error) => {
               console.log(error)
@@ -591,94 +592,117 @@ export default {
         this.value = values[0].AAA102
       }
     },
+    request(){
+            let params1 = {};
+            params1.sydwTycode=this.form.AAB003;
+            console.log('----params----',params1)
+            this.$axios.post( this.epFn.ApiUrl() +  '/H5/jy0006/getAreaList', params1)
+            .then((resData) => {
+                if(resData.enCode == '1000'){
+                    this.ifReady==true
+                    console.log("返回成功信息",resData)
+                }else{
+                    this.$toast(resData.msg)
+                    this.ifReady==false
+                    return false;
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+    },
     // 提交
     submit () {
       if (this.canSubmit === false) {
         return false
       }else{
-            //法人电话BKE280
-            if(this.form.BKE280&&this.form.BKE280.length==11){
-                if(!this.util.checkPhone(this.form.BKE280)){
-                    this.$toast('请填写正确的手机号码')
-                    return false;
+            this.request();
+            console.log(this.ifReady)
+            if(this.ifReady==true){
+              //法人电话BKE280
+              if(this.form.BKE280&&this.form.BKE280.length==11){
+                  if(!this.util.checkPhone(this.form.BKE280)){
+                      this.$toast('请填写正确的手机号码')
+                      return false;
+                      }
+              }else if(this.form.BKE280&&(this.form.BKE280.length==7||this.form.BKE280.length==8)){
+                  if(!this.util.checkHomePhone(this.form.BKE280)){
+                      this.$toast('请填写正确的电话号码')
+                      return false;
+                      }
+              }else if(this.form.BKE280&&(this.form.BKE280.length!=7||this.form.BKE280.length!=8||this.form.BKE280.length!=11)){
+                      this.$toast('请确认填写的号码位数是否正确')
+                      return false;
+              }
+              //专管员电话BKE283
+              if(this.form.BKE283&&this.form.BKE283.length==11){
+                  if(!this.util.checkPhone(this.form.BKE283)){
+                      this.$toast('请填写正确的手机号码')
+                      return false;
+                      }
+              }else if(this.form.BKE283&&(this.form.BKE283.length==7||this.form.BKE283.length==8)){
+                  if(!this.util.checkHomePhone(this.form.BKE283)){
+                      this.$toast('请填写正确的电话号码')
+                      return false;
+                      }
+              }else if(this.form.BKE283&&(this.form.BKE283.length!=7||this.form.BKE283.length!=8||this.form.BKE283.length!=11)){
+                      this.$toast('请确认填写的号码位数是否正确')
+                      return false;
+              }
+              //联系电话AAE005
+              if(this.form.AAE005&&this.form.AAE005.length==11){
+                  if(!this.util.checkPhone(this.form.AAE005)){
+                      this.$toast('请填写正确的手机号码')
+                      return false;
+                      }
+              }else if(this.form.AAE005&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+                  if(!this.util.checkHomePhone(this.form.AAE005)){
+                      this.$toast('请填写正确的电话号码')
+                      return false;
+                      }
+              }else if(this.form.AAE005&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
+                      this.$toast('请确认填写的号码位数是否正确')
+                      return false;
+              }      
+              if (this.form.AAE007.toString.length == 6) {
+                    this.$toast('请填写正确的邮政编码')
+                    return false
+              }      
+              if (!this.util.idCard(this.form.BAB014)) {
+                    this.$toast('请填写正确的法人代表身份证号')
+                    return false
+              }
+              // for(let item in this.form){
+              //   if(this.form[item] != this.form1[item]){
+              //     console.log("999999999",this.form[item],this.form1[item])
+              //   }
+              // }
+              let params = this.formatSubmitData()
+              this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
+                //   成功   1000
+                if (resData.enCode == 1000) {
+                if(JSON.stringify(this.form1)=='{}'){
+                    console.log('首次参保')
+                }else{
+                  for(let item in this.form){
+                    if(this.form[item] != this.form1[item]){
+                      console.log("999999999",this.form[item],this.form1[item])
+                      this.$toast('信息有修改，请重新下载并上传')
                     }
-            }else if(this.form.BKE280&&(this.form.BKE280.length==7||this.form.BKE280.length==8)){
-                if(!this.util.checkHomePhone(this.form.BKE280)){
-                    this.$toast('请填写正确的电话号码')
-                    return false;
-                    }
-            }else if(this.form.BKE280&&(this.form.BKE280.length!=7||this.form.BKE280.length!=8||this.form.BKE280.length!=11)){
-                    this.$toast('请确认填写的号码位数是否正确')
-                    return false;
-            }
-            //专管员电话BKE283
-            if(this.form.BKE283&&this.form.BKE283.length==11){
-                if(!this.util.checkPhone(this.form.BKE283)){
-                    this.$toast('请填写正确的手机号码')
-                    return false;
-                    }
-            }else if(this.form.BKE283&&(this.form.BKE283.length==7||this.form.BKE283.length==8)){
-                if(!this.util.checkHomePhone(this.form.BKE283)){
-                    this.$toast('请填写正确的电话号码')
-                    return false;
-                    }
-            }else if(this.form.BKE283&&(this.form.BKE283.length!=7||this.form.BKE283.length!=8||this.form.BKE283.length!=11)){
-                    this.$toast('请确认填写的号码位数是否正确')
-                    return false;
-            }
-            //联系电话AAE005
-            if(this.form.AAE005&&this.form.AAE005.length==11){
-                if(!this.util.checkPhone(this.form.AAE005)){
-                    this.$toast('请填写正确的手机号码')
-                    return false;
-                    }
-            }else if(this.form.AAE005&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
-                if(!this.util.checkHomePhone(this.form.AAE005)){
-                    this.$toast('请填写正确的电话号码')
-                    return false;
-                    }
-            }else if(this.form.AAE005&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
-                    this.$toast('请确认填写的号码位数是否正确')
-                    return false;
-            }      
-            if (this.form.AAE007.toString.length == 6) {
-                  this.$toast('请填写正确的邮政编码')
-                  return false
-            }      
-            if (!this.util.idCard(this.form.BAB014)) {
-                  this.$toast('请填写正确的法人代表身份证号')
-                  return false
-            }
-            // for(let item in this.form){
-            //   if(this.form[item] != this.form1[item]){
-            //     console.log("999999999",this.form[item],this.form1[item])
-            //   }
-            // }
-            let params = this.formatSubmitData()
-            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
-              //   成功   1000
-              if (resData.enCode == 1000) {
-              if(JSON.stringify(this.form1)=='{}'){
-                  console.log('首次参保')
-              }else{
-                for(let item in this.form){
-                  if(this.form[item] != this.form1[item]){
-                    console.log("999999999",this.form[item],this.form1[item])
-                    this.$toast('信息有修改，请重新下载并上传')
                   }
                 }
-              }
-                console.log('返回信息成功', resData)
-                this.$store.dispatch('REGISTER_INFO', resData)
-                this.$router.push({ path: '/registerTwo' })
-              } else if (resData.enCode == 1001) {
-                //   失败  1001
-                console.log('返回信息失败', resData)
-                this.$toast(resData.msg)
-              } else {
-                this.$toast('业务出错')
-              }
-            })
+                  console.log('返回信息成功', resData)
+                  this.$store.dispatch('REGISTER_INFO', resData)
+                  this.$router.push({ path: '/registerTwo' })
+                } else if (resData.enCode == 1001) {
+                  //   失败  1001
+                  console.log('返回信息失败', resData)
+                  this.$toast(resData.msg)
+                } else {
+                  this.$toast('业务出错')
+                }
+              })
+
+            }
 
       }
 
