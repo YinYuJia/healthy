@@ -1,12 +1,12 @@
 <template>
     <div class="indexInfoList">
         <!-- <div class="mask" v-show="isMask">
-            <div class="mask_div">
-                <svg-icon class="content" icon-class="内容"></svg-icon>
-                <input class="mask_input" type="password" name="" v-model="epPasword" id="">
-                <button class="loginButton" @click="loginIn"></button>
-            </div>
-        </div> -->
+                <div class="mask_div">
+                    <svg-icon class="content" icon-class="内容"></svg-icon>
+                    <input class="mask_input" type="password" name="" v-model="epPasword" id="">
+                    <button class="loginButton" @click="loginIn"></button>
+                </div>
+            </div> -->
         <IndexMask></IndexMask>
         <!-- 提示 -->
         <div class="Hint" v-if="isTips">
@@ -161,7 +161,7 @@
                 BKC013: '', //发票张数
                 AKB020: '', //机构编码（医院编码）
                 AAE005: '', //手机号码
-                BKE200: ''//邮寄方式
+                BKE200: '' //邮寄方式
             }
             this.$store.dispatch('SET_SMALL_REIM_SUBMIT', SET_SMALL_REIM_SUBMIT)
             let SET_SMALL_REIM_1 = {
@@ -297,41 +297,7 @@
             // 事项配置url把参数转成对象
             globalConfigObj() {
                 // url事项配置截取url参数方法  ------开始
-                var sp = this.util.paramStr('sp')
-                console.log(sp == undefined)
-                if (sp != "" && sp != undefined && sp != null) {
-                    const arr1 = sp.split("|")
-                    let obj = {}
-                    arr1.map((item, index) => {
-                        console.log(item.split("=")[0] + '------' + item.split("=")[1])
-                        console.log()
-                        obj[item.split("=")[0]] = item.split("=")[1]
-                    })
-                    console.log('obj---', obj)
-                    // url事项配置截取url参数方法  ------结束 如果有存入对象
-                    sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
-                } else {
-                    // 如果没有 对象存空
-                    sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
-                }
-                // ------------事项url配置截取sp分成对象保存到session里面---------end
-                console.log('---globalConfigObj---', sessionStorage.getItem("globalConfigObj"))
-                console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
-                var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
-                if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '') {
-                    // 证明不是url事项配置 走正常逻辑
-                    this.ifShow = false; //隐藏输入人名社保卡
-                    this.setNativeMsg(); //浙理办打包需要打开
-                    this.getUserRegion(); // 自动获取参保地
-                } else {
-                    // url事项配置 跳转路由
-                    this.$router.push({
-                        name: globalConfigObj.identifier,
-                        params: globalConfigObj
-                    })
-                }
             },
-            // 用token获取人员信息方法
             getTokenInfo(token) {
                 this.$axios.post(this.ApiUrl() + "/H5/jy2005/info", {
                     "token": token,
@@ -342,10 +308,41 @@
                     if (result1.result == "0") {
                         sessionStorage.setItem("userName", result1.username)
                         sessionStorage.setItem("idCard", result1.idnum)
-                        console.log('userName', result1.username)
-                        console.log('idCard', result1.idnum)
+                        console.log('userName-----------', result1.username)
+                        console.log('idCard-------------', result1.idnum)
                         // 个人登录
-                        this.globalConfigObj()
+                        var sp = this.util.paramStr('sp')
+                        console.log(sp == undefined)
+                        if (sp != "" && sp != undefined && sp != null) {
+                            const arr1 = sp.split("|")
+                            let obj = {}
+                            arr1.map((item, index) => {
+                                console.log(item.split("=")[0] + '------' + item.split("=")[1])
+                                console.log()
+                                obj[item.split("=")[0]] = item.split("=")[1]
+                            })
+                            console.log('obj---', obj)
+                            // url事项配置截取url参数方法  ------结束 如果有存入对象
+                            sessionStorage.setItem("globalConfigObj", JSON.stringify(obj))
+                        } else {
+                            // 如果没有 对象存空
+                            sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
+                        }
+                        // ------------事项url配置截取sp分成对象保存到session里面---------end
+                        console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
+                        sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
+                        var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
+                        if (JSON.stringify(globalConfigObj) == '{}') {
+                            this.ifShow = false; //隐藏输入人名社保卡
+                            this.setNativeMsg(); //浙理办打包需要打开
+                            this.getUserRegion(); // 自动获取参保地
+                        } else {
+                            // url事项配置 跳转路由
+                            this.$router.push({
+                                name: globalConfigObj.identifier,
+                                params: globalConfigObj
+                            })
+                        }
                     } else {
                         MessageBox.alert(result1.errmsg);
                     }
@@ -359,7 +356,6 @@
             //         //   type: 'success'
             //         // });
             //         this.isMask = false;
-
             //     }
             //     this.epPasword = '';
             // },
@@ -448,9 +444,9 @@
                     console.log('获取区域事项', resData)
                     let resList = resData.list;
                     console.log('图标sdk成功')
-                    if( resList.length == 0 ) {
+                    if (resList.length == 0) {
                         this.isTips = true
-                    }else{
+                    } else {
                         this.isTips = false
                     }
                     let iconList = [];
@@ -688,8 +684,10 @@
                             console.log('用户参保地信息', sessionStorage.getItem("GinsengLandCode"));
                             console.log("this.isTips", this.isTips)
                             // 调用首页事项和咨询管理
-                            this.getMatterInfo(sessionStorage.getItem("GinsengLandCode"));
-                            this.getNewsInfo(sessionStorage.getItem("GinsengLandCode"));
+                            console.log('----code1-----', resData.AAB301)
+                            console.log('----code2-----', resData.RegionName)
+                            this.getMatterInfo(resData.AAB301);
+                            this.getNewsInfo(resData.AAB301);
                             if (sessionStorage.getItem("GinsengLandCode") == "339900") {
                                 this.iconFlag = true; //省本级设置为true
                             } else {

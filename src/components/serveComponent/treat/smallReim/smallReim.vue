@@ -173,6 +173,7 @@ export default {
                 // 封装数据
                 let params = this.formatSubmitData();
                 console.log(params);
+                // return;
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1026/getInvoice', params).then((resData) => {
                     console.log('返回成功信息',resData)
                     //   成功   1000

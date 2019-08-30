@@ -15,7 +15,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="InfoLine" @click="goPrint('all')" v-if="visible==true">
+                <div class="InfoLine" @click="goPrint('all')">
                     <div class="InfoName">
                         <span>参保（合）凭证（仅限医保转移）</span>
                     </div>
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="InfoLine" @click="submit" v-if="visible==true">
+                <div class="InfoLine" @click="submit">
                     <div class="InfoName">
                         <span>子女缴费证明</span>
                     </div>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="InfoLine" @click="goPrint('record')" v-if="visible==true">
+                <div class="InfoLine" @click="goPrint('record')">
                     <div class="InfoName">
                         <span>个人权益记录单</span>
                     </div>
@@ -97,7 +97,7 @@ export default {
                         JSON.stringify(resData)
                     );
                     if (resData.enCode == 1000) {
-                        this.$router.push("/insuredDownload");
+                        this.$router.push({path: "insuredDownload", query: {params: "子女缴费证明"}});
                     } else if (resData.enCode == 1001) {
                         this.$toast(resData.msg);
                     }
