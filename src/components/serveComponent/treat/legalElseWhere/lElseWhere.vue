@@ -301,7 +301,7 @@
                             }
                         } else {
                             this.ifShow = false
-                            this.$toast('该人员不是本单位人员,请从新搜索')
+                            this.$toast('该人员不是本单位人员,请重新搜索')
                             return;
                         }
                     } else if (resData.enCode == 1001) {
