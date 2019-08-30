@@ -31,7 +31,7 @@
                         </li>
                     </div>
                 </ul>
-                <Footer :canSubmit='canSubmit' @submit="add()" btnText="添加解绑人员"></Footer>
+                <Footer :canSubmit='canSubmit' @submit="add()" btnText="添加绑定人员"></Footer>
         </div>
     </div>
 </template>
@@ -87,7 +87,6 @@
                         }
                     } else if (resData.enCode == 1001 ) {
                     //   失败  1001
-                        this.$toast(resData.msg);
                         this.noInfo = true;
                         return;
                     }else{
