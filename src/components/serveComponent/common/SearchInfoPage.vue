@@ -75,6 +75,23 @@
         </mt-loadmore>
         <div class="footer" v-if="isShow">没有更多数据了~</div>
     </div>
+    <div class="content1" :style="{height:height,fontSize:'16px'}" v-if="jy7211Medical">
+        <mt-loadmore
+          :bottom-method="loadBottom"
+          :bottom-all-loaded="allLoaded"
+          ref="loadmore"
+        >
+          <ul class="ListContent">
+            <li
+              class="List"
+              v-for="(item,index) in List"
+              :key="index"
+              @click="chooseHospital(item.AAA102,item.AAA103)"
+            >{{ item.AAA103 | tooLong}}</li>
+          </ul>
+        </mt-loadmore>
+        <div class="footer" v-if="isShow">没有更多数据了~</div>
+    </div>
   </div>
 </template>
 
@@ -132,6 +149,11 @@ export default {
     },
     //特治特药7211
     jy7211:{
+        type: Boolean,
+        default:false
+    },
+    //特治特药7211疾病名称等
+    jy7211Medical:{
         type: Boolean,
         default:false
     },
@@ -268,7 +290,51 @@ export default {
               return;
             }
           });
+      }else if(this.jy7211Medical){
+        // 封装数据
+        let params = this.formatSubmitData();
+        // 开始请求
+        this.$axios.post(this.epFn.ApiUrl()+"/h5/jy2001/optionInformationList",params).then(resData => {
+            console.log("返回成功信息", resData.LS_DS);
+            //   成功   1000
+            if (resData.enCode == 1000) {
+              
+              // this.$toast("提交成功");
+              if (resData.LS_DS.length > 0) {
+                this.List = [...this.List, ...resData.LS_DS];
+                let pageNum = Math.ceil(this.List.length / this.params.pageSize);
+                //向上取整
+                this.params.pageNum = pageNum;
+                // 总页数
+                if (resData.pages > pageNum) {
+                  this.params.pageNum += 1;
+                  this.allLoaded = false;
+                  sessionStorage.setItem("params", JSON.stringify(this.params));
+                  // sessionStorage.setItem("pointList", JSON.stringify(this.List));
+                }else{
+                  this.isShow = true
+                }
+                if(resData.pages<=15){
+                  this.isShow = true
+                  this.allLoaded = true;
+                }
+                sessionStorage.setItem("pointList", JSON.stringify(this.List));
+                sessionStorage.setItem("params", JSON.stringify(this.params));
+                // sessionStorage.setItem("params", JSON.stringify(this.params));
+              }else{
+                  this.isShow = true
+              }
+            } else if (resData.enCode == 1001) {
+              //   失败  1001
+              this.$toast(resData.msg);
+              return;
+            } else {
+              this.$toast("业务出错");
+              return;
+            }
+          });
       }else{
+        this.showHospital=true;
         // 封装数据
         let params = this.formatSubmitData();
         // 开始请求
