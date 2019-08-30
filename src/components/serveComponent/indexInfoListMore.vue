@@ -21,9 +21,10 @@
                     <div class="iconList" v-if="listLine.children.length != 0">
                         <div class="listHeader" v-if="index != 0">{{listLine.iconCategoryName}}</div>
                         <div class="iconContent" :id="'iconContent'+index">
-                            <div class="iconBox" v-for="icon in listLine.children" :key="icon.blockAppId" @click="jumpToUrl(icon.jumpUrl,icon.status)">
+                            <div class="iconBox" v-for="icon in listLine.children" :key="icon.blockAppId"  @click="jumpToUrl(icon.jumpUrl,icon.status)">
                                 <div class="photoBox"><img :src="icon.outPicUrl" /></div>
                                 <div class="text">{{icon.mattersName}}</div>
+                                <svg-icon v-if="icon.mattersId == 40 || icon.mattersId == 41" class="provinceIcon" icon-class="serveComponent_province" />
                             </div>
                         </div>
                     </div>
@@ -205,6 +206,7 @@ export default {
     methods:{
         // 跳转配置的地址
         jumpToUrl(url,status){
+            // return;
             if(status == '1'){
                 this.$toast('该区域暂未开通');
                 return;
@@ -213,6 +215,7 @@ export default {
                 if(url.split('/').pop() == 'smallReim' || url.split('/').pop() == 'transferRenewing'){
                     this.$router.push(url.split('/').pop());
                 }else{
+                    
                     // 其他项目跳转
                     let userType = sessionStorage.getItem('userType')
                     if(userType == 0 || userType == 1){
@@ -220,6 +223,19 @@ export default {
                             let route = url.split('/');
                             this.$router.push(route.pop());
                         }else{
+                            console.log(11111111111111)
+                            if (url.indexOf("?") != -1) {
+                                
+                                url = url + '&' + 'token=' + sessionStorage.getItem("getToken");
+                                // url = url + '&' + 'token=' + '8afac8196c756f1f016cac693beb2088-commonToken'
+                                // console.log(url)
+                                // return
+                            } else {
+                                url = url + '?' + 'token=' + sessionStorage.getItem("getToken");
+                                // url = url + '&' + 'token=' + '8afac8196c756f1f016cac693beb2088-commonToken'
+                                // console.log(url)
+                                // return
+                            }
                             window.location.href = url;
                         }
                     }else{
@@ -228,6 +244,8 @@ export default {
                             let route = url.split('/');
                             this.$router.push(route.pop());
                         }else{
+                            console.log(11111111111111)
+                            
                             window.location.href = url;
                         }
                     }

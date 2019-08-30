@@ -87,7 +87,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>退休工资</span></div>
-                    <div class="InfoText"><input type="tel"  @blur="setMoney"  v-model="form.AAE041" placeholder="请输入">元</div>
+                    <div class="InfoText"><input type="number"  @blur="setMoney"  v-model="form.AAE041" placeholder="请输入">元</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName">
@@ -164,7 +164,9 @@
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showAll"></Footer>
         <!-- 法人绑定 -->
-        <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding>
+        <!-- <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding> -->
+         <!-- 判断是否绑定经办组建-->
+        <BindingAgency></BindingAgency>
     </div>
 </template>
 
@@ -172,7 +174,7 @@
 export default {
     data() {
         return {
-            bindingFlag: false,
+            // bindingFlag: false,
             showAll:false,//展示所有内容
             isShow:false,//显示提前退休原因
             dateVal: new Date(), //默认绑定的时间
@@ -322,10 +324,10 @@ export default {
     },
     methods:{
       // 绑定成功后执行的请求
-      changeFlag(val){
-        this.bindingFlag = val;
-        let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
-      },
+    //   changeFlag(val){
+    //     this.bindingFlag = val;
+    //     let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+    //   },
         // 跳转前检查用户是否法人绑定
         checkJump(){
             let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
@@ -358,7 +360,7 @@ export default {
             }
         },
         setMoney(){
-            if(!/^[0-9]+$/.test(this.form.AAE041)){
+            if(!/^\d*\.{0,1}\d{0,5}$/.test(this.form.AAE041)){
                 this.form.AAE041='';
                 this.$toast("退休工资只能输入数字");
             }
@@ -385,7 +387,7 @@ export default {
             console.log("end",end)
             if(start&&end){
                 if(start-end>=0){
-                    this.$toast('开始日期需小于结束日期');
+                    this.$toast('开始工作时间请小于结束工作时间');
                     this.LS_DS[this.index].timeStart= '';
                 }else{
                     this.LS_DS[this.index].AKC421=start+"-"+end
@@ -419,7 +421,7 @@ export default {
             console.log("end",end)
             if(start&&end){
                 if(end-start<=0){
-                    this.$toast('结束日期需大于开始日期');
+                    this.$toast('结束工作时间请大于开始工作时间');
                     this.LS_DS[this.index].timeEnd= '';
                 }else{
                 this.LS_DS[this.index].AKC421=start+"-"+end

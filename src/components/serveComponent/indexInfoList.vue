@@ -1,6 +1,7 @@
 <template>
     <div class="indexInfoList">
         <!-- 提示 -->
+        <IndexMask></IndexMask>
         <div class="Hint" v-if="isTips">
             <div class="HintContent">
                 <p class="HintText">
@@ -85,12 +86,15 @@
                 </div>
                 <div class="imgBox"><img :src=item.src></div>
             </div>
+            <div class="moreInfo" v-if="showMoreInfoBtn">
+                <span @click="goDetail('more')">更多内容<svg-icon icon-class="serveComponent_arrowLineRight"/></span>
+            </div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
             <div class="btn" @click="changeLegalPersonRegion(true)">参保地</div>
-            <div class="btn" @click="changeLegalPersonId(true)">法人身份证号</div>
-            <div class="btn" @click="changeLegalPersonName(true)">法人姓名</div>
+            <div class="btn" @click="changeLegalPersonId(true)">经办人身份证号</div>
+            <div class="btn" @click="changeLegalPersonName(true)">经办人姓名</div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
             <button class="btn" @click="change()">切换</button>
@@ -122,6 +126,7 @@
                 isClear: true,
                 iconList: [], //图标列表,
                 isVisible: false,
+                showMoreInfoBtn: false, //更多咨询按钮
                 resData: {
                     CompanyName: "浙江政务网法人测试用户",
                     CompanyRegNumber: "91330103704789206U",
@@ -172,11 +177,9 @@
                         console.log('返回成功信息', resData);
                         //  保存法人信息对象
                         // 请求图标和咨询
-                        // if (resData.xzqh == "" || resData.xzqh == null ) {
-                        //     resData.xzqh == "339900"
-                        // }
-                        
-                        resData.xzqh = "339900"
+                        if (resData.xzqh == "" || resData.xzqh == null || resData.xzqh == undefined) {
+                            resData.xzqh == "339900"
+                        }
                         this.getMatterInfo(resData.xzqh);
                         this.getNewsInfo(resData.xzqh);
                         sessionStorage.setItem("LegalPerson", JSON.stringify(resData))
@@ -199,6 +202,7 @@
 
                         }
                         console.log("全局实现配置法人参数", JSON.parse(sessionStorage.getItem("globalConfigObj")))
+                        const globalConfigObj = JSON.parse(sessionStorage.getItem("globalConfigObj"))
                         if (globalConfigObj == null || globalConfigObj == undefined || globalConfigObj == '{}') {
                             // 证明不是url事项配置 走正常逻辑
                             this.ifShow = false; //隐藏输入人名社保卡
@@ -220,7 +224,7 @@
                 }
             } else { //测试环境
             this.ifShow =  true
-                sessionStorage.setItem('userType', 2);
+                sessionStorage.setItem('userType', "2");
                 sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
             }
             console.log('获取token', sessionStorage.getItem('getToken'))
@@ -272,13 +276,16 @@
             },
             // 资讯跳转详情
             goDetail(item) {
-                console.log("item:", item)
-                this.$router.push({
-                    path: "/goDetail",
-                    query: {
-                        param: item
-                    }
-                })
+                if(item == 'more'){
+                    this.$router.push({path:'/moreHotMsg'})
+                }else{
+                    this.$router.push({
+                        path: "/goDetail",
+                        query: {
+                            param: item
+                        }
+                    })
+                }
             },
             // 跳转配置的地址
             jumpToUrl(url, status) {
@@ -321,13 +328,15 @@
                     console.log('图标列表', this.iconList);
                 })
             },
-            // ·列表
+            // 获取咨询列表
             getNewsInfo(code) {
                 let _this = this;
                 let userType = sessionStorage.getItem('userType')
                 let params = {
                     "areaId": code,
-                    "statusType": 2 //1代表个人2代表单位
+                    "statusType": 2, //1代表个人2代表单位
+                    "pageNum": "1",
+                    "pageSize": "3"
                 };
                 _this.$axios.post(_this.epFn.ApiUrl() + "/H5/jy0001/getAreaList", params).then((resData) => {
                     console.log('resData', resData)
@@ -341,7 +350,10 @@
                     _this.hotMsg.forEach(ele => {
                         ele.src = ele.synopsisUrl;
                     })
-                    this.hotMsg.slice(0,5);
+                    if(resData.list.length > 2){
+                        this.showMoreInfoBtn = true
+                    }
+                    this.hotMsg = this.hotMsg.slice(0, 2);
                     console.log('获取资讯列表', _this.hotMsg);
                 })
             },
@@ -618,11 +630,14 @@
                         value,
                         action
                     }) => {
+                        console.log("输完用户名的数据前",this.resData)
+
                         if (value == null || value == "") {
                             this.resData.attnName = ""
                         } else {
                             this.resData.attnName = value;
                         }
+                        console.log("输完用户名的数据后",this.resData)
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
                     });
                 } else {
@@ -942,6 +957,17 @@
                         width: 100%;
                         border-radius: .05rem
                     }
+                }
+            }
+            .moreInfo{
+                height: 1.1rem;
+                padding-top: .26rem;
+                span{
+                    display: block;
+                    font-size: .28rem;
+                    color: #999999;
+                    letter-spacing: 0;
+                    line-height: .36rem;
                 }
             }
         }

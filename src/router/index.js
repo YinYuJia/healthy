@@ -5,6 +5,7 @@ import GlobalConfig from '@/components/serveComponent/GlobalConfig'
 import indexInfoList from '@/components/serveComponent/indexInfoList'
 import indexInfoList1 from '@/components/serveComponent/indexInfoList1'
 import goDetail from '@/components/serveComponent/goDetail'
+import moreHotMsg from '@/components/serveComponent/moreHotMsg'
 import indexInfoListMore from '@/components/serveComponent/indexInfoListMore'
 import BusinessGuide from '@/components/serveComponent/BusinessGuide'
 import CompleteUpload from '@/components/serveComponent/CompleteUpload'
@@ -43,6 +44,7 @@ import abroadDetail from '@/components/serveComponent/record/abroadTake/abroadDe
 import searchTakeDrug from '@/components/serveComponent/record/abroadTake/searchTakeDrug'
 import familyAid from '@/components/serveComponent/record/familyAid/familyAid'
 import familyDetail from '@/components/serveComponent/record/familyAid/familyDetail'
+import familyAidDel from '@/components/serveComponent/record/familyAid/familyAidDel'
 import specialDrug from '@/components/serveComponent/record/specialDrug/specialDrug'
 import specialDrugDetail from '@/components/serveComponent/record/specialDrug/specialDrugDetail'
 import chronicDisease from '@/components/serveComponent/record/chronicDisease/chronicDisease'
@@ -61,6 +63,8 @@ import smallReimDetail from '@/components/serveComponent/treat/smallReim/smallRe
 import invoiceDetail from '@/components/serveComponent/treat/smallReim/invoiceDetail'
 import payLimit from '@/components/serveComponent/treat/payLimit/payLimit'
 import payLimitDetail from '@/components/serveComponent/treat/payLimit/payLimitDetail'
+import lElseWhere from '@/components/serveComponent/treat/legalElseWhere/lElseWhere'
+import lElseWhereDetail from '@/components/serveComponent/treat/legalElseWhere/lElseWhereDetail'
 import searchBaseInfo from '@/components/serveComponent/personal/searchBaseInfo/searchBaseInfo'
 import medicalInsuranceAccount from '@/components/serveComponent/personal/searchBaseInfo/medicalInsuranceAccount'
 import searchInsuredInfo from '@/components/serveComponent/personal/searchInsuredInfo/searchInsuredInfo'
@@ -98,6 +102,21 @@ export default new Router({
       path: '/goDetail',
       name: 'goDetail',
       component: goDetail
+    },
+    {
+      path: '/moreHotMsg',
+      name: 'moreHotMsg',
+      component: moreHotMsg
+    },
+    {
+      path: '/lElseWhere',
+      name: 'lElseWhere',
+      component: lElseWhere
+    },
+    {
+      path: '/lElseWhereDetail',
+      name: 'lElseWhereDetail',
+      component: lElseWhereDetail
     },
     {
       path: '/Index',
@@ -244,6 +263,11 @@ export default new Router({
       path: '/familyAid',
       name: 'familyAid',
       component: familyAid
+    },
+    {
+      path: '/familyAidDel',
+      name: 'familyAidDel',
+      component: familyAidDel
     },
     {
       path: '/specialDrug',

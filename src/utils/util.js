@@ -99,6 +99,11 @@ if (value && (!(/\d{17}[\d|x]|\d{15}/).test(value) || (value.length !== 15 && va
     return true;
 }
 }
+function idCard1(val) {
+    var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+
+     return idcardReg.test(val)
+}
 //邮政编码校验
 function postOffic(value){
     if(value && (!(/[1-9][0-9]{5}/).test(value))){
@@ -174,4 +179,5 @@ export default{
     passPort,
     checkMail,
     getToken,
+    idCard1
 }

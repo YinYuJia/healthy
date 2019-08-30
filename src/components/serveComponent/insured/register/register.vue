@@ -35,7 +35,7 @@
               <span>统一社会信用代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB003" type="text" maxlength="20" placeholder="请输入" />
+              <input v-model="form.AAB003" type="text" @blur="check()" maxlength="20" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -43,7 +43,7 @@
               <span>单位名称：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB004" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB004" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
 
@@ -52,7 +52,7 @@
               <span>联系电话：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE005" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.AAE005" type="tel" maxlength="13" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -60,7 +60,7 @@
               <span>单位地址：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.address" @click="openPickerCity" type="text" placeholder="请选择" readonly />
+              <input v-model="params.address" @click="openPickerCity" type="text" placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -69,7 +69,7 @@
               <span>地址详情：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.addressDetail" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="params.addressDetail" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -77,7 +77,7 @@
               <span>邮政编码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE007" type="tel" maxlength="6" placeholder="请输入" />
+              <input v-model="form.AAE007" type="tel" maxlength="6" placeholder="请输入"  />
             </div>
           </div>
           <div class="bgc"></div>
@@ -89,7 +89,7 @@
               <span>单位类型：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB019VALUE" @click="openPicker('AAB019')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB019VALUE" @click="openPicker('AAB019')" type="text" placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -98,7 +98,7 @@
               <span>主管部门/总机构：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB023" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB023" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -106,7 +106,7 @@
               <span>经济类型：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB020VALUE" @click="openPicker('AAB020')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB020VALUE" @click="openPicker('AAB020')" type="text" placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -115,7 +115,7 @@
               <span>隶属关系：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB021VALUE" @click="openPicker('AAB021')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB021VALUE" @click="openPicker('AAB021')" type="text" placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -124,7 +124,7 @@
               <span>经济来源：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BAB451VALUE" @click="openPicker('BAB451')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.BAB451VALUE" @click="openPicker('BAB451')" type="text" placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -133,7 +133,7 @@
               <span>行业代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB022VALUE" @click="openPicker('AAB022')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB022VALUE" @click="openPicker('AAB022')" type="text" placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -146,7 +146,7 @@
               <span>法人登记证种类：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB006VALUE" @click="openPicker('AAB006')" type="text" placeholder="请选择" readonly />
+              <input v-model="form.AAB006VALUE" @click="openPicker('AAB006')" type="text" placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -155,7 +155,7 @@
               <span>发证日期：</span>
             </div>
             <div class="InfoText">
-              <input @click="openStartPicker" type="text" v-model="form.AAB036" placeholder="请选择" readonly />
+              <input @click="openStartPicker" type="text" v-model="form.AAB036" placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -164,7 +164,7 @@
               <span>批准成立单位：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE048" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAE048" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -172,7 +172,7 @@
               <span>批准日期：</span>
             </div>
             <div class="InfoText">
-              <input @click="openStartPicker1" type="text" v-model="form.AAB011" placeholder="请选择" readonly />
+              <input @click="openStartPicker1" type="text" v-model="form.AAB011" placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -181,7 +181,7 @@
               <span>批准文号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB012" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB012" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
           <div class="bgc"></div>
@@ -193,7 +193,7 @@
               <span>法人代表姓名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB013" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAB013" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -201,7 +201,7 @@
               <span>法人代表身份证号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BAB014" type="text" maxlength="20" placeholder="请输入" />
+              <input v-model="form.BAB014" type="text" maxlength="20" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -209,7 +209,7 @@
               <span>法人代表电话：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE280" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.BKE280" type="tel" maxlength="11" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -217,7 +217,7 @@
               <span>专管员姓名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE281" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.BKE281" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -225,7 +225,7 @@
               <span>专管员手机：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE283" type="tel" maxlength="11" placeholder="请输入" />
+              <input v-model="form.BKE283" type="tel" maxlength="11" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -233,7 +233,7 @@
               <span>专管员所在部门：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.BKE285" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.BKE285" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
           <div class="bgc"></div>
@@ -245,7 +245,7 @@
               <span>缴费开户银行：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE008VALUE" @click="chooseBank()" type="text"  placeholder="请选择" readonly />
+              <input v-model="form.AAE008VALUE" @click="chooseBank()" type="text"  placeholder="请选择" readonly  />
               <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
           </div>
@@ -254,7 +254,7 @@
               <span>缴费开户名：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE009" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAE009" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -262,7 +262,7 @@
               <span>缴费银行账号：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAE010" type="text" maxlength="50" placeholder="请输入" />
+              <input v-model="form.AAE010" type="text" maxlength="50" placeholder="请输入"  />
             </div>
           </div>
           <div class="bgc"></div>
@@ -293,9 +293,11 @@ export default {
       ],
       dateVal: '',
       dateVal1: '',
-      form: {
+      params:{
         address: '',
         addressDetail:'',//详细地址
+      },
+      form: {
         AAB003: '', // 统一社会信用代码
         AAB004: '', // 单位名称
         AAB023: '', // 主管部门或总机构
@@ -328,7 +330,9 @@ export default {
         BAB451: '', // 经济来源
         BAB451VALUE: '', // 经济来源
         AAE006: '', // 联系地址
+        BKZ019:''//经办编号
       },
+      form1:{},
       startDate: new Date(),
       canSubmit: false,
     }
@@ -336,21 +340,29 @@ export default {
   watch: {
     form: {
       handler: function (val) {
-        if(val.address!=''&&val.addressDetail!=''){
-          val.AAE006=val.address+val.addressDetail;
-        }
         if(val.AAB023!=''&&val.AAB019!=''&&val.AAE007!=''&&val.AAB020!=''&&val.AAB021!=''&&val.AAB022!=''
         &&val.AAB006!=''&&val.AAB036!=''&&val.AAE048!=''&&val.AAB011!=''&&val.AAB012!=''&&val.AAB013!=''&&val.BAB014!=''&&val.BKE280!=''&&val.BKE281!=''
-        &&val.BKE283!=''&&val.BKE285!=''&&val.AAE005!=''&&val.AAE008!=''&&val.AAE009!=''&&val.AAE010!=''&&val.BAB451!=''&&val.AAE006!=''){
+        &&val.BKE283!=''&&val.BKE285!=''&&val.AAE005!=''&&val.AAE008!=''&&val.AAE009!=''&&val.AAE010!=''&&val.BAB451!=''&&val.AAE006!=''&&val.AAB003){
           this.canSubmit = true
         }else{
           this.canSubmit = false
         }
       },
       deep: true
+    },
+    params:{
+      handler:function(val){
+        console.log(val)
+        if(val.address!=''&&val.addressDetail!=''){
+          this.form.AAE006=val.address+'|'+val.addressDetail;
+          console.log(this.form.AAE006)
+        }
+      },
+      deep:true
     }
   },
   created () {
+    console.log("22",JSON.stringify(this.form1)=='{}')
     this.getSelectInfo('AAB019')
     this.getSelectInfo('AAB020')
     this.getSelectInfo('AAB021')
@@ -361,6 +373,23 @@ export default {
     this.getFromInfo()
   },
   methods: {
+    check(){
+          let params = {};
+          params.sydwTycode=this.form.AAB003;
+          console.log('----params----',params)
+
+          this.$axios.post( this.epFn.ApiUrl() +  '/H5/jy0006/getAreaList', params)
+          .then((resData) => {
+
+              if(resData.enCode == '1000'){
+                  console.log("返回成功信息",resData)
+              }else{
+                  this.$toast(resData.msg)
+              }
+          }).catch((error) => {
+              console.log(error)
+          })
+    },
     // 选择就诊医院
     chooseBank(){
         this.$refs.bank.open();
@@ -411,10 +440,82 @@ export default {
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100-3')
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getDetail', params).then(resData => {
         if (resData.enCode == 1000) {
-          for (var key in this.form) {
-              // this.form=resData.LS_DS_16;
-          }
-          // this.form = resData.LS_DS_16
+          console.log("结果",resData)
+          this.form1=resData.LS_DS_16;
+          // for (var key in this.form) {
+          //     // this.form=resData.LS_DS_16;
+          // }
+        // address: '',
+        // addressDetail:'',//详细地址
+        // AAB003: '', // 统一社会信用代码
+        // AAB004: '', // 单位名称
+        // AAB023: '', // 主管部门或总机构
+        // AAB019: '', // 单位类型
+        // AAB019VALUE: '', // 单位类型
+        // AAE007: '', // 邮政编码
+        // AAB020: '', // 经济类型
+        // AAB020VALUE: '', // 经济类型
+        // AAB021: '', // 隶属关系
+        // AAB021VALUE: '', // 隶属关系
+        // AAB022: '', // 行业代码
+        // AAB022VALUE: '', // 行业代码
+        // AAB006: '', // 法人登记证种类
+        // AAB006VALUE: '', // 法人登记证种类
+        // AAB036: '', // 发证日期
+        // AAE048: '', // 批准成立单位
+        // AAB011: '', // 批准日期
+        // AAB012: '', // 批准文号
+        // AAB013: '', // 法人代表姓名
+        // BAB014: '', // 法人身份证号码
+        // BKE280: '', // 法人电话
+        // BKE281: '', // 单位专管员姓名
+        // BKE283: '', // 单位专管员手机
+        // BKE285: '', // 单位专管员所在部门
+        // AAE005: '', // 联系电话
+        // AAE008: '', // 缴费开户银行
+        // AAE008VALUE: '', // 缴费开户银行
+        // AAE009: '', // 缴费银行户名
+        // AAE010: '', // 缴费银行账号
+        // BAB451: '', // 经济来源
+        // BAB451VALUE: '', // 经济来源
+        // AAE006: '', // 联系地址
+          this.form.AAB003 = resData.LS_DS_16.AAB003;
+          this.params.address = resData.LS_DS_16.AAE006.split('|')[0];
+          this.params.addressDetail =  resData.LS_DS_16.AAE006.split('|')[1];
+          this.form.AAB004 = resData.LS_DS_16.AAB004;
+          this.form.AAB023 = resData.LS_DS_16.AAB023;
+          this.form.AAB004 = resData.LS_DS_16.AAB004;
+          this.form.AAB019 = resData.LS_DS_16.AAB019;
+          this.form.AAB019VALUE = resData.LS_DS_16.AAB019VALUE;
+          this.form.AAE007 = resData.LS_DS_16.AAE007;
+          this.form.AAB020 = resData.LS_DS_16.AAB020;
+          this.form.AAB020VALUE = resData.LS_DS_16.AAB020VALUE;
+          this.form.AAB021 = resData.LS_DS_16.AAB021;
+          this.form.AAB021VALUE = resData.LS_DS_16.AAB021VALUE;
+          this.form.AAB022 = resData.LS_DS_16.AAB022;
+          this.form.AAB022VALUE = resData.LS_DS_16.AAB022VALUE;
+          this.form.AAB006 = resData.LS_DS_16.AAB006;
+          this.form.AAB006VALUE = resData.LS_DS_16.AAB006VALUE;
+          this.form.AAB036 = resData.LS_DS_16.AAB036;
+          this.form.AAE048 = resData.LS_DS_16.AAE048;
+          this.form.AAB011 = resData.LS_DS_16.AAB011;
+          this.form.AAB012 = resData.LS_DS_16.AAB012;
+          this.form.AAB013 = resData.LS_DS_16.AAB013;
+          this.form.BAB014 = resData.LS_DS_16.BAB014;
+          this.form.BKE280 = resData.LS_DS_16.BKE280;
+          this.form.BKE281 = resData.LS_DS_16.BKE281;
+          this.form.BKE283 = resData.LS_DS_16.BKE283;
+          this.form.BKE285 = resData.LS_DS_16.BKE285;
+          this.form.AAE005 = resData.LS_DS_16.AAE005;
+          this.form.AAE008 = resData.LS_DS_16.AAE008;
+          this.form.AAE008VALUE = resData.LS_DS_16.AAE008VALUE;
+          this.form.AAE009 = resData.LS_DS_16.AAE009;
+          this.form.AAE010 = resData.LS_DS_16.AAE010;
+          this.form.BAB451 = resData.LS_DS_16.BAB451;
+          this.form.BAB451VALUE = resData.LS_DS_16.BAB451VALUE;
+          this.form.AAE006 = resData.LS_DS_16.AAE006;
+          this.form.BKZ019 = resData.LS_DS_16.BKZ019;
+          
         } else if (resData.enCode == 1001) {
           //   失败  1001
           console.log('返回信息失败', resData)
@@ -482,7 +583,7 @@ export default {
     chooseCity (val) {
       console.log("选择城市",val)
       // 这里有地址的汉字和code
-      this.form.address = val.name
+      this.params.address = val.name
     },
     onChooseChange (picker, values) {
       if (values[0] !== undefined) {
@@ -548,10 +649,25 @@ export default {
                   this.$toast('请填写正确的法人代表身份证号')
                   return false
             }
+            // for(let item in this.form){
+            //   if(this.form[item] != this.form1[item]){
+            //     console.log("999999999",this.form[item],this.form1[item])
+            //   }
+            // }
             let params = this.formatSubmitData()
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getRecord ', params).then(resData => {
               //   成功   1000
               if (resData.enCode == 1000) {
+              if(JSON.stringify(this.form1)=='{}'){
+                  console.log('首次参保')
+              }else{
+                for(let item in this.form){
+                  if(this.form[item] != this.form1[item]){
+                    console.log("999999999",this.form[item],this.form1[item])
+                    this.$toast('信息有修改，请重新下载并上传')
+                  }
+                }
+              }
                 console.log('返回信息成功', resData)
                 this.$store.dispatch('REGISTER_INFO', resData)
                 this.$router.push({ path: '/registerTwo' })
@@ -663,7 +779,7 @@ export default {
           }
         }
         &:last-of-type(2) {
-          // border-bottom: none;
+          border-bottom: none;
         }
       }
       .changeUserBtn {

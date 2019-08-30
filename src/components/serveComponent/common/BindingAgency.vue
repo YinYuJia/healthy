@@ -1,5 +1,5 @@
 <template>
-<div class="Binding" v-if="NewShow">
+<div class="Binding" v-if="flag">
     <div class="main">
         <div class="bg">
             <svg-icon icon-class="login_bg"></svg-icon>
@@ -39,12 +39,6 @@
 <script>
 import md5 from 'js-md5'
 export default {
-    props:{
-        flag:{
-            type: Boolean,
-            default: false
-        }
-    },
     data () {
         return {
             canSubmit:false,
@@ -55,11 +49,7 @@ export default {
             },
             imgUrl: '',
             canClick: true, //是否能点击刷新，控制点击频率
-        }
-    },
-    computed: {
-        NewShow(){
-            return this.flag
+            flag:false
         }
     },
     created(){
@@ -68,6 +58,7 @@ export default {
         }else{
          this.imgUrl = 'https://ybj.zjzwfw.gov.cn/api/H5/jy0004/code?userId=' + JSON.parse(sessionStorage.getItem('LegalPerson')).userId
         }
+        this.checkJump()
     },
     watch: {
         form:{
@@ -82,6 +73,30 @@ export default {
         }
     },
     methods: {
+        checkJump(){
+            let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
+            let params = {
+                OTHERINFO: user.userId
+            }
+            this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9102/distanceHospital", params).then((resData) => {
+                console.log('绑定',resData)
+                if(resData.enCode == 1000){
+                    if(resData.LS_DS[0].USEGUL == '1'){
+                        sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
+                        this.flag = false;
+                    }else{
+                        this.flag = true;
+                    }
+                }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                    this.flag = true;
+                }else{
+                    this.$toast('业务出错');
+                    this.flag = true;
+                    return false;
+                }
+            })
+        },
         deleteUserName(){
             this.form.userName=""
         },
@@ -115,9 +130,10 @@ export default {
                 if(resData.enCode == 1000){
                     sessionStorage.setItem('LOGINNAME',this.form.userName);
                     this.$toast('绑定成功')
-                    this.$emit('changeFlag', false);
+                    this.flag = false;
                 }else{
                     this.$toast(resData.msg)
+                    this.flag = true;
                 }
             }).catch((error) => {
                 console.log(error)

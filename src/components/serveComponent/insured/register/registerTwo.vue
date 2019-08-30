@@ -37,25 +37,27 @@ export default {
     console.log(this.$store.state.REGISTER_INFO)
     this.reportImg = this.$store.state.REGISTER_INFO.imgUrl
     console.log("链接",this.$store.state.REGISTER_INFO.pdfUrl)
+    this.pdfUrl=this.$store.state.REGISTER_INFO.pdfUrl
   },
   methods: {
     goUpload () {
       this.$router.push({ path: '/registerThree' })
     },
     downReport () {
-            
-            let _this = this;
-            console.log(2222)
-            var u = navigator.userAgent;
-            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-            console.log("是否为苹果设备",isiOS);
-            if ( isiOS ) {
+            console.log('pdf路径',this.pdfUrl)
+            window.location.href = this.pdfUrl
+            // let _this = this;
+            // console.log(2222)
+            // var u = navigator.userAgent;
+            // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            // console.log("是否为苹果设备",isiOS);
+            // if ( isiOS ) {
 
-                window.location.href = _this.pdfUrl
+            //     window.location.href = _this.pdfUrl
 
-            }else{
+            // }else{
                 
-                window.location.href = _this.pdfUrl
+            //     window.location.href = _this.pdfUrl
 
                 // dd.ready({
                 // developer: 'daip@dtdream.com',
@@ -71,7 +73,7 @@ export default {
                 //     })
                 // })
             }
-    }
+    
   }
 }
 </script>
@@ -84,18 +86,23 @@ export default {
   width: 100%;
   margin-bottom:  1.65rem;
 }
-.picWrap {
+.picWrap { 
+  height: 100%;
   // height: 12rem;
 }
 .reportImgClass{
   width: 100%;
+  height: 100%;
 }
 .tips {
   font-size: 0.24rem;
   text-align: left;
+  position: relative;
+  top: -20%;
   color: #000;
-  line-height: 2;
+  line-height: 1rem;
   margin-left: 30px;
+  padding-bottom: 2rem;
   font-family: PingFangSC-Regular;
   opacity: 0.45;
 }
