@@ -97,7 +97,7 @@ export default {
                         JSON.stringify(resData)
                     );
                     if (resData.enCode == 1000) {
-                        this.$router.push("/insuredDownload");
+                        this.$router.push({path: "insuredDownload", query: {params: "子女缴费证明"}});
                     } else if (resData.enCode == 1001) {
                         this.$toast(resData.msg);
                     }
