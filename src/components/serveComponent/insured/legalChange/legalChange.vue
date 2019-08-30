@@ -173,7 +173,12 @@ export default {
         changeFlag(val){
             this.bindingFlag = val;
             let user = JSON.parse(sessionStorage.getItem("LegalPerson"));
-            this.form.AAB301=user.xzqh;
+            if (user.xzqh == '330000' ) {
+this.form.AAB301='339900'
+            }else{
+ this.form.AAB301=user.xzqh;
+            }
+           
             this.requset1();
         },
         // 跳转前检查用户是否法人绑定
@@ -188,7 +193,12 @@ export default {
                     if(resData.LS_DS[0].USEGUL == '1'){
                         sessionStorage.setItem('LOGINNAME',resData.LS_DS[0].LOGINNAME);
                         let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                        this.form.AAB301=LegalPerson.xzqh;
+                        if(LegalPerson.xzqh == '330000' ) {
+                            this.form.AAB301 = '339900'
+                        }else{
+ this.form.AAB301=LegalPerson.xzqh;
+                        }
+                       
                         this.requset1();
                         this.bindingFlag = false;
                     }else{
@@ -346,7 +356,12 @@ export default {
                 console.log("person",LegalPerson)
                 // console.log("9999",LegalPerson)
                 submitForm.AAC003=LegalPerson.attnName||this.personName;//单位名称
+                if(LegalPerson.xzqh =='330000' ) {
+                    submitForm.AAB301 = '339900'
+                }else{
                 submitForm.AAB301=LegalPerson.xzqh//统筹区
+                }
+
                 submitForm.BKE520='1'
                 submitForm.AAE135=LegalPerson.attnIDNo||this.personId;//身份证号
                 submitForm.userId=LegalPerson.userId;//userId

@@ -52,7 +52,12 @@ export default {
             console.log("法人用户")
             this.userType = '2'
             let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-            this.areaId = LegalPerson.xzqh
+            if( LegalPerson.xzqh == '330000') {
+                this.areaId  = '339900'
+            }else{
+  this.areaId = LegalPerson.xzqh
+            }
+          
         }
         this.getNewsInfo()
     },

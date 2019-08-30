@@ -235,17 +235,21 @@
                                     // console.log(url)
                                     // return
                                 }
-                                window.location.href = url;
+                                    window.location.href = url;
                             }
                         } else {
                             let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                            if (LegalPerson.xzqh == "339900") {
+                            if (LegalPerson.xzqh == "339900" || LegalPerson.xzqh == '330000') {
                                 let route = url.split('/');
                                 this.$router.push(route.pop());
                             } else {
-                                console.log(11111111111111)
-                                window.location.href = url;
-                            }
+                                if (url.indexOf("?") != -1) {
+                                    url = url + '&' + 'ssoToken=' + sessionStorage.getItem("ssoToken");
+                                } else {
+                                    url = url + '?' + 'ssoToken=' + sessionStorage.getItem("ssoToken");
+                                }
+                                    window.location.href = url;
+                                }
                         }
                     }
                 }

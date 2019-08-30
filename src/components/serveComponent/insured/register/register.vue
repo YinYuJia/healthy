@@ -362,6 +362,7 @@ export default {
     }
   },
   created () {
+    this.epFn.setTitle('单位参保登记')
     console.log("22",JSON.stringify(this.form1)=='{}')
     this.getSelectInfo('AAB019')
     this.getSelectInfo('AAB020')
@@ -435,7 +436,12 @@ export default {
       let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
       console.log("LegalPerson",LegalPerson)
       submitForm.AAC003 = LegalPerson.attnName 
-      submitForm.AAB301 = LegalPerson.xzqh
+      if( LegalPerson.xzqh == '330000') {
+        submitForm.AAB301 = '339900'
+      }else{
+        submitForm.AAB301 = LegalPerson.xzqh
+      }
+     
       submitForm.AAE135 = LegalPerson.attnIDNo 
       const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader, submitForm, '9100-3')
       this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9100/getDetail', params).then(resData => {
@@ -693,7 +699,12 @@ export default {
       // console.log("9999",LegalPerson)
       submitForm.AAC003=LegalPerson.attnName;//单位名称
       submitForm.userId=LegalPerson.userId;//userId
+      if(LegalPerson.xzqh =='330000' ) {
+        submitForm.AAB301 = '339900'
+      }else{
       submitForm.AAB301=LegalPerson.xzqh//统筹区
+      }
+
       submitForm.AAE135=LegalPerson.attnIDNo;//身份证号
       submitForm.BKE520='1'//数据来源
       
