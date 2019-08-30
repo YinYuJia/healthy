@@ -217,8 +217,8 @@ export default {
                 // submitForm.AGA002 =  "330800253013";
                 submitForm.BKZ019=this.$route.query.param||""
             // 加入用户名和电子社保卡号
-            let legalData = JSON.parse(sessionStorage.getItem('legalData'))
-                submitForm.AAC003 = legalData.AAC003
+                let legalData = JSON.parse(sessionStorage.getItem('legalData'))
+                submitForm.AAC003 = legalData.AAC003 
                 submitForm.AAE135 = legalData.AAC002;
             
             // 请求参数封装

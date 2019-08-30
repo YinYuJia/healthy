@@ -91,6 +91,10 @@
 							case '确认-00122-002': path = '/registerFour';break; //单位新参保
 							case '公共服务-00501-004': path = '/legalChangeDetail'; break; //单位变更
 							case '确认-00123-004': path = '/payLimitDetail'; break; //单位变更
+							case '确认-00253-013-01': path = '/lElseWhereDetail'; break; //法人异地就医备案
+							case '确认-00253-013-02': path = '/lElseWhereDetail'; break; //法人异地就医备案
+							case '确认-00253-013-03': path = '/lElseWhereDetail'; break; //法人异地就医备案
+							case '确认-00253-013-04': path = '/lElseWhereDetail'; break; //法人异地就医备案
 							default: path = ''; break;
 						}
 						if(path == ''){
