@@ -177,11 +177,9 @@
                         console.log('返回成功信息', resData);
                         //  保存法人信息对象
                         // 请求图标和咨询
-                        // if (resData.xzqh == "" || resData.xzqh == null ) {
-                        //     resData.xzqh == "339900"
-                        // }
-                        
-                        resData.xzqh = "339900"
+                        if (resData.xzqh == "" || resData.xzqh == null || resData.xzqh == undefined) {
+                            resData.xzqh == "339900"
+                        }
                         this.getMatterInfo(resData.xzqh);
                         this.getNewsInfo(resData.xzqh);
                         sessionStorage.setItem("LegalPerson", JSON.stringify(resData))

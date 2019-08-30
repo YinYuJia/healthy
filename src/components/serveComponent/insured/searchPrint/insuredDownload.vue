@@ -20,7 +20,8 @@
             }
         },
         created() {
-            this.epFn.setTitle('个人参保证明')
+            let title = this.$route.query.params;
+            this.epFn.setTitle(title);
             console.log(JSON.parse(sessionStorage.getItem("searchPrintData")))
             const data = JSON.parse(sessionStorage.getItem("searchPrintData"))
             if (data.enCode == 1000) {
