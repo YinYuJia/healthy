@@ -244,7 +244,7 @@ export default {
 
                         if(resData.enCode==1000){
 
-                            this.$router.push('/insuredDownload');
+                            this.$router.push({path: '/insuredDownload', query: {params: '个人参保证明'}});
                         }else if(resData.enCode==1001){
                             this.$toast(resData.msg)
                         }
@@ -254,7 +254,13 @@ export default {
                     })
         },
         elseSubmit(code) {
-            console.log("1234", code)
+            console.log("1234", code);
+            let title = ''
+            if (code == '9026') {
+                title = "参保（合）凭证"
+            } else if (code == '9025') {
+                title = "个人权益记录单"
+            }
             let AAC002 = sessionStorage.getItem("idCard") 
             console.log("AAC:", AAC002)
             this.$axios.post(this.epFn.ApiUrl() + '/H5/jy0003/getAreaList', {
@@ -265,7 +271,7 @@ export default {
                         console.log(resData);
                         sessionStorage.setItem("searchPrintData",JSON.stringify(resData))
                         if(resData.enCode==1000){
-                            this.$router.push('/insuredDownload');
+                            this.$router.push({path: '/insuredDownload', query: {params: title}});
                         }else if(resData.enCode==1001){
                             this.$toast(resData.msg)
                         }
