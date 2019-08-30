@@ -264,8 +264,13 @@
         },
         methods: {
             getMsgFormSearch(data) {
-                console.log("----从子组建获取信息----", data)
+                
                 this.idCard = data
+                // console.log(!this.util.idCard1(this.idCard))
+                if(!this.util.idCard1(this.idCard)){
+                this.$toast('请填写正确的身份证号');
+                return false;
+            }
                 let params = {
                     // BKE520: "2",
                     data: {
