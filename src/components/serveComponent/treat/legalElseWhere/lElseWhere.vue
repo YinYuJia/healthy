@@ -162,6 +162,7 @@
         },
         created() {
             // 根据路由配置子项选中
+            console.log('sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))')
             let type = this.$route.params.type
             if (type) {
                 let label = ''
@@ -285,7 +286,7 @@
                     console.log('返回成功信息', resData)
                     //   成功   1000
                     if (resData.enCode == 1000) {
-                        if (resData.LS_DS[0].AAB001 == sessionStorage.getItem('LOGINNAME')) {
+                           if (resData.LS_DS[0].AAB001 == sessionStorage.getItem('LOGINNAME')) {
                             this.ifShow = true;
                             this.data = resData.LS_DS[0]
                             sessionStorage.setItem("legalData", JSON.stringify(resData.LS_DS[0]))
@@ -414,6 +415,8 @@
                 submitForm.BKE520 = "1"
                 submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030).toString();
                 submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031).toString();
+                // 
+                submitForm.userId = JSON.parse(sessionStorage.getItem("LegalPerson")).userId
                 // submitForm.AAS301 = this.form.AAS301//申请地省
                 // submitForm.AAB301 = this.form.AAB301//申请地市
                 // submitForm.AAQ301 = this.form.AAQ301//申请地区
