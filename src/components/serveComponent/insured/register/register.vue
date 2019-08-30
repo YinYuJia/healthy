@@ -35,7 +35,7 @@
               <span>统一社会信用代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB003" type="text" maxlength="20" placeholder="请输入"  />
+              <input v-model="form.AAB003" type="text" @blur="check()" maxlength="20" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -373,6 +373,23 @@ export default {
     this.getFromInfo()
   },
   methods: {
+    check(){
+          let params = {};
+          params.sydwTycode=this.form.AAB003;
+          console.log('----params----',params)
+
+          this.$axios.post( this.epFn.ApiUrl() +  '/H5/jy0006/getAreaList', params)
+          .then((resData) => {
+
+              if(resData.enCode == '1000'){
+                  console.log("返回成功信息",resData)
+              }else{
+                  this.$toast(resData.msg)
+              }
+          }).catch((error) => {
+              console.log(error)
+          })
+    },
     // 选择就诊医院
     chooseBank(){
         this.$refs.bank.open();

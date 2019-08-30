@@ -223,9 +223,9 @@
     <!-- 就诊机构 -->
     <SearchInfoPage ref="org" :jy7211="true" @childrenClick="orgClick"></SearchInfoPage>
     <!-- 疾病名称 -->
-    <SearchInfoPage ref="species" :AAE013="AAE013One" :AAA052="AAA052One" type="AKA120" @childrenClick="speciesClick"></SearchInfoPage>
+    <SearchInfoPage ref="species" :AAE013="AAE013One" :AAA052="AAA052One" type="AKA120" :jy7211Medical='true' @childrenClick="speciesClick"></SearchInfoPage>
     <!-- 项目名称 -->
-    <SearchInfoPage ref="project" :AAE013="AAE013Two" :AAA052="AAA052Two" type=AKE001 @childrenClick="projectClick"></SearchInfoPage>
+    <SearchInfoPage ref="project" :AAE013="AAE013Two" :AAA052="AAA052Two" type=AKE001 :jy7211Medical='true' @childrenClick="projectClick"></SearchInfoPage>
   </div>
 </template>
 
@@ -518,10 +518,14 @@ export default {
     },
     // 组件返回的数据
     speciesClick(code, name) {
+      console.log("code",code)
+      console.log("name",name)
       this.form.AKA121 = name;
       this.form.AKA120 = code;
     },
     projectClick(code, name) {
+      console.log("code",code)
+      console.log("name",name)
       this.form.AKE002 = name;
       this.form.AKE001 = code;
     },

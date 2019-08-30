@@ -36,13 +36,13 @@
                     <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                 </div>
             </div>
-            <div class="InfoLine">
+            <!-- <div class="InfoLine">
                 <div class="InfoName"><span>就诊医院：</span></div>
                 <div class="InfoText">
                     <input type="text" @click="chooseHospital" v-model="form.AKB020VALUE" placeholder="请选择就诊医院" readonly>
                     <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                 </div>
-            </div>
+            </div> -->
             <div class="searchBtn" @click="submit()" >查询</div>
         </div>
         <!-- 隐藏时展示的 -->
@@ -110,6 +110,7 @@ export default {
         }
     },
     created () {
+        //现在是屏蔽医院，等医院出来就把firstchild改成4.5rem;
         this.epFn.setTitle('个人费用查询');
         this.form.AAE031 = this.util.formatDate(new Date(),'yyyy-MM-dd');
         // 计算三个月前日期
@@ -124,6 +125,8 @@ export default {
             this.showSearch=false;
             console.log(this.form)
             console.log(this.showSearch)
+        }else{
+            this.showSearch=true;
         }
         console.log("滚动距离" + scrollTop);
         }
@@ -379,7 +382,7 @@ export default {
                     }
                 }
                 &:first-child{
-                    margin-top: 4.5rem
+                    margin-top: 3.5rem
                 }
             }
         }

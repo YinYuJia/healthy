@@ -1,6 +1,7 @@
 <template>
     <div class="indexInfoList">
         <!-- 提示 -->
+        <IndexMask></IndexMask>
         <div class="Hint" v-if="isTips">
             <div class="HintContent">
                 <p class="HintText">
@@ -92,8 +93,8 @@
         <div class="changeUserBtn" v-if="ifShow">
             <div class="btn" @click="changeLegalPersonUserId(true)">userId</div>
             <div class="btn" @click="changeLegalPersonRegion(true)">参保地</div>
-            <div class="btn" @click="changeLegalPersonId(true)">法人身份证号</div>
-            <div class="btn" @click="changeLegalPersonName(true)">法人姓名</div>
+            <div class="btn" @click="changeLegalPersonId(true)">经办人身份证号</div>
+            <div class="btn" @click="changeLegalPersonName(true)">经办人姓名</div>
         </div>
         <div class="changeUserBtn" v-if="ifShow">
             <button class="btn" @click="change()">切换</button>

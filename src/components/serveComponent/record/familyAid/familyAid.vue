@@ -31,7 +31,7 @@
                         </li>
                     </div>
                 </ul>
-                <Footer :canSubmit='canSubmit' @submit="add()" btnText="添加解绑人员"></Footer>
+                <Footer :canSubmit='canSubmit' @submit="add()" btnText="添加绑定人员"></Footer>
         </div>
     </div>
 </template>
@@ -80,7 +80,6 @@
                         for(let i = 0;i < this.itemGroup.length; i++) {
                             if(this.itemGroup[i] != ''){
                                 this.noInfo = false;
-                                break;
                             }
                         }
                         if(this.itemGroup.length == 0) {
@@ -88,7 +87,6 @@
                         }
                     } else if (resData.enCode == 1001 ) {
                     //   失败  1001
-                        this.$toast(resData.msg);
                         this.noInfo = true;
                         return;
                     }else{
@@ -136,6 +134,13 @@
                         return;
                     }
                 })
+                for(let i = 0;i < this.itemGroup.length; i++) {
+                            if(this.itemGroup[i] != ''){
+                                this.noInfo = false;
+                            } else {
+                                this.noInfo = true;
+                            }
+                        }
             },
             cancel() {
                 this.dialogVisible = false;

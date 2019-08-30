@@ -24,7 +24,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>地址详情：</span></div>
-                    <div class="InfoText"><textarea v-model="params.addressDetail" placeholder="请输入"></textarea></div>
+                    <div class="InfoText"><input v-model="params.addressDetail" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>单位电话：</span></div>
@@ -99,7 +99,7 @@ export default {
             AAB004:"",//单位名称
             params:{
                 address: '', //选择的地址
-                detailAddress: '', //详细地址
+                addressDetail: '', //详细地址
             },
             canSubmit: false,
             bindingFlag: false,
@@ -123,8 +123,9 @@ export default {
         },
         params:{
             handler:function(val){
-                if(val.address!=''&&val.detailAddress!=''){
-                    this.form.AAE006=val.address+"|"+val.detailAddress;
+                console.log("params",val)
+                if(val.address!=''&&val.addressDetail!=''){
+                    this.form.AAE006=val.address+"|"+val.addressDetail;
                 }
             },
             deep:true
