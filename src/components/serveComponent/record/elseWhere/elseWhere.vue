@@ -108,6 +108,7 @@ export default {
                 AAE031: '', //回杭日期
                 AAS011: '', //前往城市省
                 AAE011: '', //前往城市市
+                
                 AAQ011: '', //前往城市地区
                 AAE004: '', //联系人
                 AKC030: '', //申请原因
@@ -354,8 +355,9 @@ export default {
             // submitForm.AAE005=  this.form.AAE005 //联系电话
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+                  submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+                
             }else {
 
                 this.$toast("未获取到人员基本信息");

@@ -1,12 +1,13 @@
 <template>
     <div class="indexInfoList">
-        <div class="mask" v-show="isMask">
+        <!-- <div class="mask" v-show="isMask">
             <div class="mask_div">
                 <svg-icon class="content" icon-class="内容"></svg-icon>
                 <input class="mask_input" type="password" name="" v-model="epPasword" id="">
                 <button class="loginButton" @click="loginIn"></button>
             </div>
-        </div>
+        </div> -->
+        <IndexMask></IndexMask>
         <!-- 提示 -->
         <div class="Hint" v-if="isTips">
             <div class="HintContent">
@@ -102,8 +103,8 @@
     export default {
         data() {
             return {
-                epPasword: "",
-                isMask: false, // 控制mask显示隐藏
+                // epPasword: "",
+                // isMask: false, // 控制mask显示隐藏
                 isTips: false,
                 provice: false,
                 name: "",
@@ -351,16 +352,17 @@
                 })
             },
             //弹窗登录
-            loginIn() {
-                if (this.epPasword == 'epsoft') {
-                    //   this.$message({
-                    //   message: '验证成功！',
-                    //   type: 'success'
-                    // });
-                    this.isMask = false;
-                }
-                this.epPasword = '';
-            },
+            // loginIn() {
+            //     if (this.epPasword == 'epsoft') {
+            //         //   this.$message({
+            //         //   message: '验证成功！',
+            //         //   type: 'success'
+            //         // });
+            //         this.isMask = false;
+
+            //     }
+            //     this.epPasword = '';
+            // },
             ApiUrl() {
                 // return 'http://10.85.159.203:13030' // 吴学文
                 console.log('process.env.NODE_ENV', process.env.NODE_ENV)

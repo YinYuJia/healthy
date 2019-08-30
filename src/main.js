@@ -10,8 +10,8 @@ import router from './router'
 import './common/css/base.css';
 import epFn from './common/js/common.js';
 
-import ep from './common/js/epsdk'
-Vue.prototype.$ep = ep
+// import ep from './common/js/epsdk'
+// Vue.prototype.$ep = ep
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
