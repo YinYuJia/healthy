@@ -217,6 +217,7 @@
 				let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
                 submitForm.BOD037 = this.BOD037 //办件状态
                 submitForm.pageNum = this.pageNum //页码
+                submitForm.BKE520 = '1' //页码
                 // 加入用户名和电子社保卡号
 				submitForm.AAC003 = LegalPerson.attnName;
 				submitForm.AAE135 = LegalPerson.userId;

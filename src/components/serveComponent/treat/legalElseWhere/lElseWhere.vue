@@ -266,7 +266,7 @@
             getMsgFormSearch(data) {
                 
                 this.idCard = data
-                // console.log(!this.util.idCard1(this.idCard))
+                console.log(!this.util.idCard1(this.idCard))
                 if(!this.util.idCard1(this.idCard)){
                 this.$toast('请填写正确的身份证号');
                 return false;
