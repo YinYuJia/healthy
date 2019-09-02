@@ -81,6 +81,10 @@ import SearchInfoElseWhere from '@/components/serveComponent/SearchInfoElseWhere
 import SearchInfoMedicalList from '@/components/serveComponent/SearchInfoMedicalList'
 import login from '@/components/serveComponent/login'
 import natureApproval from '@/components/serveComponent/treat/natureApproval/natureApproval'
+import natureApprovalSupplement from '@/components/serveComponent/treat/natureApproval/natureApprovalSupplement'
+import natureApprovalDetail from '@/components/serveComponent/treat/natureApproval/natureApprovalDetail'
+
+
 
 Vue.use(Router)
 
@@ -459,7 +463,18 @@ export default new Router({
       path: '/natureApproval',
       name: 'natureApproval',
       component: natureApproval
+    },
+    {
+      path: '/natureApprovalSupplement',
+      name: 'natureApprovalSupplement',
+      component: natureApprovalSupplement
+    },
+    {
+      path: '/natureApprovalDetail',
+      name: 'natureApprovalDetail',
+      component: natureApprovalDetail
     }
+    
     // // 办事
     // {
     //   path: '/Work',
