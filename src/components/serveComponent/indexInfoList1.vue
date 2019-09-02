@@ -741,8 +741,8 @@
                         sessionStorage.setItem('userName', value);
                         this.setNativeMsg();
                     });
-                } else {
-                    this.$toast("功能正在建设中")
+                }else{
+                      this.$toast("功能正在建设中")
                 }
             },
             //个人用户登录

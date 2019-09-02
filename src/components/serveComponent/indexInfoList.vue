@@ -305,7 +305,7 @@
                     } else {
                         // 其他项目跳转
                         let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-                        if (LegalPerson.xzqh == "339900") {
+                        if (LegalPerson.xzqh == "339900" || LegalPerson.xzqh == '330000') {
                             let route = url.split('/');
                             this.$router.push(route.pop());
                         } else {
@@ -608,8 +608,14 @@
                             this.resData.xzqh = value;
                         }
                         sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))
+                        if (this.resData.xzqh == '330000' ) {
+                            this.getMatterInfo('339900');
+                        this.getNewsInfo('339900');
+                        }else{
                         this.getMatterInfo(this.resData.xzqh);
                         this.getNewsInfo(this.resData.xzqh);
+                        }
+
                     });
                 } else {
                     this.$toast('功能正在建设中', JSON.parse(sessionStorage.getItem("LegalPerson")))
