@@ -291,11 +291,13 @@
                             this.data = resData.LS_DS[0]
                             sessionStorage.setItem("legalData", JSON.stringify(resData.LS_DS[0]))
                             if (sessionStorage.getItem("legalData") != undefined) {
+                                let legalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"))
                                 let legalData = JSON.parse(sessionStorage.getItem("legalData"))
                                 this.AAB301000 = '浙江省本级' //参保地中文
                                 this.form.AAC003 = legalData.AAC003; // 中文名
-                                this.form.AAE135 = legalData.AAC002; // 社会保障好
+                                this.form.AAE135 = legalPerson.userId; // 社会保障好
                                 this.form.AAB301 = '339900' //参保地市
+                                
                                 this.form.AAS301 = '339900'.substring(0, 2) + '0000' // 参保地省
                                 return;
                             }

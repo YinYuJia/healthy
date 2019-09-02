@@ -81,6 +81,7 @@ import medicalDetail from '@/components/serveComponent/medicalDetail'
 import SearchInfoElseWhere from '@/components/serveComponent/SearchInfoElseWhere'
 import SearchInfoMedicalList from '@/components/serveComponent/SearchInfoMedicalList'
 import login from '@/components/serveComponent/login'
+import natureApproval from '@/components/serveComponent/treat/natureApproval/natureApproval'
 
 Vue.use(Router)
 
@@ -459,6 +460,11 @@ export default new Router({
       path: '/searchInfoMedicalList',
       name: 'SearchInfoMedicalList',
       component: SearchInfoMedicalList
+    },
+    {
+      path: '/natureApproval',
+      name: 'natureApproval',
+      component: natureApproval
     }
     // // 办事
     // {
