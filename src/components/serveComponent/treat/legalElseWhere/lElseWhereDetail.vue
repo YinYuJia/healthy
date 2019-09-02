@@ -101,6 +101,7 @@ export default {
       }
     },
     created(){
+        
         let legalData = JSON.parse(sessionStorage.getItem('legalData'))
         this.data = legalData
 
@@ -197,7 +198,7 @@ export default {
                 let submitForm = {}
                 console.log(submitForm)
                 let AKC030=sessionStorage.getItem('AKC030')
-                console.log("申请原因",AKC030)
+                console.log("申请原因2",AKC030)
                 if(AKC030=='1'){
                     console.log(1)
                     submitForm.AGA002="确认-00253-013-01";
@@ -215,11 +216,11 @@ export default {
                     submitForm.AGA002="确认-00253-013-04";
                 }
                 // submitForm.AGA002 =  "330800253013";
-                submitForm.BKZ019=this.$route.query.param||""
+                submitForm.BKZ019=this.$route.query.param||sessionStorage.getItem("BKZ019")
             // 加入用户名和电子社保卡号
-                let legalData = JSON.parse(sessionStorage.getItem('legalData'))
-                submitForm.AAC003 = legalData.AAC003 
-                submitForm.AAE135 = legalData.AAC002;
+                const legalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"))
+                submitForm.AAC003 = legalPerson.attnName
+                submitForm.AAE135 = legalPerson.attnIDNo
             
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
@@ -228,7 +229,7 @@ export default {
         formatSubmitData1(){
                 let submitForm = {}
                 let AKC030=sessionStorage.getItem('AKC030')
-                console.log("申请原因",AKC030)
+                console.log("申请原因1",AKC030)
                 if(AKC030=='1'){
                     console.log(1)
                     submitForm.AGA002="确认-00253-013-01";
@@ -252,12 +253,12 @@ export default {
                     submitForm.BKZ019=this.$route.query.param
                 }else{
                     submitForm.lx="2";
-                    submitForm.BKZ019="";
+                    submitForm.BKZ019=sessionStorage.getItem("BKZ019")
                 }
             // 加入用户名和电子社保卡号
-            let legalData = JSON.parse(sessionStorage.getItem('legalData'))
-                submitForm.AAC003 = legalData.AAC003
-                submitForm.AAE135 = legalData.AAC002;
+                const legalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"))
+                submitForm.AAC003 = legalPerson.attnName
+                submitForm.AAE135 = legalPerson.attnIDNo
             
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
