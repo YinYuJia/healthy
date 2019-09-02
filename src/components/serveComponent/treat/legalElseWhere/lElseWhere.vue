@@ -265,13 +265,12 @@
         },
         methods: {
             getMsgFormSearch(data) {
-                
                 this.idCard = data
                 console.log(!this.util.idCard1(this.idCard))
-                if(!this.util.idCard1(this.idCard)){
-                this.$toast('请填写正确的身份证号');
-                return false;
-            }
+                if (!this.util.idCard1(this.idCard)) {
+                    this.$toast('请填写正确的身份证号');
+                    return false;
+                }
                 let params = {
                     // BKE520: "2",
                     data: {
@@ -286,15 +285,16 @@
                     console.log('返回成功信息', resData)
                     //   成功   1000
                     if (resData.enCode == 1000) {
-                           if (resData.LS_DS[0].AAB001 == sessionStorage.getItem('LOGINNAME')) {
+                        if (resData.LS_DS[0].AAB001 == sessionStorage.getItem('LOGINNAME')) {
                             this.ifShow = true;
                             this.data = resData.LS_DS[0]
                             sessionStorage.setItem("legalData", JSON.stringify(resData.LS_DS[0]))
                             if (sessionStorage.getItem("legalData") != undefined) {
+                                let legalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"))
                                 let legalData = JSON.parse(sessionStorage.getItem("legalData"))
                                 this.AAB301000 = '浙江省本级' //参保地中文
                                 this.form.AAC003 = legalData.AAC003; // 中文名
-                                this.form.AAE135 = legalData.AAC002; // 社会保障好
+                                this.form.AAC002 = legalData.AAC002; // 中文名
                                 this.form.AAB301 = '339900' //参保地市
                                 this.form.AAS301 = '339900'.substring(0, 2) + '0000' // 参保地省
                                 return;
@@ -415,7 +415,7 @@
                 submitForm.BKE520 = "1"
                 submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030).toString();
                 submitForm.AAE031 = this.util.DateToNumber(this.form.AAE031).toString();
-                // 
+                submitForm.AAE135 = JSON.parse(sessionStorage.getItem("LegalPerson")).attnIDNo; // 社会保障好
                 submitForm.userId = JSON.parse(sessionStorage.getItem("LegalPerson")).userId
                 // submitForm.AAS301 = this.form.AAS301//申请地省
                 // submitForm.AAB301 = this.form.AAB301//申请地市

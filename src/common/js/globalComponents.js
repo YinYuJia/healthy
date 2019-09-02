@@ -12,6 +12,9 @@ import DetailStatus from '@/components/serveComponent/common/DetailStatus'
 import Binding from '@/components/serveComponent/common/Binding'
 import BindingAgency from '@/components/serveComponent/common/BindingAgency'
 import IndexMask from '@/components/serveComponent/common/IndexMask'
+import UserInfoPad from '@/components/serveComponent/common/UserInfoPad'
+import SearchInfo from '@/components/serveComponent/common/SearchInfo'
+import SelectList from '@/components/serveComponent/common/SelectList'
 
 
 function plugin(Vue) {
@@ -32,6 +35,9 @@ function plugin(Vue) {
     Vue.component('Binding',Binding);
     Vue.component('IndexMask',IndexMask);
     Vue.component('BindingAgency',BindingAgency);
+    Vue.component('UserInfoPad',UserInfoPad);
+    Vue.component('SearchInfo',SearchInfo);
+    Vue.component('SelectList',SelectList);
 }
 
 export default plugin
