@@ -42,6 +42,7 @@ export default {
     width: 100%;
     padding: 0 .2rem;
     position: relative;
+    background: #FFF;
     .svg-icon{
         width: 100%;
         height: 100%;
@@ -59,13 +60,14 @@ export default {
         justify-content: space-between;
         .NameLine{
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             .Name{
                 font-size: .36rem;
                 color: #FFFFFF;
                 letter-spacing: 0;
             }
             .gender{
+                margin-left: .22rem;
                 opacity: 0.65;
                 font-size: .24rem;
                 color: #FFFFFF;

@@ -259,6 +259,36 @@
             this.$store.dispatch('SET_SMALL_REIM_2', SET_SMALL_REIM_2)
             let SET_ENCLOSURE = []
             this.$store.dispatch('SET_ENCLOSURE', SET_ENCLOSURE)
+            let SET_NATUREAPPROVAL={
+                AAE135:"",//身份证号
+                BMC061: '0', //生育类别 0生育女职工,1男职工配偶
+                BMC131: '', //生育日期
+                AMC029: '01', //生育类别 01平产、02助娩产、03剖宫产
+                AMC029VALUE:'',//生育类别中文
+                AMC028: '1', //胎儿数
+                AMC031: '', //胎次
+                BMC046: '', //其中死胎
+                BMC211: '', //实际发生费用
+                BMC033: '', //实际住院天数
+                AMC027: '0', //晚育标志 0否1是
+                AMC027VALUE:'否',//晚育中文
+                BMC035: '',//准生证号
+                AMC022: '',//出生证编号
+                BMC065: '',//医疗机构
+                photoList1: [], //图片数组
+                photoIdList1: [], //图片ID数组
+                photoList2: [], //图片数组
+                photoIdList2: [], //图片ID数组
+            }    
+            this.$store.dispatch('SET_NATUREAPPROVAL', SET_NATUREAPPROVAL)
+            let SET_NATUREAPPROVAL_PHOTOLIST={
+                photoList1: [], //图片数组
+                photoIdList1: [], //图片ID数组
+                photoList2: [], //图片数组
+                photoIdList2: [], //图片ID数组
+            }    
+            this.$store.dispatch('SET_NATUREAPPROVAL_PHOTOLIST', SET_NATUREAPPROVAL_PHOTOLIST)
+            
             // 清空结束
             console.log("$build", this.$build)
             console.log('dddddd引入浙理办SDKddddddd', dd)
@@ -274,6 +304,9 @@
             }
         },
         methods: {
+            goto(){
+                this.$router.push('/natureApproval')
+            },
             change() {
                 this.$router.push('/')
             },

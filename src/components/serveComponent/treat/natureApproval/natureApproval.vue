@@ -37,23 +37,19 @@
                 <div class="infoBox">
                     <svg-icon icon-class="payLimit_bg"/>
                     <div class="infoName">
-                        <span class="name">{{form.AAC003}}</span>
-                        <span class="sex">/{{form.AAC004|AAC004}}</span>
+                        <span class="name">{{form1.AAC003}}</span>
+                        <span class="sex">/{{form1.AAC004|AAC004}}</span>
                     </div>
                     <div class="infoAddress">
                         <div class="IconImg">
                             <svg-icon icon-class="payLimit_compony"/>
                         </div>
-                        <span>{{form.AAB004}}</span>
+                        <span>{{form1.AAB004}}</span>
                     </div>
                     <div class="infoMessage">
                         <div class="birth">
-                            <div class="infoMessageBirth">{{form.AAC006}}</div>
+                            <div class="infoMessageBirth">{{form1.AAC006}}</div>
                             <div class="infoMessageText">出生日期</div>
-                        </div>
-                        <div class="work">
-                            <div class="infoMessageWork">{{form.AAC007}}</div>
-                            <div class="infoMessageText">参加工作时间</div>
                         </div>
                     </div>
 
@@ -147,7 +143,7 @@
                 </div> -->
             </div>
         </div>
-        <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <Footer :canSubmit='canSubmit' :btnText="'补充材料'" @submit="submit()"></Footer>
     </div>
 </template>
 
@@ -157,20 +153,32 @@ export default {
         return {
             form:{
                 AAE135:"",//身份证号
-                BMC061: '0', //生育类别 0生育女职工,1男职工配偶
+                BMC061: '', //生育类别 0生育女职工,1男职工配偶
                 BMC131: '', //生育日期
-                AMC029: '01', //生育类别 01平产、02助娩产、03剖宫产
+                AMC029: '', //生育类别 01平产、02助娩产、03剖宫产
                 AMC029VALUE:'',//生育类别中文
-                AMC028: '1', //胎儿数
+                AMC028: '', //胎儿数
                 AMC031: '', //胎次
                 BMC046: '', //其中死胎
                 BMC211: '', //实际发生费用
                 BMC033: '', //实际住院天数
-                AMC027: '0', //晚育标志 0否1是
-                AMC027VALUE:'否',//晚育中文
+                AMC027: '', //晚育标志 0否1是
+                AMC027VALUE:'',//晚育中文
                 BMC035: '',//准生证号
                 AMC022: '',//出生证编号
                 BMC065: '',//医疗机构
+            },
+            form1:{
+                AAC001:"",//个人编号
+                AAC002:"",//证件号码
+                AAC003:"",//姓名
+                AAC004:"",//性别
+                AAC005:"",//民族
+                AAC006:"",//出生日期
+                AAC067:"",//联系电话
+                AAE006:"",//家庭地址
+                AAB001:"",//单位编码
+                AAB004:"",//单位名称
             },
             dateVal:new Date(),
             types: [
@@ -200,6 +208,10 @@ export default {
             BKE810VALUE:"",
             canSubmit:false
         }
+    },
+    created () {
+        console.log("111",this.$store.state.SET_NATUREAPPROVAL)
+        this.form=this.$store.state.SET_NATUREAPPROVAL;
     },
     watch: {
         form:{
@@ -266,6 +278,18 @@ export default {
                 //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         console.log('返回成功信息',resData)
+                        let user = sessionStorage.getItem("LOGINNAME");//法人的单位编码
+                      if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
+                        this.form1=resData.LS_DS[0]
+                        this.$store.dispatch('SET_NATUREAPPROVAL_BASEINFO', this.form1)
+                        // this.form=resData.LS_DS[0]
+                        }else {
+
+                        this.$toast('该人员不是本单位的职员，请重新查询')
+                        this.form1=resData.LS_DS[0]
+                        this.$store.dispatch('SET_NATUREAPPROVAL_BASEINFO', this.form1)
+                        return false
+                      }
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg)
@@ -284,32 +308,13 @@ export default {
             return params;
         },
         submit(){
-            // 封装数据
-            let params = this.formatSubmitData();
-            // 开始请求
-            console.log('parmas------',params)
-            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy7212/getRecord', params).then((resData) => {
-                console.log('返回成功信息',resData)
-                   //   成功   1000
-                if ( resData.enCode == 1000 ) {
-                    this.epFn.setSession('NATURE_BKZ019',resData.BKZ019)
-                    this.$refs.success.open();
-                    console.log("form",this.form)
-                }else if (resData.enCode == 1001 ) {
-                //   失败  1001
-                    this.$message({
-                        message: resData.msg,
-                        type: 'warning'
-                    });
-                    return;
-                }else{
-                    this.$message({
-                        message: '业务出错',
-                        type: 'warning'
-                    });
-                    return;
-                }
-            });
+            if(this.canSubmit == false){
+                this.$toast('信息未填写完整');
+                return false;
+            }else{
+                this.$store.dispatch('SET_NATUREAPPROVAL', this.form)
+                this.$router.push('/natureApprovalSupplement')
+            }
         }
     }
 }
