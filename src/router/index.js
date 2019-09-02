@@ -61,8 +61,11 @@ import infoRecord from '@/components/serveComponent/treat/smallReim/infoRecord'
 import reportComplete from '@/components/serveComponent/treat/smallReim/reportComplete'
 import smallReimDetail from '@/components/serveComponent/treat/smallReim/smallReimDetail'
 import invoiceDetail from '@/components/serveComponent/treat/smallReim/invoiceDetail'
+import unemployed from '@/components/serveComponent/treat/unemployed/unemployed'
 import payLimit from '@/components/serveComponent/treat/payLimit/payLimit'
 import payLimitDetail from '@/components/serveComponent/treat/payLimit/payLimitDetail'
+import legalSurgicalApproval from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalApproval'
+import legalSurgicalDetail from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalDetail'
 import lElseWhere from '@/components/serveComponent/treat/legalElseWhere/lElseWhere'
 import lElseWhereDetail from '@/components/serveComponent/treat/legalElseWhere/lElseWhereDetail'
 import searchBaseInfo from '@/components/serveComponent/personal/searchBaseInfo/searchBaseInfo'
@@ -371,6 +374,11 @@ export default new Router({
       component: smallReimDetail
     },
     {
+      path: '/unemployed',
+      name: 'unemployed',
+      component: unemployed
+    },
+    {
       path: '/invoiceDetail',
       name: 'invoiceDetail',
       component: invoiceDetail
@@ -384,6 +392,16 @@ export default new Router({
       path: '/payLimitDetail',
       name: 'payLimitDetail',
       component: payLimitDetail
+    },
+    {
+      path: '/legalSurgicalApproval',
+      name: 'legalSurgicalApproval',
+      component: legalSurgicalApproval
+    },
+    {
+      path: '/legalSurgicalDetail',
+      name: 'legalSurgicalDetail',
+      component: legalSurgicalDetail
     },
     {
       path: '/searchBaseInfo',
