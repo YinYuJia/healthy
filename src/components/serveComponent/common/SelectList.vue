@@ -27,6 +27,7 @@ export default {
     watch: {
         list:{
             handler:function(val){
+                console.log('change',val)
                 this.slots.values = val;
             },
             deep: true
