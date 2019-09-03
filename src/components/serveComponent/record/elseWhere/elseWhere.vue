@@ -357,6 +357,7 @@ export default {
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                   submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                 submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+                submitForm.AAC002 = this.$store.state.SET_NATIVEMSG.idCard;
                 
             }else {
 
