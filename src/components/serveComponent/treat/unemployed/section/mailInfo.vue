@@ -9,7 +9,7 @@
             <div class="addressContent">
                 <div class="InfoLine">
                     <div class="InfoName"><span>收件地址</span></div>
-                    <div class="InfoText"><span>浙江省杭州市西湖区宁波大厦601室浙江省杭州市西湖区宁波大厦601室</span></div>
+                    <div class="InfoText"><span>浙江省杭州市西湖区宁波大厦601</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>收件人</span></div>
@@ -37,6 +37,7 @@ export default {
 .mailInfo{
     margin-top: .15rem;
     background: #FFF;
+    margin-bottom: 2rem;
     .submitType{
         padding: .36rem .2rem;
         display: flex;

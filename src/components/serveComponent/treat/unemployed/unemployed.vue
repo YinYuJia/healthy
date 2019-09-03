@@ -39,15 +39,19 @@
         <invoiceInfo></invoiceInfo>
         <!-- 发票提交方式 -->
         <mailInfo></mailInfo>
+        <!-- 下一步按钮 -->
+        <Footer :canSubmit='true' @submit="submit()" btnText="补充材料"></Footer>
     </div>
 </template>
 
 <script>
 import invoiceInfo from './section/invoiceInfo'
+import plusInvoice from './section/plusInvoice'
 import mailInfo from './section/mailInfo'
 export default {
     components: {
         'invoiceInfo': invoiceInfo,
+        'plusInvoice': plusInvoice,
         'mailInfo': mailInfo
     },
     data() {

@@ -20,14 +20,25 @@
         </div>
         <!-- 添加发票按钮 -->
         <div class="btnContent">
-            <div class="plusBtn"><span>+</span>添加发票信息</div>
+            <div class="plusBtn" @click="plusInvoice"><span>+</span>添加发票信息</div>
         </div>
+        <!-- 添加发票区域 -->
+        <plusInvoice ref="plusInvoice"></plusInvoice>
     </div>
 </template>
 
 <script>
+import plusInvoice from './plusInvoice'
 export default {
-
+    components: {
+        'plusInvoice': plusInvoice
+    },
+    methods: {
+        // 打开添加发票面板
+        plusInvoice() {
+            this.$refs.plusInvoice.open();
+        }
+    }
 }
 </script>
 

@@ -42,6 +42,7 @@
             <div>
                 <button @click="goto"  >点击进入平产</button>
                 <button @click="go">流产</button>
+                <button @click="go1">未生育</button>
             </div>
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
@@ -316,6 +317,9 @@
             },
             goto(){
                 this.$router.push('/natureApproval')
+            },
+            go1() {
+                this.$router.push('/unemployed');
             },
             change() {
                 this.$router.push('/')
