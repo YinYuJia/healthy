@@ -162,7 +162,10 @@
         },
         created() {
             // 根据路由配置子项选中
-            console.log('sessionStorage.setItem("LegalPerson", JSON.stringify(this.resData))')
+        //     const legalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"))
+            
+        // console.log('---legalPerson---',legalPerson.attnName);
+        return;
             let type = this.$route.params.type
             if (type) {
                 let label = ''
@@ -284,9 +287,7 @@
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1013/info', params).then((resData) => {
                     console.log('返回成功信息', resData)
                     //   成功   1000
-                    if (resData.enCode == 1000) {
-                        if (resData.LS_DS[0].AAB001 == sessionStorage.getItem('LOGINNAME')) {
-                            this.ifShow = true;
+                    this.ifShow = true;
                             this.data = resData.LS_DS[0]
                             sessionStorage.setItem("legalData", JSON.stringify(resData.LS_DS[0]))
                             if (sessionStorage.getItem("legalData") != undefined) {
@@ -299,6 +300,9 @@
                                 this.form.AAS301 = '339900'.substring(0, 2) + '0000' // 参保地省
                                 return;
                             }
+                    if (resData.enCode == 1000) {
+                        if (resData.LS_DS[0].AAB001 == sessionStorage.getItem('LOGINNAME')) {
+                            
                         } else {
                             this.ifShow = false
                             this.$toast('该人员不是本单位人员,请重新搜索')
@@ -397,6 +401,9 @@
                         //   成功   1000
                         if (resData.enCode == 1000) {
                             // this.$toast("提交成功");
+                            sessionStorage.setItem("BKZ019",resData.BKZ019)
+                            console.log("resData.data.BKZ019",resData.BKZ019)
+                            // return;
                             this.$router.push("/lElseWhereDetail");
                         } else if (resData.enCode == 1001) {
                             //   失败  1001

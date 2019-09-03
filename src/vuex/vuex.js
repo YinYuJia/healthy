@@ -271,6 +271,42 @@ export default new Vuex.Store({ // 暴露与new vuex
       AKB063: '', // 备案天数
       AAE030: '', // 开始日期
       AAE031: '' // 结束日期
+    },
+    // 特治特药备案
+    SET_NATUREAPPROVAL: {
+        AAE135:"",//身份证号
+        BMC061: '', //生育类别 0生育女职工,1男职工配偶
+        BMC131: '', //生育日期
+        AMC029: '', //生育类别 01平产、02助娩产、03剖宫产
+        AMC029VALUE:'',//生育类别中文
+        AMC028: '1', //胎儿数
+        AMC031: '', //胎次
+        BMC046: '', //其中死胎
+        BMC211: '', //实际发生费用
+        BMC033: '', //实际住院天数
+        AMC027: '', //晚育标志 0否1是
+        AMC027VALUE:'',//晚育中文
+        BMC035: '',//准生证号
+        AMC022: '',//出生证编号
+        BMC065: '',//医疗机构
+    },
+    SET_NATUREAPPROVAL_BASEINFO:{
+        AAC001:"",//个人编号
+        AAC002:"",//证件号码
+        AAC003:"",//姓名
+        AAC004:"",//性别
+        AAC005:"",//民族
+        AAC006:"",//出生日期
+        AAC067:"",//联系电话
+        AAE006:"",//家庭地址
+        AAB001:"",//单位编码
+        AAB004:"",//单位名称
+    },
+    SET_NATUREAPPROVAL_PHOTOLIST:{
+      photoList1: [], //图片数组
+      photoIdList1: [], //图片ID数组
+      photoList2: [], //图片数组
+      photoIdList2: [], //图片ID数组
     }
 
   },
@@ -412,7 +448,20 @@ export default new Vuex.Store({ // 暴露与new vuex
     },
     SET_SPECIAL_DRUG (state, payload) {
       state.SET_SPECIAL_DRUG = payload
-    }
+    },
+    SET_NATUREAPPROVAL (state, payload) {
+      sessionStorage.setItem('SET_NATUREAPPROVAL', JSON.stringify(payload))
+      state.SET_NATUREAPPROVAL = payload
+    },
+    SET_NATUREAPPROVAL_BASEINFO (state, payload) {
+      sessionStorage.setItem('SET_NATUREAPPROVAL_BASEINFO', JSON.stringify(payload))
+      state.SET_NATUREAPPROVAL_BASEINFO = payload
+    },
+    SET_NATUREAPPROVAL_PHOTOLIST (state, payload) {
+      sessionStorage.setItem('SET_NATUREAPPROVAL_PHOTOLIST', JSON.stringify(payload))
+      state.SET_NATUREAPPROVAL_PHOTOLIST = payload
+    },
+    
   },
 
   actions: { // 添加actions
@@ -502,6 +551,16 @@ export default new Vuex.Store({ // 暴露与new vuex
     },
     SET_SPECIAL_DRUG (context, payload) {
       context.commit('SET_SPECIAL_DRUG', payload)// context提交
-    }
+    },
+    SET_NATUREAPPROVAL (context, payload) {
+      context.commit('SET_NATUREAPPROVAL', payload)// context提交
+    },
+    SET_NATUREAPPROVAL_BASEINFO (context, payload) {
+      context.commit('SET_NATUREAPPROVAL_BASEINFO', payload)// context提交
+    },
+    SET_NATUREAPPROVAL_PHOTOLIST (context, payload) {
+      context.commit('SET_NATUREAPPROVAL_PHOTOLIST', payload)// context提交
+    },
+    
   }
 })
