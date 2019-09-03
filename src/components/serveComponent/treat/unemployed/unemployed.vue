@@ -1,5 +1,9 @@
 <template>
     <div class="unemployed">
+        <!-- 类型选择器 -->
+        <SelectList :list="optionList" ref="select" @choose="chooseType"></SelectList>
+        <!-- 时间选择器 -->
+        <mt-datetime-picker type="date" ref="timePicker" v-model="dateVal" @confirm="chooseTime"></mt-datetime-picker>
         <!-- 检验是否绑定 -->
         <BindingAgency></BindingAgency>
         <!-- 搜索框 -->
@@ -19,27 +23,43 @@
             <div class="InfoLine">
                 <div class="InfoName"><span>计划生育类型：</span></div>
                 <div class="InfoText">
-                    <input placeholder="请选择" @click="openChooseType" readonly/>
+                    <input placeholder="请选择" v-model="AMC029VALUE" @click="openChooseType" readonly/>
                     <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                 </div>
             </div>
             <div class="InfoLine">
                 <div class="InfoName"><span>计划生育日期：</span></div>
                 <div class="InfoText">
-                    <input placeholder="请选择" readonly/>
+                    <input placeholder="请选择" v-model="form.BMC131" @click="openChooseTime" readonly/>
                     <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                 </div>
             </div>
         </div>
-        <!-- 选择器 -->
-        <SelectList :list="optionList" ref="select" @choose="chooseType"></SelectList>
+        <!-- 发票信息 -->
+        <invoiceInfo></invoiceInfo>
+        <!-- 发票提交方式 -->
+        <mailInfo></mailInfo>
     </div>
 </template>
 
 <script>
+import invoiceInfo from './section/invoiceInfo'
+import mailInfo from './section/mailInfo'
 export default {
+    components: {
+        'invoiceInfo': invoiceInfo,
+        'mailInfo': mailInfo
+    },
     data() {
         return {
+            form: {
+                BMC021: '', //配偶姓名
+                BMC202: '', //配偶身份证号码
+                AMC029: '', //计划生育类别
+                BMC131: '', //计划生育日期
+            },
+            AMC029VALUE: '', //计划生育类型值
+            dateVal: new Date(), //初始化时间
             userInfo: {},
             optionList:[
                 {name:'平产、顺产', value: '01'},
@@ -101,8 +121,17 @@ export default {
         openChooseType() {
             this.$refs.select.open();
         },
-        chooseType(value) {
-            console.log(value)
+        chooseType(val) {
+            this.AMC029VALUE = val.name;
+            this.form.AMC029 = val.value;
+        },
+        // 选择生育时间
+        openChooseTime() {
+            this.$refs.timePicker.open();
+        },
+        chooseTime(val) {
+            let date = this.util.formatDate(val,'yyyy-MM-dd');
+            this.form.BMC131 = date;
         }
     }
 }
@@ -113,7 +142,7 @@ export default {
     width: 100%;
     .reportInfo{
         width: 100%;
-        padding: 0 .3rem;
+        padding: 0 .2rem;
         background: #FFF;
         .InfoLine{
             display: flex;
@@ -136,6 +165,7 @@ export default {
                 align-items: center;
                 flex-shrink: 0;
                 input {
+                    width: 100%;
                     font-size: .26rem;
                     color: #666;
                     letter-spacing: 0;
