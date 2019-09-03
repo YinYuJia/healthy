@@ -132,7 +132,7 @@ export default {
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy9109/getRecord', params).then((resData) => {
                 //   成功   1000
                     if ( resData.enCode == 1000 ) {
-                        console.log('返回成功信息',resData)
+                        console.log('返回成功信息113',resData)
                         this.form1=resData.LS_DS[0]
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
@@ -147,8 +147,8 @@ export default {
       formatSubmitData(){
         let submitForm ={}
         let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
-        if(this.sessionStorage.getItem('NATURE_AMC029')!=null){
-          let AGA002=this.sessionStorage.getItem('NATURE_AMC029');//判断孙项编码
+        if(sessionStorage.getItem('NATURE_AMC029')!=null){
+          let AGA002=sessionStorage.getItem('NATURE_AMC029');//判断孙项编码
           if(AGA002=='01'){
             submitForm.AGA002 =  "给付-00142-001-01";
           }else if(AGA002=='02'){
@@ -159,7 +159,7 @@ export default {
         }
         //测试用
         let form={}
-        form=This.$store.state.SET_NATUREAPPROVAL
+        form=this.$store.state.SET_NATUREAPPROVAL
         if(form.AMC029=='01'){
             submitForm.AGA002 ='给付-00142-001-01'//平产
         }else if(form.AMC029=='02'){
@@ -170,18 +170,18 @@ export default {
         
         
         
-        submitForm.BKZ019=this.$route.query.param||this.sessionStorage.getItem('NATURE_BKZ019')
+        submitForm.BKZ019=this.$route.query.param||sessionStorage.getItem('NATURE_BKZ019')
         submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
         submitForm.AAC003 = legalPerson.attnName
         // 请求参数封装
-        const params = this.epFn.commonRequsetData(submitForm,"1009");
+        const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
         return params;
       },
       formatSubmitData1(){
         let submitForm ={}
         let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
-        if(this.sessionStorage.getItem('NATURE_AMC029')!=null){
-          let AGA002=this.sessionStorage.getItem('NATURE_AMC029');//判断孙项编码
+        if(sessionStorage.getItem('NATURE_AMC029')!=null){
+          let AGA002=sessionStorage.getItem('NATURE_AMC029');//判断孙项编码
           if(AGA002=='01'){
             submitForm.AGA002 =  "给付-00142-001-01";
           }else if(AGA002=='02'){
@@ -192,7 +192,7 @@ export default {
         }
         //测试用
         let form={}
-        form=This.$store.state.SET_NATUREAPPROVAL
+        form=this.$store.state.SET_NATUREAPPROVAL
         if(form.AMC029=='01'){
             submitForm.AGA002 ='给付-00142-001-01'//平产
         }else if(form.AMC029=='02'){
@@ -207,7 +207,7 @@ export default {
           submitForm.BKZ019=this.$route.query.param
         }else{
           submitForm.lx="2";
-          submitForm.BKZ019=this.sessionStorage.getItem('NATURE_BKZ019');
+          submitForm.BKZ019=sessionStorage.getItem('NATURE_BKZ019');
         }
         submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
         submitForm.AAC003 = legalPerson.attnName

@@ -267,7 +267,7 @@ export default {
                    //   成功   1000
                 if (resData.enCode==1000) {
                     console.log('进入成功1')
-                    this.sessionStorage.setItem('NATURE_BKZ019',resData.BKZ019)
+                    sessionStorage.setItem('NATURE_BKZ019',resData.BKZ019)
                     console.log('进入成功2')
                     this.$router.push('/natureApprovalDetail')
                 }else if (resData.enCode == 1001 ) {
