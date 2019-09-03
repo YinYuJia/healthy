@@ -19,8 +19,8 @@ export default {
         console.log('process.env.NODE_ENV',process.env.NODE_ENV)
         if(process.env.NODE_ENV == 'development') {
         
-          // return 'http://223.4.69.214:9000/api'  //服务器185 对应后端203
-          return 'http://223.4.69.118:7000/api/api'  //服务器226   对应后端206
+          return 'http://223.4.69.214:9000/api'  //服务器185 对应后端203
+          // return 'http://223.4.69.118:7000/api/api'  //服务器226   对应后端206
           // return 'http://192.168.1.199:13030' //吴学文
           // return 'http://ybj.zjzwfw.gov.cn/api'//正式库地址
         }else{

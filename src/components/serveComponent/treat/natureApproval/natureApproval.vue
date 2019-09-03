@@ -49,7 +49,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>胎儿数:</span></div>
                     <div class="InfoText">
-                        <input type="tel"  maxlength="2" v-model="form.AMC028" placeholder="选填"  readonly>
+                        <input type="tel"  maxlength="2" v-model="form.AMC028" placeholder="选填">
                         <!-- <svg-icon icon-class="serveComponent_arrowRight"></svg-icon> -->
                     </div>
                 </div>
@@ -184,7 +184,10 @@ export default {
         }
     },
     created () {
-        this.setSession('NATURE_AMC029',this.$route.params.userType)
+        if(this.$route.params.userType){
+            this.sessionStorage.setItem('NATURE_AMC029',this.$route.params.userType)
+        }
+        
         console.log("111",this.$store.state.SET_NATUREAPPROVAL)
         this.form=this.$store.state.SET_NATUREAPPROVAL;
     },
@@ -248,7 +251,7 @@ export default {
                 //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         console.log('返回成功信息',resData)
-                        let user = sessionStorage.getItem("LOGINNAME");//法人的单位编码
+                        let user = this.sessionStorage.getItem("LOGINNAME");//法人的单位编码
                       if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
                         this.isShow=true;
                         this.form1=resData.LS_DS[0];

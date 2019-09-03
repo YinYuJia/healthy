@@ -87,6 +87,8 @@ import natureApproval from '@/components/serveComponent/treat/natureApproval/nat
 import natureApprovalSupplement from '@/components/serveComponent/treat/natureApproval/natureApprovalSupplement'
 import natureApprovalDetail from '@/components/serveComponent/treat/natureApproval/natureApprovalDetail'
 
+import natureDownload from '@/components/serveComponent/treat/natureApproval/natureDownload'
+
 
 
 Vue.use(Router)
@@ -491,6 +493,11 @@ export default new Router({
       path: '/natureApprovalDetail',
       name: 'natureApprovalDetail',
       component: natureApprovalDetail
+    },
+    {
+      path: '/natureDownload',
+      name: 'natureDownload',
+      component: natureDownload
     }
     
     // // 办事
