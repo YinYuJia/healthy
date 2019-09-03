@@ -30,7 +30,7 @@ export default {
             slots: [
                 {
                     flex: 1,
-                    values: this.list,
+                    values: [],
                     className: 'slot1',
                     textAlign: 'center'
                 }
@@ -41,7 +41,10 @@ export default {
     },
     methods: {
         open() {
-            this.showList = true;
+            this.$nextTick(()=> {
+                this.slots[0].values = this.list;
+                this.showList = true;
+            })
         },
         chooseData() {
             let obj = {
@@ -52,8 +55,8 @@ export default {
             this.showList = false;
         },
         onValuesChange(picker, values) {
-            this.name = values[0].name;
-            this.value = values[0].value;
+            // this.name = values[0].name;
+            // this.value = values[0].value;
         }
     }
 }

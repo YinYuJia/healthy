@@ -310,6 +310,9 @@
             }
         },
         methods: {
+            go(){
+                this.$router.push('/legalSurgicalApproval')
+            },
             goto(){
                 this.$router.push('/natureApproval')
             },
