@@ -39,6 +39,9 @@
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
+            <div>
+                <button @click="goto"  >点击进入平产</button>
+            </div>
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
                     <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl" /></div>
@@ -128,21 +131,24 @@
                 isVisible: false,
                 showMoreInfoBtn: false, //更多咨询按钮
                 resData: {
-                    CompanyName: "浙江政务网法人测试用户",
-                    CompanyRegNumber: "91330103704789206U",
-                    CompanyType: "企业法人",
-                    OrganizationNumber: "704789206",
-                    attnIDNo: '',
+                    CompanyAddress: "浙江省杭州市西湖区体育场路538号",
+                    CompanyLegRep: "周坚",
+                    CompanyName: "浙江省省级医疗保险服务中心",
+                    CompanyRegOrg: "中共浙江省委机构编制委员会办公室",
+                    CompanyScope: "为省本级医疗保险提供服务。  负责省级参保单位和人员的基本医疗保险登记、审核、发放、变更和管理、负责全省医疗保险基金管理等工作",
+                    LoginType: "password",
+                    OrganizationNumber: "728464393",
+                    attnIDNo: "130803197203060649",
                     attnIDType: "51",
-                    attnLandLinePhone: "13712345678",
-                    attnName: '',
-                    attnPhone: "13588760916",
-                    orgType: "3",
-                    realLevel: "2",
-                    uniscid: "91330103704789206U",
-                    userId: "9152",
-                    username: "123456789",
-                    xzqh: "339900",
+                    attnName: "马野",
+                    attnPhone: "15606502886",
+                    orgType: "4",
+                    realLevel: "3",
+                    spentityid: "http://esso.zjzwfw.gov.cn:80/opensso",
+                    uniscid: "12330000728464393P",
+                    userId: "1138674",
+                    username: "SHENGYIBAO",
+                    xzqh: "330000",
                 }
             }
         },
@@ -259,6 +265,36 @@
             this.$store.dispatch('SET_SMALL_REIM_2', SET_SMALL_REIM_2)
             let SET_ENCLOSURE = []
             this.$store.dispatch('SET_ENCLOSURE', SET_ENCLOSURE)
+            let SET_NATUREAPPROVAL={
+                AAE135:"",//身份证号
+                BMC061: '0', //生育类别 0生育女职工,1男职工配偶
+                BMC131: '', //生育日期
+                AMC029: '01', //生育类别 01平产、02助娩产、03剖宫产
+                AMC029VALUE:'',//生育类别中文
+                AMC028: '1', //胎儿数
+                AMC031: '', //胎次
+                BMC046: '', //其中死胎
+                BMC211: '', //实际发生费用
+                BMC033: '', //实际住院天数
+                AMC027: '0', //晚育标志 0否1是
+                AMC027VALUE:'否',//晚育中文
+                BMC035: '',//准生证号
+                AMC022: '',//出生证编号
+                BMC065: '',//医疗机构
+                photoList1: [], //图片数组
+                photoIdList1: [], //图片ID数组
+                photoList2: [], //图片数组
+                photoIdList2: [], //图片ID数组
+            }    
+            this.$store.dispatch('SET_NATUREAPPROVAL', SET_NATUREAPPROVAL)
+            let SET_NATUREAPPROVAL_PHOTOLIST={
+                photoList1: [], //图片数组
+                photoIdList1: [], //图片ID数组
+                photoList2: [], //图片数组
+                photoIdList2: [], //图片ID数组
+            }    
+            this.$store.dispatch('SET_NATUREAPPROVAL_PHOTOLIST', SET_NATUREAPPROVAL_PHOTOLIST)
+            
             // 清空结束
             console.log("$build", this.$build)
             console.log('dddddd引入浙理办SDKddddddd', dd)
@@ -274,6 +310,9 @@
             }
         },
         methods: {
+            goto(){
+                this.$router.push('/natureApproval')
+            },
             change() {
                 this.$router.push('/')
             },
