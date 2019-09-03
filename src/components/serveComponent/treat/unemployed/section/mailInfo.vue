@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="hintInfo">
-            <i class="el-icon-warning" style="color:#FFA007"></i><span>邮寄时若发生票据丢失等现象，后果需自行承担，请谨慎对待后果需自行承担，请谨慎对待！！</span>
+            <i class="el-icon-warning" style="color:#FFA007"></i><span>邮寄时若发生票据丢失等现象，后果需自行承担，请谨慎对待！</span>
         </div>
     </div>
 </template>
