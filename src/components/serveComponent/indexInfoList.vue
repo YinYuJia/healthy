@@ -41,6 +41,7 @@
         <div class="iconContent">
             <div>
                 <button @click="goto"  >点击进入平产</button>
+                <button @click="go">流产</button>
             </div>
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
@@ -310,6 +311,9 @@
             }
         },
         methods: {
+            go(){
+                this.$router.push('/legalSurgicalApproval')
+            },
             goto(){
                 this.$router.push('/natureApproval')
             },
