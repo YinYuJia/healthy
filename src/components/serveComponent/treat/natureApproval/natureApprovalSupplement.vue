@@ -130,16 +130,19 @@ export default {
                             console.log(data.picPath[0],'请求图片成功');
                             if(data.result){
                                 // 获取图片
-
                                 let submitForm = {};
                                  // 加入用户名和电子社保卡号
-                                submitForm.AAC003 = This.$store.state.SET_NATUREAPPROVAL_BASEINFO.AAC003;
-                                submitForm.AAE135 = This.form.AAE135; 
-                                if(This.form.AMC029=='01'){
+                                let form2={}
+                                form2=This.$store.state.SET_NATUREAPPROVAL_BASEINFO;
+                                let form={}
+                                form=This.$store.state.SET_NATUREAPPROVAL
+                                submitForm.AAC003 = form2.AAC003;
+                                submitForm.AAE135 = form2.AAC002; 
+                                if(form.AMC029=='01'){
                                     submitForm.AGA002 ='给付-00142-001-01'//平产
-                                }else if(This.form.AMC029=='02'){
+                                }else if(form.AMC029=='02'){
                                     submitForm.AGA002 = '给付-00142-001-02'//剖宫产
-                                }else if(This.form.AMC029=='03'){
+                                }else if(form.AMC029=='03'){
                                     submitForm.AGA002 = '给付-00142-001-03'//助娩产
                                 }
                                 // 加入子项编码
@@ -198,22 +201,19 @@ export default {
                             console.log(data.picPath[0],'请求图片成功');
                             if(data.result){
                                 // 获取图片
-
                                 let submitForm = {};
                                  // 加入用户名和电子社保卡号
-                                if(This.$store.state.SET_NATUREAPPROVAL){
-                                    let form=This.$store.state.SET_NATUREAPPROVAL;
-                                }
-                                if(This.$store.state.SET_NATUREAPPROVAL_BASEINFO){
-                                    let form2=This.$store.state.SET_NATUREAPPROVAL_BASEINFO;
-                                }
+                                let form2={}
+                                form2=This.$store.state.SET_NATUREAPPROVAL_BASEINFO;
+                                let form={}
+                                form=This.$store.state.SET_NATUREAPPROVAL
                                 submitForm.AAC003 = form2.AAC003;
-                                submitForm.AAE135 = form1.AAE135; 
-                                if(This.form.AMC029=='01'){
+                                submitForm.AAE135 = form2.AAC002; 
+                                if(form.AMC029=='01'){
                                     submitForm.AGA002 ='给付-00142-001-01'//平产
-                                }else if(This.form.AMC029=='02'){
+                                }else if(form.AMC029=='02'){
                                     submitForm.AGA002 = '给付-00142-001-02'//剖宫产
-                                }else if(This.form.AMC029=='03'){
+                                }else if(form.AMC029=='03'){
                                     submitForm.AGA002 = '给付-00142-001-03'//助娩产
                                 }
                                 // 加入子项编码
@@ -264,9 +264,9 @@ export default {
                 console.log('返回成功信息',resData)
                    //   成功   1000
                 if ( resData.enCode == 1000 ) {
-                    this.epFn.setSession('NATURE_BKZ019',resData.BKZ019)
-                    this.$refs.success.open();
+                    this.setSession('NATURE_BKZ019',resData.BKZ019)
                     console.log("form",this.form)
+                    this.$router.push('/natureApprovalDetail')
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$message({
@@ -285,11 +285,17 @@ export default {
         },
         formatSubmitData(){
             let submitForm ={};
-            if(this.form.AMC029=='01'){
+            let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
+            console.log('法人',legalPerson)
+            let form={};
+            form=this.$store.state.SET_NATUREAPPROVAL;
+            let form2={};
+            form2=this.$store.state.SET_NATUREAPPROVAL_BASEINFO;
+            if(form.AMC029=='01'){
                 submitForm.AGA002 ='给付-00142-001-01'//平产
-            }else if(this.form.AMC029=='02'){
+            }else if(form.AMC029=='02'){
                 submitForm.AGA002 = '给付-00142-001-02'//剖宫产
-            }else if(this.form.AMC029=='03'){
+            }else if(form.AMC029=='03'){
                 submitForm.AGA002 = '给付-00142-001-03'//助娩产
             }
             // submitForm.AGA002 =  "330600007019";
@@ -301,28 +307,21 @@ export default {
                 submitForm.lx="2";
                 submitForm.BKZ019="";
             }
-            let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
-            if(this.$store.state.SET_NATUREAPPROVAL){
-                let form=this.$store.state.SET_NATUREAPPROVAL;
-            }
-            if(this.$store.state.SET_NATUREAPPROVAL_BASEINFO){
-                let form2=this.$store.state.SET_NATUREAPPROVAL_BASEINFO;
-            }
-            submitForm.AAC002 = form1.AAE135//被操作人员身份证号
+            submitForm.AAC002 = form.AAE135//被操作人员身份证号
             submitForm.AAC004 = form2.AAC004//性别
-            submitForm.AAC006 = form1.AAC006//出生日期
-            submitForm.BMC061 = form1.BMC061//生育类别 0生育女职工,1男职工配偶
-            submitForm.BMC131 = form1.BMC131//生育日期
-            submitForm.AMC029 = form1.AMC029//生育类别 01平产、02助娩产、03剖宫产
-            submitForm.AMC028 = form1.AMC028//胎儿数
-            submitForm.AMC031 = form1.AMC031//胎次
-            submitForm.BMC046 = form1.BMC046//其中死胎
-            submitForm.BMC211 = form1.BMC211//实际发生费用
-            submitForm.BMC033 = form1.BMC033//实际住院天数
-            submitForm.AMC027 = form1.AMC027//晚育标志 0否1是
-            submitForm.BMC035 = form1.BMC035//准生证号
-            submitForm.AMC022 = form1.AMC022//出生证编号
-            submitForm.BMC065 = form1.BMC065//医疗机构
+            submitForm.AAC006 = form.AAC006//出生日期
+            submitForm.BMC061 = form.BMC061//生育类别 0生育女职工,1男职工配偶
+            submitForm.BMC131 = form.BMC131//生育日期
+            submitForm.AMC029 = form.AMC029//生育类别 01平产、02助娩产、03剖宫产
+            submitForm.AMC028 = form.AMC028//胎儿数
+            submitForm.AMC031 = form.AMC031//胎次
+            submitForm.BMC046 = form.BMC046//其中死胎
+            submitForm.BMC211 = form.BMC211//实际发生费用
+            submitForm.BMC033 = form.BMC033//实际住院天数
+            submitForm.AMC027 = form.AMC027//晚育标志 0否1是
+            submitForm.BMC035 = form.BMC035//准生证号
+            submitForm.AMC022 = form.AMC022//出生证编号
+            submitForm.BMC065 = form.BMC065//医疗机构
             submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
             submitForm.AAE011 = legalPerson.attnName
             submitForm.AAB301 = legalPerson.xzqh
@@ -330,8 +329,8 @@ export default {
             
             
             submitForm.BKE520 = '1'//申请渠道
-            submitForm.applicationFormUrl = this.form2.photoIdList1//申请表
-            submitForm.medicalUrl =this.form2.photoList2//证明
+            submitForm.applicationFormUrl = this.form1.photoIdList1//申请表
+            submitForm.medicalUrl =this.form1.photoIdList2//证明
             // 请求参数封装
             const params = this.epFn.commonRequsetData(submitForm,"7212");
 
