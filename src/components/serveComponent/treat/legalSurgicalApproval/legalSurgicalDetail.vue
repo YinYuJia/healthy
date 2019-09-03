@@ -74,7 +74,10 @@
                     </div>
                 </div>
             </div>
+            <!-- 按钮 -->
+            <div class="SubmitBtn" @click="submit()" ref="submit">确认提交</div>
         </div>
+        <Success :flag="successFlag"></Success>
     </div>
 
 </template>
@@ -86,10 +89,12 @@ export default {
         this.type = this.$route.query.params.type;
         this.AMC029 = this.$route.query.params.AMC029;
         this.BMC131 = this.$route.query.params.BMC131;
+        this.AAC002 = this.$route.query.params.AAC002;
         console.log("type:", this.type)
     },
     data() {
         return {
+            successFlag: 2,
             type: '',
             applicationFormUrl : [],
             menstruationUrl: [],
@@ -105,10 +110,72 @@ export default {
             expIdList: [],
             listIndex: 1,
             AMC029: '',
-            BMC131: ''
+            BMC131: '',
+            AAC002: ''
+
         }
     },
     methods: {
+        submit() {
+            let LegalPerson = JSON.parse(sessionStorage.getItem('LegalPerson'));
+            let obj = {
+                        'applicationFormUrl' : this.appId,// 《生育保险待遇申请表》
+                        "AAE135": LegalPerson.attnIDNo,// 经办身份证
+                        "userId": LegalPerson.userId,
+                        'AAB301': '339900', //参保地统筹区编码
+                        'AAC002': this.AAC002, //证件号码
+                        'BMC061': '0',	//计划生育人员类别
+                        'BMC131': this.BMC131,	//计划生育日期
+                        'AMC029': this.AMC029, //计划生育类别
+                        'AAE011': LegalPerson.attnName,	//申请人
+                        'BKE520': '1',	//申请渠道
+                        'type': this.type,//类型
+                        };
+                    if(this.type == '01') {
+                        if(this.applicationFormUrl.length == 0 || this.menstruationUrl.length == 0 || this.abortionUrl.length == 0) {
+                            this.$toast('请补全信息！');
+                        } else {
+                            obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
+                            obj.abortionUrl = this.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
+                            this.submitList(obj);
+                        }
+                    } else if (this.type == '02') {
+                        if(this.applicationFormUrl.length == 0 || this.menstruationUrl.length == 0 || this.abortionUrl.length == 0 || this.menstruationUrl.length == 0 || this.expensesList.length < 3) {
+                            this.$toast('请补全信息！');
+                        } else {
+                            obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
+                            obj.abortionUrl = this.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
+                            obj.marriageCertificateUrl = this.marId;// 结婚复印证
+                            obj.expensesList = this.expIdList;// 病历出院小结图片列表
+                            this.submitList(obj);
+                        }
+                    } else if (this.type == '03') {
+                        if(this.applicationFormUrl.length == 0) {
+                            this.$toast('请补全信息！');
+                        } else {
+                            this.submitList(obj);
+                        }
+                    }
+        },
+        submitList(obj) {
+            console.log("obj", obj);
+            this.$axios.post(this.epFn.ApiUrl()+'/h5/jy7213/getRecord', {
+                     "data": obj,
+                     "tradeCode": "7213"
+                     }).then((resData) => {
+                    console.log('返回提交信息', resData)
+                    if (resData.enCode == 1000) {
+                        this.successFlag = 1
+                    }  else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                        this.$toast(resData.msg);
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
+                });
+        },
         uploadImg1() {
             this.tag = 1;
             this.uploadImg()
@@ -230,18 +297,6 @@ export default {
                                     This.expensesList.push(data.picPath[0])
                                     This.expIdList.push(innerResData.photoId)
                                 }
-                                let obj = {
-                                    applicationFormUrl : This.appId,// 《生育保险待遇申请表》
-                                    };
-                                if(This.type == '01') {
-                                    obj.menstruationUrl = This.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
-                                    obj.abortionUrl = This.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
-                                } else if (This.type == '02') {
-                                    obj.menstruationUrl = This.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
-                                    obj.abortionUrl = This.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
-                                    obj.marriageCertificateUrl = This.marId;// 结婚复印证
-                                    obj.expensesList = This.expIdList;// 病历出院小结图片列表
-                                }
                                 console.log("obj:", obj)
                         }else if (innerResData.enCode == 1001 ) {
                         //   失败  1001
@@ -324,6 +379,18 @@ export default {
                     width: 1.5rem;
                 }
             }
+        }
+        .SubmitBtn {
+        height: 1.05rem;
+        width: 100%;
+        border-radius: .05rem;
+        line-height: 1.05rem;
+        font-family: PingFangSC-Regular;
+        font-size: .36rem;
+        letter-spacing: 0;
+        text-align: center;
+        background: #1492FF;
+        color: #FFFFFF;
         }
     }
 }

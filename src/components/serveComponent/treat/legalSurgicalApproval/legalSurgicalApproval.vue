@@ -27,7 +27,7 @@
                  <div class="InfoLine">
                     <div class="InfoName"><span>计划生育类型</span></div>
                     <div class="InfoText">
-                        <input class="InputContent" v-model="AMC029VALUE" @click="openChooseType" :placeholder="'请选择'">
+                        <input class="InputContent" v-model="AMC029VALUE" @click="openChooseType" :placeholder="'请选择'" readonly>
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
         </div>
     
         <!-- 按钮 -->
-        <div class="SubmitBtn" @click="add" v-if="showAll">补充材料</div>
+        <div class="SubmitBtn" :class="{'active': canSubmit == true}" @click="add()" v-if="showAll">补充材料</div>
          <!-- 判断是否绑定经办组建-->
         <BindingAgency></BindingAgency>
     </div>
@@ -51,6 +51,7 @@
 export default {
     data() {
         return {
+            canSubmit: false,
             userInfo: {},
             showAll: false,
             AAE135: '',
@@ -66,63 +67,75 @@ export default {
             value: '',
             startDate: new Date(),
             dateVal: new Date(),
-            type: '02',
+            type: '',
             list1:[{
-                code: '13',
+                value: '13',
                 name: '人工流产'
             },{
-                code: '14',
+                value: '14',
                 name: '中期终止妊娠'
             },{
-                code: '17',
+                value: '17',
                 name: '人工流产同时放置宫内节育器'
             },{
-                code: '18',
+                value: '18',
                 name: '中期终止妊娠同时放置宫内节育器'
             },{
-                code: '19',
+                value: '19',
                 name: '人工流产同时结扎输软管'
             },{
-                code: '20',
+                value: '20',
                 name: '中期终止妊娠同时结扎输软管'
             },{
-                code: '21',
+                value: '21',
                 name: '人工流产同时取出宫内节育器'
             },{
-                code: '22',
+                value: '22',
                 name: '中期终止妊娠同时取出宫内节育器'
             }],
             list2: [{
-                code: '04',
+                value: '04',
                 name: '三个月以下流产'
             },{
-                code: '05',
+                value: '05',
                 name: '三个月以上四个月以下流产'
             },{
-                code: '06',
+                value: '06',
                 name: '满四个月流产'
             }],
             list3:[{
-                code: '11',
+                value: '11',
                 name: '放置宫内节育器'
             },{
-                code: '12',
+                value: '12',
                 name: '取出宫内节育器'
             },{
-                code: '15',
+                value: '15',
                 name: '单纯输软管结扎'
             },{
-                code: '16',
+                value: '16',
                 name: '产后结扎输软管'
             }],
             list4:[{
-                code: '23',
+                value: '23',
                 name: '输精管结扎'
             }]
         }
     },
     created(){
         this.epFn.setTitle('计划外生育')
+    },
+    watch: {
+        form:{
+            handler:function(val){
+                if(val.AMC029!="" && val.BMC131!=""){
+                    this.canSubmit=true;
+                }else{
+                    this.canSubmit=false;
+                }
+            },
+            deep: true
+        }
     },
     methods: {
          handleStartConfirm(val){
@@ -144,11 +157,22 @@ export default {
             this.$refs.select.open();
         },
         chooseType(val){
+            this.type = ''
             this.AMC029VALUE = val.name;
             this.form.AMC029 = val.value;
+            if(val.value =='04' || val.value =='05' || val.value == '06') {
+                this.type = '02';
+            } else if (val.value=='13' || val.value =='14' || val.value == '17' || val.value == '18' || val.value == '19' || val.value == '20' || val.value == '21' || val.value == '22') {
+                this.type = '01'             
+            } else if(val.value=='11' || val.value =='12' || val.value == '15' || val.value == '16' || val.value == '23') {
+                this.type = '03'
+            }
         },
         //搜索
         search(){
+            this.AMC029VALUE = '';
+            this.form.AMC029 = '';
+            this.form.BMC131 = '';
             this.slots = []
             console.log('通过身份证号请求数据')
             if(!this.util.idCard(this.AAE135)){
@@ -169,7 +193,7 @@ export default {
                       if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
                         this.userInfo = resData.LS_DS[0]
                         sessionStorage.setItem('payLimitAAE135',this.AAE135);
-                        console.log("a-", resData.LS_DS[0].AAC004);
+                        console.log("a-", this.userInfo.AAC002);
                         if(resData.LS_DS[0].AAC004 == '1'){
                             this.slots = this.list4
                             console.log("b", this.slots)
@@ -204,12 +228,17 @@ export default {
             return params;
         },
         add() {
-            let params = {
-                type: this.type,
-                AMC029: this.form.AMC029,
-                BMC131: Number(this.date)
+            if(this.form.AMC029 == '' || this.form.BMC131 == '') {
+                this.$toast('请补全信息！');
+            } else {
+                let params = {
+                    type: this.type,
+                    AMC029: this.form.AMC029,
+                    BMC131: Number(this.date),
+                    AAC002: this.userInfo.AAC002
+                }
+                this.$router.push({path: '/legalSurgicalDetail', query: {params: params}})
             }
-            this.$router.push({path: '/legalSurgicalDetail', query: {params: params}})
         }
     }
 }
@@ -328,6 +357,10 @@ export default {
         font-size: .36rem;
         letter-spacing: 0;
         text-align: center;
+        background: #F2F2F2;
+        color: #B4B4B4;
+    }
+    .active{
         background: #1492FF;
         color: #FFFFFF;
     }
