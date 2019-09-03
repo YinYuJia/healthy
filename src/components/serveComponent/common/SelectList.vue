@@ -55,8 +55,8 @@ export default {
             this.showList = false;
         },
         onValuesChange(picker, values) {
-            // this.name = values[0].name;
-            // this.value = values[0].value;
+            this.name = values[0].name;
+            this.value = values[0].value;
         }
     }
 }
