@@ -1,5 +1,7 @@
 <template>
     <div class="SurgicalApproval">
+        <!-- 选择器 -->
+        <SelectList :list="slots" ref="select" @choose="chooseType"></SelectList>
         <!-- 标题 -->
         <Title :title="'计划外生育'" :backRouter="'/'"></Title>
         <mt-datetime-picker
@@ -9,23 +11,11 @@
         v-model="dateVal"
         @confirm="handleStartConfirm">
         </mt-datetime-picker>
-        <mt-popup class="cityPicker" v-model="showCityPicker" position="bottom" >
-            <mt-picker 
-            :slots="slots" 
-            @change="handleChange"
-            valueKey="name"
-            >
-            </mt-picker>
-            <div class="btnBox">
-                <div class="btn" @click="showCityPicker=!showCityPicker">取消</div>
-                <div class="btn" @click="chooseData()">确定</div>
-            </div>
-        </mt-popup>
         <div class="Content">
             <div class="SearchContent">
                 <div class="SearchBox">
                     <svg-icon icon-class="serveComponent_search"/>
-                    <input class="InputContent" v-model="AAE135" :placeholder="'请输入身份证号'">
+                    <input class="InputContent" v-model="AAE135" :placeholder="'请输入身份证号'" readonly>
                     <svg-icon v-if="AAE135" class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
                 <div class="SearchBtn" @click="search">搜索</div>
             </div>
@@ -37,7 +27,8 @@
                  <div class="InfoLine">
                     <div class="InfoName"><span>计划生育类型</span></div>
                     <div class="InfoText">
-                        <input @click="openCityPicker" type="text" v-model="form.AMC029" placeholder="请选择" readonly><svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <input class="InputContent" v-model="AMC029VALUE" @click="openChooseType" :placeholder="'请选择'">
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -67,19 +58,18 @@ export default {
                 AMC029: '',
                 BMC131: '',
             },
+            AMC029VALUE: '',
             showCityPicker: false,
-            slots: [
-                {values: [{
-                        value: '04',
-                        name: '三个月以下流产'
-                    },{
-                        value: '05',
-                        name: '三个月以上四个月以下流产'
-                    },{
-                        value: '06',
-                        name: '满四个月流产'
-                    }]
-                }],
+            slots: [{
+                value: '04',
+                name: '三个月以下流产'
+            },{
+                value: '05',
+                name: '三个月以上四个月以下流产'
+            },{
+                value: '06',
+                name: '满四个月流产'
+            }],
             name: '',
             value: '',
             type: '',
@@ -103,21 +93,16 @@ export default {
         openEndPicker(){
             this.$refs.startPicker.open();
         },
-        chooseData() {
-            this.showCityPicker = false;
-        },
-        handleChange(picker, values) {
-            if(values[0]!=undefined){
-                this.name = values[0].name;
-                this.value = values[0].value;
-                this.form.AMC029 = values[0].name;
-            }
-        },
-        openCityPicker(e) {
-            this.showCityPicker = true;
-        },
         deleteSearch(){
             this.AAE135 = '';
+        },
+        // 选择类型
+        openChooseType() {
+            this.$refs.select.open();
+        },
+        chooseType(val){
+            this.AMC029VALUE = val.name;
+            this.form.AMC029 = val.value;
         },
         //搜索
         search(){
@@ -175,19 +160,6 @@ export default {
 
 <style lang="less" scoped>
 .SurgicalApproval {
-    .cityPicker{
-        width: 100%;
-        .btnBox{
-            display: flex;
-            .btn{
-                height: 40px;
-                width: 50%;
-                color: #26a2ff;
-                line-height: 40px;
-                font-size: 16px;
-            }
-        }
-    }
     .Content {
         height: 100%;
         margin-bottom: 1.4rem;
