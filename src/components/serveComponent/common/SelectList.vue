@@ -24,6 +24,14 @@ export default {
             default: []
         }
     },
+    watch: {
+        list:{
+            handler:function(val){
+                this.slots.values = val;
+            },
+            deep: true
+        }
+    },
     data() {
         return {
             showList: false,
