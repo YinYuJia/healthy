@@ -30,6 +30,7 @@
 export default {
     data() {
         return {
+            imgUrl: '',
             invoiceList: [],
         }
     },
@@ -49,7 +50,7 @@ export default {
         // 删除发票
         deleteInvoice(item, index){
             this.invoiceList.splice(index, 1);
-            sessionStorage.setItem("SET_SURGICAL_INVOICELIST", invoiceList)
+            sessionStorage.setItem("SET_SURGICAL_INVOICELIST",JSON.stringify(this.invoiceList))
         }
     }
 }

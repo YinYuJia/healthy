@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div v-if="type == '02'">
-                <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件一份</div>
+                <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件各一份（请上传三张）</div>
                 <div class="dataUpload">
                     <div class="picWrap">
                         <div v-for="(item,index) in expensesList" :key="index">
@@ -194,7 +194,7 @@ export default {
                             obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
                             obj.abortionUrl = this.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
                             obj.marriageCertificateUrl = this.marId;// 结婚复印证
-                            obj.expensesList = this.expIdList.join();// 病历出院小结图片列表
+                            obj.expensesUrl = this.expIdList.join();// 病历出院小结图片列表
                             obj.photoIdList = this.photoIdList;
                             obj.BMC220 = this.BMC220;
                             this.submitList(obj);
@@ -414,6 +414,7 @@ export default {
             text-align: left;
             margin-top: .2rem;
             margin-left: .3rem;
+            margin-right: .3rem;
         }
         .down {
             font-size: 0.28rem;

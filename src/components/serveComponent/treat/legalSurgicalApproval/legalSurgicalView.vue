@@ -30,7 +30,7 @@
                 <div class="invoiceList" v-for="(item,index) in form.photoList" :key="index">
                     <div class="infoLine">
                         <div class="infoName"><span>发票号</span></div>
-                        <div class="infoText" @click="showBigPhoto(item.photoUrl)"><span class="active">{{item.BKE100}}</span></div>
+                        <div class="infoText" @click="showBigPhoto(item.BKE554)"><span class="active">{{item.BKE100}}</span></div>
                     </div>
                     <div class="infoLine">
                         <div class="infoName"><span>发票金额</span></div>
@@ -78,8 +78,8 @@
                     <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件一份</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                                <div class="uploadBtn" v-for="(item,index) in form.expensesList" :key="index">
-                                    <img :src="item" class="pic"/>
+                                <div class="uploadBtn" v-for="(item,index) in form.expensesUrl" :key="index">
+                                    <img :src="item.PUL002" class="pic"/>
                                 </div>
                         </div>
                     </div>
@@ -104,6 +104,7 @@ export default {
             AMC029: '',
             AAC002: '',
             form: {},
+            imgUrl: ''
         }
     },
     created () {
@@ -210,7 +211,7 @@ export default {
         submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
         submitForm.AAC003 = legalPerson.attnName
         // 请求参数封装
-        const params = this.epFn.commonRequsetData(submitForm,"1009");
+        const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
         return params;
       },
       formatSubmitData1(){
@@ -333,6 +334,8 @@ export default {
                     display: flex;
                     .infoName{
                         width: 1.5rem;
+                        text-align: left;
+                        padding-left: .2rem;
                         span{
                             color: #666666;
                             letter-spacing: 0;
