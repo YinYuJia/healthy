@@ -319,7 +319,7 @@ export default new Vuex.Store({ // 暴露与new vuex
       AMC029: '', //计划生育类别
       AMC029VALUE: '', //计划生育类型值
       BMC131: '', //计划生育日期
-      BMC220: '', //发票提交方式
+      BKE200: '', //发票提交方式
     },
     // 未就业配偶发票信息
     SET_UNEMPLOYED_INVOICE: []

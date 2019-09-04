@@ -39,9 +39,9 @@
                 </div>
             </div>
             <!-- 发票信息 -->
-            <invoiceInfo @saveInfo="saveInfo"></invoiceInfo>
+            <invoiceInfo v-if="showInvoice" @saveInfo="saveInfo"></invoiceInfo>
             <!-- 发票提交方式 -->
-            <mailInfo :type="form.BMC220" @mailType="mailType"></mailInfo>
+            <mailInfo v-if="showInvoice" :type="form.BKE200" @mailType="mailType"></mailInfo>
             <!-- 下一步按钮 -->
             <Footer :canSubmit="canSubmit" @submit="submit()" btnText="补充材料"></Footer>
         </div>
@@ -66,7 +66,7 @@ export default {
                 AMC029: '', //计划生育类别
                 AMC029VALUE: '', //计划生育类型值
                 BMC131: '', //计划生育日期
-                BMC220: '', //发票提交方式
+                BKE200: '', //发票提交方式
                 invoiceList: [], //发票列表
             },
             dateVal: new Date(), //初始化时间
@@ -91,6 +91,7 @@ export default {
                 {name:'人工流产同时取出宫内节育器', value: '21'},
                 {name:'中期终止妊娠同时取出宫内节育器', value: '22'}
             ],
+            showInvoice: false, //显示发票信息
             showAll: false, //显示剩下的所有信息
             canSubmit: false, //是否可提交
             isDestroy: true, //是否需要清空VUEX
@@ -112,15 +113,31 @@ export default {
             }else {
                 this.gender = 'man';
             }
+            // 判断是否显示发票
+            if(this.form.AMC029 <= 6 && this.form.AMC029 >= 1){
+                this.showInvoice = false;
+            }else{
+                this.showInvoice = true;
+            }
         }
     },
     watch:{
         form: {
             handler(val){
-                if(val.BMC021 != '' && val.BMC202 != '' && val.AMC029 != '' && val.BMC131 != '' && val.BMC220 != '' && val.invoiceList.length > 0){
-                    this.canSubmit = true;
+                if(this.showInvoice == true){
+                    // 有发票时
+                    if(val.BMC021 != '' && val.BMC202 != '' && val.AMC029 != '' && val.BMC131 != '' && val.BKE200 != '' && val.invoiceList.length > 0){
+                        this.canSubmit = true;
+                    }else {
+                        this.canSubmit = false;
+                    }
                 }else {
-                    this.canSubmit = false;
+                    // 没有发票时
+                    if(val.BMC021 != '' && val.BMC202 != '' && val.AMC029 != '' && val.BMC131 != ''){
+                        this.canSubmit = true;
+                    }else {
+                        this.canSubmit = false;
+                    }
                 }
             },
             deep: true
@@ -141,6 +158,8 @@ export default {
                     // }
                     // 清空基本信息和发票信息
                     this.clearVuex();
+                    // 发票不显示
+                    this.showInvoice = false;
                     // 存储申请人基本信息
                     this.userInfo = resData.LS_DS[0];
                     this.$store.dispatch('SET_UNEMPLOYED_USERINFO',this.userInfo);
@@ -172,6 +191,11 @@ export default {
         chooseType(val) {
             this.form.AMC029VALUE = val.name;
             this.form.AMC029 = val.value;
+            if(val.value <= 6 && val.value >= 1){
+                this.showInvoice = false;
+            }else{
+                this.showInvoice = true;
+            }
         },
         // 选择生育时间
         openChooseTime() {
@@ -189,7 +213,7 @@ export default {
         },
         // 选择发票提交方式
         mailType(val) {
-            this.form.BMC220 = val;
+            this.form.BKE200 = val;
         },
         // 清空数据
         clearVuex() {
@@ -199,7 +223,7 @@ export default {
                 AMC029: '', //计划生育类别
                 AMC029VALUE: '', //计划生育类型值
                 BMC131: '', //计划生育日期
-                BMC220: '', //发票提交方式
+                BKE200: '', //发票提交方式
             };
             this.$store.dispatch('SET_UNEMPLOYED_REPORT', {
                 BMC021: '', //配偶姓名
@@ -207,16 +231,16 @@ export default {
                 AMC029: '', //计划生育类别
                 AMC029VALUE: '', //计划生育类型值
                 BMC131: '', //计划生育日期
-                BMC220: '', //发票提交方式
+                BKE200: '', //发票提交方式
             });
             this.$store.dispatch('SET_UNEMPLOYED_USERINFO', {});
             this.$store.dispatch('SET_UNEMPLOYED_INVOICE', []);
         },
         // 提交信息
         submit() {
-            // if(!this.canSubmit){
-            //     return;
-            // }
+            if(!this.canSubmit){
+                return;
+            }
             this.saveInfo();
             this.$router.push('/unemployedSubmit');
         }
