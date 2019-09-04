@@ -161,11 +161,10 @@
             }
         },
         created() {
-            // 根据路由配置子项选中
-        //     const legalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"))
+        console.log("router------------------",this.$router.params == undefined)
+        if( this.$router.params != undefined && this.$router.params != null && this.$router.params != '') {
             
-        // console.log('---legalPerson---',legalPerson.attnName);
-            let type = this.$route.params.type
+            let type = this.$router.params.globalConfigObj.type
             if (type) {
                 let label = ''
                 let value = ''
@@ -208,6 +207,10 @@
                     ]
                 }
             }
+        }
+        
+        // console.log('---legalPerson---',legalPerson.attnName);
+            
             // 设置标题
             this.epFn.setTitle('异地就医备案')
             console.log('this.form.AAS301', this.form.AAS301)

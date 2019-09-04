@@ -1,5 +1,6 @@
 <template>
     <div class="natureApprovalSupplement">
+        <Title :title="'计划内生育'" :backRouter="'/indexInfoList'"></Title>
         <div class="Content">
         <div class="title"><span>根据业务需要，需要您补充提交以下资料:</span></div>
         <!-- <div class="Hint">
@@ -67,11 +68,12 @@ export default {
         console.log('从填写信息页面来的数据1',this.$store.state.SET_NATUREAPPROVAL)
         console.log('从填写信息页面来的数据2',this.$store.state.SET_NATUREAPPROVAL_BASEINFO)
         console.log('从填写信息页面来的数据3',this.$store.state.SET_NATUREAPPROVAL_PHOTOLIST)
+        sessionStorage.setItem('ifRequest',true)
         if(this.$store.state.SET_NATUREAPPROVAL_PHOTOLIST.photoList1!=''||this.$store.state.SET_NATUREAPPROVAL_PHOTOLIST.photoList2!=''){
             this.form1=this.$store.state.SET_NATUREAPPROVAL_PHOTOLIST
             console.log(111)
         }
-        
+        this.epFn.setTitle('计划内生育')        
     },
     watch: {
         form1:{
@@ -258,6 +260,10 @@ export default {
 
         },
         submit(){
+            if(this.form.photoList1==''||this.form.photoList2==''){
+                this.$toast('请上传附件后再提交')
+                return false
+            }
             // 封装数据
             let params = this.formatSubmitData();
             // 开始请求

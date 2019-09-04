@@ -22,6 +22,26 @@
                     <div class="InfoText">{{form.BMC131}}</div>
                 </div>
             </div>
+            <div class="infoType" v-if="type == '02'">
+                <div class="infoBox">
+                    <div class="infoTitle">纸质发票提交方式：</div>
+                    <div class="infoTitle">邮寄</div>
+                </div>
+                <div class="invoiceList" v-for="(item,index) in form.photoList" :key="index">
+                    <div class="infoLine">
+                        <div class="infoName"><span>发票号</span></div>
+                        <div class="infoText" @click="showBigPhoto(item.BKE554)"><span class="active">{{item.BKE100}}</span></div>
+                    </div>
+                    <div class="infoLine">
+                        <div class="infoName"><span>发票金额</span></div>
+                        <div class="infoText"><span>{{item.AKC264}}</span></div>
+                    </div>
+                    <div class="infoLine">
+                        <div class="infoName"><span>发票日期</span></div>
+                        <div class="infoText"><span>{{item.AAE036}}</span></div>
+                    </div>
+                </div>
+            </div>
             <div class="upload">
                 <div class="infoTitle">附件：</div>
                 <div class="infoTitle">1.《生育保险待遇申请表》</div>
@@ -58,14 +78,15 @@
                     <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件一份</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                                <div class="uploadBtn" v-for="(item,index) in form.expensesList" :key="index">
-                                    <img :src="item" class="pic"/>
+                                <div class="uploadBtn" v-for="(item,index) in form.expensesUrl" :key="index">
+                                    <img :src="item.PUL002" class="pic"/>
                                 </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Success :flag="successFlag"></Success>
     </div>
 </template>
@@ -78,25 +99,29 @@ export default {
             currentStep:1,
             form:{},
             form1:{},
-            BKZ019: '',
-            type: '02',
-            AMC029: '',
-            AAC002: '',
+            type: '',
             form: {},
+            imgUrl: ''
         }
     },
     created () {
-        this.type = this.$route.query.params.type;
-        this.BKZ019 = this.$route.query.params.BKZ019;
-        this.AMC029 = this.$route.query.params.AMC029;
-        this.AAC002 = this.$route.query.params.AAC002;
+        if(this.$route.query.params) {
+            this.type = this.$route.query.params.type;
+        }
         if(this.$route.query.param){
             this.successFlag = 2;
+            this.type = this.$route.query.AGA002.split('-').pop();
+            console.log("flag---", this.type)
         }
         this.request();
         this.request1();
     },
     methods:{
+        // 查看大图
+        showBigPhoto(val){
+            this.imgUrl = val;
+            this.$refs.photo.open();
+        },
       revoke(){
         this.$router.push('/legalPerson')
       },
@@ -127,8 +152,8 @@ export default {
           console.log('返回成功信息',resData)
           //   成功   1000
           if ( resData.enCode == 1000 ) {
-            this.form={...this.form,...resData.LS_DS_18}
-            let LS=resData.LS_DS_18
+            this.form={...this.form,...resData.LS_DS_19}
+            let LS=resData.LS_DS_19
             this.form={...this.form,...LS}
             if(this.form.BMC220 != '') {
                         if(this.form.BMC220 == 1){
@@ -170,7 +195,7 @@ export default {
       formatSubmitData(){
         let submitForm ={}
         let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
-        if(this.AMC029 != null){
+        if(sessionStorage.getItem("SURGICAL_AMC029") != null){
           if(this.type=='01'){
             submitForm.AGA002 =  "给付-00142-002-01";
           }else if(this.type=='02'){
@@ -179,18 +204,21 @@ export default {
             submitForm.AGA002 =  "给付-00142-002-03";            
           }
         }
-        
-        submitForm.BKZ019=this.BKZ019;
+        if(this.$route.query.param) {
+            submitForm.BKZ019 = this.$route.query.param
+        } else {
+            submitForm.BKZ019 = sessionStorage.getItem("SURGICAL_BKZ019");
+        }
         submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
         submitForm.AAC003 = legalPerson.attnName
         // 请求参数封装
-        const params = this.epFn.commonRequsetData(submitForm,"1009");
+        const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1009");
         return params;
       },
       formatSubmitData1(){
         let submitForm ={}
         let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
-        if(this.AMC029!=null){
+        if(sessionStorage.getItem("SURGICAL_AMC029")!=null){
           let AGA002=this.type;//判断孙项编码
           if(AGA002=='01'){
             submitForm.AGA002 =  "给付-00142-002-01";
@@ -207,7 +235,7 @@ export default {
           submitForm.BKZ019=this.$route.query.param
         }else{
           submitForm.lx="2";
-          submitForm.BKZ019=this.BKZ019;
+          submitForm.BKZ019=sessionStorage.getItem("SURGICAL_BKZ019");
         }
         submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
         submitForm.AAC003 = legalPerson.attnName
@@ -217,7 +245,7 @@ export default {
       },
       formatSubmitData2(){
         let submitForm = {}
-        submitForm.AAC002 = this.AAC002;
+        submitForm.AAC002 = this.form.AAC002;
         // 请求参数封装
         const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9109");
         return params;
@@ -270,8 +298,67 @@ export default {
                 }
             }
         }
+        .infoType {
+            background-color: #FFF;
+            width: 100%;
+            margin-top: .15rem;
+            .infoBox {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                border-bottom: 1px solid #ddd;
+                
+                .infoTitle {
+                    font-size: .28rem;
+                    text-align: left;
+                    margin-top: .2rem;
+                    margin-left: .3rem;
+                    height: 1rem;
+                    padding-right: .2rem;
+                    line-height: 1rem;
+                }
+            }
+                    // 发票列表
+            .invoiceList{
+                height: 2.4rem;
+                padding: .42rem 0;
+                border-bottom: 1px solid #DDD;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                position: relative;
+                &:last-child{
+                    border-bottom: none;
+                }
+                .infoLine{
+                    font-size: .28rem;
+                    display: flex;
+                    .infoName{
+                        width: 1.5rem;
+                        text-align: left;
+                        padding-left: .2rem;
+                        span{
+                            color: #666666;
+                            letter-spacing: 0;
+                        }
+                    }
+                    .infoText{
+                        span{
+                            color: #000000;
+                            letter-spacing: 0;
+                        }
+                        .active{
+                            color: #1492FF;
+                        }
+                    }
+                }
+            }
+        }
         .upload {
-            margin: .2rem;
+            margin-top: .15rem;
+            padding-top: .37rem;
+            background-color: #FFF;
+            width: 100%;
             .infoTitle {
                 font-size: .28rem;
                 text-align: left;
@@ -280,7 +367,6 @@ export default {
             }
             .dataUpload{
             background: #FFF;
-            height: .15rem;
             //margin: 0 0 1.4rem 0;
             padding: .37rem .4rem;
             .picWrap{

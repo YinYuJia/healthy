@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div v-if="type == '02'">
-                <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件一份</div>
+                <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件各一份（请上传三张）</div>
                 <div class="dataUpload">
                     <div class="picWrap">
                         <div v-for="(item,index) in expensesList" :key="index">
@@ -97,10 +97,14 @@ export default {
         this.AMC029 = this.$route.query.params.AMC029;
         this.BMC131 = this.$route.query.params.BMC131;
         this.AAC002 = this.$route.query.params.AAC002;
+        this.BMC220 = this.$route.query.params.BMC220;
+        this.photoIdList = this.$route.query.params.photoIdList;
         console.log("type:", this.type)
     },
     data() {
         return {
+            BMC220: '',
+            photoIdList: '',
             type: '',
             applicationFormUrl : [],
             menstruationUrl: [],
@@ -190,7 +194,9 @@ export default {
                             obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
                             obj.abortionUrl = this.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
                             obj.marriageCertificateUrl = this.marId;// 结婚复印证
-                            obj.expensesList = this.expIdList;// 病历出院小结图片列表
+                            obj.expensesUrl = this.expIdList.join();// 病历出院小结图片列表
+                            obj.photoIdList = this.photoIdList;
+                            obj.BMC220 = this.BMC220;
                             this.submitList(obj);
                         }
                     } else if (this.type == '03') {
@@ -209,11 +215,10 @@ export default {
                      }).then((resData) => {
                     console.log('返回提交信息', resData)
                     if (resData.enCode == 1000) {
+                        sessionStorage.setItem("SURGICAL_BKZ019", resData.BKZ019);
+                        sessionStorage.setItem("SURGICAL_AMC029", this.AMC029);
                         let params = {
-                            BKZ019: resData.BKZ019,
                             type: this.type,
-                            AMC029: this.AMC029,
-                            AAC002: this.AAC002,
                         }
                         this.$router.push({path:'/legalSurgicalView', query: {params: params}})
                     }  else if (resData.enCode == 1001 ) {
@@ -408,6 +413,7 @@ export default {
             text-align: left;
             margin-top: .2rem;
             margin-left: .3rem;
+            margin-right: .3rem;
         }
         .down {
             font-size: 0.28rem;

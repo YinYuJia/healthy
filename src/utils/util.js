@@ -113,6 +113,33 @@ function postOffic(value){
     }
 
 }
+//胎次胎儿数校验
+function checkBaby(val){
+    var num = val
+    if(!(/^[0-9]*$/.test(num))){
+        return false;
+    }else{
+        return true;
+    }
+}
+  //实际费用校验
+function checkFee(val){
+    var num = val
+    if(!(/^[\.\d]*$/.test(num))){
+        return false;
+    }else{
+        return true;
+    }
+}
+//实际费用校验
+function checkBorth(val){
+    var num = val
+    if(!(/[a-zA-Z0-9][a-zA-Z0-9]+/.test(num))){
+        return false;
+    }else{
+        return true;
+    }
+}
 //护照号校验
 // function passPort(value){
 //     // if(value && (!(/^1[45][0-9]{7}$|(^[P|p|S|s]\d{7}$)|(^[S|s|G|g|E|e]\d{8}$)|(^[Gg|Tt|Ss|Ll|Qq|Dd|Aa|Ff]\d{8}$)|(^[H|h|M|m]\d{8,10}$)/).test(value))){
@@ -179,4 +206,7 @@ export default{
     checkMail,
     getToken,
     idCard1,
+    checkBaby,
+    checkFee,
+    checkBorth
 }

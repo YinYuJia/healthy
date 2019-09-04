@@ -77,6 +77,7 @@ export default {
         if(this.$route.query.param){
             this.successFlag = 2;
         }
+        this.epFn.setTitle('计划内生育')
         this.request();
         this.request1();
     },
@@ -252,11 +253,14 @@ export default {
                     span {
                         height: .6rem;
                         line-height: .6rem;
-                        color: #000000;
+                        font-family: FZLTXHKM;
+                        font-size: .28rem;
+                        color: #666666;
                         letter-spacing: 0;
                     }
                 }
                 .InfoText {
+                    color: #000000;
                     margin-left: .2rem;
                     width: 4.6rem;
                     opacity: 0.85;

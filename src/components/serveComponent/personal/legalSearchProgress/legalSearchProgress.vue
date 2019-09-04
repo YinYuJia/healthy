@@ -95,6 +95,13 @@
 							case '确认-00253-013-02': path = '/lElseWhereDetail'; break; //法人异地就医备案
 							case '确认-00253-013-03': path = '/lElseWhereDetail'; break; //法人异地就医备案
 							case '确认-00253-013-04': path = '/lElseWhereDetail'; break; //法人异地就医备案
+							case '给付-00142-001-01': path = '/natureApprovalDetail'; break; //平产
+							case '给付-00142-001-02': path = '/natureApprovalDetail'; break; //平产
+                            case '给付-00142-001-03': path = '/natureApprovalDetail'; break; //平产
+							case '给付-00142-002-01': path = '/legalSurgicalView'; break; //流产
+							case '给付-00142-002-02': path = '/legalSurgicalView'; break; //流产
+                            case '给付-00142-002-03': path = '/legalSurgicalView'; break; //流产
+                            case '给付-00142-003': path = '/unemployedDetail'; break; //未就业
 							default: path = ''; break;
 						}
 						if(path == ''){
@@ -183,6 +190,7 @@
                         if (resData.LS_DS.length > 0) {
                             this.itemGroup = [...this.itemGroup, ...resData.LS_DS]
                             //向上取整
+                            console.log("list", this.itemGroup)
                             let Num = Math.ceil(resData.pages / this.pageSize);
                             this.totalPage = Num;
                             console.log("totalPage", this.totalPage)

@@ -42,8 +42,6 @@
             <!-- <div>
                 <button @click="goto"  >点击进入平产</button>
             </div> -->
-            <button @click="go">流产</button>
-            <button @click="go1">未生育</button>
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
                     <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl" /></div>
@@ -169,6 +167,7 @@
             })
         },
         created() {
+            sessionStorage.setItem('ifRequest',false)
             // 判断是否法人登录
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR------', sessionStorage.getItem('isClear'));
@@ -223,6 +222,10 @@
                                 this.ifShow = false; //隐藏输入人名社保卡
                             } else {
                                 // url事项配置 跳转路由
+                                if( globalConfigObj.identifier == "elseWhere") {
+                                    
+                                    globalConfigObj.identifier = 'lElseWhere' //法人异地就医备案配置
+                                }
                                 this.$router.push({
                                     name: globalConfigObj.identifier,
                                     params: globalConfigObj
@@ -272,7 +275,7 @@
                 BMC061: '0', //生育类别 0生育女职工,1男职工配偶
                 BMC131: '', //生育日期
                 AMC029: '01', //生育类别 01平产、02助娩产、03剖宫产
-                AMC029VALUE:'',//生育类别中文
+                AMC029VALUE:'平产',//生育类别中文
                 AMC028: '1', //胎儿数
                 AMC031: '', //胎次
                 BMC046: '', //其中死胎
