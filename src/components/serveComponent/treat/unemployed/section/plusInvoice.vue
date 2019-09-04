@@ -1,5 +1,5 @@
 <template>
-    <div class="plusInvoice" v-if="show" id="invoiceWrapper">
+    <div class="plusInvoice">
         <!-- MintUI弹出框区域 -->
         <mt-datetime-picker
             type="date"
@@ -44,12 +44,9 @@
 </template>
 
 <script>
-import Swiper from 'swiper';
-import IScroll from 'iscroll/build/iscroll-probe';
 export default {
     data() {
         return {
-            show: false,
             bigPhotoUrl:'', //展示大图用URL
             dateVal: new Date(), //默认绑定的时间
             endDate: new Date(), //最晚选择时间
@@ -61,38 +58,21 @@ export default {
                 photoId: '', //照片ID
             },
             canSubmit: false,
-            myScroll: undefined, // 滚动元素
+        }
+    },
+    watch: {
+        form: {
+            handler(val){
+                if(val.BKE100 != '' && val.AKC264 != '' &&  val.AAE036 != '' && val.photoId != ''){
+                    this.canSubmit = true;
+                }else {
+                    this.canSubmit = false;
+                }
+            },
+            deep: true
         }
     },
     methods: {
-        // 打开添加发票页面
-        open() {
-            this.show = true;
-            if (window.history && window.history.pushState) {
-                history.pushState(null, null, document.URL);
-                window.addEventListener('popstate', this.close, false);
-            }
-            // 滚动
-            this.$nextTick(() => {
-                this.myScroll = new IScroll('#invoiceWrapper', {
-                    mouseWheel: true, //允许鼠标滑动
-                    bounce: false, //关闭回弹
-                    scrollbars: false, //关闭滚动条
-                    click: true, //开启点击功能
-                    // momentum: false, //关闭势能，提升性能
-                    probeType: 3
-                });
-            })
-        },
-        // 手动触发返回事件
-        back() {
-            this.$router.go(-1);
-        },
-        // 关闭添加发票页面
-        close() {
-            this.show = false;
-            window.removeEventListener('popstate', this.close, false);
-        },
         // 选择时间
         openChooseTime() {
             this.$refs.timePicker.open();
@@ -155,7 +135,13 @@ export default {
         },
         // 点击添加发票
         submit() {
-
+            if(!this.canSubmit){
+                return;
+            }
+            let invoiceList = this.$store.state.SET_UMEMPLOYED_INVOICELIST;
+            invoiceList.push(this.form);
+            this.$store.dispatch('SET_UMEMPLOYED_INVOICELIST', invoiceList);
+            this.$router.go(-1);
         }
     }
 }
@@ -164,7 +150,7 @@ export default {
 <style lang="less" scoped>
 .plusInvoice{
     background: #FFF;
-    z-index: 999;
+    z-index: 200;
     position: fixed;
     top: 0;
     left: 0;

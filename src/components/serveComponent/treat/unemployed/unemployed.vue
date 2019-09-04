@@ -142,6 +142,9 @@ export default {
         mailType(val) {
             this.form.BMC220 = val;
         }
+    },
+    destroyed() {
+        this.$store.dispatch('SET_UMEMPLOYED_INVOICELIST', []);
     }
 }
 </script>
