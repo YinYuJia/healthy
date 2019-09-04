@@ -295,7 +295,7 @@ export default {
                         BMC131: Number(this.date),
                         AAC002: this.userInfo.AAC002,
                         BMC220: this.form.BMC220,
-                        photoIdList: this.photoIdList.join()
+                        photoIdList: this.photoIdList.join(),
                     }
                     console.log("params", params)
                     this.$router.push({path: '/legalSurgicalDetail', query: {params: params}})

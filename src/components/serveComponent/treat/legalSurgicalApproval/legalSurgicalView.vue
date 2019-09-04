@@ -27,7 +27,20 @@
                     <div class="infoTitle">纸质发票提交方式：</div>
                     <div class="infoTitle">邮寄</div>
                 </div>
-
+                <div class="invoiceList" v-for="(item,index) in form.photoList" :key="index">
+                    <div class="infoLine">
+                        <div class="infoName"><span>发票号</span></div>
+                        <div class="infoText" @click="showBigPhoto(item.photoUrl)"><span class="active">{{item.BKE100}}</span></div>
+                    </div>
+                    <div class="infoLine">
+                        <div class="infoName"><span>发票金额</span></div>
+                        <div class="infoText"><span>{{item.AKC264}}</span></div>
+                    </div>
+                    <div class="infoLine">
+                        <div class="infoName"><span>发票日期</span></div>
+                        <div class="infoText"><span>{{item.AAE036}}</span></div>
+                    </div>
+                </div>
             </div>
             <div class="upload">
                 <div class="infoTitle">附件：</div>
@@ -73,6 +86,7 @@
                 </div>
             </div>
         </div>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Success :flag="successFlag"></Success>
     </div>
 </template>
@@ -104,6 +118,11 @@ export default {
         this.request1();
     },
     methods:{
+        // 查看大图
+        showBigPhoto(val){
+            this.imgUrl = val;
+            this.$refs.photo.open();
+        },
       revoke(){
         this.$router.push('/legalPerson')
       },
@@ -134,8 +153,8 @@ export default {
           console.log('返回成功信息',resData)
           //   成功   1000
           if ( resData.enCode == 1000 ) {
-            this.form={...this.form,...resData.LS_DS_18}
-            let LS=resData.LS_DS_18
+            this.form={...this.form,...resData.LS_DS_19}
+            let LS=resData.LS_DS_19
             this.form={...this.form,...LS}
             if(this.form.BMC220 != '') {
                         if(this.form.BMC220 == 1){
@@ -286,6 +305,7 @@ export default {
                 justify-content: space-between;
                 width: 100%;
                 border-bottom: 1px solid #ddd;
+                
                 .infoTitle {
                     font-size: .28rem;
                     text-align: left;
@@ -296,8 +316,43 @@ export default {
                     line-height: 1rem;
                 }
             }
+                    // 发票列表
+            .invoiceList{
+                height: 2.4rem;
+                padding: .42rem 0;
+                border-bottom: 1px solid #DDD;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                position: relative;
+                &:last-child{
+                    border-bottom: none;
+                }
+                .infoLine{
+                    font-size: .28rem;
+                    display: flex;
+                    .infoName{
+                        width: 1.5rem;
+                        span{
+                            color: #666666;
+                            letter-spacing: 0;
+                        }
+                    }
+                    .infoText{
+                        span{
+                            color: #000000;
+                            letter-spacing: 0;
+                        }
+                        .active{
+                            color: #1492FF;
+                        }
+                    }
+                }
+            }
         }
         .upload {
+            margin-top: .15rem;
+            padding-top: .37rem;
             background-color: #FFF;
             width: 100%;
             .infoTitle {
@@ -308,7 +363,6 @@ export default {
             }
             .dataUpload{
             background: #FFF;
-            height: .15rem;
             //margin: 0 0 1.4rem 0;
             padding: .37rem .4rem;
             .picWrap{
