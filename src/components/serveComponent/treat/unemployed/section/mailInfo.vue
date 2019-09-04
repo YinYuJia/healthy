@@ -66,7 +66,6 @@ export default {
             let submitForm = {code:LegalPerson.xzqh} //统筹区编码
             this.$axios.post(this.epFn.ApiUrl() + '/H5/jy0005/getAreaList', submitForm).then((resData) => {
                 //   成功   1000
-                console.log('邮寄信息',resData)
                 if ( resData.enCode == 1000 ) {
                     let code = resData.code;
                     this.address = code.organizationAddress;

@@ -62,6 +62,7 @@ import reportComplete from '@/components/serveComponent/treat/smallReim/reportCo
 import smallReimDetail from '@/components/serveComponent/treat/smallReim/smallReimDetail'
 import invoiceDetail from '@/components/serveComponent/treat/smallReim/invoiceDetail'
 import unemployed from '@/components/serveComponent/treat/unemployed/unemployed'
+import unemployedPlus from '@/components/serveComponent/treat/unemployed/section/plusInvoice'
 import unemployedSubmit from '@/components/serveComponent/treat/unemployed/unemployedSubmit'
 import payLimit from '@/components/serveComponent/treat/payLimit/payLimit'
 import payLimitDetail from '@/components/serveComponent/treat/payLimit/payLimitDetail'
@@ -385,6 +386,11 @@ export default new Router({
       path: '/unemployed',
       name: 'unemployed',
       component: unemployed
+    },
+    {
+      path: '/unemployedPlus',
+      name: 'unemployedPlus',
+      component: unemployedPlus
     },
     {
       path: '/unemployedSubmit',
