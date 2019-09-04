@@ -128,21 +128,24 @@
                 isVisible: false,
                 showMoreInfoBtn: false, //更多咨询按钮
                 resData: {
-                    CompanyName: "浙江政务网法人测试用户",
-                    CompanyRegNumber: "91330103704789206U",
-                    CompanyType: "企业法人",
-                    OrganizationNumber: "704789206",
-                    attnIDNo: '',
+                    CompanyAddress: "浙江省杭州市西湖区体育场路538号",
+                    CompanyLegRep: "周坚",
+                    CompanyName: "浙江省省级医疗保险服务中心",
+                    CompanyRegOrg: "中共浙江省委机构编制委员会办公室",
+                    CompanyScope: "为省本级医疗保险提供服务。  负责省级参保单位和人员的基本医疗保险登记、审核、发放、变更和管理、负责全省医疗保险基金管理等工作",
+                    LoginType: "password",
+                    OrganizationNumber: "728464393",
+                    attnIDNo: "130803197203060649",
                     attnIDType: "51",
-                    attnLandLinePhone: "13712345678",
-                    attnName: '',
-                    attnPhone: "13588760916",
-                    orgType: "3",
-                    realLevel: "2",
-                    uniscid: "91330103704789206U",
-                    userId: "9152",
-                    username: "123456789",
-                    xzqh: "339900",
+                    attnName: "马野",
+                    attnPhone: "15606502886",
+                    orgType: "4",
+                    realLevel: "3",
+                    spentityid: "http://esso.zjzwfw.gov.cn:80/opensso",
+                    uniscid: "12330000728464393P",
+                    userId: "1138674",
+                    username: "SHENGYIBAO",
+                    xzqh: "330000",
                 }
             }
         },
@@ -304,6 +307,9 @@
             }
         },
         methods: {
+            go(){
+                this.$router.push('/legalSurgicalApproval')
+            },
             goto(){
                 this.$router.push('/natureApproval')
             },

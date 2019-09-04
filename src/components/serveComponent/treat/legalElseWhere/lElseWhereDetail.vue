@@ -103,6 +103,7 @@ export default {
     created(){
         
         let legalData = JSON.parse(sessionStorage.getItem('legalData'))
+        console.log("9999",sessionStorage.getItem('legalData'))
         this.data = legalData
 
         if(this.$route.query.param){
@@ -170,6 +171,8 @@ export default {
                     // this.form={...this.form,...this.List[0]}
                     let LS=resData.LS_DS_06
                     this.form={...this.form,...LS}
+                    let idCard=this.form.AAC002;
+                    this.request2(idCard);
                     console.log("form",this.form)
                     console.log("form1",this.form.AAQ011VALUE)
                     console.log("form2",this.form.AAB301VALUE)
@@ -193,6 +196,41 @@ export default {
                     return;
                 }
             })
+        },
+        request2(val){
+            console.log("9999",val)
+            // if(this.util.idCard(this.form.AAC002)) {
+                
+            // }else{
+            //     this.$message({
+            //         message: '请填写正确的身份证号',
+            //         type: 'warning'
+            //     });
+            //     return;
+            // }
+                let params = {
+                    // BKE520: "2",
+                    data: {
+                        AAE135:val,
+                    },
+                    tradeCode: '1013'
+                }
+                // this.isShow = !this.isShow
+                // 开始请求搜索人员信息
+                console.log('parmas------', params)
+                this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1013/info', params).then((resData) => {
+                    console.log('返回成功信息', resData)
+                    //   成功   1000
+                    if (resData.enCode == 1000) {
+                        this.data = resData.LS_DS[0]
+                    } else if (resData.enCode == 1001) {
+                        this.$toast(resData.msg)
+                        return;
+                    } else {
+                        this.$toast("业务报错")
+                        return;
+                    }
+                })
         },
         formatSubmitData(){
                 let submitForm = {}
@@ -263,7 +301,7 @@ export default {
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
             return params;
-        }
+        },
     }
 }
 </script>

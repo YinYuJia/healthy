@@ -25,37 +25,9 @@
             <!-- 基本信息 -->
             <!-- <UserBaseInfo></UserBaseInfo> -->
             <!-- 列表信息 -->
-            <div class="SearchContent" id="searchContent">
-            <div class="SearchBox">
-                <svg-icon icon-class="serveComponent_search"/>
-                <input class="InputContent" v-model="form.AAE135" :placeholder="'请输入身份证号'">
-                <svg-icon v-if="form.AAE135" class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
-                <div class="SearchBtn" @click="search">搜索</div>
-            </div>
-            </div>
-            <div class="userBaseInfo">
-                <div class="infoBox">
-                    <svg-icon icon-class="payLimit_bg"/>
-                    <div class="infoName">
-                        <span class="name">{{form1.AAC003}}</span>
-                        <span class="sex">/{{form1.AAC004|AAC004}}</span>
-                    </div>
-                    <div class="infoAddress">
-                        <div class="IconImg">
-                            <svg-icon icon-class="payLimit_compony"/>
-                        </div>
-                        <span>{{form1.AAB004}}</span>
-                    </div>
-                    <div class="infoMessage">
-                        <div class="birth">
-                            <div class="infoMessageBirth">{{form1.AAC006}}</div>
-                            <div class="infoMessageText">出生日期</div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="ReportInfo">
+            <SearchInfo @search="search"></SearchInfo>
+            <UserInfoPad  :userInfo="form1" v-if='isShow'></UserInfoPad>
+            <div class="ReportInfo" v-if='isShow'>
                 <div class="InfoLine">
                     <div class="InfoName"><span>生育类型:</span></div>
                     <div class="InfoText">
@@ -77,7 +49,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>胎儿数:</span></div>
                     <div class="InfoText">
-                        <input type="tel"  maxlength="2" v-model="form.AMC028" placeholder="选填"  readonly>
+                        <input type="tel"  maxlength="2" v-model="form.AMC028" placeholder="选填">
                         <!-- <svg-icon icon-class="serveComponent_arrowRight"></svg-icon> -->
                     </div>
                 </div>
@@ -143,7 +115,8 @@
                 </div> -->
             </div>
         </div>
-        <Footer :canSubmit='canSubmit' :btnText="'补充材料'" @submit="submit()"></Footer>
+        <BindingAgency></BindingAgency>
+        <Footer :canSubmit='canSubmit' :btnText="'补充材料'" @submit="submit()" v-if='isShow' ></Footer>
     </div>
 </template>
 
@@ -206,10 +179,15 @@ export default {
                 },
             ],
             BKE810VALUE:"",
-            canSubmit:false
+            canSubmit:false,
+            isShow:false
         }
     },
     created () {
+        if(this.$route.params.userType){
+            sessionStorage.setItem('NATURE_AMC029',this.$route.params.userType)
+        }
+        
         console.log("111",this.$store.state.SET_NATUREAPPROVAL)
         this.form=this.$store.state.SET_NATUREAPPROVAL;
     },
@@ -227,12 +205,6 @@ export default {
         }
     },
     methods: {
-        search(){
-            console.log('搜索')
-        },
-        deleteSearch(){
-            this.form.AAE135=''
-        },
         // 选择变更类型
         openTypePicker(){
             this.$refs.TypePicker.open();
@@ -263,31 +235,31 @@ export default {
             console.log("生育日期",this.form.BMC131)
 
         },
-        search(){
-            if(this.util.idCard(this.form.AAC002)) {
+        search(val){
+            console.log("9999",val)
+            // if(this.util.idCard(this.form.AAC002)) {
                 
-            }else{
-                this.$message({
-                    message: '请填写正确的身份证号',
-                    type: 'warning'
-                });
-                return;
-            }
-            let params = this.formatSubmitData();
+            // }else{
+            //     this.$message({
+            //         message: '请填写正确的身份证号',
+            //         type: 'warning'
+            //     });
+            //     return;
+            // }
+            let params = this.formatSubmitData(val);
             this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy9109/getRecord', params).then((resData) => {
                 //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         console.log('返回成功信息',resData)
                         let user = sessionStorage.getItem("LOGINNAME");//法人的单位编码
                       if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
-                        this.form1=resData.LS_DS[0]
-                        this.$store.dispatch('SET_NATUREAPPROVAL_BASEINFO', this.form1)
+                        this.isShow=true;
+                        this.form1=resData.LS_DS[0];
+                        this.$store.dispatch('SET_NATUREAPPROVAL_BASEINFO', this.form1);
                         // this.form=resData.LS_DS[0]
                         }else {
-
+                        this.isShow=false;
                         this.$toast('该人员不是本单位的职员，请重新查询')
-                        this.form1=resData.LS_DS[0]
-                        this.$store.dispatch('SET_NATUREAPPROVAL_BASEINFO', this.form1)
                         return false
                       }
                     }else if (resData.enCode == 1001 ) {
@@ -300,9 +272,9 @@ export default {
                     }
             })
         },
-        formatSubmitData(){
+        formatSubmitData(val){
             let submitForm = {}
-            submitForm.AAC002 =  this.form.AAE135;   
+            submitForm.AAC002 = val;   
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9109");
             return params;
