@@ -153,6 +153,7 @@ export default {
             this.userInfo = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).userInfo;
             this.form = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).form;
             this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'))
+            console.log("invoice:", this.invoiceList)
         }
     },
     watch: {
