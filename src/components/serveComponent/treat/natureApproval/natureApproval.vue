@@ -42,7 +42,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>生育日期:</span></div>
                     <div class="InfoText">
-                        <input type="tel" @click="openBirthPicker()" v-model="form.BMC131" placeholder="选填"  readonly>
+                        <input type="tel" @click="openBirthPicker()" v-model="form.BMC131" placeholder="必填"  readonly>
                         <!-- <svg-icon icon-class="serveComponent_arrowRight"></svg-icon> -->
                     </div>
                 </div> 
@@ -91,13 +91,13 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>准生证号:</span></div>
                     <div class="InfoText">
-                        <input type="tel" v-model="form.BMC035" placeholder="选填">
+                        <input type="text" onKeyUp="value=value.replace(/[\W]/g,'')" v-model="form.BMC035" placeholder="选填">
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>出生证编号:</span></div>
                     <div class="InfoText">
-                        <input type="tel" v-model="form.AMC022" placeholder="选填">
+                        <input type="text" onKeyUp="value=value.replace(/[\W]/g,'')" v-model="form.AMC022" placeholder="选填">
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -223,16 +223,16 @@ export default {
                     this.$toast('请输入整数')
                     val.BMC033=''
                 }
-                //准生证号
-                if(!this.util.checkBaby(val.BMC035)){
-                    this.$toast('请输入整数')
-                    val.BMC035=''
-                }
-                //出生证编号
-                if(!this.util.checkBaby(val.AMC022)){
-                    this.$toast('请输入整数')
-                    val.AMC022=''
-                }
+                // //准生证号
+                // if(!this.util.checkBorth(val.BMC035)){
+                //     this.$toast('请输入整数')
+                //     val.BMC035=''
+                // }
+                // //出生证编号
+                // if(!this.util.checkBorth(val.AMC022)){
+                //     this.$toast('请输入整数')
+                //     val.AMC022=''
+                // }
                 //实际发生费用
                 if(!this.util.checkFee(val.BMC211)){
                     this.$message({
@@ -275,8 +275,8 @@ export default {
             // this.$refs.startPicker.$el.getElementsByClassName('picker-slot')[2].style.display='none';如果不要日
         },
         handleBirthConfirm(val){
-            console.log("start",this.util.formatDate(val,'yyyyMM'))
-            let date = this.util.formatDate(val,'yyyyMM');
+            console.log("start",this.util.formatDate(val,'yyyyMMdd'))
+            let date = this.util.formatDate(val,'yyyyMMdd');
             this.form.BMC131=date;
             console.log("生育日期",this.form.BMC131)
 
