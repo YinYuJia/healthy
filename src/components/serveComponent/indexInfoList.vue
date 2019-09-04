@@ -15,30 +15,31 @@
             <div class="headerText">医疗保障专区</div>
             <div class="headerInfo">汇聚浙江省医疗保障服务</div>
             <!-- <div class="headerPad">
-                        <div class="iconBox" @click="socialCard">
-                            <svg-icon v-if="1" icon-class="serveComponent_icon1" />
-                            <svg-icon v-if="0" icon-class="serveComponent_grey_1" />
-                            <div class="text">电子社保卡</div>
-                        </div>
-                        <div class="iconBox" @click="payCode">
-                            <svg-icon v-if="1" icon-class="serveComponent_icon2" />
-                            <svg-icon v-if="0" icon-class="serveComponent_grey_2" />
-                            <div class="text">支付码</div>
-                        </div>
-                        <div class="iconBox" @click="movePay">
-                            <svg-icon v-if="1" icon-class="serveComponent_icon4" />
-                            <svg-icon v-if="0" icon-class="serveComponent_grey_4" />
-                            <div class="text">移动支付</div>
-                        </div>
-                        <div class="iconBox" @click="showDetail('medicalInsuranceAccount','医保账户')">
-                            <svg-icon v-if="1" icon-class="serveComponent_icon3" />
-                            <svg-icon v-if="0" icon-class="serveComponent_grey_3" />
-                            <div class="text">医保账户</div>
-                        </div>
-                    </div> -->
+                <div class="iconBox" @click="socialCard">
+                    <svg-icon v-if="1" icon-class="serveComponent_icon1" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey_1" />
+                    <div class="text">电子社保卡</div>
+                </div>
+                <div class="iconBox" @click="payCode">
+                    <svg-icon v-if="1" icon-class="serveComponent_icon2" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey_2" />
+                    <div class="text">支付码</div>
+                </div>
+                <div class="iconBox" @click="movePay">
+                    <svg-icon v-if="1" icon-class="serveComponent_icon4" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey_4" />
+                    <div class="text">移动支付</div>
+                </div>
+                <div class="iconBox" @click="showDetail('medicalInsuranceAccount','医保账户')">
+                    <svg-icon v-if="1" icon-class="serveComponent_icon3" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey_3" />
+                    <div class="text">医保账户</div>
+                </div>
+            </div> -->
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
+            <button @click="go1">未生育</button>
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
                     <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl" /></div>
@@ -53,15 +54,15 @@
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide">
-                                                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                                            <div class="swiper-slide">
-                                                <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                                            <div class="swiper-slide">
-                                                <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                                        </div>
-                                    </div> -->
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                </div>
+            </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -70,10 +71,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                                        <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                                    </swipe> -->
+                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+            </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
