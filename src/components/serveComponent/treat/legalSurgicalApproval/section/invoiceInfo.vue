@@ -6,7 +6,7 @@
         <div class="invoiceList" v-for="(item,index) in invoiceList" :key="index">
             <div class="infoLine">
                 <div class="infoName"><span>发票号</span></div>
-                <div class="infoText"><span class="active">{{item.BKE100}}</span></div>
+                <div class="infoText" @click="showBigPhoto(item.photoUrl)"><span class="active">{{item.BKE100}}</span></div>
             </div>
             <div class="infoLine">
                 <div class="infoName"><span>发票金额</span></div>
@@ -22,6 +22,7 @@
         <div class="btnContent">
             <div class="plusBtn" @click="plusInvoice"><span>+</span>添加发票信息</div>
         </div>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
     </div>
 </template>
 
@@ -33,17 +34,22 @@ export default {
         }
     },
     created() {
-        this.invoiceList = this.$store.state.SET_UMEMPLOYED_INVOICELIST;
+        this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'));
     },
     methods: {
+        // 查看大图
+        showBigPhoto(val){
+            this.imgUrl = val;
+            this.$refs.photo.open();
+        },
         // 打开添加发票面板
         plusInvoice() {
-            this.$router.push('/unemployedPlus')
+            this.$router.push('/surgicalPlus')
         },
         // 删除发票
         deleteInvoice(item, index){
             this.invoiceList.splice(index, 1);
-            this.$store.dispatch('SET_UMEMPLOYED_INVOICELIST', this.invoiceList);
+            sessionStorage.setItem("SET_SURGICAL_INVOICELIST", invoiceList)
         }
     }
 }

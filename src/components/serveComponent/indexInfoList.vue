@@ -15,30 +15,33 @@
             <div class="headerText">医疗保障专区</div>
             <div class="headerInfo">汇聚浙江省医疗保障服务</div>
             <!-- <div class="headerPad">
-                        <div class="iconBox" @click="socialCard">
-                            <svg-icon v-if="1" icon-class="serveComponent_icon1" />
-                            <svg-icon v-if="0" icon-class="serveComponent_grey_1" />
-                            <div class="text">电子社保卡</div>
-                        </div>
-                        <div class="iconBox" @click="payCode">
-                            <svg-icon v-if="1" icon-class="serveComponent_icon2" />
-                            <svg-icon v-if="0" icon-class="serveComponent_grey_2" />
-                            <div class="text">支付码</div>
-                        </div>
-                        <div class="iconBox" @click="movePay">
-                            <svg-icon v-if="1" icon-class="serveComponent_icon4" />
-                            <svg-icon v-if="0" icon-class="serveComponent_grey_4" />
-                            <div class="text">移动支付</div>
-                        </div>
-                        <div class="iconBox" @click="showDetail('medicalInsuranceAccount','医保账户')">
-                            <svg-icon v-if="1" icon-class="serveComponent_icon3" />
-                            <svg-icon v-if="0" icon-class="serveComponent_grey_3" />
-                            <div class="text">医保账户</div>
-                        </div>
-                    </div> -->
+                <div class="iconBox" @click="socialCard">
+                    <svg-icon v-if="1" icon-class="serveComponent_icon1" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey_1" />
+                    <div class="text">电子社保卡</div>
+                </div>
+                <div class="iconBox" @click="payCode">
+                    <svg-icon v-if="1" icon-class="serveComponent_icon2" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey_2" />
+                    <div class="text">支付码</div>
+                </div>
+                <div class="iconBox" @click="movePay">
+                    <svg-icon v-if="1" icon-class="serveComponent_icon4" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey_4" />
+                    <div class="text">移动支付</div>
+                </div>
+                <div class="iconBox" @click="showDetail('medicalInsuranceAccount','医保账户')">
+                    <svg-icon v-if="1" icon-class="serveComponent_icon3" />
+                    <svg-icon v-if="0" icon-class="serveComponent_grey_3" />
+                    <div class="text">医保账户</div>
+                </div>
+            </div> -->
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
+            <!-- <div>
+                <button @click="goto"  >点击进入平产</button>
+            </div> -->
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
                     <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl" /></div>
@@ -53,15 +56,15 @@
         <!-- banner -->
         <div class="banner">
             <!-- <div class="swiper-container">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide">
-                                                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
-                                            <div class="swiper-slide">
-                                                <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
-                                            <div class="swiper-slide">
-                                                <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                                        </div>
-                                    </div> -->
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                </div>
+            </div> -->
             <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
@@ -70,10 +73,10 @@
         <!-- 轮播图 -->
         <div class="carousel">
             <!-- <swipe>
-                                        <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                                        <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                                    </swipe> -->
+                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
+            </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -271,7 +274,7 @@
                 BMC061: '0', //生育类别 0生育女职工,1男职工配偶
                 BMC131: '', //生育日期
                 AMC029: '01', //生育类别 01平产、02助娩产、03剖宫产
-                AMC029VALUE:'',//生育类别中文
+                AMC029VALUE:'平产',//生育类别中文
                 AMC028: '1', //胎儿数
                 AMC031: '', //胎次
                 BMC046: '', //其中死胎
@@ -316,6 +319,9 @@
             },
             goto(){
                 this.$router.push('/natureApproval')
+            },
+            go1() {
+                this.$router.push('/unemployed');
             },
             change() {
                 this.$router.push('/')

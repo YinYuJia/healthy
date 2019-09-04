@@ -27,7 +27,7 @@
                  <div class="InfoLine">
                     <div class="InfoName"><span>计划生育类型</span></div>
                     <div class="InfoText">
-                        <input class="InputContent" v-model="AMC029VALUE" @click="openChooseType" :placeholder="'请选择'" readonly>
+                        <input class="InputContent" v-model="form.AMC029VALUE" @click="openChooseType" :placeholder="'请选择'" readonly>
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
@@ -39,6 +39,10 @@
                 </div>
             </div>
         </div>
+        <!-- 发票信息 -->
+        <invoiceInfo v-if="type == '02'"></invoiceInfo>
+        <!-- 发票提交方式 -->
+        <mailInfo v-if="type == '02'" @mailType="mailType"></mailInfo>
     
         <!-- 按钮 -->
         <div class="SubmitBtn" :class="{'active': canSubmit == true}" @click="add()" v-if="showAll">补充材料</div>
@@ -48,9 +52,20 @@
 </template>
 
 <script>
+import invoiceInfo from './section/invoiceInfo'
+import plusInvoice from './section/plusInvoice'
+import mailInfo from './section/mailInfo'
 export default {
+    components: {
+        'invoiceInfo': invoiceInfo,
+        'plusInvoice': plusInvoice,
+        'mailInfo': mailInfo
+    },
     data() {
         return {
+            dispatch: 0,
+            photoIdList: [],
+            invoiceList: [],
             canSubmit: false,
             userInfo: {},
             showAll: false,
@@ -58,9 +73,10 @@ export default {
             form: {
                 AMC029: '',
                 BMC131: '',
+                BMC220: '',
+                AMC029VALUE: '',
             },
             date: '',
-            AMC029VALUE: '',
             showCityPicker: false,
             slots: [],
             name: '',
@@ -123,21 +139,54 @@ export default {
         }
     },
     created(){
-        this.epFn.setTitle('计划外生育')
+        this.epFn.setTitle('计划外生育');
+        if(this.$route.query.dispatch) {
+            this.dispatch = 1
+        } else {
+            this.dispatch = 0
+        }
+        console.log("dispatch:", this.dispatch);
+        if(this.dispatch == 1) {
+            this.showAll = true;
+            this.type = '02';
+            console.log("4444:", sessionStorage.getItem('SET_SURGICAL_MESSAGE'))
+            this.userInfo = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).userInfo;
+            this.form = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).form;
+            this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'))
+        }
     },
     watch: {
         form:{
             handler:function(val){
                 if(val.AMC029!="" && val.BMC131!=""){
-                    this.canSubmit=true;
-                }else{
-                    this.canSubmit=false;
+                    if(this.type == '02') {
+                        if(val.BMC220 != '') {
+                            this.canSubmit = true;
+                        } else {
+                            this.canSubmit = false
+                        }
+                    } else {
+                        this.canSubmit = true
+                    }
+                } else {
+                    this.canSubmit = false
                 }
+                let obj = {
+                    userInfo: this.userInfo,
+                    form: val
+                }
+                sessionStorage.setItem("SET_SURGICAL_MESSAGE", JSON.stringify(obj))
+                console.log("message:", obj)            
             },
             deep: true
         }
     },
     methods: {
+        // 选择发票提交方式
+        mailType(val) {
+            this.form.BMC220 = val;
+            console.log("bmc220", this.form.BMC220)
+        },
          handleStartConfirm(val){
             let date1 = this.util.formatDate(val,'yyyy-MM-dd');
             this.date = this.util.formatDate(val,'yyyyMMdd');
@@ -158,7 +207,7 @@ export default {
         },
         chooseType(val){
             this.type = ''
-            this.AMC029VALUE = val.name;
+            this.form.AMC029VALUE = val.name;
             this.form.AMC029 = val.value;
             if(val.value =='04' || val.value =='05' || val.value == '06') {
                 this.type = '02';
@@ -167,13 +216,16 @@ export default {
             } else if(val.value=='11' || val.value =='12' || val.value == '15' || val.value == '16' || val.value == '23') {
                 this.type = '03'
             }
+             console.log("this.type:", this.type)
         },
         //搜索
         search(){
-            this.AMC029VALUE = '';
+            this.form.AMC029VALUE = '';
             this.form.AMC029 = '';
             this.form.BMC131 = '';
             this.slots = []
+            this.type = ''
+            sessionStorage.removeItem('SET_SURGICAL_INVOICELIST')
             console.log('通过身份证号请求数据')
             if(!this.util.idCard(this.AAE135)){
                 this.$toast('请填写正确的身份证号');
@@ -228,19 +280,44 @@ export default {
             return params;
         },
         add() {
-            if(this.form.AMC029 == '' || this.form.BMC131 == '') {
-                this.$toast('请补全信息！');
-            } else {
-                let params = {
-                    type: this.type,
-                    AMC029: this.form.AMC029,
-                    BMC131: Number(this.date),
-                    AAC002: this.userInfo.AAC002
+            this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'))
+            console.log("list------:", this.invoiceList)
+            if(this.type == '02') {
+                if(this.form.AMC029 == '' || this.form.BMC131 == '' || this.form.BMC220 == '' || this.invoiceList.length == 0) {
+                    this.$toast('请补全信息！');
+                } else {
+                    this.invoiceList.forEach( e => {
+                        this.photoIdList.push(e.photoId)
+                    })
+                    let params = {
+                        type: this.type,
+                        AMC029: this.form.AMC029,
+                        BMC131: Number(this.date),
+                        AAC002: this.userInfo.AAC002,
+                        BMC220: this.form.BMC220,
+                        photoIdList: this.photoIdList.join(),
+                    }
+                    console.log("params", params)
+                    this.$router.push({path: '/legalSurgicalDetail', query: {params: params}})
+                    sessionStorage.removeItem("SET_SURGICAL_MESSAGE");
+                    sessionStorage.removeItem('SET_SURGICAL_INVOICELIST');
                 }
-                this.$router.push({path: '/legalSurgicalDetail', query: {params: params}})
+            } else {
+                if (this.form.AMC029 == '' || this.form.BMC131 == '') {
+                    this.$toast('请补全信息！');
+                } else {
+                    let params = {
+                        type: this.type,
+                        AMC029: this.form.AMC029,
+                        BMC131: Number(this.date),
+                        AAC002: this.userInfo.AAC002
+                    }
+                    console.log("params", params)
+                    this.$router.push({path: '/legalSurgicalDetail', query: {params: params}});
+                }
             }
         }
-    }
+    },
 }
 </script>
 
@@ -248,7 +325,6 @@ export default {
 .SurgicalApproval {
     .Content {
         height: 100%;
-        margin-bottom: 1.4rem;
         .SearchContent {
                 height: 1.18rem;
                 width: 7.5rem;
@@ -349,8 +425,12 @@ export default {
         }
     }
     .SubmitBtn {
+        position: fixed;
+        bottom: .3rem;
         height: 1.05rem;
-        width: 100%;
+        margin-left: .3rem;
+        margin-right: .3rem;
+        width: 90%;
         border-radius: .05rem;
         line-height: 1.05rem;
         font-family: PingFangSC-Regular;

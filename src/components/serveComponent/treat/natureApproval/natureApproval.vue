@@ -195,6 +195,48 @@ export default {
         form:{
             handler:function(val){
                 console.log(val)
+                if(!this.util.checkBaby(val.AMC028)){
+                    this.$toast('请输入整数')
+                    val.AMC028=''
+                }
+                //胎儿数
+                if(val.AMC028==0){
+                    this.$toast('胎儿数请输入大于等于1的数值')
+                    val.AMC028=''
+                }
+                //胎次
+                if(!this.util.checkBaby(val.AMC031)){
+                    this.$toast('请输入整数')
+                    val.AMC031=''
+                }
+                //其中死胎
+                if(!this.util.checkBaby(val.BMC046)){
+                    this.$toast('请输入整数')
+                    val.BMC046=''
+                }
+                //实际住院天数
+                if(!this.util.checkBaby(val.BMC033)){
+                    this.$toast('请输入整数')
+                    val.BMC033=''
+                }
+                //准生证号
+                if(!this.util.checkBaby(val.BMC035)){
+                    this.$toast('请输入整数')
+                    val.BMC035=''
+                }
+                //出生证编号
+                if(!this.util.checkBaby(val.AMC022)){
+                    this.$toast('请输入整数')
+                    val.AMC022=''
+                }
+                //实际发生费用
+                if(!this.util.checkFee(val.BMC211)){
+                    this.$message({
+                        type: 'warning',
+                        message: "请输入数字（保留两位小数）"
+                    });
+                    val.BMC211=''
+                }
                 if(val.BMC131!=''&&val.AMC028!=''&&val.AMC027!=''&&val.AMC029!=''){
                     this.canSubmit = true;
                 }else{
@@ -253,9 +295,16 @@ export default {
                         console.log('返回成功信息',resData)
                         let user = sessionStorage.getItem("LOGINNAME");//法人的单位编码
                       if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
-                        this.isShow=true;
-                        this.form1=resData.LS_DS[0];
-                        this.$store.dispatch('SET_NATUREAPPROVAL_BASEINFO', this.form1);
+                      console.log("11111",resData.LS_DS[0].AAC004)
+                      console.log("22222",typeof resData.LS_DS[0].AAC004)
+                        if(resData.LS_DS[0].AAC004=='2'){
+                            this.isShow=true;
+                            this.form1=resData.LS_DS[0];
+                            this.$store.dispatch('SET_NATUREAPPROVAL_BASEINFO', this.form1);
+                        }else{
+                            this.isShow=false;
+                            this.$toast('请输入有效的女性人员身份证号')
+                        }
                         // this.form=resData.LS_DS[0]
                         }else {
                         this.isShow=false;

@@ -4,7 +4,7 @@
             <div class="infoTitle">根据业务需要，需要您补充提交以下材料</div>
             <div style="display: flex;justify-content: space-between;height: .5rem;line-height: .5rem;">
                 <div class="infoTitle">1.《生育保险待遇申请表》</div>
-                <div class="down">下载申请表</div>
+                <div class="down" @click="getFileForm">下载申请表</div>
             </div>
             <div class="dataUpload">
                 <div class="picWrap">
@@ -74,10 +74,17 @@
                     </div>
                 </div>
             </div>
+            <div class="Tip">
+                <div class="HintContent">
+                    <p class="HintText">
+                        <i class="el-icon-warning" style="color:#ff6204"></i> 温馨提示
+                    </p>
+                </div>
+                <p class="Tip1">图片格式为jpg、png，不大于2M的文件。</p>
+            </div>
             <!-- 按钮 -->
             <div class="SubmitBtn" @click="submit()" ref="submit">确认提交</div>
         </div>
-        <Success :flag="successFlag"></Success>
     </div>
 
 </template>
@@ -90,15 +97,18 @@ export default {
         this.AMC029 = this.$route.query.params.AMC029;
         this.BMC131 = this.$route.query.params.BMC131;
         this.AAC002 = this.$route.query.params.AAC002;
+        this.BMC220 = this.$route.query.params.BMC220;
+        this.photoIdList = this.$route.query.params.photoIdList;
         console.log("type:", this.type)
     },
     data() {
         return {
-            successFlag: 2,
+            BMC220: '',
+            photoIdList: '',
             type: '',
             applicationFormUrl : [],
             menstruationUrl: [],
-            abortionUrl: '',
+            abortionUrl: [],
             marriageCertificateUrl: [],
             expensesList: [],
             imgUrl: '',
@@ -116,6 +126,44 @@ export default {
         }
     },
     methods: {
+        formatSubmitData2(){
+            let submitForm ={};
+            let u = navigator.userAgent;
+            let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            if(isiOS){
+                console.log("是否为苹果设备",isiOS);
+                submitForm.AAA001='TEMPLATE_URL_IOSXY';
+            }else{
+                submitForm.AAA001='TEMPLATE_URL_XY';
+            }
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7212");
+
+            return params;
+        },
+        getFileForm(){
+            console.log('获取表格')
+            let params =this.formatSubmitData2();
+            this.$axios.post(this.epFn.ApiUrl()+ '/H5/templateUrl/getUrl', params).then((resData) => {
+                //   成功   1000
+                    if ( resData.enCode == 1000 ) {
+                        console.log('返回成功信息',resData)
+                        let url=resData.fileUrl
+                        this.$router.push({
+                            path:'/natureDownload',
+                            query:{params:url}
+                        })
+                        console.log(1111)
+                    }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                        this.$toast(resData.msg)
+                        return;
+                    }else{
+                        this.$toast('业务出错')
+                        return;
+                    }
+            })
+        },
         submit() {
             let LegalPerson = JSON.parse(sessionStorage.getItem('LegalPerson'));
             let obj = {
@@ -146,7 +194,9 @@ export default {
                             obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
                             obj.abortionUrl = this.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
                             obj.marriageCertificateUrl = this.marId;// 结婚复印证
-                            obj.expensesList = this.expIdList;// 病历出院小结图片列表
+                            obj.expensesList = this.expIdList.join();// 病历出院小结图片列表
+                            obj.photoIdList = this.photoIdList;
+                            obj.BMC220 = this.BMC220;
                             this.submitList(obj);
                         }
                     } else if (this.type == '03') {
@@ -165,7 +215,13 @@ export default {
                      }).then((resData) => {
                     console.log('返回提交信息', resData)
                     if (resData.enCode == 1000) {
-                        this.successFlag = 1
+                        let params = {
+                            BKZ019: resData.BKZ019,
+                            type: this.type,
+                            AMC029: this.AMC029,
+                            AAC002: this.AAC002,
+                        }
+                        this.$router.push({path:'/legalSurgicalView', query: {params: params}})
                     }  else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);
@@ -328,6 +384,31 @@ export default {
     .Content {
         background-color: #FFF;
         padding-top: .2rem;
+        .Tip {
+            width: 100%;
+            height: 100%;
+            margin-top: .3rem;
+            font-size: .28rem;
+            color: #999999;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            .HintContent {
+                .HintText{
+                    margin-left: .3rem;
+                }
+                p {
+                    display: inline-block;
+                    line-height: .6rem;
+                }
+                .padding {
+                    padding-right: 100%;
+                }
+            }
+            .Tip1{
+                margin-left: .7rem;
+            }
+        }
         .infoTitle {
             font-size: .28rem;
             text-align: left;
@@ -381,16 +462,17 @@ export default {
             }
         }
         .SubmitBtn {
-        height: 1.05rem;
-        width: 100%;
-        border-radius: .05rem;
-        line-height: 1.05rem;
-        font-family: PingFangSC-Regular;
-        font-size: .36rem;
-        letter-spacing: 0;
-        text-align: center;
-        background: #1492FF;
-        color: #FFFFFF;
+            margin-top: .2rem;
+            height: 1.05rem;
+            width: 100%;
+            border-radius: .05rem;
+            line-height: 1.05rem;
+            font-family: PingFangSC-Regular;
+            font-size: .36rem;
+            letter-spacing: 0;
+            text-align: center;
+            background: #1492FF;
+            color: #FFFFFF;
         }
     }
 }

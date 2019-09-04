@@ -30,7 +30,7 @@ export default {
             slots: [
                 {
                     flex: 1,
-                    values: [],
+                    values: [{name: '', value: ''}],
                     className: 'slot1',
                     textAlign: 'center'
                 }

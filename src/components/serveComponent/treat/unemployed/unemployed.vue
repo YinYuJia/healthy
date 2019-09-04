@@ -38,16 +38,20 @@
         <!-- 发票信息 -->
         <invoiceInfo></invoiceInfo>
         <!-- 发票提交方式 -->
-        <mailInfo></mailInfo>
+        <mailInfo @choose="mailType"></mailInfo>
+        <!-- 下一步按钮 -->
+        <Footer :canSubmit='true' @submit="submit()" btnText="补充材料"></Footer>
     </div>
 </template>
 
 <script>
 import invoiceInfo from './section/invoiceInfo'
+import plusInvoice from './section/plusInvoice'
 import mailInfo from './section/mailInfo'
 export default {
     components: {
         'invoiceInfo': invoiceInfo,
+        'plusInvoice': plusInvoice,
         'mailInfo': mailInfo
     },
     data() {
@@ -57,6 +61,7 @@ export default {
                 BMC202: '', //配偶身份证号码
                 AMC029: '', //计划生育类别
                 BMC131: '', //计划生育日期
+                BMC220: '', //发票提交方式
             },
             AMC029VALUE: '', //计划生育类型值
             dateVal: new Date(), //初始化时间
@@ -132,7 +137,14 @@ export default {
         chooseTime(val) {
             let date = this.util.formatDate(val,'yyyy-MM-dd');
             this.form.BMC131 = date;
+        },
+        // 选择发票提交方式
+        mailType(val) {
+            this.form.BMC220 = val;
         }
+    },
+    destroyed() {
+        this.$store.dispatch('SET_UMEMPLOYED_INVOICELIST', []);
     }
 }
 </script>

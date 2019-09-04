@@ -32,6 +32,7 @@ export default {
 <style lang="less" scoped>
 .SearchInfo{
     padding: .2rem;
+    background: #FFF;
     .SearchContent {
         width: 100%;
         background: #fff;
