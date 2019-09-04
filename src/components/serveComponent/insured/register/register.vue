@@ -35,7 +35,7 @@
               <span>统一社会信用代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB003" type="text" @blur="check()" maxlength="20" placeholder="请输入"  />
+              <input v-model="form.AAB003" type="text" maxlength="20" placeholder="请输入"  />
             </div>
           </div>
           <div class="InfoLine">
@@ -375,23 +375,25 @@ export default {
     this.getFromInfo()
   },
   methods: {
-    check(){
-          let params = {};
-          params.sydwTycode=this.form.AAB003;
-          console.log('----params----',params)
-          this.$axios.post( this.epFn.ApiUrl() +  '/H5/jy0006/getAreaList', params)
-          .then((resData) => {
+    // check(){
+    //       let params = {};
+    //       params.sydwTycode=this.form.AAB003;
+    //       console.log('----params----',params)
+    //       this.$axios.post( this.epFn.ApiUrl() +  '/H5/jy0006/getAreaList', params)
+    //       .then((resData) => {
+    //         console.log("返回成功信息",resData)
+    //           if(resData.enCode == '1000'){
+    //             this.ifReady=true
+                
+    //           }else{
+    //             this.ifReady=false
+    //             this.$toast(resData.msg)
 
-              if(resData.enCode == '1000'){
-                  console.log("返回成功信息",resData)
-              }else{
-                  this.$toast(resData.msg)
-
-              }
-          }).catch((error) => {
-              console.log(error)
-          })
-    },
+    //           }
+    //       }).catch((error) => {
+    //           console.log(error)
+    //       })
+    // },
     // 选择就诊医院
     chooseBank(){
         this.$refs.bank.open();
@@ -604,12 +606,13 @@ export default {
             console.log('----params----',params1)
             this.$axios.post( this.epFn.ApiUrl() +  '/H5/jy0006/getAreaList', params1)
             .then((resData) => {
+                console.log("返回成功信息",resData)
                 if(resData.enCode == '1000'){
-                    this.ifReady==true
-                    console.log("返回成功信息",resData)
+                    this.ifReady=true
+                    
                 }else{
                     this.$toast(resData.msg)
-                    this.ifReady==false
+                    this.ifReady=false
                     return false;
                 }
             }).catch((error) => {
@@ -622,7 +625,7 @@ export default {
         return false
       }else{
             this.request();
-            console.log(this.ifReady)
+            console.log("999",this.ifReady)
             if(this.ifReady==true){
               //法人电话BKE280
               if(this.form.BKE280&&this.form.BKE280.length==11){
