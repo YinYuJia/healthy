@@ -141,7 +141,6 @@ export default {
             if(sessionStorage.getItem('SET_SURGICAL_INVOICELIST') == null){
                 let arr = [];
                 let obj=this.form;
-                console.log('1111',obj)
                 arr.push(obj)
                 sessionStorage.setItem("SET_SURGICAL_INVOICELIST", JSON.stringify(arr))
                 console.log("9999",sessionStorage.getItem("SET_SURGICAL_INVOICELIST"))
