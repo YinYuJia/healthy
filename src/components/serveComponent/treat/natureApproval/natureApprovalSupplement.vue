@@ -258,6 +258,10 @@ export default {
 
         },
         submit(){
+            if(this.form.photoList1==''||this.form.photoList2==''){
+                this.$toast('请上传附件后再提交')
+                return false
+            }
             // 封装数据
             let params = this.formatSubmitData();
             // 开始请求
