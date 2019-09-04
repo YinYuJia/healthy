@@ -185,7 +185,7 @@ export default {
     },
     created () {
         if(this.$route.params.userType){
-            this.sessionStorage.setItem('NATURE_AMC029',this.$route.params.userType)
+            sessionStorage.setItem('NATURE_AMC029',this.$route.params.userType)
         }
         
         console.log("111",this.$store.state.SET_NATUREAPPROVAL)
@@ -251,7 +251,7 @@ export default {
                 //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         console.log('返回成功信息',resData)
-                        let user = this.sessionStorage.getItem("LOGINNAME");//法人的单位编码
+                        let user = sessionStorage.getItem("LOGINNAME");//法人的单位编码
                       if(user==resData.LS_DS[0].AAB001){//和7610里获取的单位编码进行比对，如果不匹配那么就提示这个人不是这个单位的
                         this.isShow=true;
                         this.form1=resData.LS_DS[0];

@@ -1,23 +1,30 @@
 <template>
     <div class="mailInfo">
+        <!-- 选择器 -->
+        <SelectList :list="optionList" ref="selectMailType" @choose="chooseType"></SelectList>
+        <!-- 发票提交方式 -->
         <div class="submitType">
             <div class="submitName"><span>纸质发票提交方式:</span></div>
-            <div class="submitText"><input placeholder="请选择" readonly/></div>
+            <div class="submitText">
+                <input placeholder="请选择" v-model="BMC220VALUE" @click="openChooseType" readonly/>
+                <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+            </div>
         </div>
+        <!-- 地址信息 -->
         <div class="addressInfo">
             <div class="addressTitle">邮寄信息:</div>
             <div class="addressContent">
                 <div class="InfoLine">
                     <div class="InfoName"><span>收件地址</span></div>
-                    <div class="InfoText"><span>浙江省杭州市西湖区宁波大厦601室浙江省杭州市西湖区宁波大厦601室</span></div>
+                    <div class="InfoText"><span>{{address}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>收件人</span></div>
-                    <div class="InfoText"><span>医疗保障局</span></div>
+                    <div class="InfoText"><span>{{name}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>收件人电话</span></div>
-                    <div class="InfoText"><span>13588888888</span></div>
+                    <div class="InfoText"><span>{{phone}}</span></div>
                 </div>
             </div>
         </div>
@@ -29,7 +36,52 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            BMC220VALUE: '', //发票提交方式
+            optionList:[
+                {name:'邮寄', value: '1'},
+                {name:'自送', value: '2'}
+            ],
+            address: '', //地址
+            name: '', //收件人
+            phone: '', //联系电话
+        }
+    },
+    created() {
+        this.getMailInfo()
+    },
+    methods: {
+        // 选择发票提交方式
+        openChooseType() {
+            this.$refs.selectMailType.open();
+        },
+        chooseType(val) {
+            this.BMC220VALUE = val.name;
+            this.$emit('mailType', val.value);
+        },
+        // 获取邮寄信息
+        getMailInfo(){
+            let LegalPerson = JSON.parse(sessionStorage.getItem('LegalPerson'));
+            let submitForm = {code:LegalPerson.xzqh} //统筹区编码
+            this.$axios.post(this.epFn.ApiUrl() + '/H5/jy0005/getAreaList', submitForm).then((resData) => {
+                //   成功   1000
+                console.log('邮寄信息',resData)
+                if ( resData.enCode == 1000 ) {
+                    let code = resData.code;
+                    this.address = code.organizationAddress;
+                    this.name = code.organizationName;
+                    this.phone = code.organizationPhone
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+    }
 }
 </script>
 
@@ -37,6 +89,7 @@ export default {
 .mailInfo{
     margin-top: .15rem;
     background: #FFF;
+    margin-bottom: 2rem;
     .submitType{
         padding: .36rem .2rem;
         display: flex;
@@ -51,6 +104,7 @@ export default {
             }
         }
         .submitText{
+            display: flex;
             input {
                 width: 100%;
                 font-size: .26rem;

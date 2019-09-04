@@ -276,7 +276,6 @@ export function trtireType(value) {
   }
   return str;
 }
-
 //平产AMC029 生育类型
 export function AMC029( val ) {
   let obj = {
@@ -299,6 +298,15 @@ export function AMC029( val ) {
     "21": "人工流产同时取出宫内节育器",
     "22": "中期终止妊娠同时取出宫内节育器",
     "23": "输精管结扎"
+  }
+  return obj[val]
+}
+
+//平产AMC027 是否晚育
+export function AMC027( val ) {
+  let obj = {
+    "0": "否",
+    "1": "是",
   }
   return obj[val]
 }
