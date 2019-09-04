@@ -39,11 +39,6 @@
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
-            <div>
-                <button @click="goto"  >点击进入平产</button>
-                <button @click="go">流产</button>
-                <button @click="go1">未生育</button>
-            </div>
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
                     <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl" /></div>
@@ -140,9 +135,9 @@
                     CompanyScope: "为省本级医疗保险提供服务。  负责省级参保单位和人员的基本医疗保险登记、审核、发放、变更和管理、负责全省医疗保险基金管理等工作",
                     LoginType: "password",
                     OrganizationNumber: "728464393",
-                    attnIDNo: "130803197203060649",
+                    attnIDNo: "",
                     attnIDType: "51",
-                    attnName: "马野",
+                    attnName: "",
                     attnPhone: "15606502886",
                     orgType: "4",
                     realLevel: "3",

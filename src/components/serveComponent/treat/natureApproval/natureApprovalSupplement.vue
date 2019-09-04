@@ -88,14 +88,16 @@ export default {
     methods: {
         getFileForm(){
             console.log('获取表格')
-            let params ={};
-            params.AAA001='TEMPLATE_URL_XY'
+            let params =this.formatSubmitData2();
             this.$axios.post(this.epFn.ApiUrl()+ '/H5/templateUrl/getUrl', params).then((resData) => {
                 //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         console.log('返回成功信息',resData)
                         let url=resData.fileUrl
-                        window.open(url,"_blank")
+                        this.$router.push({
+                            path:'/natureDownload',
+                            query:{params:url}
+                        })
                         console.log(1111)
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
@@ -263,22 +265,17 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy7212/getRecord', params).then((resData) => {
                 console.log('返回成功信息',resData)
                    //   成功   1000
-                if ( resData.enCode == 1000 ) {
-                    this.setSession('NATURE_BKZ019',resData.BKZ019)
-                    console.log("form",this.form)
+                if (resData.enCode==1000) {
+                    console.log('进入成功1')
+                    sessionStorage.setItem('NATURE_BKZ019',resData.BKZ019)
+                    console.log('进入成功2')
                     this.$router.push('/natureApprovalDetail')
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
-                    this.$message({
-                        message: resData.msg,
-                        type: 'warning'
-                    });
+                    this.$toast(resData.msg)
                     return;
                 }else{
-                    this.$message({
-                        message: '业务出错',
-                        type: 'warning'
-                    });
+                    this.$toast('业务出错')
                     return;
                 }
             });
@@ -307,9 +304,7 @@ export default {
                 submitForm.lx="2";
                 submitForm.BKZ019="";
             }
-            submitForm.AAC002 = form.AAE135//被操作人员身份证号
-            submitForm.AAC004 = form2.AAC004//性别
-            submitForm.AAC006 = form.AAC006//出生日期
+            submitForm.AAC002 = form2.AAC002//被操作人员身份证号
             submitForm.BMC061 = form.BMC061//生育类别 0生育女职工,1男职工配偶
             submitForm.BMC131 = form.BMC131//生育日期
             submitForm.AMC029 = form.AMC029//生育类别 01平产、02助娩产、03剖宫产
@@ -329,10 +324,25 @@ export default {
             
             
             submitForm.BKE520 = '1'//申请渠道
-            submitForm.applicationFormUrl = this.form1.photoIdList1//申请表
-            submitForm.medicalUrl =this.form1.photoIdList2//证明
+            submitForm.applicationFormUrl = this.form1.photoIdList1[0]//申请表
+            submitForm.medicalUrl =this.form1.photoIdList2[0]//证明
             // 请求参数封装
-            const params = this.epFn.commonRequsetData(submitForm,"7212");
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7212");
+
+            return params;
+        },
+        formatSubmitData2(){
+            let submitForm ={};
+            let u = navigator.userAgent;
+            let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            if(isiOS){
+                console.log("是否为苹果设备",isiOS);
+                submitForm.AAA001='TEMPLATE_URL_IOSXY';
+            }else{
+                submitForm.AAA001='TEMPLATE_URL_XY';
+            }
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7212");
 
             return params;
         },

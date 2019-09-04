@@ -49,7 +49,7 @@
                 <div class="InfoLine">
                     <div class="InfoName"><span>胎儿数:</span></div>
                     <div class="InfoText">
-                        <input type="tel"  maxlength="2" v-model="form.AMC028" placeholder="选填"  readonly>
+                        <input type="tel"  maxlength="2" v-model="form.AMC028" placeholder="选填">
                         <!-- <svg-icon icon-class="serveComponent_arrowRight"></svg-icon> -->
                     </div>
                 </div>
@@ -184,7 +184,10 @@ export default {
         }
     },
     created () {
-        this.setSession('NATURE_AMC029',this.$route.params.userType)
+        if(this.$route.params.userType){
+            sessionStorage.setItem('NATURE_AMC029',this.$route.params.userType)
+        }
+        
         console.log("111",this.$store.state.SET_NATUREAPPROVAL)
         this.form=this.$store.state.SET_NATUREAPPROVAL;
     },
