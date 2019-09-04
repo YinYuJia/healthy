@@ -97,10 +97,14 @@ export default {
         this.AMC029 = this.$route.query.params.AMC029;
         this.BMC131 = this.$route.query.params.BMC131;
         this.AAC002 = this.$route.query.params.AAC002;
+        this.BMC220 = this.$route.query.params.BMC220;
+        this.photoIdList = this.$route.query.params.photoIdList;
         console.log("type:", this.type)
     },
     data() {
         return {
+            BMC220: '',
+            photoIdList: '',
             type: '',
             applicationFormUrl : [],
             menstruationUrl: [],
@@ -191,6 +195,8 @@ export default {
                             obj.abortionUrl = this.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
                             obj.marriageCertificateUrl = this.marId;// 结婚复印证
                             obj.expensesList = this.expIdList;// 病历出院小结图片列表
+                            obj.photoIdList = this.photoIdList;
+                            obj.BMC220 = this.BMC220;
                             this.submitList(obj);
                         }
                     } else if (this.type == '03') {
