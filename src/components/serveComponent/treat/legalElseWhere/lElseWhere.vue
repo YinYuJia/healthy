@@ -165,7 +165,6 @@
         //     const legalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"))
             
         // console.log('---legalPerson---',legalPerson.attnName);
-        return;
             let type = this.$route.params.type
             if (type) {
                 let label = ''
