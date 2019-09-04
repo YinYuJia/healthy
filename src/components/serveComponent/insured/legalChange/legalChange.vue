@@ -196,7 +196,7 @@ this.form.AAB301='339900'
                         if(LegalPerson.xzqh == '330000' ) {
                             this.form.AAB301 = '339900'
                         }else{
- this.form.AAB301=LegalPerson.xzqh;
+                            this.form.AAB301=LegalPerson.xzqh;
                         }
                        
                         this.requset1();
@@ -350,20 +350,33 @@ this.form.AAB301='339900'
                 })
         },
         formatSubmitData(){
-            let submitForm = Object.assign({},this.form);
+            // let submitForm = Object.assign({},this.form);
+            let submitForm = {};
             // 加入用户名和电子社保卡号
                 let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
                 console.log("person",LegalPerson)
                 // console.log("9999",LegalPerson)
-                submitForm.AAC003=LegalPerson.attnName||this.personName;//单位名称
+                submitForm.AAC003=LegalPerson.attnName||this.personName;//经办人名称
                 if(LegalPerson.xzqh =='330000' ) {
                     submitForm.AAB301 = '339900'
                 }else{
                 submitForm.AAB301=LegalPerson.xzqh//统筹区
                 }
 
+                submitForm.AAB001=this.form.AAB001//单位编码
+                submitForm.AAE007=this.form.AAE007//单位邮编
+                submitForm.AAE006=this.form.AAE006//单位地址
+                submitForm.AAB005=this.form.AAB005//单位电话
+                submitForm.BKE280=this.form.BKE280//法人电话
+                submitForm.BKE281=this.form.BKE281//专管员1姓名
+                submitForm.BAC210=this.form.BAC210//专管员2姓名
+                submitForm.BKE283=this.form.BKE283//专管员1电话
+                submitForm.BAC212=this.form.BAC212//专管员2电话
+                submitForm.BKB225=this.form.BKB225//专管员部门
+                submitForm.AAE005=this.form.AAE005//单位邮箱
+
                 submitForm.BKE520='1'
-                submitForm.AAE135=LegalPerson.attnIDNo||this.personId;//身份证号
+                submitForm.AAE135=LegalPerson.attnIDNo||this.personId;//经办人身份证号
                 submitForm.userId=LegalPerson.userId;//userId
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1035");
