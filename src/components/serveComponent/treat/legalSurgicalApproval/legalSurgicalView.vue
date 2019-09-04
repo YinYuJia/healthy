@@ -22,6 +22,13 @@
                     <div class="InfoText">{{form.BMC131}}</div>
                 </div>
             </div>
+            <div class="infoType" v-if="type == '02'">
+                <div class="infoBox">
+                    <div class="infoTitle">纸质发票提交方式：</div>
+                    <div class="infoTitle">邮寄</div>
+                </div>
+
+            </div>
             <div class="upload">
                 <div class="infoTitle">附件：</div>
                 <div class="infoTitle">1.《生育保险待遇申请表》</div>
@@ -270,8 +277,29 @@ export default {
                 }
             }
         }
+        .infoType {
+            background-color: #FFF;
+            width: 100%;
+            margin-top: .15rem;
+            .infoBox {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                border-bottom: 1px solid #ddd;
+                .infoTitle {
+                    font-size: .28rem;
+                    text-align: left;
+                    margin-top: .2rem;
+                    margin-left: .3rem;
+                    height: 1rem;
+                    padding-right: .2rem;
+                    line-height: 1rem;
+                }
+            }
+        }
         .upload {
-            margin: .2rem;
+            background-color: #FFF;
+            width: 100%;
             .infoTitle {
                 font-size: .28rem;
                 text-align: left;
