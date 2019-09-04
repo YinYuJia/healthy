@@ -195,6 +195,48 @@ export default {
         form:{
             handler:function(val){
                 console.log(val)
+                if(!this.util.checkBaby(val.AMC028)){
+                    this.$toast('请输入整数')
+                    val.AMC028=''
+                }
+                //胎儿数
+                if(val.AMC028==0){
+                    this.$toast('胎儿数请输入大于等于1的数值')
+                    val.AMC028=''
+                }
+                //胎次
+                if(!this.util.checkBaby(val.AMC031)){
+                    this.$toast('请输入整数')
+                    val.AMC031=''
+                }
+                //其中死胎
+                if(!this.util.checkBaby(val.BMC046)){
+                    this.$toast('请输入整数')
+                    val.BMC046=''
+                }
+                //实际住院天数
+                if(!this.util.checkBaby(val.BMC033)){
+                    this.$toast('请输入整数')
+                    val.BMC033=''
+                }
+                //准生证号
+                if(!this.util.checkBaby(val.BMC035)){
+                    this.$toast('请输入整数')
+                    val.BMC035=''
+                }
+                //出生证编号
+                if(!this.util.checkBaby(val.AMC022)){
+                    this.$toast('请输入整数')
+                    val.AMC022=''
+                }
+                //实际发生费用
+                if(!this.util.checkFee(val.BMC211)){
+                    this.$message({
+                        type: 'warning',
+                        message: "请输入数字（保留两位小数）"
+                    });
+                    val.BMC211=''
+                }
                 if(val.BMC131!=''&&val.AMC028!=''&&val.AMC027!=''&&val.AMC029!=''){
                     this.canSubmit = true;
                 }else{

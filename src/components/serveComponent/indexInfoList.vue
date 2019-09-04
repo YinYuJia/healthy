@@ -135,9 +135,9 @@
                     CompanyScope: "为省本级医疗保险提供服务。  负责省级参保单位和人员的基本医疗保险登记、审核、发放、变更和管理、负责全省医疗保险基金管理等工作",
                     LoginType: "password",
                     OrganizationNumber: "728464393",
-                    attnIDNo: "",
+                    attnIDNo: "130803197203060649",
                     attnIDType: "51",
-                    attnName: "",
+                    attnName: "马野",
                     attnPhone: "15606502886",
                     orgType: "4",
                     realLevel: "3",
@@ -267,7 +267,7 @@
                 BMC061: '0', //生育类别 0生育女职工,1男职工配偶
                 BMC131: '', //生育日期
                 AMC029: '01', //生育类别 01平产、02助娩产、03剖宫产
-                AMC029VALUE:'',//生育类别中文
+                AMC029VALUE:'平产',//生育类别中文
                 AMC028: '1', //胎儿数
                 AMC031: '', //胎次
                 BMC046: '', //其中死胎
