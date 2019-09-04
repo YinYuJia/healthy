@@ -194,7 +194,7 @@ export default {
                             obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
                             obj.abortionUrl = this.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
                             obj.marriageCertificateUrl = this.marId;// 结婚复印证
-                            obj.expensesList = this.expIdList;// 病历出院小结图片列表
+                            obj.expensesList = this.expIdList.join();// 病历出院小结图片列表
                             obj.photoIdList = this.photoIdList;
                             obj.BMC220 = this.BMC220;
                             this.submitList(obj);

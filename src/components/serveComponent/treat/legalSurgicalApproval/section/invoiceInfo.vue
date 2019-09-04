@@ -22,6 +22,7 @@
         <div class="btnContent">
             <div class="plusBtn" @click="plusInvoice"><span>+</span>添加发票信息</div>
         </div>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
     </div>
 </template>
 
