@@ -169,6 +169,7 @@
             })
         },
         created() {
+            sessionStorage.setItem('ifRequest',false)
             // 判断是否法人登录
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR------', sessionStorage.getItem('isClear'));

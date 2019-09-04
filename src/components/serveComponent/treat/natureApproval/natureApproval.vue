@@ -180,16 +180,20 @@ export default {
             ],
             BKE810VALUE:"",
             canSubmit:false,
-            isShow:false
+            isShow:false,
         }
     },
     created () {
         if(this.$route.params.userType){
             sessionStorage.setItem('NATURE_AMC029',this.$route.params.userType)
         }
-        
+        this.epFn.setTitle('计划内生育')
         console.log("111",this.$store.state.SET_NATUREAPPROVAL)
         this.form=this.$store.state.SET_NATUREAPPROVAL;
+        //判断到上传附件页面后返回  是否要重新请求
+        if(sessionStorage.getItem('ifRequest')!='false'){
+            this.search(this.$store.state.SET_NATUREAPPROVAL_BASEINFO.AAC002)
+        }
     },
     watch: {
         form:{
