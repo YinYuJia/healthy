@@ -235,6 +235,7 @@ export default {
             });
             this.$store.dispatch('SET_UNEMPLOYED_USERINFO', {});
             this.$store.dispatch('SET_UNEMPLOYED_INVOICE', []);
+            sessionStorage.removeItem('UMEMPLOY_BKZ019');
         },
         // 提交信息
         submit() {

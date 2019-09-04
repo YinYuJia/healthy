@@ -177,7 +177,7 @@ export default {
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
                     sessionStorage.setItem('UMEMPLOY_BKZ019',JSON.stringify(resData.BKZ019));
-                    this.$refs.success.open();
+                    this.$router.push('/unemployedDetail');
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);
@@ -216,7 +216,7 @@ export default {
                 AAE135: LegalPerson.attnIDNo, //经办人身份证号
                 AAC002: userInfo.AAC002, //员工证件号码
                 BMC061: '0', //计划生育人员类别,先默认传0
-                BMC131: reportInfo.BMC131, //生育日期
+                BMC131: Number(this.util.DateToNumber(reportInfo.BMC131)), //生育日期
                 AMC029: reportInfo.AMC029, //生育类别
                 AKC264: totalCount, //发票总金额
                 BKC013: invoiceLength, //发票张数
