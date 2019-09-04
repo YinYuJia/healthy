@@ -42,6 +42,7 @@
             <!-- <div>
                 <button @click="goto"  >点击进入平产</button>
             </div> -->
+            <button @click="go">流产</button>
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
                     <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl" /></div>
