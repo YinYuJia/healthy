@@ -307,8 +307,9 @@ export default new Vuex.Store({ // 暴露与new vuex
       photoIdList1: [], //图片ID数组
       photoList2: [], //图片数组
       photoIdList2: [], //图片ID数组
-    }
-
+    },
+    // 未就业配偶发票数组
+    SET_UMEMPLOYED_INVOICELIST: []
   },
   // 计算属性 getters
   getters: {
@@ -461,6 +462,10 @@ export default new Vuex.Store({ // 暴露与new vuex
       sessionStorage.setItem('SET_NATUREAPPROVAL_PHOTOLIST', JSON.stringify(payload))
       state.SET_NATUREAPPROVAL_PHOTOLIST = payload
     },
+    SET_UMEMPLOYED_INVOICELIST (state, payload) {
+      sessionStorage.setItem('SET_UMEMPLOYED_INVOICELIST', JSON.stringify(payload))
+      state.SET_UMEMPLOYED_INVOICELIST = payload
+    },
     
   },
 
@@ -560,6 +565,9 @@ export default new Vuex.Store({ // 暴露与new vuex
     },
     SET_NATUREAPPROVAL_PHOTOLIST (context, payload) {
       context.commit('SET_NATUREAPPROVAL_PHOTOLIST', payload)// context提交
+    },
+    SET_UMEMPLOYED_INVOICELIST (context, payload) {
+      context.commit('SET_UMEMPLOYED_INVOICELIST', payload)// context提交
     },
     
   }

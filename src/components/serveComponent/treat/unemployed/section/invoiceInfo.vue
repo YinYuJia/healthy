@@ -3,31 +3,49 @@
         <!-- 标题 -->
         <div class="invoiceTitle">发票信息：</div>
         <!-- 发票列表 -->
-        <div class="invoiceList">
+        <div class="invoiceList" v-for="(item,index) in invoiceList" :key="index">
             <div class="infoLine">
                 <div class="infoName"><span>发票号</span></div>
-                <div class="infoText"><span class="active">9123910023010230120301</span></div>
+                <div class="infoText"><span class="active">{{item.BKE100}}</span></div>
             </div>
             <div class="infoLine">
                 <div class="infoName"><span>发票金额</span></div>
-                <div class="infoText"><span>1303.91</span></div>
+                <div class="infoText"><span>{{item.AKC264}}</span></div>
             </div>
             <div class="infoLine">
                 <div class="infoName"><span>发票日期</span></div>
-                <div class="infoText"><span>2019-06-10</span></div>
+                <div class="infoText"><span>{{item.AAE036}}</span></div>
             </div>
-            <div class="deleteBtn"><svg-icon icon-class='payLimit_delete'></svg-icon></div>
+            <div class="deleteBtn"><svg-icon @click="deleteInvoice(item, index)" icon-class='payLimit_delete'></svg-icon></div>
         </div>
         <!-- 添加发票按钮 -->
         <div class="btnContent">
-            <div class="plusBtn"><span>+</span>添加发票信息</div>
+            <div class="plusBtn" @click="plusInvoice"><span>+</span>添加发票信息</div>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-
+    data() {
+        return {
+            invoiceList: [],
+        }
+    },
+    created() {
+        this.invoiceList = this.$store.state.SET_UMEMPLOYED_INVOICELIST;
+    },
+    methods: {
+        // 打开添加发票面板
+        plusInvoice() {
+            this.$router.push('/unemployedPlus')
+        },
+        // 删除发票
+        deleteInvoice(item, index){
+            this.invoiceList.splice(index, 1);
+            this.$store.dispatch('SET_UMEMPLOYED_INVOICELIST', this.invoiceList);
+        }
+    }
 }
 </script>
 

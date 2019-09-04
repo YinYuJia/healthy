@@ -209,7 +209,7 @@ export default {
                 display: block;
                 text-align: left;
                 &:last-child{
-                    margin-top: 20px;
+                    margin-top: .2rem;
                 }
             }
         }

@@ -62,10 +62,13 @@ import reportComplete from '@/components/serveComponent/treat/smallReim/reportCo
 import smallReimDetail from '@/components/serveComponent/treat/smallReim/smallReimDetail'
 import invoiceDetail from '@/components/serveComponent/treat/smallReim/invoiceDetail'
 import unemployed from '@/components/serveComponent/treat/unemployed/unemployed'
+import unemployedPlus from '@/components/serveComponent/treat/unemployed/section/plusInvoice'
+import unemployedSubmit from '@/components/serveComponent/treat/unemployed/unemployedSubmit'
 import payLimit from '@/components/serveComponent/treat/payLimit/payLimit'
 import payLimitDetail from '@/components/serveComponent/treat/payLimit/payLimitDetail'
 import legalSurgicalApproval from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalApproval'
 import legalSurgicalDetail from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalDetail'
+import legalSurgicalView from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalView'
 import lElseWhere from '@/components/serveComponent/treat/legalElseWhere/lElseWhere'
 import lElseWhereDetail from '@/components/serveComponent/treat/legalElseWhere/lElseWhereDetail'
 import searchBaseInfo from '@/components/serveComponent/personal/searchBaseInfo/searchBaseInfo'
@@ -385,6 +388,16 @@ export default new Router({
       component: unemployed
     },
     {
+      path: '/unemployedPlus',
+      name: 'unemployedPlus',
+      component: unemployedPlus
+    },
+    {
+      path: '/unemployedSubmit',
+      name: 'unemployedSubmit',
+      component: unemployedSubmit
+    },
+    {
       path: '/invoiceDetail',
       name: 'invoiceDetail',
       component: invoiceDetail
@@ -398,6 +411,11 @@ export default new Router({
       path: '/payLimitDetail',
       name: 'payLimitDetail',
       component: payLimitDetail
+    },
+    {
+      path: '/legalSurgicalView',
+      name: 'legalSurgicalView',
+      component: legalSurgicalView
     },
     {
       path: '/legalSurgicalApproval',

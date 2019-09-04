@@ -1,0 +1,327 @@
+<template>
+    <div class="natureApprovalDetail">
+        <Title :title="'计划外生育'" :backRouter="'/indexInfoList'"></Title>
+        <div class="Content">
+            <WorkProgress :currentStep="currentStep"></WorkProgress>
+            <UserInfoPad  :userInfo="form1"></UserInfoPad>
+            <div class="ReportInfo">
+                <div class="InfoLine">
+                    <div class="InfoName"><span>申请时间:</span></div>
+                    <div class="InfoText">{{form.AAE036}}</div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>进度时间:</span></div>
+                    <div class="InfoText">{{form.BAE019}}</div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>生育类型:</span></div>
+                    <div class="InfoText">{{form.AMC029|AMC029}}</div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>生育日期:</span></div>
+                    <div class="InfoText">{{form.BMC131}}</div>
+                </div>
+            </div>
+            <div class="infoType" v-if="type == '02'">
+                <div class="infoBox">
+                    <div class="infoTitle">纸质发票提交方式：</div>
+                    <div class="infoTitle">邮寄</div>
+                </div>
+
+            </div>
+            <div class="upload">
+                <div class="infoTitle">附件：</div>
+                <div class="infoTitle">1.《生育保险待遇申请表》</div>
+                <div class="dataUpload">
+                    <div class="picWrap">
+                        <img :src="form.applicationFormUrl" class="pic"/>
+                    </div>
+                </div>
+                <div v-if="type != '03'">
+                    <div class="infoTitle">2.从确认怀孕开始（末次月经）时间的病历复印件</div>
+                    <div class="dataUpload">
+                        <div class="picWrap">
+                            <img :src="form.menstruationUrl" class="pic"/>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="type != '03'">
+                    <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明复印件</div>
+                    <div class="dataUpload">
+                        <div class="picWrap">
+                            <img :src="form.abortionUrl" class="pic"/>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="type == '02'">
+                    <div class="infoTitle">4.结婚证复印件</div>
+                    <div class="dataUpload">
+                        <div class="picWrap">
+                            <img :src="form.marriageCertificateUrl" class="pic"/>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="type == '02'">
+                    <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件一份</div>
+                    <div class="dataUpload">
+                        <div class="picWrap">
+                                <div class="uploadBtn" v-for="(item,index) in form.expensesList" :key="index">
+                                    <img :src="item" class="pic"/>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <Success :flag="successFlag"></Success>
+    </div>
+</template>
+
+<script>
+export default {
+    data () {
+        return {
+            successFlag:1,
+            currentStep:1,
+            form:{},
+            form1:{},
+            BKZ019: '',
+            type: '02',
+            AMC029: '',
+            AAC002: '',
+            form: {},
+        }
+    },
+    created () {
+        this.type = this.$route.query.params.type;
+        this.BKZ019 = this.$route.query.params.BKZ019;
+        this.AMC029 = this.$route.query.params.AMC029;
+        this.AAC002 = this.$route.query.params.AAC002;
+        if(this.$route.query.param){
+            this.successFlag = 2;
+        }
+        this.request();
+        this.request1();
+    },
+    methods:{
+      revoke(){
+        this.$router.push('/legalPerson')
+      },
+      request(){
+        let params=this.formatSubmitData();
+        this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1009/getRecord', params).then((resData) => {
+          console.log('返回成功信息',resData)
+          //   成功   1000
+          if ( resData.enCode == 1000 ) {
+            if (resData.LS_DS.length > 0 ) {
+              this.currentStep = Number(resData.LS_DS[0].BOD037)
+            }else{
+                  this.$toast('暂无状态信息')
+            }
+          }else if (resData.enCode == 1001 ) {
+            //   失败  1001
+                this.$toast(resData.msg)
+            return;
+          }else{
+                this.$toast('业务出错')
+            return;
+          }
+        })
+      },
+      request1(){
+        let params=this.formatSubmitData1();
+        this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1016/info', params).then((resData) => {
+          console.log('返回成功信息',resData)
+          //   成功   1000
+          if ( resData.enCode == 1000 ) {
+            this.form={...this.form,...resData.LS_DS_18}
+            let LS=resData.LS_DS_18
+            this.form={...this.form,...LS}
+            if(this.form.BMC220 != '') {
+                        if(this.form.BMC220 == 1){
+                        this.BMC220 = '邮寄'
+                        } else if (this.form.BMC220 == 2) {
+                            this.BMC220 = '自送'
+                        }
+                    }
+            this.request2()
+            console.log("form",this.form)
+          }else if (resData.enCode == 1001 ) {
+            //   失败  1001
+                this.$toast(resData.msg)
+                return;
+          }else{
+                this.$toast('业务出错')
+                return;
+          }
+        })
+      },
+      //请求基础信息
+      request2(){
+            let params=this.formatSubmitData2();
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy9109/getRecord', params).then((resData) => {
+                //   成功   1000
+                    if ( resData.enCode == 1000 ) {
+                        console.log('返回成功信息',resData)
+                        this.form1=resData.LS_DS[0]
+                    }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                        this.$toast(resData.msg)
+                        return;
+                    }else{
+                        this.$toast('业务出错')
+                        return;
+                    }
+            })
+      },
+      formatSubmitData(){
+        let submitForm ={}
+        let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
+        if(this.AMC029 != null){
+          if(this.type=='01'){
+            submitForm.AGA002 =  "给付-00142-002-01";
+          }else if(this.type=='02'){
+            submitForm.AGA002 =  "给付-00142-002-02";
+          }else if(this.type=='03'){
+            submitForm.AGA002 =  "给付-00142-002-03";            
+          }
+        }
+        
+        submitForm.BKZ019=this.BKZ019;
+        submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
+        submitForm.AAC003 = legalPerson.attnName
+        // 请求参数封装
+        const params = this.epFn.commonRequsetData(submitForm,"1009");
+        return params;
+      },
+      formatSubmitData1(){
+        let submitForm ={}
+        let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
+        if(this.AMC029!=null){
+          let AGA002=this.type;//判断孙项编码
+          if(AGA002=='01'){
+            submitForm.AGA002 =  "给付-00142-002-01";
+          }else if(AGA002=='02'){
+            submitForm.AGA002 =  "给付-00142-002-02";
+          }else if(AGA002=='03'){
+            submitForm.AGA002 =  "给付-00142-002-03";            
+          }
+        }
+
+        //从进度查询页面进入接收传参
+        if(this.$route.query.param){
+          submitForm.lx="1";
+          submitForm.BKZ019=this.$route.query.param
+        }else{
+          submitForm.lx="2";
+          submitForm.BKZ019=this.BKZ019;
+        }
+        submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
+        submitForm.AAC003 = legalPerson.attnName
+        // 请求参数封装
+        const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1016");
+        return params;
+      },
+      formatSubmitData2(){
+        let submitForm = {}
+        submitForm.AAC002 = this.AAC002;
+        // 请求参数封装
+        const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9109");
+        return params;
+      }
+    }
+}
+</script>
+
+<style lang="less" scoped>
+.natureApprovalDetail{
+    .Content{
+        height: 100%;
+        margin-bottom: 1.4rem;
+        .ReportInfo {
+            height: 100%;
+            width: 7.5rem;
+            padding: 0 .3rem;
+            background: white;
+            .InfoLine {
+                height: 1rem;
+                position: relative;
+                font-family: PingFangSC-Regular;
+                font-size: .3rem;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: .01rem solid #D5D5D5;
+                .InfoName {
+                    width: 2.3rem;
+                    opacity: 0.85;
+                    line-height: 1rem;
+                    text-align: left;
+                    span {
+                        height: .6rem;
+                        line-height: .6rem;
+                        color: #000000;
+                        letter-spacing: 0;
+                    }
+                }
+                .InfoText {
+                    margin-left: .2rem;
+                    width: 4.6rem;
+                    opacity: 0.85;
+                    line-height: 1rem;
+                    display: flex;
+                    position: relative;
+                    align-items: center;
+                }
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+        }
+        .infoType {
+            background-color: #FFF;
+            width: 100%;
+            margin-top: .15rem;
+            .infoBox {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                border-bottom: 1px solid #ddd;
+                .infoTitle {
+                    font-size: .28rem;
+                    text-align: left;
+                    margin-top: .2rem;
+                    margin-left: .3rem;
+                    height: 1rem;
+                    padding-right: .2rem;
+                    line-height: 1rem;
+                }
+            }
+        }
+        .upload {
+            background-color: #FFF;
+            width: 100%;
+            .infoTitle {
+                font-size: .28rem;
+                text-align: left;
+                margin-top: .2rem;
+                margin-left: .3rem;
+            }
+            .dataUpload{
+            background: #FFF;
+            height: .15rem;
+            //margin: 0 0 1.4rem 0;
+            padding: .37rem .4rem;
+            .picWrap{
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: .2rem;
+                    img{
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+</style>
