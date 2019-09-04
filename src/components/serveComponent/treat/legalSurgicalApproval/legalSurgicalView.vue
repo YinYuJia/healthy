@@ -99,21 +99,19 @@ export default {
             currentStep:1,
             form:{},
             form1:{},
-            BKZ019: '',
-            type: '02',
-            AMC029: '',
-            AAC002: '',
+            type: '',
             form: {},
             imgUrl: ''
         }
     },
     created () {
-        this.type = this.$route.query.params.type;
-        this.BKZ019 = this.$route.query.params.BKZ019;
-        this.AMC029 = this.$route.query.params.AMC029;
-        this.AAC002 = this.$route.query.params.AAC002;
+        if(this.$route.query.params) {
+            this.type = this.$route.query.params.type;
+        }
         if(this.$route.query.param){
             this.successFlag = 2;
+            this.type = this.$route.query.AGA002.split('-').pop();
+            console.log("flag---", this.type)
         }
         this.request();
         this.request1();
@@ -197,7 +195,7 @@ export default {
       formatSubmitData(){
         let submitForm ={}
         let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
-        if(this.AMC029 != null){
+        if(sessionStorage.getItem("SURGICAL_AMC029") != null){
           if(this.type=='01'){
             submitForm.AGA002 =  "给付-00142-002-01";
           }else if(this.type=='02'){
@@ -206,8 +204,11 @@ export default {
             submitForm.AGA002 =  "给付-00142-002-03";            
           }
         }
-        
-        submitForm.BKZ019=this.BKZ019;
+        if(this.$route.query.param) {
+            submitForm.BKZ019 = this.$route.query.param
+        } else {
+            submitForm.BKZ019 = sessionStorage.getItem("SURGICAL_BKZ019");
+        }
         submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
         submitForm.AAC003 = legalPerson.attnName
         // 请求参数封装
@@ -217,7 +218,7 @@ export default {
       formatSubmitData1(){
         let submitForm ={}
         let legalPerson=JSON.parse(sessionStorage.getItem("LegalPerson"))
-        if(this.AMC029!=null){
+        if(sessionStorage.getItem("SURGICAL_AMC029")!=null){
           let AGA002=this.type;//判断孙项编码
           if(AGA002=='01'){
             submitForm.AGA002 =  "给付-00142-002-01";
@@ -234,7 +235,7 @@ export default {
           submitForm.BKZ019=this.$route.query.param
         }else{
           submitForm.lx="2";
-          submitForm.BKZ019=this.BKZ019;
+          submitForm.BKZ019=sessionStorage.getItem("SURGICAL_BKZ019");
         }
         submitForm.AAE135 = legalPerson.attnIDNo;//经办人证件号码
         submitForm.AAC003 = legalPerson.attnName
@@ -244,7 +245,7 @@ export default {
       },
       formatSubmitData2(){
         let submitForm = {}
-        submitForm.AAC002 = this.AAC002;
+        submitForm.AAC002 = this.form.AAC002;
         // 请求参数封装
         const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9109");
         return params;

@@ -190,6 +190,7 @@
                         if (resData.LS_DS.length > 0) {
                             this.itemGroup = [...this.itemGroup, ...resData.LS_DS]
                             //向上取整
+                            console.log("list", this.itemGroup)
                             let Num = Math.ceil(resData.pages / this.pageSize);
                             this.totalPage = Num;
                             console.log("totalPage", this.totalPage)

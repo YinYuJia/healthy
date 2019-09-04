@@ -215,11 +215,10 @@ export default {
                      }).then((resData) => {
                     console.log('返回提交信息', resData)
                     if (resData.enCode == 1000) {
+                        sessionStorage.setItem("SURGICAL_BKZ019", resData.BKZ019);
+                        sessionStorage.setItem("SURGICAL_AMC029", this.AMC029);
                         let params = {
-                            BKZ019: resData.BKZ019,
                             type: this.type,
-                            AMC029: this.AMC029,
-                            AAC002: this.AAC002,
                         }
                         this.$router.push({path:'/legalSurgicalView', query: {params: params}})
                     }  else if (resData.enCode == 1001 ) {
