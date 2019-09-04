@@ -77,6 +77,7 @@ export default {
         if(this.$route.query.param){
             this.successFlag = 2;
         }
+        this.epFn.setTitle('计划内生育')
         this.request();
         this.request1();
     },

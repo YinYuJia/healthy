@@ -19,6 +19,8 @@
             if(this.$route.query.params){
                 this.imgurl=this.$route.query.params
             }
+            this.epFn.setTitle('申请表打印')
+
         }
     }
 </script>
