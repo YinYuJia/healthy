@@ -68,6 +68,7 @@ import payLimit from '@/components/serveComponent/treat/payLimit/payLimit'
 import payLimitDetail from '@/components/serveComponent/treat/payLimit/payLimitDetail'
 import legalSurgicalApproval from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalApproval'
 import legalSurgicalDetail from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalDetail'
+import legalSurgicalView from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalView'
 import lElseWhere from '@/components/serveComponent/treat/legalElseWhere/lElseWhere'
 import lElseWhereDetail from '@/components/serveComponent/treat/legalElseWhere/lElseWhereDetail'
 import searchBaseInfo from '@/components/serveComponent/personal/searchBaseInfo/searchBaseInfo'
@@ -410,6 +411,11 @@ export default new Router({
       path: '/payLimitDetail',
       name: 'payLimitDetail',
       component: payLimitDetail
+    },
+    {
+      path: '/legalSurgicalView',
+      name: 'legalSurgicalView',
+      component: legalSurgicalView
     },
     {
       path: '/legalSurgicalApproval',

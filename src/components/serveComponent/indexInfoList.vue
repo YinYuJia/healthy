@@ -39,6 +39,10 @@
         </div>
         <!-- 图标列表 -->
         <div class="iconContent">
+            <!-- <div>
+                <button @click="goto"  >点击进入平产</button>
+            </div> -->
+            <button @click="go">流产</button>
             <button @click="go1">未生育</button>
             <div class="iconList">
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">

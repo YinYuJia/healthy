@@ -301,6 +301,7 @@ export function AMC029( val ) {
   }
   return obj[val]
 }
+
 //平产AMC027 是否晚育
 export function AMC027( val ) {
   let obj = {
