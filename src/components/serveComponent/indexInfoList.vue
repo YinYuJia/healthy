@@ -218,6 +218,10 @@
                                 this.ifShow = false; //隐藏输入人名社保卡
                             } else {
                                 // url事项配置 跳转路由
+                                if( globalConfigObj.identifier == "elseWhere") {
+                                    
+                                    globalConfigObj.identifier = 'lElseWhere' //法人异地就医备案配置
+                                }
                                 this.$router.push({
                                     name: globalConfigObj.identifier,
                                     params: globalConfigObj
