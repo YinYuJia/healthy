@@ -138,9 +138,9 @@ export default {
             if(!this.canSubmit){
                 return;
             }
-            let invoiceList = this.$store.state.SET_UMEMPLOYED_INVOICELIST;
+            let invoiceList = this.$store.state.SET_UNEMPLOYED_INVOICE;
             invoiceList.push(this.form);
-            this.$store.dispatch('SET_UMEMPLOYED_INVOICELIST', invoiceList);
+            this.$store.dispatch('SET_UNEMPLOYED_INVOICE', invoiceList);
             this.$router.go(-1);
         }
     }

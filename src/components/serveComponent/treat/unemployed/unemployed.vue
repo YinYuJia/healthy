@@ -8,39 +8,43 @@
         <BindingAgency></BindingAgency>
         <!-- 搜索框 -->
         <SearchInfo @search="search"></SearchInfo>
-        <!-- 用户信息 -->
-        <UserInfoPad :userInfo="userInfo"></UserInfoPad>
-        <!-- 申报信息 -->
-        <div class="reportInfo">
-            <div class="InfoLine">
-                <div class="InfoName"><span>生育人员姓名：</span></div>
-                <div class="InfoText"><input placeholder="请输入"/></div>
-            </div>
-            <div class="InfoLine">
-                <div class="InfoName"><span>生育人员社会保障号：</span></div>
-                <div class="InfoText"><input placeholder="请输入"/></div>
-            </div>
-            <div class="InfoLine">
-                <div class="InfoName"><span>计划生育类型：</span></div>
-                <div class="InfoText">
-                    <input placeholder="请选择" v-model="AMC029VALUE" @click="openChooseType" readonly/>
-                    <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+        <!-- 显示剩下的信息 -->
+        <div v-show="showAll">
+            <!-- 用户信息 -->
+            <UserInfoPad :userInfo="userInfo"></UserInfoPad>
+            <!-- 申报信息 -->
+            <div class="reportInfo">
+                <div class="InfoLine">
+                    <div class="InfoName"><span>生育人员姓名：</span></div>
+                    <div class="InfoText"><input v-model="form.BMC021" placeholder="请输入"/></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>生育人员社会保障号：</span></div>
+                    <div class="InfoText"><input v-model="form.BMC202" placeholder="请输入"/></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>计划生育类型：</span></div>
+                    <div class="InfoText">
+                        <input placeholder="请选择" v-if="gender=='man'" v-model="form.AMC029VALUE" @click="openChooseType" readonly/>
+                        <input v-if="gender=='woman'" v-model="form.AMC029VALUE" readonly/>
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>计划生育日期：</span></div>
+                    <div class="InfoText">
+                        <input placeholder="请选择" v-model="form.BMC131" @click="openChooseTime" readonly/>
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
                 </div>
             </div>
-            <div class="InfoLine">
-                <div class="InfoName"><span>计划生育日期：</span></div>
-                <div class="InfoText">
-                    <input placeholder="请选择" v-model="form.BMC131" @click="openChooseTime" readonly/>
-                    <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
-                </div>
-            </div>
+            <!-- 发票信息 -->
+            <invoiceInfo @saveInfo="saveInfo"></invoiceInfo>
+            <!-- 发票提交方式 -->
+            <mailInfo :type="form.BMC220" @mailType="mailType"></mailInfo>
+            <!-- 下一步按钮 -->
+            <Footer :canSubmit="canSubmit" @submit="submit()" btnText="补充材料"></Footer>
         </div>
-        <!-- 发票信息 -->
-        <invoiceInfo></invoiceInfo>
-        <!-- 发票提交方式 -->
-        <mailInfo @choose="mailType"></mailInfo>
-        <!-- 下一步按钮 -->
-        <Footer :canSubmit='true' @submit="submit()" btnText="补充材料"></Footer>
     </div>
 </template>
 
@@ -60,10 +64,11 @@ export default {
                 BMC021: '', //配偶姓名
                 BMC202: '', //配偶身份证号码
                 AMC029: '', //计划生育类别
+                AMC029VALUE: '', //计划生育类型值
                 BMC131: '', //计划生育日期
                 BMC220: '', //发票提交方式
+                invoiceList: [], //发票列表
             },
-            AMC029VALUE: '', //计划生育类型值
             dateVal: new Date(), //初始化时间
             userInfo: {},
             optionList:[
@@ -85,8 +90,41 @@ export default {
                 {name:'中期终止妊娠同时输卵管结扎', value: '20'},
                 {name:'人工流产同时取出宫内节育器', value: '21'},
                 {name:'中期终止妊娠同时取出宫内节育器', value: '22'}
-            ]
+            ],
+            showAll: false, //显示剩下的所有信息
+            canSubmit: false, //是否可提交
+            isDestroy: true, //是否需要清空VUEX
+            gender: '', //申请人性别
         };
+    },
+    created(){
+        console.log('人员信息',this.$store.state.SET_UNEMPLOYED_USERINFO);
+        console.log('申报信息',this.$store.state.SET_UNEMPLOYED_REPORT);
+        console.log('发票信息',this.$store.state.SET_UNEMPLOYED_INVOICE);
+        this.userInfo = this.$store.state.SET_UNEMPLOYED_USERINFO;
+        this.form = this.$store.state.SET_UNEMPLOYED_REPORT;
+        this.form.invoiceList = this.$store.state.SET_UNEMPLOYED_INVOICE;
+        if(this.userInfo.AAB001 != undefined && this.userInfo.AAB001 != ''){
+            this.showAll = true;
+            // 根据性别判断生育类型
+            if(this.userInfo.AAC004 == '2'){
+                this.gender = 'woman';
+            }else {
+                this.gender = 'man';
+            }
+        }
+    },
+    watch:{
+        form: {
+            handler(val){
+                if(val.BMC021 != '' && val.BMC202 != '' && val.AMC029 != '' && val.BMC131 != '' && val.BMC220 != '' && val.invoiceList.length > 0){
+                    this.canSubmit = true;
+                }else {
+                    this.canSubmit = false;
+                }
+            },
+            deep: true
+        }
     },
     methods: {
         // 搜索
@@ -97,20 +135,25 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9109/getRecord', params).then((resData) => {
                 if ( resData.enCode == 1000 ) {
                     // 检测搜索的人是不是该公司员工
-                    if(sessionStorage.getItem('LOGINNAME') != resData.LS_DS[0].AAB001){
-                        this.$toast('该人员不是本单位职工，请重新输入身份证查询');
-                        return;
-                    }
+                    // if(sessionStorage.getItem('LOGINNAME') != resData.LS_DS[0].AAB001){
+                    //     this.$toast('该人员不是本单位职工，请重新输入身份证查询');
+                    //     return;
+                    // }
+                    // 清空基本信息和发票信息
+                    this.clearVuex();
                     // 存储申请人基本信息
                     this.userInfo = resData.LS_DS[0];
+                    this.$store.dispatch('SET_UNEMPLOYED_USERINFO',this.userInfo);
                     // 根据性别判断生育类型
-                    // if(this.userInfo.AAC004 == '1'){
-                    //     this.gender = 'man';
-                    // }else {
-                    //     this.gender = 'woman';
-                    // }
+                    if(this.userInfo.AAC004 == '2'){
+                        this.gender = 'woman';
+                        this.form.AMC029 = '23';
+                        this.form.AMC029VALUE = '输精管结扎';
+                    }else {
+                        this.gender = 'man';
+                    }
                     // 判断是否显示剩余信息
-                    // this.showAllInfo = true;
+                    this.showAll = true;
                 }else if (resData.enCode == 1001 ) {
                     this.showAllInfo = false;
                 //   失败  1001
@@ -127,7 +170,7 @@ export default {
             this.$refs.select.open();
         },
         chooseType(val) {
-            this.AMC029VALUE = val.name;
+            this.form.AMC029VALUE = val.name;
             this.form.AMC029 = val.value;
         },
         // 选择生育时间
@@ -138,14 +181,52 @@ export default {
             let date = this.util.formatDate(val,'yyyy-MM-dd');
             this.form.BMC131 = date;
         },
+        // 触发保存基本信息
+        saveInfo() {
+            this.isDestroy = false;
+            delete this.form.invoiceList;
+            this.$store.dispatch('SET_UNEMPLOYED_REPORT', this.form);
+        },
         // 选择发票提交方式
         mailType(val) {
             this.form.BMC220 = val;
+        },
+        // 清空数据
+        clearVuex() {
+            this.form = {
+                BMC021: '', //配偶姓名
+                BMC202: '', //配偶身份证号码
+                AMC029: '', //计划生育类别
+                AMC029VALUE: '', //计划生育类型值
+                BMC131: '', //计划生育日期
+                BMC220: '', //发票提交方式
+            };
+            this.$store.dispatch('SET_UNEMPLOYED_REPORT', {
+                BMC021: '', //配偶姓名
+                BMC202: '', //配偶身份证号码
+                AMC029: '', //计划生育类别
+                AMC029VALUE: '', //计划生育类型值
+                BMC131: '', //计划生育日期
+                BMC220: '', //发票提交方式
+            });
+            this.$store.dispatch('SET_UNEMPLOYED_USERINFO', {});
+            this.$store.dispatch('SET_UNEMPLOYED_INVOICE', []);
+        },
+        // 提交信息
+        submit() {
+            // if(!this.canSubmit){
+            //     return;
+            // }
+            this.saveInfo();
+            this.$router.push('/unemployedSubmit');
         }
     },
-    destroyed() {
-        this.$store.dispatch('SET_UMEMPLOYED_INVOICELIST', []);
-    }
+    beforeDestroy(){
+        // 如果不是去发票和下一页就清空VUEX
+        if(this.isDestroy){
+            this.clearVuex();
+        }
+    },
 }
 </script>
 
@@ -175,7 +256,7 @@ export default {
                 height: auto;
                 display: flex;
                 align-items: center;
-                flex-shrink: 0;
+                width: 100%;
                 input {
                     width: 100%;
                     font-size: .26rem;

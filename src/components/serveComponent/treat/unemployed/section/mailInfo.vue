@@ -36,6 +36,20 @@
 
 <script>
 export default {
+    props: {
+        type: {
+            type: String
+        }
+    },
+    watch: {
+        type(val){
+            if(val == '1'){
+                this.BMC220VALUE = '邮寄';
+            }else {
+                this.BMC220VALUE = '自送'
+            }
+        }
+    },
     data() {
         return {
             BMC220VALUE: '', //发票提交方式
@@ -49,6 +63,13 @@ export default {
         }
     },
     created() {
+        if(this.type == '1'){
+            this.BMC220VALUE = '邮寄';
+        }else if(this.type == '2'){
+            this.BMC220VALUE = '自送';
+        }else {
+            this.BMC220VALUE = '';
+        }
         this.getMailInfo()
     },
     methods: {
@@ -57,7 +78,6 @@ export default {
             this.$refs.selectMailType.open();
         },
         chooseType(val) {
-            this.BMC220VALUE = val.name;
             this.$emit('mailType', val.value);
         },
         // 获取邮寄信息
@@ -104,6 +124,7 @@ export default {
         }
         .submitText{
             display: flex;
+            align-items: center;
             input {
                 width: 100%;
                 font-size: .26rem;

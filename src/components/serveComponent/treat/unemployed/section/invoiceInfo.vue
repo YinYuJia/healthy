@@ -33,17 +33,18 @@ export default {
         }
     },
     created() {
-        this.invoiceList = this.$store.state.SET_UMEMPLOYED_INVOICELIST;
+        this.invoiceList = this.$store.state.SET_UNEMPLOYED_INVOICE;
     },
     methods: {
         // 打开添加发票面板
         plusInvoice() {
+            this.$emit('saveInfo')
             this.$router.push('/unemployedPlus')
         },
         // 删除发票
         deleteInvoice(item, index){
             this.invoiceList.splice(index, 1);
-            this.$store.dispatch('SET_UMEMPLOYED_INVOICELIST', this.invoiceList);
+            this.$store.dispatch('SET_UNEMPLOYED_INVOICE', this.invoiceList);
         }
     }
 }
