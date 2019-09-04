@@ -43,7 +43,7 @@
                 <div class="invoiceList" v-for="(item, index) in allInfo.photoList" :key="index">
                     <div class="infoLine">
                         <div class="infoName"><span>发票号</span></div>
-                        <div class="infoText"><span class="active">{{item.BKE100}}</span></div>
+                        <div class="infoText"><span class="active" @click="showBigPhoto(item.BKE554)">{{item.BKE100}}</span></div>
                     </div>
                     <div class="infoLine">
                         <div class="infoName"><span>发票金额</span></div>
@@ -62,14 +62,14 @@
                 <div class="CompleteLine">
                     <div class="InfoText">1.《生育保险待遇申请表》</div>
                     <div class="PhotoBox">
-                        <div class="ImgBox"><img :src="allInfo.BMC001URL"/></div>
+                        <div class="ImgBox"><img @click="showBigPhoto(allInfo.BMC001URL)" :src="allInfo.BMC001URL"/></div>
                     </div>
                 </div>
                 <!-- 附件2 -->
                 <div class="CompleteLine">
                     <div class="InfoText">2. 医疗诊断证明或出院记录复印件</div>
                     <div class="PhotoBox">
-                        <div class="ImgBox"><img :src="allInfo.BMC002URL"/></div>
+                        <div class="ImgBox"><img @click="showBigPhoto(allInfo.BMC002URL)" :src="allInfo.BMC002URL"/></div>
                     </div>
                 </div>
                 <!-- 附件3 -->
@@ -77,13 +77,15 @@
                     <div class="InfoText">3. 未就业承诺书及未就业证明原件（共两份）</div>
                     <div class="PhotoBox">
                         <div class="ImgBox" v-for="(item,index) in allInfo.BMC003URL" :key="index">
-                            <img :src="item"/>
+                            <img :src="item" @click="showBigPhoto(item)"/>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- 成功标志 -->
             <Success :flag="successFlag"></Success>
+            <!-- 大图展示 -->
+            <PhotoView ref="photo" :imgUrl="bigImgUrl"></PhotoView>
         </div>
     </div>
 </template>
@@ -96,6 +98,7 @@ export default {
             userInfo: {},
             successFlag: 1,
             allInfo: {photoList:[]}, //返回的信息
+            bigImgUrl: '',
         }
     },
     created() {
@@ -197,6 +200,10 @@ export default {
                 }
             });
         },
+        showBigPhoto(val){
+            this.bigImgUrl = val;
+            this.$refs.photo.open();
+        }
     }
 }
 </script>
