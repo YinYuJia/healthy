@@ -142,18 +142,15 @@ export default {
             if(sessionStorage.getItem('SET_SURGICAL_INVOICELIST') == null){
                 let arr = [];
                 let obj=this.form;
-                console.log('1111',obj)
                 arr.push(obj)
-                console.log("arr:",JSON.parse(JSON.stringify(arr)))
-                sessionStorage.setItem("SET_SURGICAL_INVOICELIST", arr)
-                console.log("9999",JSON.parse(JSON.stringify(sessionStorage.getItem("SET_SURGICAL_INVOICELIST"))))
+                sessionStorage.setItem("SET_SURGICAL_INVOICELIST", JSON.stringify(arr))
             } else {
                 let invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'))
                 invoiceList.push(this.form);
-                sessionStorage.setItem("SET_SURGICAL_INVOICELIST", invoiceList)
+                sessionStorage.setItem("SET_SURGICAL_INVOICELIST", JSON.stringify(invoiceList))
             }
-            console.log("listlist", JSON.parse(JSON.stringify(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'))))
-            console.log("4444:", sessionStorage.getItem('SET_SURGICAL_MESSAGE'))
+            console.log("listlist", JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST')))
+            // console.log("4444:", sessionStorage.getItem('SET_SURGICAL_MESSAGE'))
             // this.$router.push({path: '/legalSurgicalApproval', query: {dispatch: 1}})
         }
     }
