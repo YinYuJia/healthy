@@ -47,14 +47,14 @@
                 <div class="infoTitle">1.《生育保险待遇申请表》</div>
                 <div class="dataUpload">
                     <div class="picWrap">
-                        <img :src="form.applicationFormUrl" @click="showBigPhoto(form.applicationFormUrl)" class="pic"/>
+                        <img :src="form.applicationFormUrl" @click="showBigPhoto(form.applicationFormUrl)"/>
                     </div>
                 </div>
                 <div v-if="type != '03'">
                     <div class="infoTitle">2.从确认怀孕开始（末次月经）时间的病历复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                            <img :src="form.menstruationUrl" @click="showBigPhoto(form.menstruationUrl)" class="pic"/>
+                            <img :src="form.menstruationUrl" @click="showBigPhoto(form.menstruationUrl)"/>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                            <img :src="form.abortionUrl" @click="showBigPhoto(form.abortionUrl)" class="pic"/>
+                            <img :src="form.abortionUrl" @click="showBigPhoto(form.abortionUrl)"/>
                         </div>
                     </div>
                 </div>
@@ -70,17 +70,15 @@
                     <div class="infoTitle">4.结婚证复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                            <img :src="form.marriageCertificateUrl" @click="showBigPhoto(form.marriageCertificateUrl)" class="pic"/>
+                            <img :src="form.marriageCertificateUrl" @click="showBigPhoto(form.marriageCertificateUrl)"/>
                         </div>
                     </div>
                 </div>
                 <div v-if="type == '02'">
                     <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件一份</div>
                     <div class="dataUpload">
-                        <div class="picWrap" styele="display: flex;flex-wrap: wrap;">
-                                <div class="uploadBtn" v-for="(item,index) in form.expensesUrl" :key="index">
-                                    <img :src="item.PUL002" @click="showBigPhoto(item.PUL002)" class="pic"/>
-                                </div>
+                        <div class="picWrap">
+                            <img :src="item.PUL002" style="height: 1.5rem; width: 1.5rem" v-for="(item,index) in form.expensesUrl" :key="index" @click="showBigPhoto(item.PUL002)"/>
                         </div>
                     </div>
                 </div>
@@ -156,10 +154,10 @@ export default {
             let LS=resData.LS_DS_19
             this.form={...this.form,...LS}
             if(this.form.BKE200 != '') {
-                        if(this.form.BKE200 == 1){
-                        this.BKE200 = '邮寄'
-                        } else if (this.form.BKE200 == 2) {
-                            this.BKE200 = '自送'
+                        if(this.form.BMC220 == '1'){
+                        this.form.BKE200 = '邮寄'
+                        } else if (this.form.BMC220 == '2') {
+                            this.form.BKE200 = '自送'
                         }
                     }
             this.form.BMC131 = this.util.NumberToDate(this.form.BMC131)
@@ -377,9 +375,13 @@ export default {
                 margin-right: .25rem;
                 margin-top: .1rem;
                 position: relative;
+                &:last-child{
+                    display: flex;
+                }
                     img{
                         height: 100%;
                         width: 100%;
+                        margin-right: .15rem;
                     }
                 }
             }

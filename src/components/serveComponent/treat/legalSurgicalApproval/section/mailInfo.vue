@@ -6,7 +6,7 @@
         <div class="submitType">
             <div class="submitName"><span>纸质发票提交方式:</span></div>
             <div class="submitText">
-                <input placeholder="请选择" v-model="BMC220VALUE" @click="openChooseType" readonly/>
+                <input placeholder="请选择" v-model="BKE200VALUE" @click="openChooseType" readonly/>
                 <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
             </div>
         </div>
@@ -36,9 +36,14 @@
 
 <script>
 export default {
+    props: {
+        type: {
+            type: String
+        }
+    },
     data() {
         return {
-            BMC220VALUE: '', //发票提交方式
+            BKE200VALUE: '', //发票提交方式
             optionList:[
                 {name:'邮寄', value: '1'},
                 {name:'自送', value: '2'}
@@ -48,7 +53,25 @@ export default {
             phone: '', //联系电话
         }
     },
+    watch: {
+        type(val){
+            if(val == '1'){
+                this.BKE200VALUE = '邮寄';
+            }else {
+                this.BKE200VALUE = '自送'
+            }
+        }
+    },
     created() {
+        console.log("this.typeaaa", this.type)
+        if(this.type == '1'){
+            this.BKE200VALUE = '邮寄';
+        }else if(this.type == '2'){
+            this.BKE200VALUE = '自送';
+        }else {
+            this.BKE200VALUE = '';
+        }
+        console.log('邮寄方式',this.BKE200VALUE)
         this.getMailInfo()
     },
     methods: {

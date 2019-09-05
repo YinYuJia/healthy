@@ -11,7 +11,7 @@
                     <div  v-for="(item,index) in applicationFormUrl" :key="index">
                         <div class="uploadBtn" v-if="applicationFormUrl.length != 0">
                             <img :src="item" class="pic"/>
-                            <svg-icon icon-class="serveComponent_delete" @click="deletePic(item,index)" />
+                            <svg-icon icon-class="serveComponent_delete" @click="deletePic('ph1')" />
                         </div>
                     </div>
                     <svg-icon @click="uploadImg1" icon-class="serveComponent_upload" />
@@ -25,7 +25,7 @@
                         <div v-for="(item,index) in menstruationUrl" :key="index">
                             <div class="uploadBtn" v-if="menstruationUrl.length != 0">
                                 <img :src="item" class="pic"/>
-                                <svg-icon icon-class="serveComponent_delete" @click="deletePic(item,index)" />
+                                <svg-icon icon-class="serveComponent_delete" @click="deletePic('ph2')" />
                             </div>
                         </div>
                         <svg-icon @click="uploadImg2" icon-class="serveComponent_upload" />
@@ -39,7 +39,7 @@
                         <div  v-for="(item,index) in abortionUrl" :key="index">
                             <div class="uploadBtn" v-if="abortionUrl.length != 0">
                                 <img :src="item" class="pic"/>
-                                <svg-icon icon-class="serveComponent_delete" @click="deletePic(item,index)" />
+                                <svg-icon icon-class="serveComponent_delete" @click="deletePic('ph3')" />
                             </div>
                         </div>
                         <svg-icon @click="uploadImg3" icon-class="serveComponent_upload" />
@@ -53,7 +53,7 @@
                         <div  v-for="(item,index) in marriageCertificateUrl" :key="index">
                             <div class="uploadBtn" v-if="marriageCertificateUrl.length != 0">
                                 <img :src="item" class="pic"/>
-                                <svg-icon icon-class="serveComponent_delete" @click="deletePic(item,index)" />
+                                <svg-icon icon-class="serveComponent_delete" @click="deletePic('ph4')" />
                             </div>
                         </div>
                         <svg-icon @click="uploadImg4" icon-class="serveComponent_upload" />
@@ -67,7 +67,7 @@
                         <div v-for="(item,index) in expensesList" :key="index">
                             <div class="uploadBtn" v-if="expensesList.length != 0">
                                 <img :src="item" class="pic"/>
-                                <svg-icon icon-class="serveComponent_delete" @click="deletePic(item,index)" />
+                                <svg-icon icon-class="serveComponent_delete" @click="deletePic(index)" />
                             </div>
                         </div>
                         <svg-icon @click="uploadImg5" icon-class="serveComponent_upload" />
@@ -221,7 +221,8 @@ export default {
                             type: this.type,
                         }
                         this.$router.push({path:'/legalSurgicalView', query: {params: params}})
-                        sessionStorage.removeItem('SET_SURGICAL_INVOICELIST')
+                        sessionStorage.removeItem('SET_SURGICAL_INVOICELIST');
+                        sessionStorage.removeItem('SET_SURGICAL_MESSAGE');
                     }  else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);
@@ -258,17 +259,18 @@ export default {
             this.$refs.photo.open();
         },
         // 删除图片
-        deletePic(item,index){
-            if(this.tag == 1) {
+        deletePic(index){
+            if(index == 'ph1') {
                 this.applicationFormUrl = []
-            } else if(this.tag == 2) {
+            } else if(index == 'ph2') {
                 this.menstruationUrl = []
-            }else if(this.tag == 3) {
+            }else if(index == 'ph3') {
                 this.abortionUrl = []
-            }else if(this.tag == 4) {
+            }else if(index == 'ph4') {
                 this.marriageCertificateUrl = []
-            }else if(this.tag == 5) {
-                this.expensesList.splice(index,1)
+            }else{
+                this.expensesList.splice(index,1);
+                this.expIdList.splice(index, 1);
             }
         },
         // 上传图片附件
