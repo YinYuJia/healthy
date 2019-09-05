@@ -19,6 +19,7 @@
             <mt-datetime-picker
                 type="date"
                 ref="BirthPicker"
+                :endDate="endDate"
                 v-model="dateVal"
                 @confirm="handleBirthConfirm">
             </mt-datetime-picker>
@@ -154,6 +155,7 @@ export default {
                 AAB004:"",//单位名称
             },
             dateVal:new Date(),
+            endDate: new Date(),
             types: [
                 {
                     value: '01',
