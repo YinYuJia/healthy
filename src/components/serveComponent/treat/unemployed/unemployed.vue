@@ -99,6 +99,7 @@ export default {
         };
     },
     created(){
+        this.epFn.setTitle('未就业配偶')
         console.log('人员信息',this.$store.state.SET_UNEMPLOYED_USERINFO);
         console.log('申报信息',this.$store.state.SET_UNEMPLOYED_REPORT);
         console.log('发票信息',this.$store.state.SET_UNEMPLOYED_INVOICE);

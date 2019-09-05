@@ -102,6 +102,7 @@ export default {
         }
     },
     created() {
+        this.epFn.setTitle('未就业配偶')
         if(this.$route.query.param){
             this.successFlag = 2;
         }
