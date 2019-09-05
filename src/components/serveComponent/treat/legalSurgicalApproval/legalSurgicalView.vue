@@ -377,11 +377,13 @@ export default {
                 position: relative;
                 &:last-child{
                     display: flex;
+                    //flex-wrap: wrap;
                 }
                     img{
                         height: 100%;
                         width: 100%;
                         margin-right: .15rem;
+                        flex-shrink: 0
                     }
                 }
             }
