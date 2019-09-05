@@ -319,7 +319,7 @@ export default {
                       }
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
-                        this.$toast(resData.msg)
+                        this.$toast('请输入有效的女性人员身份证号')
                         return;
                     }else{
                         this.$toast('业务出错')
