@@ -154,10 +154,10 @@ export default {
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9109/getRecord', params).then((resData) => {
                 if ( resData.enCode == 1000 ) {
                     // 检测搜索的人是不是该公司员工
-                    // if(sessionStorage.getItem('LOGINNAME') != resData.LS_DS[0].AAB001){
-                    //     this.$toast('该人员不是本单位职工，请重新输入身份证查询');
-                    //     return;
-                    // }
+                    if(sessionStorage.getItem('LOGINNAME') != resData.LS_DS[0].AAB001){
+                        this.$toast('该人员不是本单位职工，请重新输入身份证查询');
+                        return;
+                    }
                     // 清空基本信息和发票信息
                     this.clearVuex();
                     // 发票不显示
@@ -178,7 +178,7 @@ export default {
                 }else if (resData.enCode == 1001 ) {
                     this.showAllInfo = false;
                 //   失败  1001
-                    this.$toast(resData.msg);
+                    this.$toast('请输入有效的身份证号');
                     return;
                 }else{
                     this.$message('业务出错');
