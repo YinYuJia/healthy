@@ -269,6 +269,7 @@
         </div>
       </div>
     </div>
+    <GuideIcon AGA002="330800122002"></GuideIcon>
     <Footer btnText="下一步" :canSubmit="canSubmit" @submit="submit()"></Footer>
     <SearchInfoPage ref="bank" :bank='true' @childrenClick="bankClick" title="选择银行"></SearchInfoPage>
   </div>
