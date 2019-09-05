@@ -9,7 +9,7 @@
         <!-- 搜索框 -->
         <SearchInfo @search="search"></SearchInfo>
         <!-- 显示剩下的信息 -->
-        <div v-show="showAll">
+        <div class="Content" v-show="showAll">
             <!-- 用户信息 -->
             <UserInfoPad :userInfo="userInfo"></UserInfoPad>
             <!-- 申报信息 -->
@@ -260,6 +260,9 @@ export default {
 <style lang="less" scoped>
 .unemployed{
     width: 100%;
+    .Content{
+        margin-bottom: 2rem;
+    }
     .reportInfo{
         width: 100%;
         padding: 0 .2rem;
