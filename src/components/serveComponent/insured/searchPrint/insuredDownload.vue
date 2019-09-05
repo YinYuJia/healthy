@@ -21,8 +21,8 @@
         },
         created() {
             let title = this.$route.query.params;
+            console.log('标题', title);
             this.epFn.setTitle(title);
-            console.log(JSON.parse(sessionStorage.getItem("searchPrintData")))
             const data = JSON.parse(sessionStorage.getItem("searchPrintData"))
             if (data.enCode == 1000) {
                 this.imgurl = data.imgUrl

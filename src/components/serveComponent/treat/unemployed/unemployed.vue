@@ -45,6 +45,8 @@
             <!-- 下一步按钮 -->
             <Footer :canSubmit="canSubmit" @submit="submit()" btnText="补充材料"></Footer>
         </div>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330600142003"></GuideIcon>
     </div>
 </template>
 

@@ -117,6 +117,8 @@
             </div>
         </div>
         <BindingAgency></BindingAgency>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330600142001"></GuideIcon>
         <Footer :canSubmit='canSubmit' :btnText="'补充材料'" @submit="submit()" v-if='isShow' ></Footer>
     </div>
 </template>
