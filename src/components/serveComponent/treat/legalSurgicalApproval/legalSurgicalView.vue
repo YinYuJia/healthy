@@ -25,7 +25,7 @@
             <div class="infoType" v-if="type == '02'">
                 <div class="infoBox">
                     <div class="infoTitle">纸质发票提交方式：</div>
-                    <div class="infoTitle">邮寄</div>
+                    <div class="infoTitle">{{form.BKE200}}</div>
                 </div>
                 <div class="invoiceList" v-for="(item,index) in form.photoList" :key="index">
                     <div class="infoLine">
@@ -47,14 +47,14 @@
                 <div class="infoTitle">1.《生育保险待遇申请表》</div>
                 <div class="dataUpload">
                     <div class="picWrap">
-                        <img :src="form.applicationFormUrl" class="pic"/>
+                        <img :src="form.applicationFormUrl" @click="showBigPhoto(form.applicationFormUrl)" class="pic"/>
                     </div>
                 </div>
                 <div v-if="type != '03'">
                     <div class="infoTitle">2.从确认怀孕开始（末次月经）时间的病历复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                            <img :src="form.menstruationUrl" class="pic"/>
+                            <img :src="form.menstruationUrl" @click="showBigPhoto(form.menstruationUrl)" class="pic"/>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                            <img :src="form.abortionUrl" class="pic"/>
+                            <img :src="form.abortionUrl" @click="showBigPhoto(form.abortionUrl)" class="pic"/>
                         </div>
                     </div>
                 </div>
@@ -70,16 +70,16 @@
                     <div class="infoTitle">4.结婚证复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                            <img :src="form.marriageCertificateUrl" class="pic"/>
+                            <img :src="form.marriageCertificateUrl" @click="showBigPhoto(form.marriageCertificateUrl)" class="pic"/>
                         </div>
                     </div>
                 </div>
                 <div v-if="type == '02'">
                     <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件一份</div>
                     <div class="dataUpload">
-                        <div class="picWrap">
+                        <div class="picWrap" styele="display: flex;flex-wrap: wrap;">
                                 <div class="uploadBtn" v-for="(item,index) in form.expensesUrl" :key="index">
-                                    <img :src="item.PUL002" class="pic"/>
+                                    <img :src="item.PUL002" @click="showBigPhoto(item.PUL002)" class="pic"/>
                                 </div>
                         </div>
                     </div>
@@ -289,6 +289,7 @@ export default {
                     margin-left: .2rem;
                     width: 4.6rem;
                     opacity: 0.85;
+                    color: #000;
                     line-height: 1rem;
                     display: flex;
                     position: relative;
@@ -371,9 +372,11 @@ export default {
             //margin: 0 0 1.4rem 0;
             padding: .37rem .4rem;
             .picWrap{
-                display: flex;
-                flex-wrap: wrap;
-                margin-top: .2rem;
+                height: 1.5rem;
+                width: 1.5rem;
+                margin-right: .25rem;
+                margin-top: .1rem;
+                position: relative;
                     img{
                         height: 100%;
                         width: 100%;

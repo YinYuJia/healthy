@@ -468,6 +468,9 @@ export default {
             width: 100%;
             border-radius: .05rem;
             line-height: 1.05rem;
+            margin-left: .3rem;
+            margin-right: .3rem;
+            width: 90%;
             font-family: PingFangSC-Regular;
             font-size: .36rem;
             letter-spacing: 0;
