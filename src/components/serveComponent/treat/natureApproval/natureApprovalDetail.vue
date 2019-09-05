@@ -58,7 +58,26 @@
                     <div class="InfoText">{{form.BMC065}}</div>                      
                 </div>
             </div>
+            <!-- 附件信息 -->
+            <div class="bottom">
+                <div class="CompleteTitle">附件:</div>
+                <!-- 附件1 -->
+                <div class="CompleteLine">
+                    <div class="InfoText">1.《生育保险待遇申请表》</div>
+                    <div class="PhotoBox">
+                        <div class="ImgBox"><img @click="showBigPhoto(form.medicalUrl)" :src="form.applicationFormUrl"/></div>
+                    </div>
+                </div>
+                <!-- 附件2 -->
+                <div class="CompleteLine">
+                    <div class="InfoText">2. 医疗诊断证明或出院记录复印件</div>
+                    <div class="PhotoBox">
+                        <div class="ImgBox"><img @click="showBigPhoto(form.medicalUrl)" :src="form.medicalUrl"/></div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Success :flag="successFlag"></Success>
     </div>
 </template>
@@ -70,7 +89,8 @@ export default {
             successFlag:1,
             currentStep:1,
             form:{},
-            form1:{}
+            form1:{},
+            imgUrl:''
         }
     },
     created () {
@@ -82,6 +102,12 @@ export default {
         this.request1();
     },
     methods:{
+      // 查看大图
+      showBigPhoto(val){
+          console.log("321321",val)
+          this.imgUrl = val;
+          this.$refs.photo.open();
+      },
       revoke(){
         this.$router.push('/legalPerson')
       },
@@ -272,6 +298,47 @@ export default {
                 &:last-child {
                     border-bottom: none;
                 }
+            }
+        }
+        // 附件信息
+        .bottom{
+            width: 100%;
+            background: #FFF;
+            padding: .2rem;
+            margin-top: 0.15rem;
+            .CompleteTitle{
+                font-size: .28rem;
+                letter-spacing: 0;
+                text-align: left;
+            }
+            .CompleteLine{
+                padding: .26rem 0 .1rem 0;
+                text-align: left;
+                font-size: .28rem;
+                letter-spacing: 0;
+                .InfoText{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .PhotoBox{
+                    padding-left: .3rem;
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-top: .32rem;
+                    .ImgBox{
+                        height: 1.5rem;
+                        width: 1.5rem;
+                        margin-right: .25rem;
+                        margin-top: .1rem;
+                        position: relative;
+                        img{
+                            height: 100%;
+                            width: 100%;
+                        }
+                    }
+                }
+
             }
         }
     }
