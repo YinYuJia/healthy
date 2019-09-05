@@ -42,7 +42,7 @@
         <!-- 发票信息 -->
         <invoiceInfo v-if="type == '02'" @saveInfo="saveInfo"></invoiceInfo>
         <!-- 发票提交方式 -->
-        <mailInfo v-if="type == '02'" @mailType="mailType"></mailInfo>
+        <mailInfo v-if="type == '02'" :type="form.BKE200" @mailType="mailType"></mailInfo>
     
         <!-- 按钮 -->
         <div class="SubmitBtn" :class="{'active': canSubmit == true}" @click="add()" v-if="showAll">补充材料</div>
@@ -151,11 +151,10 @@ export default {
             console.log("backtype------------:", this.type)
             this.showAll = true;
             this.type = '02';
-            console.log("4444:", sessionStorage.getItem('SET_SURGICAL_MESSAGE'))
             this.userInfo = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).userInfo;
             this.form = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).form;
             this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'));
-            this.type = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).type
+            this.type = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).type;
             if(this.userInfo.AAC004 == '1'){
                             this.slots = this.list4
                             console.log("b", this.slots)

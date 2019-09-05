@@ -143,13 +143,11 @@ export default {
                 let obj=this.form;
                 arr.push(obj)
                 sessionStorage.setItem("SET_SURGICAL_INVOICELIST", JSON.stringify(arr))
-                console.log("9999",sessionStorage.getItem("SET_SURGICAL_INVOICELIST"))
             } else {
                 let invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'))
                 invoiceList.push(this.form);
                 sessionStorage.setItem("SET_SURGICAL_INVOICELIST", JSON.stringify(invoiceList))
             }
-            console.log("listlist", JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST')))
             this.$router.push({path: '/legalSurgicalApproval', query: {dispatch: 1}})
         }
     }
