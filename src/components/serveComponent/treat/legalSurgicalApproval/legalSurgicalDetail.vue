@@ -97,13 +97,13 @@ export default {
         this.AMC029 = this.$route.query.params.AMC029;
         this.BMC131 = this.$route.query.params.BMC131;
         this.AAC002 = this.$route.query.params.AAC002;
-        this.BMC220 = this.$route.query.params.BMC220;
+        this.BKE200 = this.$route.query.params.BKE200;
         this.photoIdList = this.$route.query.params.photoIdList;
         console.log("type:", this.type)
     },
     data() {
         return {
-            BMC220: '',
+            BKE200: '',
             photoIdList: '',
             type: '',
             applicationFormUrl : [],
@@ -196,7 +196,7 @@ export default {
                             obj.marriageCertificateUrl = this.marId;// 结婚复印证
                             obj.expensesUrl = this.expIdList.join();// 病历出院小结图片列表
                             obj.photoIdList = this.photoIdList;
-                            obj.BMC220 = this.BMC220;
+                            obj.BKE200 = this.BKE200;
                             this.submitList(obj);
                         }
                     } else if (this.type == '03') {
@@ -221,6 +221,7 @@ export default {
                             type: this.type,
                         }
                         this.$router.push({path:'/legalSurgicalView', query: {params: params}})
+                        sessionStorage.removeItem('SET_SURGICAL_INVOICELIST')
                     }  else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);

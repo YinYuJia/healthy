@@ -7,7 +7,7 @@
         <mt-datetime-picker
             type="date"
             ref="startPicker"
-            :startDate="startDate"
+            :endDate="endDate"
             v-model="dateVal"
             @confirm="handleStartConfirm">
         </mt-datetime-picker>
@@ -73,15 +73,14 @@ export default {
             form: {
                 AMC029: '',
                 BMC131: '',
-                BMC220: '',
+                BKE200: '',
                 AMC029VALUE: '',
             },
-            date: '',
             showCityPicker: false,
             slots: [],
             name: '',
             value: '',
-            startDate: new Date(),
+            endDate: new Date(),
             dateVal: new Date(),
             type: '',
             list1:[{
@@ -146,13 +145,22 @@ export default {
             this.dispatch = 0
         }
         console.log("dispatch:", this.dispatch);
-        if(this.dispatch == 1) {
+        if(this.dispatch == 1 || sessionStorage.getItem('SET_SURGICAL_MESSAGE') != null) {
+            console.log("backtype------------:", this.type)
             this.showAll = true;
             this.type = '02';
             console.log("4444:", sessionStorage.getItem('SET_SURGICAL_MESSAGE'))
             this.userInfo = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).userInfo;
             this.form = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).form;
-            this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'))
+            this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'));
+            this.type = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).type
+            if(this.userInfo.AAC004 == '1'){
+                            this.slots = this.list4
+                            console.log("b", this.slots)
+                        } else if (this.userInfo.AAC004 == '2') {
+                            this.slots = this.slots.concat(this.list1, this.list2,this.list3)
+                            console.log("b", this.slots)
+                        }
             console.log("invoice:", this.invoiceList)
         }
     },
@@ -161,7 +169,7 @@ export default {
             handler:function(val){
                 if(val.AMC029!="" && val.BMC131!=""){
                     if(this.type == '02') {
-                        if(val.BMC220 != '') {
+                        if(val.BKE200 != '' && invoiceList.length == 0) {
                             this.canSubmit = true;
                         } else {
                             this.canSubmit = false
@@ -174,9 +182,11 @@ export default {
                 }
                 let obj = {
                     userInfo: this.userInfo,
-                    form: val
+                    form: val,
+                    type: this.type
                 }
                 sessionStorage.setItem("SET_SURGICAL_MESSAGE", JSON.stringify(obj))
+                console.log("form---:", this.form)
                 console.log("message:", obj)            
             },
             deep: true
@@ -185,12 +195,11 @@ export default {
     methods: {
         // 选择发票提交方式
         mailType(val) {
-            this.form.BMC220 = val;
-            console.log("bmc220", this.form.BMC220)
+            this.form.BKE200 = val;
+            console.log("BKE200", this.form.BKE200)
         },
          handleStartConfirm(val){
             let date1 = this.util.formatDate(val,'yyyy-MM-dd');
-            this.date = this.util.formatDate(val,'yyyyMMdd');
             console.log("data",date1)
             this.form.BMC131 = date1;
             this.$refs.startPicker.close();
@@ -226,7 +235,9 @@ export default {
             this.form.BMC131 = '';
             this.slots = []
             this.type = ''
+            this.showAll=false;
             sessionStorage.removeItem('SET_SURGICAL_INVOICELIST')
+            sessionStorage.removeItem('SET_SURGICAL_MESSAGE')
             console.log('通过身份证号请求数据')
             if(!this.util.idCard(this.AAE135)){
                 this.$toast('请填写正确的身份证号');
@@ -249,20 +260,22 @@ export default {
                         console.log("a-", this.userInfo.AAC002);
                         if(resData.LS_DS[0].AAC004 == '1'){
                             this.slots = this.list4
+                            this.form.AMC029VALUE = '输精管结扎';
+                            this.form.AMC029 = '23';
                             console.log("b", this.slots)
                         } else if (resData.LS_DS[0].AAC004 == '2') {
                             this.slots = this.slots.concat(this.list1, this.list2,this.list3)
                             console.log("b", this.slots)
                         }
+                        this.showAll=true;
                         }else {
+                        this.AAE135 = ''
                         this.$toast('该人员不是本单位的职员，请重新查询')
                         return false
                       }
-                        this.showAll=true;
-                        this.form.AMC029 = '';
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
-                        this.$toast(resData.msg);
+                        this.$toast('请输入有效的身份证号');
                         return;
                     }else{
                         this.$toast('业务出错');
@@ -284,7 +297,7 @@ export default {
             this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'))
             console.log("list------:", this.invoiceList)
             if(this.type == '02') {
-                if(this.form.AMC029 == '' || this.form.BMC131 == '' || this.form.BMC220 == '' || this.invoiceList.length == 0) {
+                if(this.form.AMC029 == '' || this.form.BMC131 == '' || this.form.BKE200 == '' || this.invoiceList.length == 0) {
                     this.$toast('请补全信息！');
                 } else {
                     this.invoiceList.forEach( e => {
@@ -293,10 +306,10 @@ export default {
                     let params = {
                         type: this.type,
                         AMC029: this.form.AMC029,
-                        BMC131: Number(this.date),
                         AAC002: this.userInfo.AAC002,
-                        BMC220: this.form.BMC220,
+                        BKE200: this.form.BKE200,
                         photoIdList: this.photoIdList.join(),
+                        BMC131: Number(this.util.DateToNumber(this.form.BMC131))
                     }
                     console.log("params", params)
                     this.$router.push({path: '/legalSurgicalDetail', query: {params: params}})
@@ -307,11 +320,12 @@ export default {
                 if (this.form.AMC029 == '' || this.form.BMC131 == '') {
                     this.$toast('请补全信息！');
                 } else {
+
                     let params = {
                         type: this.type,
                         AMC029: this.form.AMC029,
-                        BMC131: Number(this.date),
-                        AAC002: this.userInfo.AAC002
+                        AAC002: this.userInfo.AAC002,
+                        BMC131: Number(this.util.DateToNumber(this.form.BMC131))
                     }
                     console.log("params", params)
                     this.$router.push({path: '/legalSurgicalDetail', query: {params: params}});

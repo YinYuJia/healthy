@@ -155,13 +155,14 @@ export default {
             this.form={...this.form,...resData.LS_DS_19}
             let LS=resData.LS_DS_19
             this.form={...this.form,...LS}
-            if(this.form.BMC220 != '') {
-                        if(this.form.BMC220 == 1){
-                        this.BMC220 = '邮寄'
-                        } else if (this.form.BMC220 == 2) {
-                            this.BMC220 = '自送'
+            if(this.form.BKE200 != '') {
+                        if(this.form.BKE200 == 1){
+                        this.BKE200 = '邮寄'
+                        } else if (this.form.BKE200 == 2) {
+                            this.BKE200 = '自送'
                         }
                     }
+            this.form.BMC131 = this.util.NumberToDate(this.form.BMC131)
             this.request2()
             console.log("form",this.form)
           }else if (resData.enCode == 1001 ) {

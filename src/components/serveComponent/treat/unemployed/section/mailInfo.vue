@@ -108,7 +108,6 @@ export default {
 .mailInfo{
     margin-top: .15rem;
     background: #FFF;
-    margin-bottom: 2rem;
     .submitType{
         padding: .36rem .2rem;
         display: flex;
