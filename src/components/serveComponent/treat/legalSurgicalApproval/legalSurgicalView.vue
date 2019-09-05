@@ -25,7 +25,7 @@
             <div class="infoType" v-if="type == '02'">
                 <div class="infoBox">
                     <div class="infoTitle">纸质发票提交方式：</div>
-                    <div class="infoTitle">邮寄</div>
+                    <div class="infoTitle">{{form.BKE200}}</div>
                 </div>
                 <div class="invoiceList" v-for="(item,index) in form.photoList" :key="index">
                     <div class="infoLine">
@@ -47,14 +47,14 @@
                 <div class="infoTitle">1.《生育保险待遇申请表》</div>
                 <div class="dataUpload">
                     <div class="picWrap">
-                        <img :src="form.applicationFormUrl" class="pic"/>
+                        <img :src="form.applicationFormUrl" @click="showBigPhoto(form.applicationFormUrl)"/>
                     </div>
                 </div>
                 <div v-if="type != '03'">
                     <div class="infoTitle">2.从确认怀孕开始（末次月经）时间的病历复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                            <img :src="form.menstruationUrl" class="pic"/>
+                            <img :src="form.menstruationUrl" @click="showBigPhoto(form.menstruationUrl)"/>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                            <img :src="form.abortionUrl" class="pic"/>
+                            <img :src="form.abortionUrl" @click="showBigPhoto(form.abortionUrl)"/>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                     <div class="infoTitle">4.结婚证复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                            <img :src="form.marriageCertificateUrl" class="pic"/>
+                            <img :src="form.marriageCertificateUrl" @click="showBigPhoto(form.marriageCertificateUrl)"/>
                         </div>
                     </div>
                 </div>
@@ -78,9 +78,7 @@
                     <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件一份</div>
                     <div class="dataUpload">
                         <div class="picWrap">
-                                <div class="uploadBtn" v-for="(item,index) in form.expensesUrl" :key="index">
-                                    <img :src="item.PUL002" class="pic"/>
-                                </div>
+                            <img :src="item.PUL002" style="height: 1.5rem; width: 1.5rem" v-for="(item,index) in form.expensesUrl" :key="index" @click="showBigPhoto(item.PUL002)"/>
                         </div>
                     </div>
                 </div>
@@ -156,10 +154,10 @@ export default {
             let LS=resData.LS_DS_19
             this.form={...this.form,...LS}
             if(this.form.BKE200 != '') {
-                        if(this.form.BKE200 == 1){
-                        this.BKE200 = '邮寄'
-                        } else if (this.form.BKE200 == 2) {
-                            this.BKE200 = '自送'
+                        if(this.form.BMC220 == '1'){
+                        this.form.BKE200 = '邮寄'
+                        } else if (this.form.BMC220 == '2') {
+                            this.form.BKE200 = '自送'
                         }
                     }
             this.form.BMC131 = this.util.NumberToDate(this.form.BMC131)
@@ -289,6 +287,7 @@ export default {
                     margin-left: .2rem;
                     width: 4.6rem;
                     opacity: 0.85;
+                    color: #000;
                     line-height: 1rem;
                     display: flex;
                     position: relative;
@@ -371,12 +370,20 @@ export default {
             //margin: 0 0 1.4rem 0;
             padding: .37rem .4rem;
             .picWrap{
-                display: flex;
-                flex-wrap: wrap;
-                margin-top: .2rem;
+                height: 1.5rem;
+                width: 1.5rem;
+                margin-right: .25rem;
+                margin-top: .1rem;
+                position: relative;
+                &:last-child{
+                    display: flex;
+                    //flex-wrap: wrap;
+                }
                     img{
                         height: 100%;
                         width: 100%;
+                        margin-right: .15rem;
+                        flex-shrink: 0
                     }
                 }
             }

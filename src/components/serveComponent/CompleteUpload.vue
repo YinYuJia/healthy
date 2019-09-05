@@ -6,7 +6,7 @@
                 <div class="InfoText">{{item.BKE265}}<span v-if="item.BKE266!=''">（{{item.BKE266}}）</span></div>
                 <div class="PhotoBox">
                     <div class="ImgBox" v-if="item.imgUrl != ''">
-                        <img :src="item.imgUrl"/>
+                        <img  :src="item.imgUrl" @click="showBigPhoto(item.imgUrl)" />
                     </div>
                     <svg-icon @click="uploadImg(index)" icon-class="serveComponent_upload"></svg-icon>
                 </div>
@@ -19,6 +19,7 @@
                 <span>图片格式为jpg、png，不大于2M的文件。</span>
             </div>
         </div>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Footer @submit="submit()" :canSubmit="canSubmit"></Footer>
     </div>
 </template>
@@ -27,6 +28,7 @@
 export default {
     data(){
         return{
+            imgUrl: '',
             completeList:[], //补充材料数组
             photoIdList: [], //照片ID数组
             BKZ019: '', //经办编号
@@ -64,6 +66,11 @@ export default {
         }
     },
     methods:{
+        // 查看大图
+        showBigPhoto(val){
+            this.imgUrl = val;
+            this.$refs.photo.open();
+        },
         uploadImg(index){
             let This = this
             if(this.$isSdk){

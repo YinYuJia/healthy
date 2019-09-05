@@ -410,7 +410,7 @@ this.form.AAB301='339900'
                 margin-top: .2rem;
             }
             .companyCode{
-                font-size: .18rem;
+                font-size: .30rem;
                 margin-top: .2rem;
             }
         }

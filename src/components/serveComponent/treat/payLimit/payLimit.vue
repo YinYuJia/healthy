@@ -58,17 +58,22 @@
                         <div class="IconImg">
                             <svg-icon icon-class="payLimit_compony"/>
                         </div>
+                        <span class="titleText">工作单位：</span>
                         <span>{{form.AAB004}}</span>
                     </div>
-                    <div class="infoMessage">
-                        <div class="birth">
-                            <div class="infoMessageBirth">{{form.AAC006}}</div>
-                            <div class="infoMessageText">出生日期</div>
+                    <div class="infoAddress">
+                        <div class="IconImg">
+                            <svg-icon icon-class="serveComponent_birthday"/>
                         </div>
-                        <div class="work">
-                            <div class="infoMessageWork">{{form.AAC007}}</div>
-                            <div class="infoMessageText">参加工作时间</div>
+                        <span class="titleText">出生日期：</span>
+                        <span>{{form.AAC006}}</span>
+                    </div>
+                    <div class="infoAddress">
+                        <div class="IconImg">
+                            <svg-icon icon-class="payLimit_work"/>
                         </div>
+                        <span class="titleText">参加工作：</span>
+                        <span>{{form.AAC007}}</span>
                     </div>
 
                 </div>
@@ -82,11 +87,11 @@
                     </div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>视作缴费年限</span></div>
+                    <div class="InfoName"><span>视作缴费年限:</span></div>
                     <div class="InfoText"><input type="tel"  @blur="setYear" maxlength="3" v-model="form.AKC412" placeholder="请输入">个月</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>退休工资</span></div>
+                    <div class="InfoName"><span>退休工资:</span></div>
                     <div class="InfoText"><input type="number"  @blur="setMoney"  v-model="form.AAE041" placeholder="请输入">元</div>
                 </div>
                 <div class="InfoLine">
@@ -97,7 +102,7 @@
                     </div>
                 </div>
                 <div class="InfoLine" v-if="isShow">
-                    <div class="InfoName"><span>提前退休原因</span></div>
+                    <div class="InfoName"><span>提前退休原因:</span></div>
                     <div class="InfoText">
                         <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="BKE810VALUE" placeholder="请选择" readonly></div>
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
@@ -155,7 +160,7 @@
             </div>
             <div class="newSimpleNote" v-if="showAll">
                 <div class="newAdd" @click="newSimpleNote()" :class="{'active': canSubmit == true}">
-                <span>新增简历</span>
+                <span>+ 添加简历</span>
                 </div>
             </div>
         </div>
@@ -744,7 +749,6 @@ export default {
                 position: relative;
                 height: 100%;
                 width: 7rem;
-                padding: 0 .15rem;
                 color: #ffffff;
                 border-radius: 0.05rem;
                 display: flex;
@@ -762,61 +766,54 @@ export default {
                     width: 5rem;
                     height: .5rem;
                     text-align: left;
-                    margin-top: .35rem;
-                    margin-left: .2rem;
+                    margin-top: .28rem;
+                    margin-left: .3rem;
                     .name{
-                        font-size: .4rem;
+                        width: 1.08rem;
+                        height: .47rem;
+                        line-height: .47rem;
+                        font-size: .36rem;
+                        font-family: MicrosoftYaHei;
+                        color: #FFFFFF;
+                        letter-spacing: 0;
                     }
                     .sex{
-                        font-size: .24rem;
+                        opacity: 0.65;
+                        font-family: MicrosoftYaHei;
+                        font-size:.24rem;
+                        color: #FFFFFF;
+                        letter-spacing: 0;
                     }
                 }
                 .infoAddress{
-                    margin-top: .2rem;
-                    width: 5rem;
+                    margin-top: .20rem;
+                    width: 100%;
                     text-align: left;
-                    padding-left: .3rem;
-                    span{
-                        line-height:.4rem;
-                        height: .4rem;
+                    margin-left: .3rem;
+                    .titleText{
+                        opacity: 0.65;
+                        font-family: MicrosoftYaHei;
                         font-size: .24rem;
+                        color: #FFFFFF;
+                        letter-spacing: 0;
+                    }
+                    span{
+                        font-family: MicrosoftYaHei;
+                        font-size: .24rem;
+                        color: #FFFFFF;
+                        letter-spacing: 0;
                     }
                     .IconImg{
-                        width: .4rem;
-                        height: .4rem;
+                        width: .28rem;
+                        height: .28rem;
                         display: inline-block;
 
                         .svg-icon{
                             padding-left: .3rem;
                             display:block;
-                            width: .4rem;
-                            height: .4rem;
+                            width: .28rem;
+                            height: .28rem;
 
-                        }
-                    }
-                }
-                .infoMessage{
-                    display: flex;
-                    justify-content: space-around;
-                    height: 1.8rem;
-                    .birth{
-                        display: flex;
-                        flex-direction: column;
-                        .infoMessageBirth{
-                            height: .8rem;
-                            line-height: .8rem;
-                        }
-                        .infoMessageText{
-                            font-size: .24rem;
-                        }
-                    }
-                    .work{
-                        .infoMessageWork{
-                            height: .8rem;
-                            line-height: .8rem;
-                        }
-                        .infoMessageText{
-                            font-size: .24rem;
                         }
                     }
                 }
@@ -981,13 +978,17 @@ export default {
                 height: .85rem;
                 width: 7.1rem;
                 font-family: FZLTXHKM;
-                font-size: .28rem;
+                font-size: .36rem;
                 color: #1492FF;
                 letter-spacing: 0;
                 text-align: center;
-                line-height: 36px;
+                line-height: .36;
                 background: #FFFFFF;
                 border: .01rem solid #1492FF;
+                span{
+                    position: relative;
+                    top: .36rem;
+                }
             }
         }
     }
