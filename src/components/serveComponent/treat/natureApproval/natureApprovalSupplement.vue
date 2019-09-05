@@ -340,12 +340,12 @@ export default {
         formatSubmitData2(){
             let submitForm ={};
             let u = navigator.userAgent;
-            let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-            if(isiOS){
-                console.log("是否为苹果设备",isiOS);
-                submitForm.AAA001='TEMPLATE_URL_IOSXY';
-            }else{
-                submitForm.AAA001='TEMPLATE_URL_XY';
+            if(u.indexOf('Android') > -1 || u.indexOf('Adr') > -1){
+            console.log('这是isAndroid') 
+            submitForm.AAA001='TEMPLATE_URL_XY'; 
+            }else if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
+            console.log('这是isiOS')
+            submitForm.AAA001='TEMPLATE_URL_IOSXY';
             }
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7212");

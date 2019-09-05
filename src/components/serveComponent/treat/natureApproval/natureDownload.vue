@@ -17,10 +17,14 @@
         },
         created() {
             if(this.$route.query.params){
-                this.imgurl=this.$route.query.params
+                let u = navigator.userAgent;
+                if(u.indexOf('Android') > -1 || u.indexOf('Adr') > -1){
+                    window.location.href=this.$route.query.params
+                }else if(!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
+                    this.imgurl=this.$route.query.params.split(',').shift();
+                }
             }
             this.epFn.setTitle('申请表打印')
-
         }
     }
 </script>
