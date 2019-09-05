@@ -82,11 +82,11 @@
                     </div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>视作缴费年限</span></div>
+                    <div class="InfoName"><span>视作缴费年限:</span></div>
                     <div class="InfoText"><input type="tel"  @blur="setYear" maxlength="3" v-model="form.AKC412" placeholder="请输入">个月</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>退休工资</span></div>
+                    <div class="InfoName"><span>退休工资:</span></div>
                     <div class="InfoText"><input type="number"  @blur="setMoney"  v-model="form.AAE041" placeholder="请输入">元</div>
                 </div>
                 <div class="InfoLine">
@@ -97,7 +97,7 @@
                     </div>
                 </div>
                 <div class="InfoLine" v-if="isShow">
-                    <div class="InfoName"><span>提前退休原因</span></div>
+                    <div class="InfoName"><span>提前退休原因:</span></div>
                     <div class="InfoText">
                         <div class="InfoText"><input @click="openTypePicker()" type="text" v-model="BKE810VALUE" placeholder="请选择" readonly></div>
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
