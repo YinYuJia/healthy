@@ -241,6 +241,7 @@ export default {
 
 <style lang="less" scoped>
 .unemployedSubmit{
+    margin-bottom: 2rem;
     .Content{
         width: 100%;
         background: #FFF;
