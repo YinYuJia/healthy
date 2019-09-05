@@ -366,7 +366,7 @@ export default {
     .Content {
         height: 100%;
         .SearchContent {
-                height: 1.18rem;
+                height: .9rem;
                 width: 7.5rem;
                 background: #fff;
                 display: flex;
