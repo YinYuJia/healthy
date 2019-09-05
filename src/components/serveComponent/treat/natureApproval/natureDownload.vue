@@ -17,7 +17,8 @@
         },
         created() {
             if(this.$route.query.params){
-                this.imgurl=this.$route.query.params
+                this.imgurl=this.$route.query.params.split(',').shift();
+                console.log('aaaa',this.imgurl)
             }
             this.epFn.setTitle('申请表打印')
 

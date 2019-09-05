@@ -78,15 +78,25 @@ export default {
     methods:{
         // 下载资料
         downloadFile() {
-            let submitForm = {
-                AAA001: 'TEMPLATE_URL_XY'
+            let submitForm ={};
+            let u = navigator.userAgent;
+            let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            if(isiOS){
+                console.log("是否为苹果设备",isiOS);
+                submitForm.AAA001='TEMPLATE_URL_IOSXY';
+            }else{
+                submitForm.AAA001='TEMPLATE_URL_XY';
             }
             // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9109");
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7212");
             this.$axios.post(this.epFn.ApiUrl()+ '/H5/templateUrl/getUrl', params).then((resData) => {
                 //   成功   1000
                     if ( resData.enCode == 1000 ) {
-                        window.open(resData.fileUrl,"_blank")
+                        let url=resData.fileUrl
+                        this.$router.push({
+                            path:'/natureDownload',
+                            query:{params:url}
+                        })
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);
