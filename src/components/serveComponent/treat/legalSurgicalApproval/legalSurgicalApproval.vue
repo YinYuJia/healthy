@@ -48,6 +48,8 @@
         <div class="SubmitBtn" :class="{'active': canSubmit == true}" @click="add()" v-if="showAll">补充材料</div>
          <!-- 判断是否绑定经办组建-->
         <BindingAgency></BindingAgency>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330600142002"></GuideIcon>
     </div>
 </template>
 
