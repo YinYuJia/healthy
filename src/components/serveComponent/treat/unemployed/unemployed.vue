@@ -73,7 +73,7 @@ export default {
             endDate: new Date(), //最晚可选择到当前日期
             userInfo: {},
             optionList:[
-                {name:'平产、顺产', value: '01'},
+                {name:'平产', value: '01'},
                 {name:'助娩产', value: '02'},
                 {name:'剖宫产', value: '03'},
                 {name:'三个月以下流产', value: '04'},
