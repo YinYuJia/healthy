@@ -3,7 +3,7 @@
         <!-- 类型选择器 -->
         <SelectList :list="optionList" ref="select" @choose="chooseType"></SelectList>
         <!-- 时间选择器 -->
-        <mt-datetime-picker type="date" ref="timePicker" v-model="dateVal" @confirm="chooseTime"></mt-datetime-picker>
+        <mt-datetime-picker type="date" ref="timePicker" :endDate="endDate" v-model="dateVal" @confirm="chooseTime"></mt-datetime-picker>
         <!-- 检验是否绑定 -->
         <BindingAgency></BindingAgency>
         <!-- 搜索框 -->
@@ -70,6 +70,7 @@ export default {
                 invoiceList: [], //发票列表
             },
             dateVal: new Date(), //初始化时间
+            endDate: new Date(), //最晚可选择到当前日期
             userInfo: {},
             optionList:[
                 {name:'平产、顺产', value: '01'},
@@ -115,7 +116,7 @@ export default {
                 this.gender = 'man';
             }
             // 判断是否显示发票
-            if(this.form.AMC029 <= 6 && this.form.AMC029 >= 1){
+            if((Number(this.form.AMC029) <= 6 && Number(this.form.AMC029) >= 1) || this.form.AMC029 == '23'){
                 this.showInvoice = false;
             }else{
                 this.showInvoice = true;
@@ -286,7 +287,7 @@ export default {
                 input {
                     width: 100%;
                     font-size: .26rem;
-                    color: #666;
+                    color: #000;
                     letter-spacing: 0;
                     text-align: right;
                     border: none;
