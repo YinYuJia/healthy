@@ -45,6 +45,7 @@ export default {
         },
         // 打开添加发票面板
         plusInvoice() {
+            this.$emit('saveInfo')
             this.$router.push('/surgicalPlus')
         },
         // 删除发票

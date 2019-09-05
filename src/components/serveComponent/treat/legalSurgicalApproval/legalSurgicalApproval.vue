@@ -40,7 +40,7 @@
             </div>
         </div>
         <!-- 发票信息 -->
-        <invoiceInfo v-if="type == '02'"></invoiceInfo>
+        <invoiceInfo v-if="type == '02'" @saveInfo="saveInfo"></invoiceInfo>
         <!-- 发票提交方式 -->
         <mailInfo v-if="type == '02'" @mailType="mailType"></mailInfo>
     
@@ -83,6 +83,7 @@ export default {
             endDate: new Date(),
             dateVal: new Date(),
             type: '',
+            isDestroy: true,
             list1:[{
                 value: '13',
                 name: '人工流产'
@@ -145,6 +146,7 @@ export default {
             this.dispatch = 0
         }
         console.log("dispatch:", this.dispatch);
+        console.log(sessionStorage.getItem('SET_SURGICAL_MESSAGE'))
         if(this.dispatch == 1 || sessionStorage.getItem('SET_SURGICAL_MESSAGE') != null) {
             console.log("backtype------------:", this.type)
             this.showAll = true;
@@ -169,7 +171,7 @@ export default {
             handler:function(val){
                 if(val.AMC029!="" && val.BMC131!=""){
                     if(this.type == '02') {
-                        if(val.BKE200 != '' && invoiceList.length == 0) {
+                        if(val.BKE200 != '') {
                             this.canSubmit = true;
                         } else {
                             this.canSubmit = false
@@ -193,6 +195,10 @@ export default {
         }
     },
     methods: {
+        // 触发保存基本信息
+        saveInfo() {
+            this.isDestroy = false;
+        },
         // 选择发票提交方式
         mailType(val) {
             this.form.BKE200 = val;
@@ -262,6 +268,7 @@ export default {
                             this.slots = this.list4
                             this.form.AMC029VALUE = '输精管结扎';
                             this.form.AMC029 = '23';
+                            this.type = '03'
                             console.log("b", this.slots)
                         } else if (resData.LS_DS[0].AAC004 == '2') {
                             this.slots = this.slots.concat(this.list1, this.list2,this.list3)
@@ -312,9 +319,8 @@ export default {
                         BMC131: Number(this.util.DateToNumber(this.form.BMC131))
                     }
                     console.log("params", params)
-                    this.$router.push({path: '/legalSurgicalDetail', query: {params: params}})
-                    sessionStorage.removeItem("SET_SURGICAL_MESSAGE");
-                    sessionStorage.removeItem('SET_SURGICAL_INVOICELIST');
+                    this.isDestroy = false;
+                     this.$router.push({path: '/legalSurgicalDetail', query: {params: params}})
                 }
             } else {
                 if (this.form.AMC029 == '' || this.form.BMC131 == '') {
@@ -328,9 +334,29 @@ export default {
                         BMC131: Number(this.util.DateToNumber(this.form.BMC131))
                     }
                     console.log("params", params)
+                    this.isDestroy = false;
                     this.$router.push({path: '/legalSurgicalDetail', query: {params: params}});
                 }
             }
+        },
+        // 清空数据
+        clearVuex() {
+            sessionStorage.removeItem('SET_SURGICAL_INVOICELIST');
+            sessionStorage.removeItem('SET_SURGICAL_MESSAGE');
+            this.form = {
+                AMC029: '',
+                BMC131: '',
+                BKE200: '',
+                AMC029VALUE: '',
+            },
+            this.userInfo = {};
+            this.showAll = false;
+        },
+    },
+    beforeDestroy(){
+        // 如果不是去发票和下一页就清空VUEX
+        if(this.isDestroy){
+            this.clearVuex();
         }
     },
 }
