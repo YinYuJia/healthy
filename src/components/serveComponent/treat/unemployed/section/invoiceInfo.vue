@@ -6,7 +6,7 @@
         <div class="invoiceList" v-for="(item,index) in invoiceList" :key="index">
             <div class="infoLine">
                 <div class="infoName"><span>发票号</span></div>
-                <div class="infoText"><span class="active">{{item.BKE100}}</span></div>
+                <div class="infoText"><span class="active" @click="showBigPhoto(item.BKE554)">{{item.BKE100}}</span></div>
             </div>
             <div class="infoLine">
                 <div class="infoName"><span>发票金额</span></div>
@@ -22,6 +22,8 @@
         <div class="btnContent">
             <div class="plusBtn" @click="plusInvoice"><span>+</span>添加发票信息</div>
         </div>
+        <!-- 大图展示 -->
+        <PhotoView ref="photo" :imgUrl="bigImgUrl"></PhotoView>
     </div>
 </template>
 
@@ -30,20 +32,26 @@ export default {
     data() {
         return {
             invoiceList: [],
+            bigImgUrl: '',
         }
     },
     created() {
-        this.invoiceList = this.$store.state.SET_UMEMPLOYED_INVOICELIST;
+        this.invoiceList = this.$store.state.SET_UNEMPLOYED_INVOICE;
     },
     methods: {
         // 打开添加发票面板
         plusInvoice() {
+            this.$emit('saveInfo')
             this.$router.push('/unemployedPlus')
         },
         // 删除发票
         deleteInvoice(item, index){
             this.invoiceList.splice(index, 1);
-            this.$store.dispatch('SET_UMEMPLOYED_INVOICELIST', this.invoiceList);
+            this.$store.dispatch('SET_UNEMPLOYED_INVOICE', this.invoiceList);
+        },
+        showBigPhoto(val){
+            this.bigImgUrl = val;
+            this.$refs.photo.open();
         }
     }
 }

@@ -308,8 +308,21 @@ export default new Vuex.Store({ // 暴露与new vuex
       photoList2: [], //图片数组
       photoIdList2: [], //图片ID数组
     },
-    // 未就业配偶发票数组
-    SET_UMEMPLOYED_INVOICELIST: []
+    // 未就业配偶用户信息
+    SET_UNEMPLOYED_USERINFO:{
+
+    },
+    // 未就业配偶申报信息
+    SET_UNEMPLOYED_REPORT:{
+      BMC021: '', //配偶姓名
+      BMC202: '', //配偶身份证号码
+      AMC029: '', //计划生育类别
+      AMC029VALUE: '', //计划生育类型值
+      BMC131: '', //计划生育日期
+      BKE200: '', //发票提交方式
+    },
+    // 未就业配偶发票信息
+    SET_UNEMPLOYED_INVOICE: []
   },
   // 计算属性 getters
   getters: {
@@ -462,9 +475,17 @@ export default new Vuex.Store({ // 暴露与new vuex
       sessionStorage.setItem('SET_NATUREAPPROVAL_PHOTOLIST', JSON.stringify(payload))
       state.SET_NATUREAPPROVAL_PHOTOLIST = payload
     },
-    SET_UMEMPLOYED_INVOICELIST (state, payload) {
-      sessionStorage.setItem('SET_UMEMPLOYED_INVOICELIST', JSON.stringify(payload))
-      state.SET_UMEMPLOYED_INVOICELIST = payload
+    SET_UNEMPLOYED_USERINFO (state, payload) {
+      sessionStorage.setItem('SET_UNEMPLOYED_USERINFO', JSON.stringify(payload))
+      state.SET_UNEMPLOYED_USERINFO = payload
+    },
+    SET_UNEMPLOYED_REPORT (state, payload) {
+      sessionStorage.setItem('SET_UNEMPLOYED_REPORT', JSON.stringify(payload))
+      state.SET_UNEMPLOYED_REPORT = payload
+    },
+    SET_UNEMPLOYED_INVOICE (state, payload) {
+      sessionStorage.setItem('SET_UNEMPLOYED_INVOICE', JSON.stringify(payload))
+      state.SET_UNEMPLOYED_INVOICE = payload
     },
     
   },
@@ -566,8 +587,14 @@ export default new Vuex.Store({ // 暴露与new vuex
     SET_NATUREAPPROVAL_PHOTOLIST (context, payload) {
       context.commit('SET_NATUREAPPROVAL_PHOTOLIST', payload)// context提交
     },
-    SET_UMEMPLOYED_INVOICELIST (context, payload) {
-      context.commit('SET_UMEMPLOYED_INVOICELIST', payload)// context提交
+    SET_UNEMPLOYED_USERINFO (context, payload) {
+      context.commit('SET_UNEMPLOYED_USERINFO', payload)// context提交
+    },
+    SET_UNEMPLOYED_REPORT (context, payload) {
+      context.commit('SET_UNEMPLOYED_REPORT', payload)// context提交
+    },
+    SET_UNEMPLOYED_INVOICE (context, payload) {
+      context.commit('SET_UNEMPLOYED_INVOICE', payload)// context提交
     },
     
   }
