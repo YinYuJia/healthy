@@ -1,7 +1,7 @@
 <template>
     <div class="natureApproval">
         <div class="Content" >
-            <Title :title="'计划内生育'" :backRouter="'/'"></Title>
+            <Title :title="'生育报销'" :backRouter="'/'"></Title>
             <SelectCity
                 :type="1"
                 ref="TypePicker"
@@ -191,7 +191,7 @@ export default {
         if(this.$route.params.userType){
             sessionStorage.setItem('NATURE_AMC029',this.$route.params.userType)
         }
-        this.epFn.setTitle('计划内生育')
+        this.epFn.setTitle('生育报销')
         console.log("111",this.$store.state.SET_NATUREAPPROVAL)
         this.form=this.$store.state.SET_NATUREAPPROVAL;
         //判断到上传附件页面后返回  是否要重新请求

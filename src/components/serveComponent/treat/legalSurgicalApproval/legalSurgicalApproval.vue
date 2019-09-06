@@ -141,7 +141,7 @@ export default {
         }
     },
     created(){
-        this.epFn.setTitle('计划外生育');
+        this.epFn.setTitle('流产报销');
         if(this.$route.query.dispatch) {
             this.dispatch = 1
         } else {
