@@ -7,9 +7,9 @@
                         {{item.name}}
                     </div>
                     <!-- <div class="swiper-slide" @click="changeIndex('insured',1)" :class="{'active': activeIndex == 1}">参保服务</div>
-                        <div class="swiper-slide" @click="changeIndex('record',2)" :class="{'active': activeIndex == 2}">备案服务</div>
-                        <div class="swiper-slide" @click="changeIndex('treat',3)" :class="{'active': activeIndex == 3}">待遇服务</div>
-                        <div class="swiper-slide" @click="changeIndex('others',4)" :class="{'active': activeIndex == 4}">其他服务</div> -->
+                            <div class="swiper-slide" @click="changeIndex('record',2)" :class="{'active': activeIndex == 2}">备案服务</div>
+                            <div class="swiper-slide" @click="changeIndex('treat',3)" :class="{'active': activeIndex == 3}">待遇服务</div>
+                            <div class="swiper-slide" @click="changeIndex('others',4)" :class="{'active': activeIndex == 4}">其他服务</div> -->
                 </div>
             </div>
         </div>
@@ -29,117 +29,117 @@
                     </div>
                 </div>
                 <!-- <div class="iconList">
-                        <div class="iconContent" id="insured">
-                            <div class="iconBox" @click="showDetail('getProof','领取就医凭证')">
-                                <svg-icon icon-class="serveComponent_icon_1" />
-                                <div class="text">就医凭证</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('insuredChange','参保信息变更')">
-                                <svg-icon icon-class="serveComponent_icon_2" />
-                                <div class="text">信息变更</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('searchSelect','打印信息')">
-                                <svg-icon icon-class="serveComponent_icon_3" />
-                                <div class="text">医保证明</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('transferRenewing','关系转移接续')">
-                                <svg-icon icon-class="serveComponent_icon6" />
-                                <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
-                                <div class="text">医保转接</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="iconList">
-                        <div class="listHeader">备案服务</div>
-                        <div class="iconContent" id="record">
-                            <div class="iconBox" @click="showDetail('elseWhere','异地就医备案')">
-                                <svg-icon icon-class="serveComponent_icon_5" />
-                                <div class="text">异地备案</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('turnOut','转外备案')">
-                                <svg-icon icon-class="serveComponent_icon_6" />
-                                <div class="text">转外就医</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('abroadTake','出国带药')">
-                                <svg-icon icon-class="serveComponent_icon_7" />
-                                <div class="text">出国带药</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('familyAid','家庭共济')">
-                                <svg-icon icon-class="serveComponent_icon_8" />
-                                <div class="text">家庭共济</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('specialDrug','特制特药备案')">
-                                <svg-icon icon-class="serveComponent_icon_9" />
-                                <div class="text">特药备案</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('chronicDisease','规定（特殊慢性）病种待遇备案')">
-                                <svg-icon icon-class="serveComponent_icon_10" />
-                                <div class="text">规定病种</div>
+                            <div class="iconContent" id="insured">
+                                <div class="iconBox" @click="showDetail('getProof','领取就医凭证')">
+                                    <svg-icon icon-class="serveComponent_icon_1" />
+                                    <div class="text">就医凭证</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('insuredChange','参保信息变更')">
+                                    <svg-icon icon-class="serveComponent_icon_2" />
+                                    <div class="text">信息变更</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('searchSelect','打印信息')">
+                                    <svg-icon icon-class="serveComponent_icon_3" />
+                                    <div class="text">医保证明</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('transferRenewing','关系转移接续')">
+                                    <svg-icon icon-class="serveComponent_icon6" />
+                                    <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
+                                    <div class="text">医保转接</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="iconList">
-                        <div class="listHeader">待遇服务</div>
-                        <div class="iconContent" id="treat">
-                            <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
-                                <svg-icon icon-class="serveComponent_icon5" />
-                                <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
-                                <div class="text">零星报销</div>
-                            </div>
-                            <div class="iconBox" >
-                                <svg-icon v-if="1" icon-class="serveComponent_grey_jiaofeinianxian" />
-                                <div class="text">年限核定</div>
-                            </div>
-                            <div class="iconBox">
-                                <svg-icon v-if="0" icon-class="serveComponent_icon_13" />
-                                <svg-icon v-if="1" icon-class="serveComponent_grey_5" />
-                                <div class="text">平产/剖腹</div>
-                            </div>
-                            <div class="iconBox">
-                                <svg-icon v-if="0" icon-class="serveComponent_icon_14" />
-                                <svg-icon v-if="1" icon-class="serveComponent_grey_6" />
-                                <div class="text">流产/引产</div>
-                            </div>
-                            <div class="iconBox">
-                                <svg-icon v-if="0" icon-class="serveComponent_icon_15" />
-                                <svg-icon v-if="1" icon-class="serveComponent_grey_7" />
-                                <div class="text">未就业配偶</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="iconList">
-                        <div class="listHeader">其他服务</div>
-                        <div class="iconContent" id="others">
-                            <div class="iconBox" @click="showDetail('searchBaseInfo','个人信息查询')">
-                                <svg-icon icon-class="serveComponent_icon_16" />
-                                <div class="text">参保信息</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('searchInsuredInfo','参保信息查询')">
-                                <svg-icon icon-class="serveComponent_icon_17" />
-                                <div class="text">征缴信息</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
-                                <svg-icon icon-class="serveComponent_icon_18" />
-                                <div class="text">办事进度</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('searchFee','费用信息查询')">
-                                <svg-icon icon-class="serveComponent_icon_19" />
-                                <div class="text">就医信息</div>
-                            </div>
-                            <div class="iconBox" @click="showDetail('searchRecord','备案信息查询')">
-                                <svg-icon icon-class="serveComponent_icon_20" />
-                                <div class="text">备案信息</div>
-                            </div>
-                            <div class="iconBox">
-                                <svg-icon icon-class="serveComponent_icon_hosipital" />
-                                <div class="text">定点医院</div>
-                            </div>
-                            <div class="iconBox">
-                                <svg-icon icon-class="serveComponent_icon_drugstore" />
-                                <div class="text">定点药店</div>
+                        <div class="iconList">
+                            <div class="listHeader">备案服务</div>
+                            <div class="iconContent" id="record">
+                                <div class="iconBox" @click="showDetail('elseWhere','异地就医备案')">
+                                    <svg-icon icon-class="serveComponent_icon_5" />
+                                    <div class="text">异地备案</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('turnOut','转外备案')">
+                                    <svg-icon icon-class="serveComponent_icon_6" />
+                                    <div class="text">转外就医</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('abroadTake','出国带药')">
+                                    <svg-icon icon-class="serveComponent_icon_7" />
+                                    <div class="text">出国带药</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('familyAid','家庭共济')">
+                                    <svg-icon icon-class="serveComponent_icon_8" />
+                                    <div class="text">家庭共济</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('specialDrug','特制特药备案')">
+                                    <svg-icon icon-class="serveComponent_icon_9" />
+                                    <div class="text">特药备案</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('chronicDisease','规定（特殊慢性）病种待遇备案')">
+                                    <svg-icon icon-class="serveComponent_icon_10" />
+                                    <div class="text">规定病种</div>
+                                </div>
                             </div>
                         </div>
-                    </div> -->
+                        <div class="iconList">
+                            <div class="listHeader">待遇服务</div>
+                            <div class="iconContent" id="treat">
+                                <div class="iconBox" @click="showDetail('smallReim','基本医疗保险参保人员医疗费用零星报销')">
+                                    <svg-icon icon-class="serveComponent_icon5" />
+                                    <svg-icon icon-class="serveComponent_province" class="provinceIcon" />
+                                    <div class="text">零星报销</div>
+                                </div>
+                                <div class="iconBox" >
+                                    <svg-icon v-if="1" icon-class="serveComponent_grey_jiaofeinianxian" />
+                                    <div class="text">年限核定</div>
+                                </div>
+                                <div class="iconBox">
+                                    <svg-icon v-if="0" icon-class="serveComponent_icon_13" />
+                                    <svg-icon v-if="1" icon-class="serveComponent_grey_5" />
+                                    <div class="text">平产/剖腹</div>
+                                </div>
+                                <div class="iconBox">
+                                    <svg-icon v-if="0" icon-class="serveComponent_icon_14" />
+                                    <svg-icon v-if="1" icon-class="serveComponent_grey_6" />
+                                    <div class="text">流产/引产</div>
+                                </div>
+                                <div class="iconBox">
+                                    <svg-icon v-if="0" icon-class="serveComponent_icon_15" />
+                                    <svg-icon v-if="1" icon-class="serveComponent_grey_7" />
+                                    <div class="text">未就业配偶</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="iconList">
+                            <div class="listHeader">其他服务</div>
+                            <div class="iconContent" id="others">
+                                <div class="iconBox" @click="showDetail('searchBaseInfo','个人信息查询')">
+                                    <svg-icon icon-class="serveComponent_icon_16" />
+                                    <div class="text">参保信息</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('searchInsuredInfo','参保信息查询')">
+                                    <svg-icon icon-class="serveComponent_icon_17" />
+                                    <div class="text">征缴信息</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('searchProgress','我的事项')">
+                                    <svg-icon icon-class="serveComponent_icon_18" />
+                                    <div class="text">办事进度</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('searchFee','费用信息查询')">
+                                    <svg-icon icon-class="serveComponent_icon_19" />
+                                    <div class="text">就医信息</div>
+                                </div>
+                                <div class="iconBox" @click="showDetail('searchRecord','备案信息查询')">
+                                    <svg-icon icon-class="serveComponent_icon_20" />
+                                    <div class="text">备案信息</div>
+                                </div>
+                                <div class="iconBox">
+                                    <svg-icon icon-class="serveComponent_icon_hosipital" />
+                                    <div class="text">定点医院</div>
+                                </div>
+                                <div class="iconBox">
+                                    <svg-icon icon-class="serveComponent_icon_drugstore" />
+                                    <div class="text">定点药店</div>
+                                </div>
+                            </div>
+                        </div> -->
             </div>
         </div>
     </div>
@@ -166,8 +166,8 @@
             this.myScroll = null;
         },
         created() {
-            sessionStorage.setItem('ifRequest',false)
-            sessionStorage.setItem('isClear', this.isClear)      
+            sessionStorage.setItem('ifRequest', false)
+            sessionStorage.setItem('isClear', this.isClear)
             // 清空零星报销的Vuex
             let SET_SMALL_REIM_SUBMIT = {
                 AAS301: '', //参保地统筹省编码
@@ -194,34 +194,34 @@
             this.$store.dispatch('SET_SMALL_REIM_2', SET_SMALL_REIM_2)
             let SET_ENCLOSURE = []
             this.$store.dispatch('SET_ENCLOSURE', SET_ENCLOSURE)
-            let SET_NATUREAPPROVAL={
-                AAE135:"",//身份证号
+            let SET_NATUREAPPROVAL = {
+                AAE135: "", //身份证号
                 BMC061: '0', //生育类别 0生育女职工,1男职工配偶
                 BMC131: '', //生育日期
                 AMC029: '01', //生育类别 01平产、02助娩产、03剖宫产
-                AMC029VALUE:'平产',//生育类别中文
+                AMC029VALUE: '平产', //生育类别中文
                 AMC028: '1', //胎儿数
                 AMC031: '', //胎次
                 BMC046: '', //其中死胎
                 BMC211: '', //实际发生费用
                 BMC033: '', //实际住院天数
                 AMC027: '0', //晚育标志 0否1是
-                AMC027VALUE:'否',//晚育中文
-                BMC035: '',//准生证号
-                AMC022: '',//出生证编号
-                BMC065: '',//医疗机构
+                AMC027VALUE: '否', //晚育中文
+                BMC035: '', //准生证号
+                AMC022: '', //出生证编号
+                BMC065: '', //医疗机构
                 photoList1: [], //图片数组
                 photoIdList1: [], //图片ID数组
                 photoList2: [], //图片数组
                 photoIdList2: [], //图片ID数组
-            }    
+            }
             this.$store.dispatch('SET_NATUREAPPROVAL', SET_NATUREAPPROVAL)
-            let SET_NATUREAPPROVAL_PHOTOLIST={
+            let SET_NATUREAPPROVAL_PHOTOLIST = {
                 photoList1: [], //图片数组
                 photoIdList1: [], //图片ID数组
                 photoList2: [], //图片数组
                 photoIdList2: [], //图片ID数组
-            }    
+            }
             this.$store.dispatch('SET_NATUREAPPROVAL_PHOTOLIST', SET_NATUREAPPROVAL_PHOTOLIST)
             this.epFn.setTitle('医疗保障专区');
             if (sessionStorage.getItem('userType') == '0' || sessionStorage.getItem('userType') == '1') {
@@ -251,8 +251,13 @@
                         let userType = sessionStorage.getItem('userType')
                         if (userType == 0 || userType == 1) {
                             if (sessionStorage.getItem('GinsengLandCode') == "339900") {
-                                let route = url.split('/');
-                                this.$router.push(route.pop());
+                                console.log('url----', url)
+                                if (url.indexOf('servicecode') != -1) {
+                                    window.location.href = url;
+                                } else {
+                                    let route = url.split('/');
+                                    this.$router.push(route.pop());
+                                }
                             } else {
                                 console.log(11111111111111)
                                 if (url.indexOf("?") != -1) {
@@ -266,7 +271,7 @@
                                     // console.log(url)
                                     // return
                                 }
-                                    window.location.href = url;
+                                window.location.href = url;
                             }
                         } else {
                             let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
@@ -279,8 +284,8 @@
                                 } else {
                                     url = url + '?' + 'ssoToken=' + sessionStorage.getItem("ssoToken");
                                 }
-                                    window.location.href = url;
-                                }
+                                window.location.href = url;
+                            }
                         }
                     }
                 }

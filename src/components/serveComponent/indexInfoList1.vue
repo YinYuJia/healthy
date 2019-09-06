@@ -1,12 +1,12 @@
 <template>
     <div class="indexInfoList">
         <!-- <div class="mask" v-show="isMask">
-                <div class="mask_div">
-                    <svg-icon class="content" icon-class="内容"></svg-icon>
-                    <input class="mask_input" type="password" name="" v-model="epPasword" id="">
-                    <button class="loginButton" @click="loginIn"></button>
-                </div>
-            </div> -->
+                    <div class="mask_div">
+                        <svg-icon class="content" icon-class="内容"></svg-icon>
+                        <input class="mask_input" type="password" name="" v-model="epPasword" id="">
+                        <button class="loginButton" @click="loginIn"></button>
+                    </div>
+                </div> -->
         <IndexMask></IndexMask>
         <!-- 提示 -->
         <div class="Hint" v-if="isTips">
@@ -146,6 +146,20 @@
         //     }
         // },
         created() {
+
+            var sp = this.util.paramStr('sp')
+            
+            if (sp != "" && sp != undefined && sp != null) {
+                const arr1 = sp.split("|")
+                let obj = {}
+                arr1.map((item, index) => {
+                    console.log(item.split("=")[0] + '------' + item.split("=")[1])
+                    console.log()
+                    obj[item.split("=")[0]] = item.split("=")[1]
+                })
+                console.log('obj---', obj)
+                
+            }
             // 判断登录状态
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
@@ -421,8 +435,13 @@
                     } else {
                         // 其他项目跳转
                         if (sessionStorage.getItem("GinsengLandCode") == "339900") {
-                            let route = url.split('/');
-                            this.$router.push(route.pop());
+                            console.log('url----',url)
+                            if( url.indexOf('servicecode') != -1 ) {
+                                window.location.href = url;
+                            }else{
+                                let route = url.split('/');
+                                this.$router.push(route.pop());
+                            }
                         } else {
                             if (url.indexOf("?") != -1) {
                                 url = url + '&' + 'token=' + sessionStorage.getItem("getToken");
@@ -741,8 +760,8 @@
                         sessionStorage.setItem('userName', value);
                         this.setNativeMsg();
                     });
-                }else{
-                      this.$toast("功能正在建设中")
+                } else {
+                    this.$toast("功能正在建设中")
                 }
             },
             //个人用户登录
