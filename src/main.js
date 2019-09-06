@@ -145,7 +145,7 @@ console.log('------欢迎进入APP首页main.js---20190715__01---')
 
 
 // 1  网新恩普包  2  浙理办包
-Vue.prototype.$build = "2"
+Vue.prototype.$build = "1"
 
 
 
