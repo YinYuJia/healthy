@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div v-if="type == '02'">
-                <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件各一份（请上传三张）</div>
+                <div class="infoTitle">5.医疗诊断证明书、出院小结及住院费用明细汇总清单（需要医院盖章）复印件一份（请上传三张）</div>
                 <div class="dataUpload">
                     <div class="picWrap">
                         <div v-for="(item,index) in expensesList" :key="index">
