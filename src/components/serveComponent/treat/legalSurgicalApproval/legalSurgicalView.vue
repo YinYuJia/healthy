@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div v-if="type != '03'">
-                    <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明复印件</div>
+                    <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明（需要医院盖章）复印件一份</div>
                     <div class="dataUpload">
                         <div class="picWrap">
                             <img :src="form.abortionUrl" @click="showBigPhoto(form.abortionUrl)"/>
