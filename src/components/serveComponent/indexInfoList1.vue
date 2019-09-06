@@ -146,20 +146,6 @@
         //     }
         // },
         created() {
-
-            var sp = this.util.paramStr('sp')
-            
-            if (sp != "" && sp != undefined && sp != null) {
-                const arr1 = sp.split("|")
-                let obj = {}
-                arr1.map((item, index) => {
-                    console.log(item.split("=")[0] + '------' + item.split("=")[1])
-                    console.log()
-                    obj[item.split("=")[0]] = item.split("=")[1]
-                })
-                console.log('obj---', obj)
-                
-            }
             // 判断登录状态
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
@@ -344,7 +330,6 @@
                         }
                         // ------------事项url配置截取sp分成对象保存到session里面---------end
                         console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
-                        sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
                         var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
                         if (JSON.stringify(globalConfigObj) == '{}') {
                             this.ifShow = false; //隐藏输入人名社保卡
@@ -352,6 +337,9 @@
                             this.getUserRegion(); // 自动获取参保地
                         } else {
                             // url事项配置 跳转路由
+                            this.ifShow = false; //隐藏输入人名社保卡
+                            this.setNativeMsg(); //浙理办打包需要打开
+                            this.getUserRegion(); // 自动获取参保地
                             this.$router.push({
                                 name: globalConfigObj.identifier,
                                 params: globalConfigObj
