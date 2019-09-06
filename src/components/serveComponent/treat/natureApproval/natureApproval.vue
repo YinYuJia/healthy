@@ -161,7 +161,7 @@ export default {
             types: [
                 {
                     value: '01',
-                    label: '平产'
+                    label: '平产、顺产'
                 },
                 {
                     value: '02',
