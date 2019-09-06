@@ -1,6 +1,6 @@
 <template>
     <div class="natureApprovalDetail">
-        <Title :title="'计划内生育'" :backRouter="'/indexInfoList'"></Title>
+        <Title :title="'生育报销'" :backRouter="'/indexInfoList'"></Title>
         <div class="Content">
             <WorkProgress :currentStep="currentStep"></WorkProgress>
             <UserInfoPad  :userInfo="form1"></UserInfoPad>
@@ -70,7 +70,7 @@
                 </div>
                 <!-- 附件2 -->
                 <div class="CompleteLine">
-                    <div class="InfoText">2. 医疗诊断证明或出院记录复印件</div>
+                    <div class="InfoText">2. 医疗诊断证明或出院记录（需要医院盖章）复印件一份</div>
                     <div class="PhotoBox">
                         <div class="ImgBox"><img @click="showBigPhoto(form.medicalUrl)" :src="form.medicalUrl"/></div>
                     </div>
@@ -97,7 +97,7 @@ export default {
         if(this.$route.query.param){
             this.successFlag = 2;
         }
-        this.epFn.setTitle('计划内生育')
+        this.epFn.setTitle('生育报销')
         this.request();
         this.request1();
     },

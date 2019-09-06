@@ -67,7 +67,7 @@
                 </div>
                 <!-- 附件2 -->
                 <div class="CompleteLine">
-                    <div class="InfoText">2. 医疗诊断证明或出院记录复印件</div>
+                    <div class="InfoText">2. 医疗诊断证明或出院记录（需要医院盖章）复印件一份</div>
                     <div class="PhotoBox">
                         <div class="ImgBox"><img @click="showBigPhoto(allInfo.BMC002URL)" :src="allInfo.BMC002URL"/></div>
                     </div>
