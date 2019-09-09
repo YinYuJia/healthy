@@ -48,6 +48,8 @@
         <div class="SubmitBtn" :class="{'active': canSubmit == true}" @click="add()" v-if="showAll">补充材料</div>
          <!-- 判断是否绑定经办组建-->
         <BindingAgency></BindingAgency>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="330600142002"></GuideIcon>
     </div>
 </template>
 
@@ -98,10 +100,10 @@ export default {
                 name: '中期终止妊娠同时放置宫内节育器'
             },{
                 value: '19',
-                name: '人工流产同时结扎输软管'
+                name: '人工流产同时结扎输卵管'
             },{
                 value: '20',
-                name: '中期终止妊娠同时结扎输软管'
+                name: '中期终止妊娠同时结扎输卵管'
             },{
                 value: '21',
                 name: '人工流产同时取出宫内节育器'
@@ -127,10 +129,10 @@ export default {
                 name: '取出宫内节育器'
             },{
                 value: '15',
-                name: '单纯输软管结扎'
+                name: '单纯输卵管结扎'
             },{
                 value: '16',
-                name: '产后结扎输软管'
+                name: '产后结扎输卵管'
             }],
             list4:[{
                 value: '23',
@@ -139,7 +141,7 @@ export default {
         }
     },
     created(){
-        this.epFn.setTitle('计划外生育');
+        this.epFn.setTitle('流产报销');
         if(this.$route.query.dispatch) {
             this.dispatch = 1
         } else {
@@ -366,7 +368,7 @@ export default {
     .Content {
         height: 100%;
         .SearchContent {
-                height: 1.18rem;
+                height: .9rem;
                 width: 7.5rem;
                 background: #fff;
                 display: flex;

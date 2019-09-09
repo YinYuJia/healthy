@@ -1,12 +1,12 @@
 <template>
     <div class="indexInfoList">
         <!-- <div class="mask" v-show="isMask">
-                <div class="mask_div">
-                    <svg-icon class="content" icon-class="内容"></svg-icon>
-                    <input class="mask_input" type="password" name="" v-model="epPasword" id="">
-                    <button class="loginButton" @click="loginIn"></button>
-                </div>
-            </div> -->
+                    <div class="mask_div">
+                        <svg-icon class="content" icon-class="内容"></svg-icon>
+                        <input class="mask_input" type="password" name="" v-model="epPasword" id="">
+                        <button class="loginButton" @click="loginIn"></button>
+                    </div>
+                </div> -->
         <IndexMask></IndexMask>
         <!-- 提示 -->
         <div class="Hint" v-if="isTips">
@@ -330,7 +330,6 @@
                         }
                         // ------------事项url配置截取sp分成对象保存到session里面---------end
                         console.log("全局配置事项obj", JSON.parse(sessionStorage.getItem('globalConfigObj')))
-                        sessionStorage.setItem("globalConfigObj", JSON.stringify({}))
                         var globalConfigObj = JSON.parse(sessionStorage.getItem('globalConfigObj'))
                         if (JSON.stringify(globalConfigObj) == '{}') {
                             this.ifShow = false; //隐藏输入人名社保卡
@@ -338,6 +337,9 @@
                             this.getUserRegion(); // 自动获取参保地
                         } else {
                             // url事项配置 跳转路由
+                            this.ifShow = false; //隐藏输入人名社保卡
+                            this.setNativeMsg(); //浙理办打包需要打开
+                            this.getUserRegion(); // 自动获取参保地
                             this.$router.push({
                                 name: globalConfigObj.identifier,
                                 params: globalConfigObj
@@ -421,8 +423,13 @@
                     } else {
                         // 其他项目跳转
                         if (sessionStorage.getItem("GinsengLandCode") == "339900") {
-                            let route = url.split('/');
-                            this.$router.push(route.pop());
+                            console.log('url----',url)
+                            if( url.indexOf('servicecode') != -1 ) {
+                                window.location.href = url;
+                            }else{
+                                let route = url.split('/');
+                                this.$router.push(route.pop());
+                            }
                         } else {
                             if (url.indexOf("?") != -1) {
                                 url = url + '&' + 'token=' + sessionStorage.getItem("getToken");
@@ -741,8 +748,8 @@
                         sessionStorage.setItem('userName', value);
                         this.setNativeMsg();
                     });
-                }else{
-                      this.$toast("功能正在建设中")
+                } else {
+                    this.$toast("功能正在建设中")
                 }
             },
             //个人用户登录

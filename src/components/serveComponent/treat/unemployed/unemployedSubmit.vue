@@ -15,7 +15,7 @@
             </div>
             <!-- 附件2 -->
             <div class="CompleteLine">
-                <div class="InfoText">2. 医疗诊断证明或出院记录复印件</div>
+                <div class="InfoText">2. 医疗诊断证明或出院记录（需要医院盖章）复印件一份</div>
                 <div class="PhotoBox">
                     <div class="ImgBox" v-if="BMC002PHOTO!=''">
                         <img :src="BMC002PHOTO" />

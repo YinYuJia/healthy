@@ -65,7 +65,7 @@
             </div>
         </div>
         <!-- 办事指南 -->
-        <GuideIcon AGA002="331400501005"></GuideIcon>
+        <GuideIcon AGA002="331400501004"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
         <!-- 法人绑定 -->
@@ -410,7 +410,7 @@ this.form.AAB301='339900'
                 margin-top: .2rem;
             }
             .companyCode{
-                font-size: .18rem;
+                font-size: .30rem;
                 margin-top: .2rem;
             }
         }

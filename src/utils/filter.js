@@ -279,7 +279,7 @@ export function trtireType(value) {
 //平产AMC029 生育类型
 export function AMC029( val ) {
   let obj = {
-    "01": "平产",
+    "01": "平产、顺产",
     "02": "助娩产",
     "03": "剖宫产",
     "04": "三个月以下流产",

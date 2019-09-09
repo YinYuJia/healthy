@@ -11,7 +11,10 @@ export default new Vuex.Store({ // 暴露与new vuex
     ],
 
     // 原生传过来的数据
-    SET_NATIVEMSG: {},
+    SET_NATIVEMSG: {
+      name: sessionStorage.getItem('userName') || '',
+      idCard: sessionStorage.getItem('idCard') || ''
+    },
 
     SET_SELECT: '选项1',
     SET_SELECTARRAY: [],

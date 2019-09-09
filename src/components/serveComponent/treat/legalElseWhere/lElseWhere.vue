@@ -15,16 +15,16 @@
         <!-- 弹出框区域结束 -->
         <div class="Content">
             <!-- 基本信息 -->
-            <UserBaseInfo></UserBaseInfo>
+            <!-- <UserBaseInfo></UserBaseInfo> -->
             <div class="SearchContent" id="searchContent">
                 <div class="SearchBox">
                     <svg-icon icon-class="serveComponent_search" />
-                    <input class="InputContent" v-model="NAME" :placeholder="'查找'">
+                    <input class="InputContent" v-model="NAME" :placeholder="'请输入身份证号'">
                     <svg-icon class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
                     <div class="SearchBtn" @click="search">搜索</div>
                 </div>
             </div>
-            <div class="userBaseInfo" v-if="ifShow">
+            <!-- <div class="userBaseInfo" v-if="ifShow">
                 <div class="infoBox">
                     <svg-icon icon-class="payLimit_bg" />
                     <div class="infoName">
@@ -44,6 +44,31 @@
                         <span>{{data.AAC006}}</span>
                     </div>
                 </div>
+            </div> -->
+            <div class="userBaseInfo" v-if="ifShow">
+                <div class="infoBox">
+                <svg-icon icon-class="lElseWhere_bg"/>
+                    
+                    <div class="infoName">
+                        <span class="name">{{data.AAC003}}</span>
+                        <span class="sex">/{{data.AAC004}}</span>
+                    </div>
+                    <div class="infoAddress">
+                        <div class="IconImg">
+                            <svg-icon icon-class="payLimit_compony"/>
+                        </div>
+                        <span class="titleText">工作单位：</span>
+                        <span>{{data.AAB004}}</span>
+                    </div>
+                    <div class="infoAddress">
+                        <div class="IconImg">
+                            <svg-icon icon-class="serveComponent_birthday"/>
+                        </div>
+                        <span class="titleText">出生日期：</span>
+                        <span>{{data.AAC006}}</span>
+                    </div>
+
+                </div>
             </div>
             <!-- 申报信息 -->
             <div class="ReportInfo" v-if="ifShow">
@@ -57,14 +82,14 @@
                     <div class="InfoName"><span>拟离杭日期</span></div>
                     <div class="InfoText">
                         <input @click="openStartPicker" type="text" v-model="form.AAE030" placeholder="请选择" readonly>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <svg-icon icon-class="lElseWhere_date"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>回杭日期</span></div>
                     <div class="InfoText">
                         <input @click="openEndPicker" type="text" v-model="form.AAE031" placeholder="请选择" readonly>
-                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                        <svg-icon icon-class="lElseWhere_date"></svg-icon>
                     </div>
                 </div>
                 <div class="InfoLine">
@@ -100,7 +125,7 @@
         <!-- 办事指南 -->
         <GuideIcon AGA002="330800253013"></GuideIcon>
         <!-- 按钮 -->
-        <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <Footer :canSubmit='canSubmit' :btnText="'提交'" @submit="submit()"></Footer>
         <!-- 判断是否绑定经办组建-->
         <BindingAgency></BindingAgency>
     </div>
@@ -508,96 +533,93 @@
                     }
                 }
             }
-            .userBaseInfo {
-                // margin-top: .15rem;
-                height: 3rem;
+            .userBaseInfo{
+                height:100%;
                 width: 7.5rem;
-                background: #fff;
+                background: #ffffff;
                 display: flex;
                 justify-content: center;
                 align-items: flex-end;
                 position: relative;
                 z-index: -2;
-                .infoBox {
+                padding: 0  .2rem;
+                .infoBox{
                     font-size: .3rem;
                     position: relative;
-                    height: 100%;
-                    width: 7rem;
-                    padding: 0 .15rem;
+                    height: 2.4rem;
+                    width: 100%;
                     color: #ffffff;
                     border-radius: 0.05rem;
                     display: flex;
                     flex-direction: column;
                     align-items: left;
-                    .svg-icon {
+                    
+                    .svg-icon{
                         display: block;
-                        width: 100%;
-                        height: 100%;
+                        width:7.1rem;
+                        height: 2.4rem;
                         position: absolute;
-                        left: 0;
+                        left:0;
                         z-index: -1;
+                        
                     }
-                    .infoName {
+                    .infoName{
                         width: 5rem;
                         height: .5rem;
                         text-align: left;
-                        margin-top: .35rem;
-                        margin-left: .2rem;
-                        .name {
-                            font-size: .4rem;
+                        margin-top: .28rem;
+                        margin-left: .3rem;
+                        .name{
+                            width: 1.08rem;
+                            height: .47rem;
+                            line-height: .47rem;
+                            font-size: .36rem;
+                            font-family: MicrosoftYaHei;
+                            color: #FFFFFF;
+                            letter-spacing: 0;
                         }
-                        .sex {
-                            font-size: .24rem;
+                        .sex{
+                            opacity: 0.65;
+                            font-family: MicrosoftYaHei;
+                            font-size:.24rem;
+                            color: #FFFFFF;
+                            letter-spacing: 0;
                         }
                     }
-                    .infoAddress {
-                        margin-top: .2rem;
-                        width: 5rem;
+                    .infoAddress{
+                        margin-top: .20rem;
+                        width: 100%;
                         text-align: left;
-                        padding-left: .3rem;
-                        span {
-                            line-height: .4rem;
-                            height: .4rem;
+                        margin-left: .3rem;
+                        .titleText{
+                            opacity: 0.65;
+                            font-family: MicrosoftYaHei;
                             font-size: .24rem;
+                            color: #FFFFFF;
+                            letter-spacing: 0;
                         }
-                        .IconImg {
-                            width: .4rem;
-                            height: .4rem;
+                        span{
+                            font-family: MicrosoftYaHei;
+                            font-size: .24rem;
+                            color: #FFFFFF;
+                            letter-spacing: 0;
+                        }
+                        .IconImg{
+                            width: .28rem;
+                            height: .28rem;
                             display: inline-block;
-                            .svg-icon {
+
+                            .svg-icon{
                                 padding-left: .3rem;
-                                display: block;
-                                width: .4rem;
-                                height: .4rem;
-                            }
-                        }
-                    }
-                    .infoMessage {
-                        display: flex;
-                        justify-content: space-around;
-                        height: 1.8rem;
-                        .birth {
-                            display: flex;
-                            flex-direction: column;
-                            .infoMessageBirth {
-                                height: .8rem;
-                                line-height: .8rem;
-                            }
-                            .infoMessageText {
-                                font-size: .24rem;
-                            }
-                        }
-                        .work {
-                            .infoMessageWork {
-                                height: .8rem;
-                                line-height: .8rem;
-                            }
-                            .infoMessageText {
-                                font-size: .24rem;
+                                display:block;
+                                width: .28rem;
+                                height: .28rem;
+
                             }
                         }
                     }
                 }
+
             }
             .ReportInfo {
                 height: 10rem;
