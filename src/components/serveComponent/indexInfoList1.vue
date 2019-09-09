@@ -60,10 +60,22 @@
         </div>
         <!-- banner -->
         <div class="banner">
-            <div class="bannerSvg">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon15"  class="right-svg" /></div>
+                </div>
+            </div>
+            <!-- <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
-            </div>
+            </div> -->
         </div>
         <!-- 轮播图 -->
         <div class="carousel">
@@ -129,8 +141,9 @@
                 // this.srcollLine()
             }, 500)
             new Swiper('.swiper-container', {
+                loop: true,
                 slidesPerView: 2.15, //显示的范围
-                spaceBetween: -8, //间隔大小
+                spaceBetween: 30, //间隔大小
                 slidesOffsetBefore: 10, //靠左偏移量
                 slidesOffsetAfter: 10, //靠左偏移量
                 observer: true, //修改swiper自己或子元素时，自动初始化swiper
