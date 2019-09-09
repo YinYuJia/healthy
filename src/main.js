@@ -138,13 +138,28 @@ Object.keys(filters).forEach(key => { //过滤器
 // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 // var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
-import Vconsole from 'vconsole';
-var vConsole = new Vconsole()
-export default vConsole;
 
 console.log('------欢迎进入APP首页main.js---20190715__01---')
+
+
+
+
 // 1  网新恩普包  2  浙理办包
 Vue.prototype.$build = "1"
+
+
+
+
+
+import Vconsole from 'vconsole';
+var vConsole = null
+console.log( 'Vue.prototype.$build-----', )
+if(Vue.prototype.$build == '1' ) {
+  vConsole = new Vconsole()
+}else{
+  vConsole=1
+}
+export default vConsole;
   new Vue({
     el: '#app',
     store,

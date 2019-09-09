@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div v-if="type != '03'">
-                <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明复印件</div>
+                <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明（需要医院盖章）复印件一份</div>
                 <div class="dataUpload">
                     <div class="picWrap">
                         <div  v-for="(item,index) in abortionUrl" :key="index">
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div v-if="type == '02'">
-                <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件各一份（请上传三张）</div>
+                <div class="infoTitle">5.医疗诊断证明书、出院小结及住院费用明细汇总清单（需要医院盖章）复印件一份（请上传三张）</div>
                 <div class="dataUpload">
                     <div class="picWrap">
                         <div v-for="(item,index) in expensesList" :key="index">
@@ -184,7 +184,7 @@ export default {
                             this.$toast('请补全信息！');
                         } else {
                             obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
-                            obj.abortionUrl = this.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
+                            obj.abortionUrl = this.aboId;//医疗助产机构出具的流产或引产时间证明（需要医院盖章）复印件一份
                             this.submitList(obj);
                         }
                     } else if (this.type == '02') {
@@ -192,7 +192,7 @@ export default {
                             this.$toast('请补全信息！');
                         } else {
                             obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
-                            obj.abortionUrl = this.aboId;//《医疗助产机构出具的流产或引产时间证明复印件
+                            obj.abortionUrl = this.aboId;//医疗助产机构出具的流产或引产时间证明（需要医院盖章）复印件一份
                             obj.marriageCertificateUrl = this.marId;// 结婚复印证
                             obj.expensesUrl = this.expIdList.join();// 病历出院小结图片列表
                             obj.photoIdList = this.photoIdList;

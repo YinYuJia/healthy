@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div v-if="type != '03'">
-                    <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明复印件</div>
+                    <div class="infoTitle">3.医疗助产机构出具的流产或引产时间证明（需要医院盖章）复印件一份</div>
                     <div class="dataUpload">
                         <div class="picWrap">
                             <img :src="form.abortionUrl" @click="showBigPhoto(form.abortionUrl)"/>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div v-if="type == '02'">
-                    <div class="infoTitle">5.病历、出院小结及住院费用明细汇总清单复印件一份</div>
+                    <div class="infoTitle">5.医疗诊断证明书、出院小结及住院费用明细汇总清单（需要医院盖章）复印件一份</div>
                     <div class="dataUpload">
                         <div class="picWrap">
                             <img :src="item.PUL002" style="height: 1.5rem; width: 1.5rem" v-for="(item,index) in form.expensesUrl" :key="index" @click="showBigPhoto(item.PUL002)"/>

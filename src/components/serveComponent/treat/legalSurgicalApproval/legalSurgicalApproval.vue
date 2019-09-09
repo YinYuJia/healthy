@@ -100,10 +100,10 @@ export default {
                 name: '中期终止妊娠同时放置宫内节育器'
             },{
                 value: '19',
-                name: '人工流产同时结扎输软管'
+                name: '人工流产同时结扎输卵管'
             },{
                 value: '20',
-                name: '中期终止妊娠同时结扎输软管'
+                name: '中期终止妊娠同时结扎输卵管'
             },{
                 value: '21',
                 name: '人工流产同时取出宫内节育器'
@@ -129,10 +129,10 @@ export default {
                 name: '取出宫内节育器'
             },{
                 value: '15',
-                name: '单纯输软管结扎'
+                name: '单纯输卵管结扎'
             },{
                 value: '16',
-                name: '产后结扎输软管'
+                name: '产后结扎输卵管'
             }],
             list4:[{
                 value: '23',
@@ -141,7 +141,7 @@ export default {
         }
     },
     created(){
-        this.epFn.setTitle('计划外生育');
+        this.epFn.setTitle('流产报销');
         if(this.$route.query.dispatch) {
             this.dispatch = 1
         } else {
@@ -227,9 +227,9 @@ export default {
             this.form.AMC029VALUE = val.name;
             this.form.AMC029 = val.value;
             if(val.value =='04' || val.value =='05' || val.value == '06') {
-                this.type = '02';
+                this.type = '01';
             } else if (val.value=='13' || val.value =='14' || val.value == '17' || val.value == '18' || val.value == '19' || val.value == '20' || val.value == '21' || val.value == '22') {
-                this.type = '01'             
+                this.type = '02'             
             } else if(val.value=='11' || val.value =='12' || val.value == '15' || val.value == '16' || val.value == '23') {
                 this.type = '03'
             }
