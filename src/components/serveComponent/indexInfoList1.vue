@@ -63,13 +63,13 @@
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhere" /></div>
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                        <svg-icon icon-class="serveComponent_icon14" @click="elseHospital" /></div>
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon15"  class="right-svg" /></div>
+                        <svg-icon icon-class="serveComponent_icon15" @click="pointMedical" class="right-svg" /></div>
                 </div>
             </div>
             <!-- <div class="bannerSvg">
@@ -307,6 +307,12 @@
             }
         },
         methods: {
+            elseHospital() {
+                this.$router.push("/SearchInfoElseHospital");
+            },
+            pointMedical() {
+                this.$router.push("/SearchInfoPointMedicalStore");
+            },
             // 事项配置url把参数转成对象
             globalConfigObj() {
                 // url事项配置截取url参数方法  ------开始
@@ -645,7 +651,7 @@
                 this.$router.push("/SearchInfoMedicalList");
             },
             //异地定点医院
-            elseWhereHospital() {
+            elseWhere() {
                 console.log(2)
                 let item = {}
                 if (this.lat == "" && this.lng == "") {
