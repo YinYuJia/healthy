@@ -141,7 +141,7 @@
                 // this.srcollLine()
             }, 500)
             new Swiper('.swiper-container', {
-                loop: true,
+                loop: false,
                 slidesPerView: 2.15, //显示的范围
                 spaceBetween: 30, //间隔大小
                 slidesOffsetBefore: 10, //靠左偏移量
