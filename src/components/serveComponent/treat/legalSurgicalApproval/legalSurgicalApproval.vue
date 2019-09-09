@@ -225,9 +225,9 @@ export default {
             this.form.AMC029VALUE = val.name;
             this.form.AMC029 = val.value;
             if(val.value =='04' || val.value =='05' || val.value == '06') {
-                this.type = '02';
+                this.type = '01';
             } else if (val.value=='13' || val.value =='14' || val.value == '17' || val.value == '18' || val.value == '19' || val.value == '20' || val.value == '21' || val.value == '22') {
-                this.type = '01'             
+                this.type = '02'             
             } else if(val.value=='11' || val.value =='12' || val.value == '15' || val.value == '16' || val.value == '23') {
                 this.type = '03'
             }
