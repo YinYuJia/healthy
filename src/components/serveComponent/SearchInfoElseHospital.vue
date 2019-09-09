@@ -4,8 +4,15 @@
       <div class="SearchBox">
         <svg-icon icon-class="serveComponent_search" />
         <input class="InputContent" v-model="NAME" :placeholder="'查找'">
-        <svg-icon class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete"></svg-icon>
+        <svg-icon class="deleteIcon" @click="deleteSearch()" icon-class="serveComponent_delete" v-if="NAME"></svg-icon>
         <div class="SearchBtn" @click="search">搜索</div>
+      </div>
+    </div>
+    <div class="IndexMenu"  id="titleContent">
+      <div class="MenuLine">
+          <div class="MenuCell" @click="changeIndex(1)" :class="{'active': activeIndex == 1}">距离优先</div>
+          <div class="MenuCell" @click="changeIndex(2)" :class="{'active': activeIndex == 2}">异地优先</div>
+          <div class="MenuCell" @click="changeIndex(3)" :class="{'active': activeIndex == 3}">等级优先</div>
       </div>
     </div>
     <div class="content1" :style="{height:height,fontSize:'16px'}">
@@ -47,7 +54,8 @@
         height: 0,
         isShow: false,
         lat: "",
-        lng: ""
+        lng: "",
+        activeIndex:1
       }
     },
     created() {
@@ -67,6 +75,21 @@
       window.removeEventListener('popstate', this.back, false); //false阻止默认事件
     },
     methods: {
+      changeIndex(index){
+          if (this.pointStatus == '2') {
+            this.activeIndex = this.pointStatus;
+            return;
+          } else {
+            this.activeIndex = index;
+            if (index == 1) {
+              console.log(11111)
+            } else if(index==2){
+              console.log(22222)
+            }else{
+              console.log(33333)
+            }
+          }
+      },
       deleteSearch() {
         this.NAME = '';
         this.isShow = false
@@ -215,6 +238,47 @@
     // height: 100%;
     background: #FFF;
     padding: 0 .2rem;
+    .IndexMenu {
+        height: 1.2rem;
+        width: 100%;
+        background: #FFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .MenuLine {
+            height: .62rem;
+            width: 95%;
+            background: #FFFFFF;
+            border-radius: .05rem;
+            display: flex;
+            .MenuCell {
+                line-height: .62rem;
+                width: 100%;
+                color: #1492FF;
+                text-align: center;
+                letter-spacing: 0;
+                font-size: .28rem;
+                border-right: 1px solid #1492FF;
+                border-top: 1px solid #1492FF;
+                border-bottom: 1px solid #1492FF;
+                &:first-child {
+                    border-top-left-radius: .05rem;
+                    border-bottom-left-radius: .05rem;
+                    border: 1px solid #1492FF;
+                }
+                &:last-child {
+                    border-top-right-radius: .05rem;
+                    border-bottom-right-radius: .05rem;
+                    border-right: none;
+                    border-right: 1px solid #1492FF;
+                }
+            }
+            .active {
+                color: #FFF;
+                background: #1492FF;
+            }
+        }
+    }
     .SearchContent {
       height: 1.18rem; // width: 7.5rem;
       margin-bottom: 0.15rem;
@@ -299,12 +363,13 @@
             }
             .Btn {
               float: left;
-              height: .4rem;
-              line-height: .4rem;
+              height: .24rem;
+              line-height: .24rem;
               width: 1.2rem;
-              background: #ECFFF1;
+              background: #DCEFFF;
               font-size: .24rem;
-              color: #26A88F;
+              font-family: FZLTXHKM;
+              color: #1492FF;
               letter-spacing: 0;
               text-align: center;
             }
@@ -315,8 +380,9 @@
               line-height: .4rem;
               width: 1.2rem;
               background: #DCEFFF;
+              font-family: FZLTXHKM;
               font-size: .24rem;
-              color: #1492FF;
+              color:  #26A88F;
               letter-spacing: 0;
               text-align: center;
             }

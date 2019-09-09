@@ -86,6 +86,8 @@ import searchTreat from '@/components/serveComponent/personal/searchTreat/search
 import searchTreatResult from '@/components/serveComponent/personal/searchTreat/searchTreatResult'
 import medicalDetail from '@/components/serveComponent/medicalDetail'
 import SearchInfoElseWhere from '@/components/serveComponent/SearchInfoElseWhere'
+import SearchInfoPointMedicalStore from '@/components/serveComponent/SearchInfoPointMedicalStore'
+import SearchInfoElseHospital from '@/components/serveComponent/SearchInfoElseHospital'
 import SearchInfoMedicalList from '@/components/serveComponent/SearchInfoMedicalList'
 import login from '@/components/serveComponent/login'
 import natureApproval from '@/components/serveComponent/treat/natureApproval/natureApproval'
@@ -503,6 +505,16 @@ export default new Router({
       path: '/searchInfoElseWhere',
       name: 'SearchInfoElseWhere',
       component: SearchInfoElseWhere
+    },
+    {
+      path: '/SearchInfoPointMedicalStore',
+      name: 'SearchInfoPointMedicalStore',
+      component: SearchInfoPointMedicalStore
+    },
+    {
+      path: '/SearchInfoElseHospital',
+      name: 'SearchInfoElseHospital',
+      component: SearchInfoElseHospital
     },
     {
       path: '/searchInfoMedicalList',
