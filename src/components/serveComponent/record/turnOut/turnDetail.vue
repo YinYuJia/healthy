@@ -391,5 +391,9 @@ export default {
             }
         }
     }
+    /deep/.Footer .active {
+        position: fixed;
+        bottom: 0;
+    }
 }
 </style>
