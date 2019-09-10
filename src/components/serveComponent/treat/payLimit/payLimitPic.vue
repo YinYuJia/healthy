@@ -2,15 +2,15 @@
     <div class="payLimitPic">
             <!-- 需要补充信息 -->
             <div class="payLimitTitle">附件上传</div>
-            <div class="supplementInfo" v-if="ifShow">
+            <div class="supplementInfo" v-if="isShow">
                 <div class="infoName">1.浙江省机关事业养老待遇计发(预发)表</div>
                 <div class="photoBox">
                     <img :src="form.photoUrl1" @click="showBigPhoto(form.photoUrl1)" v-if="form.photoUrl1" class="pic">
                     <svg-icon @click="uploadImg1" icon-class="serveComponent_upload"/>
                 </div>
             </div>
-            <div>
-                <div class="supplementInfo" v-if="!ifShow">
+            <div v-if="ifShow">
+                <div class="supplementInfo" >
                     <div class="infoName">1.浙江省职工退休、退职审批表</div>
                     <div class="photoBox">
                         <img :src="form.photoUrl2" @click="showBigPhoto(form.photoUrl2)" v-if="form.photoUrl2" class="pic">
@@ -44,16 +44,17 @@ export default {
                 photoUrl3:'',
                 photoId3:'',
             },
-            ifShow:false
+            ifShow:false,
+            isShow:false
         }
     },
     created () {
         if(this.$route.query.AAB019){
             if(this.$route.query.AAB019=='11'){
-                this.ifShow=true;
+                this.isShow=true;
                 console.log('机关')
             }else{
-                this.ifShow=false;
+                this.ifShow=true;
                 console.log('非机关')
             }
         }
