@@ -163,11 +163,15 @@
                 <span>+ 添加简历</span>
                 </div>
             </div>
+            <div class="footer">
+                <div class="SubmitBtn" @click="goto()" :class="{'active': canSubmit == true}">
+                    <span>下一步</span>
+                </div>
+            </div>
         </div>
         <!-- 办事指南 -->
         <GuideIcon AGA002="330800123004"></GuideIcon>
         <!-- 按钮 -->
-        <Footer :canSubmit='canSubmit' @submit="submit()" v-if="showAll"></Footer>
         <!-- 法人绑定 -->
         <!-- <Binding :flag="bindingFlag" @changeFlag="changeFlag"></Binding> -->
          <!-- 判断是否绑定经办组建-->
@@ -195,7 +199,7 @@ export default {
                 BKE703:'',//连续工龄(年)
                 BKE704:'',//连续工龄(月)
                 AAE041:'',//退休工资
-                BKE810:'',//提前退休
+                BKE810:'0',//提前退休
             },
             index:0,//第几项
             flag:false,//判断基础信息是否填写完整
@@ -266,7 +270,8 @@ export default {
                     label: '符合浙委办'
                 }
             ],
-            aa:false
+            aa:false,
+            AAB019:""//单位类型  11表示机关单位
         }
     },
     watch:{
@@ -328,6 +333,33 @@ export default {
         this.epFn.setTitle('缴费年限核定')
     },
     methods:{
+        goto(){
+            console.log('ls_DS',this.LS_DS);
+            if(this.index==-1){
+                this.$toast('必须填写一份简历')
+            }else{
+                if(this.isEmpty(this.LS_DS)){
+                    this.$toast('简历中还有信息未填写完整')
+                    return false
+                }else{
+                    if(this.canSubmit == false){
+                        this.$toast('信息未填写完整');
+                        return false;
+                    }else{
+                        sessionStorage.setItem('payLimitList',JSON.stringify(this.LS_DS))
+                        sessionStorage.setItem('payLimitAAE041',this.form.AAE041)
+                        sessionStorage.setItem('payLimitBKE810',this.form.BKE810)
+                        this.$router.push({
+                            path:'/payLimitPic',
+                            query:{
+                                    AAB019:this.AAB019
+                            }
+                        })
+                    }
+                }
+
+            }
+        },
       // 绑定成功后执行的请求
     //   changeFlag(val){
     //     this.bindingFlag = val;
@@ -564,7 +596,9 @@ export default {
                         this.form.AAB004=resData.LS_DS[0].AAB004;
                         this.form.AAB001=resData.LS_DS[0].AAB001;
                         this.form.BKEVALUE=this.form.BKE703+'年'+this.form.BKE704+'个月';
-                        sessionStorage.setItem('payLimitAAE135',this.form.AAE135)
+                        this.AAB019=resData.LS_DS[0].AAB019//单位类型  11机关单位
+                        sessionStorage.setItem('payLimitAAE135',this.form.AAE135)//身份证号
+                        sessionStorage.setItem('payLimitBaseInfo',JSON.stringify(this.form))//基础信息
                         }else {
                         this.$toast('该人员不是本单位的职员，请重新查询')
                         return false
@@ -588,43 +622,7 @@ export default {
                 })
             }
         },
-        submit(){
-            console.log('ls_DS',this.LS_DS);
-            if(this.index==-1){
-                this.$toast('必须填写一份简历')
-            }else{
-                if(this.isEmpty(this.LS_DS)){
-                    this.$toast('简历中还有信息未填写完整')
-                    return false
-                }else{
-                    if(this.canSubmit == false){
-                        this.$toast('信息未填写完整');
-                        return false;
-                    }else{
-                        this.$store.dispatch('SET_PAYLIMIT_OPERATION', this.form);
-                        // 封装数据
-                        let params = this.formatSubmitData1();
-                        // 开始请求
-                        console.log('parmas------',params)
-                        this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1025/addRecord', params).then((resData) => {
-                            console.log('返回成功信息',resData)
-                            //   成功   1000
-                                if ( resData.enCode == 1000 ) {
-                                    this.$router.push("/payLimitDetail");
-                                }else if (resData.enCode == 1001 ) {
-                                //   失败  1001
-                                    this.$toast(resData.msg);
-                                    return;
-                                }else{
-                                    this.$toast('业务出错');
-                                    return;
-                                }
-                        })
-                    }
-                }
 
-            }
-        },
         formatSubmitData(){
             let submitForm ={}
             // 日期传换成Number
@@ -640,35 +638,6 @@ export default {
             // }
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7610");
-            return params;
-        },
-        formatSubmitData1(){
-            let submitForm ={}
-            // 日期传换成Number
-            // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
-            submitForm.AAE135 = this.form.AAE135;
-            submitForm.AAC003=this.form.AAC003;
-            submitForm.BKE520 = "1"
-            submitForm.AKC412 = this.form.AKC412;
-            console.log(submitForm.AKC412)
-            console.log(typeof submitForm.AKC412)
-            submitForm.AAC004 = this.form.AAC004;
-            submitForm.AAC006 = this.form.AAC006;
-            submitForm.AAC007 = this.form.AAC007;
-            submitForm.AAB001 = this.form.AAB001;
-            console.log(typeof submitForm.AAB001)
-            submitForm.AAB004 = this.form.AAB004;
-            submitForm.BKE703 = this.form.BKE703;
-            submitForm.BKE704 = this.form.BKE704;
-            submitForm.AAE041 = this.form.AAE041;
-            submitForm.BKE810 = this.form.BKE810;
-            submitForm.LS_DS=[];
-            submitForm.LS_DS =[...submitForm.LS_DS,...this.LS_DS];
-            let LegalPerson = JSON.parse(sessionStorage.getItem("LegalPerson"));
-            submitForm.userId=LegalPerson.userId;//userId
-            
-            // 请求参数封装
-            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1025");
             return params;
         },
 
@@ -989,6 +958,35 @@ export default {
                     position: relative;
                     top: .36rem;
                 }
+            }
+        }
+        .footer{
+            user-select:none;
+            height: 1.31rem;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 199;
+            display: flex;
+            justify-content: center;
+            padding: 0 0.2rem;
+            box-sizing: border-box;
+            .SubmitBtn {
+                height: 1.05rem;
+                width: 100%;
+                border-radius: .05rem;
+                line-height: 1.05rem;
+                background: #F2F2F2;;
+                font-family: PingFangSC-Regular;
+                font-size: .36rem;
+                color: #B4B4B4;
+                letter-spacing: 0;
+                text-align: center;
+            }
+            .active{
+                background: #1492FF;
+                color: #FFFFFF;
             }
         }
     }
