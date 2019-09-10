@@ -96,7 +96,7 @@
         // 封装数据
         let params = this.formatSubmitData();
         // 开始请求
-        this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9024/distanceHospital", params).then(resData => {
+        this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9022/getRecord", params).then(resData => {
           console.log("返回成功信息11", resData);
           console.log("返回成功信息", resData.LS_DS);
           //   成功   1000
@@ -161,10 +161,10 @@
       formatSubmitData() {
         let submitForm = {};
         submitForm.PAGE = this.params.PAGE; //查询页数
-        submitForm.AKA101 = this.params.AKA101; //医疗机构等级
+        // submitForm.AKA101 = this.params.AKA101; //医疗机构等级
         submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
-        submitForm.JD = this.lng; //经度
-        submitForm.WD = this.lat; //纬度
+        submitForm.JD = '1'; //经度
+        submitForm.WD = '1'; //纬度
         submitForm.NAME = this.NAME; //医院名称
         // submitForm.AAA102 = this.params.AAA102; //模糊查询
         // submitForm.AAA100 = this.type; //机构参数

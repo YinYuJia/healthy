@@ -65,11 +65,13 @@
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon13" @click="elseWhere" /></div>
                     <div class="swiper-slide">
+                        <!-- 定点医院 -->
                         <svg-icon icon-class="serveComponent_icon14" @click="elseHospital" /></div>
+                        
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon15" @click="pointMedical" class="right-svg" /></div>
+                        <svg-icon icon-class="serveComponent_icon14" @click="pointMedical" class="right-svg" /></div>
                 </div>
             </div>
             <!-- <div class="bannerSvg">
@@ -309,11 +311,11 @@
         methods: {
             elseHospital() {
                 this.$router.push("/SearchInfoElseHospital");
-            //    7305
+            //    9110
             },
             pointMedical() {
                 this.$router.push("/SearchInfoPointMedicalStore");
-            //    7306
+            //    9022
             },
             // 事项配置url把参数转成对象
             globalConfigObj() {
