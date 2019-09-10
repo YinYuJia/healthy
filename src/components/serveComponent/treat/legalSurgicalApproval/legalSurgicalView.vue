@@ -50,7 +50,7 @@
                         <img :src="form.applicationFormUrl" @click="showBigPhoto(form.applicationFormUrl)"/>
                     </div>
                 </div>
-                <div v-if="type != '03'">
+                <div>
                     <div class="infoTitle">2.从确认怀孕开始（末次月经）时间的病历复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
@@ -66,8 +66,8 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="type == '02'">
-                    <div class="infoTitle">4.结婚证复印件</div>
+                <div v-if="type == '02'||visibleMar">
+                    <div class="infoTitle">{{number}}.结婚证复印件</div>
                     <div class="dataUpload">
                         <div class="picWrap">
                             <img :src="form.marriageCertificateUrl" @click="showBigPhoto(form.marriageCertificateUrl)"/>
@@ -93,13 +93,15 @@
 export default {
     data () {
         return {
+            number: '',
             successFlag:1,
             currentStep:1,
             form:{},
             form1:{},
             type: '',
             form: {},
-            imgUrl: ''
+            imgUrl: '',
+            visibleMar: false
         }
     },
     created () {
@@ -110,6 +112,11 @@ export default {
             this.successFlag = 2;
             this.type = this.$route.query.AGA002.split('-').pop();
             console.log("flag---", this.type)
+        }
+        if(this.type == '02') {
+            this.number = '4'
+        } else if (this.type == '03') {
+            this.number = '3'
         }
         this.request();
         this.request1();
@@ -153,6 +160,13 @@ export default {
             this.form={...this.form,...resData.LS_DS_19}
             let LS=resData.LS_DS_19
             this.form={...this.form,...LS}
+            if(this.type == '03') {
+              if(this.form.AMC029 != '12') {
+                  this.visibleMar = true
+              } else {
+                  this.visibleMar = false
+              }
+            }
             if(this.form.BKE200 != '') {
                         if(this.form.BMC220 == '1'){
                         this.form.BKE200 = '邮寄'
