@@ -82,7 +82,39 @@
                         <div class="InfoText">{{item.AKC423|AKC423}}</div>           
                 </div>
             </div>
+            <div class="upLoad">
+                <div class="upLoadTitle">附件信息:</div>        
+                    <div class="caseInfo" v-if="ifShow">
+                        <div class="infoName">1.浙江省机关事业养老待遇计发(预发)表</div>
+                        <div class="photoBox">
+                            <div class="picWrap">
+                                <div class="uploadBtn" v-for="(item,index) in picList" :key="index">
+                                    <img :src="item" class="pic" @click="showBigPhoto(item)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="!ifShow">
+                        <div class="caseInfo">
+                            <div class="infoName">1.浙江省职工退休、退职审批表</div>
+                            <div class="photoBox">
+                                <div class="picWrap">
+                                        <img :src="picList[0]" class="pic" @click="showBigPhoto(item)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="caseInfo">
+                            <div class="infoName">2.退休人员养老金预核发证明或退休人员养老金核定表</div>
+                            <div class="photoBox">
+                                <div class="picWrap">
+                                        <img :src="picList[1]" class="pic" @click="showBigPhoto(item)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
         </div>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Success :flag="successFlag"></Success>
         <!-- 底部 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" :handleNumber="handleNumber" @edit="edit()"></Footer>
@@ -102,7 +134,10 @@ export default {
                 {step:3,name:'审核'},
                 {step:4,name:'办结'}
             ],
+            picList:[],
+            imgUrl: '',
             successFlag: 1,
+            ifShow:false
         }
     },
     created () {
@@ -122,6 +157,11 @@ export default {
         window.removeEventListener('popstate', this.back, false);//false阻止默认事件
     },*/
     methods:{
+        // 查看大图
+        showBigPhoto(val){
+            this.imgUrl = val;
+            this.$refs.photo.open();
+        },
         back(){
             // this.$router.push('/')
         },
@@ -170,6 +210,17 @@ export default {
                         let LS=resData.LS_DS_13
                         this.form={...this.form,...LS}
                         this.handleNumber = this.form.BKZ019;
+                        this.picList = []
+                        if(resData.LS_DS_13.fileList.length==1){
+                            this.ifShow=true;
+                        }else{
+                            this.ifShow=false
+                        }
+                        for(let i=0;i<resData.LS_DS_13.fileList.length;i++){
+                            this.picList.push(resData.LS_DS_13.fileList[i].PUL002) 
+                        }
+
+                        console.log('我要的数据1111111',this.picList);
                         console.log("form",this.form)
                     }else{
                         this.$toast("暂无状态信息")
@@ -517,6 +568,46 @@ export default {
                     }
                 }
 
+            }
+        }
+        .upLoad{
+            height: 100%;
+            background: #fff;
+            margin-top: .3rem;
+            .upLoadTitle{
+                padding-top: .3rem;
+                padding-left: .3rem;
+                font-size: .36rem;
+                text-align: left;
+                background: #ffffff;
+            }
+            .caseInfo{
+                height: 100%;
+                background: #FFF;
+                padding: 0 .3rem;
+                // margin-top: .3rem;
+                .infoName{
+                    // height: 1.07rem;
+                    // line-height: 1.07rem;
+                    margin-top: .1rem;
+                    height: .8rem;
+                    line-height: .8rem;
+                    text-align: left;
+                    font-size: .3rem;
+                    color: #000000;
+                    letter-spacing: 0;
+                }
+                .photoBox{
+                    text-align: left;
+                    .svg-icon{
+                        height: 1.5rem;
+                        width: 1.5rem;
+                    }
+                    .pic{
+                        width:100%;
+                        height:100%;
+                    }
+                }
             }
         }
     }

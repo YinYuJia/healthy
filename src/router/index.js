@@ -67,6 +67,7 @@ import surgicalPlus from '@/components/serveComponent/treat/legalSurgicalApprova
 import unemployedSubmit from '@/components/serveComponent/treat/unemployed/unemployedSubmit'
 import unemployedDetail from '@/components/serveComponent/treat/unemployed/unemployedDetail'
 import payLimit from '@/components/serveComponent/treat/payLimit/payLimit'
+import payLimitPic from '@/components/serveComponent/treat/payLimit/payLimitPic'
 import payLimitDetail from '@/components/serveComponent/treat/payLimit/payLimitDetail'
 import legalSurgicalApproval from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalApproval'
 import legalSurgicalDetail from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalDetail'
@@ -421,6 +422,11 @@ export default new Router({
       name: 'payLimit',
       component: payLimit
     },
+    {
+      path: '/payLimitPic',
+      name: 'payLimitPic',
+      component: payLimitPic
+    }, 
     {
       path: '/payLimitDetail',
       name: 'payLimitDetail',
