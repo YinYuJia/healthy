@@ -14,7 +14,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>就诊机构:</span></div>
-                    <div class="InfoText">{{form.AKB020Name}}</div>
+                    <div class="InfoText">{{form.AKB020VALUE}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>项目类型:</span></div>
@@ -121,6 +121,7 @@ export default {
                 AAE030: "", //开始日期
                 AAE031: "", //结束日期
                 AKB020Name:"",//就诊机构名称
+                AKB020VALUE:"",
                 BKE239:""
             },
             AAB301000: "",
