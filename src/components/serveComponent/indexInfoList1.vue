@@ -309,9 +309,11 @@
         methods: {
             elseHospital() {
                 this.$router.push("/SearchInfoElseHospital");
+            //    7305
             },
             pointMedical() {
                 this.$router.push("/SearchInfoPointMedicalStore");
+            //    7306
             },
             // 事项配置url把参数转成对象
             globalConfigObj() {
