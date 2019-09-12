@@ -22,7 +22,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转出医院:</span></div>
-                    <div class="InfoText">{{form.AKB020Name}}</div>
+                    <div class="InfoText">{{form.AKB020VALUE}}</div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转往地市:</span></div>
@@ -390,6 +390,10 @@ export default {
                 letter-spacing: 0;
             }
         }
+    }
+    /deep/.Footer .active {
+        position: fixed;
+        bottom: 0;
     }
 }
 </style>

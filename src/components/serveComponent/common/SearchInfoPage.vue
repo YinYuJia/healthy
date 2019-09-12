@@ -75,6 +75,23 @@
         </mt-loadmore>
         <div class="footer" v-if="isShow">没有更多数据了~</div>
     </div>
+    <div class="content1" :style="{height:height,fontSize:'16px'}" v-if="isSmallReim">
+        <mt-loadmore
+          :bottom-method="loadBottom"
+          :bottom-all-loaded="allLoaded"
+          ref="loadmore"
+        >
+          <ul class="ListContent">
+            <li
+              class="List"
+              v-for="(item,index) in List"
+              :key="index"
+              @click="chooseHospital(item.AAE008,item.BAC049)"
+            >{{ item.BAC049 | tooLong}}</li>
+          </ul>
+        </mt-loadmore>
+        <div class="footer" v-if="isShow">没有更多数据了~</div>
+    </div>
     <div class="content1" :style="{height:height,fontSize:'16px'}" v-if="jy7211Medical">
         <mt-loadmore
           :bottom-method="loadBottom"
@@ -114,7 +131,8 @@ export default {
       heightTop:0,
       height: 0,
       isShow:false,
-      showHospital:false
+      showHospital:false,
+      isSmallReim:false
     };
   },
   filters:{
@@ -174,6 +192,11 @@ export default {
     },
     //费用信息查询7603
     jy7603:{
+        type: Boolean,
+        default:false
+    },
+    //零星报销银行
+    jy9111:{
         type: Boolean,
         default:false
     }
@@ -247,6 +270,10 @@ export default {
         this.request1();
       }else if (this.jy7603){
         //接口未出
+      }else if(this.jy9111){
+        //零星报销银行
+        this.request2();
+        this.isSmallReim=true;
       }else if(this.jy9015){
         // 封装数据
         let params = this.formatSubmitData();
@@ -467,6 +494,50 @@ export default {
           }
         });
     },
+    request2(){
+      // 封装数据
+      let params = this.formatSubmitData3();
+      // 开始请求
+      this.$axios.post(this.epFn.ApiUrl()+"/H5/jy9111/getRecord",params).then(resData => {
+          console.log("返回成功信息1111", resData);
+          //   成功   1000
+          if (resData.enCode == 1000) {
+            
+            // this.$toast("提交成功");
+            if (resData.LS_DS.length > 0) {
+              this.List = [...this.List, ...resData.LS_DS];
+              let pageNum = Math.ceil(this.List.length / this.params.pageSize);
+              //向上取整
+              this.params.pageNum = pageNum;
+              // 总页数
+              if (resData.SPAGE > pageNum) {
+                this.params.pageNum += 1;
+                this.allLoaded = false;
+                sessionStorage.setItem("params", JSON.stringify(this.params));
+                // sessionStorage.setItem("pointList", JSON.stringify(this.List));
+              }else{
+                this.isShow = true
+              }
+              if(resData.SCOUNT<=15){
+                this.isShow = true
+                this.allLoaded = true;
+              }
+              sessionStorage.setItem("pointList", JSON.stringify(this.List));
+              sessionStorage.setItem("params", JSON.stringify(this.params));
+              // sessionStorage.setItem("params", JSON.stringify(this.params));
+            }else{
+                this.isShow = true
+            }
+          } else if (resData.enCode == 1001) {
+            //   失败  1001
+            this.$toast(resData.msg);
+            return;
+          } else {
+            this.$toast("业务出错");
+            return;
+          }
+        });
+    },
     deleteSearch(){
       this.params.AAA102 = '';
         this.isShow=false
@@ -541,6 +612,21 @@ export default {
         this.$store.state.SET_NATIVEMSG.PublicHeader,
         submitForm,
         "9021"
+      );
+      return params;
+    },
+    formatSubmitData3() {
+      let submitForm = {};
+      submitForm.BAC048 = this.params.AAA102||''; //查询关键字
+      submitForm.OUTNUMBER = 15; //每页输出记录条数
+      submitForm.PAGE = this.params.pageNum; //页码
+      submitForm.JD = '1'; 
+      submitForm.WD = '1'; 
+      // 请求参数封装
+      const params = this.epFn.commonRequsetData(
+        this.$store.state.SET_NATIVEMSG.PublicHeader,
+        submitForm,
+        "9111"
       );
       return params;
     },

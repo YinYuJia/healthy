@@ -8,18 +8,14 @@
         <div class="SearchBtn" @click="search">搜索</div>
       </div>
     </div>
-    <div class="content1" :style="{height:height,fontSize:'16px'}">
+    <div class="content1" :style="{height:height,fontSize:'24px'}">
       <mt-loadmore :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
         <ul class="ListContent">
           <li class="InfoLine" v-for="(item,index) in List" :key="index">
             <div class="InfoBox">
               <div class="HospitalName">{{item.AKB021}}</div>
               <div class="AddressName">{{item.AAE006||"暂无"}}</div>
-              <div>
-                <div class="Btn">{{item.AKA101|level()}}</div>
-                <div class="Btn1" v-if="item.AKB100 != ''">{{item.AKB100|AKB100()}}</div>
                 <!-- <div class="Btn2">{{item.AKB100|AKB100()}}</div> -->
-              </div>
             </div>
             <div class="distBox">{{item.JL|ifKL()}}</div>
           </li>
@@ -100,7 +96,7 @@
         // 封装数据
         let params = this.formatSubmitData();
         // 开始请求
-        this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9024/distanceHospital", params).then(resData => {
+        this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9022/getRecord", params).then(resData => {
           console.log("返回成功信息11", resData);
           console.log("返回成功信息", resData.LS_DS);
           //   成功   1000
@@ -165,10 +161,10 @@
       formatSubmitData() {
         let submitForm = {};
         submitForm.PAGE = this.params.PAGE; //查询页数
-        submitForm.AKA101 = this.params.AKA101; //医疗机构等级
+        // submitForm.AKA101 = this.params.AKA101; //医疗机构等级
         submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
-        submitForm.JD = this.lng; //经度
-        submitForm.WD = this.lat; //纬度
+        submitForm.JD = '1'; //经度
+        submitForm.WD = '1'; //纬度
         submitForm.NAME = this.NAME; //医院名称
         // submitForm.AAA102 = this.params.AAA102; //模糊查询
         // submitForm.AAA100 = this.type; //机构参数
@@ -271,7 +267,7 @@
       .ListContent{
         padding: 0 .2rem;
         .InfoLine {
-          height: 1.6rem;
+          height: 1.2rem;
           display: flex;
           background: #FFF;
           justify-content: space-between;
@@ -281,17 +277,15 @@
           .InfoBox {
             height: 100%;
             width: 6rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            justify-content: space-around;
             .HospitalName {
-              font-size: .28rem;
+              margin-top: .2rem;
+              font-size: .27rem;
               color: #000000;
               letter-spacing: 0;
               text-align: left;
             }
             .AddressName {
+              margin-top: .115rem;
               font-size: .24rem;
               color: #999999;
               letter-spacing: 0;
@@ -341,6 +335,7 @@
             text-align: right;
           }
         }
+        
       }
       .footer {
         border-top: 0.01rem solid #d5d5d5;

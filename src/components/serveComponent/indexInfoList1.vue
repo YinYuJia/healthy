@@ -60,10 +60,23 @@
         </div>
         <!-- banner -->
         <div class="banner">
-            <div class="bannerSvg">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <!-- 定点医院 -->
+                        <svg-icon icon-class="serveComponent_icon17" @click="elseHospital" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon14" @click="pointMedical" class="right-svg" /></div> 
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhere" /></div> 
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
+                </div>
+            </div>
+            <!-- <div class="bannerSvg">
                 <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
                 <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
-            </div>
+            </div> -->
         </div>
         <!-- 轮播图 -->
         <div class="carousel">
@@ -129,8 +142,9 @@
                 // this.srcollLine()
             }, 500)
             new Swiper('.swiper-container', {
+                loop: false,
                 slidesPerView: 2.15, //显示的范围
-                spaceBetween: -8, //间隔大小
+                spaceBetween: 30, //间隔大小
                 slidesOffsetBefore: 10, //靠左偏移量
                 slidesOffsetAfter: 10, //靠左偏移量
                 observer: true, //修改swiper自己或子元素时，自动初始化swiper
@@ -294,6 +308,14 @@
             }
         },
         methods: {
+            elseHospital() {
+                this.$router.push("/SearchInfoElseHospital");
+            //    9110
+            },
+            pointMedical() {
+                this.$router.push("/SearchInfoPointMedicalStore");
+            //    9022
+            },
             // 事项配置url把参数转成对象
             globalConfigObj() {
                 // url事项配置截取url参数方法  ------开始
@@ -632,7 +654,7 @@
                 this.$router.push("/SearchInfoMedicalList");
             },
             //异地定点医院
-            elseWhereHospital() {
+            elseWhere() {
                 console.log(2)
                 let item = {}
                 if (this.lat == "" && this.lng == "") {

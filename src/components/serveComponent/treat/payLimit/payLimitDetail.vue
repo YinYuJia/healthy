@@ -82,7 +82,37 @@
                         <div class="InfoText">{{item.AKC423|AKC423}}</div>           
                 </div>
             </div>
+            <div class="upLoad">
+                <div class="upLoadTitle">附件信息:</div>        
+                    <div class="caseInfo" v-if="ifShow">
+                        <div class="infoName">1.浙江省机关事业养老待遇计发(预发)表</div>
+                        <div class="photoBox">
+                            <div class="picWrap">
+                                    <img :src="picList[0]" class="pic" @click="showBigPhoto(picList[0])" />
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="!ifShow">
+                        <div class="caseInfo">
+                            <div class="infoName">1.浙江省职工退休、退职审批表</div>
+                            <div class="photoBox">
+                                <div class="picWrap">
+                                        <img :src="picList[0]" class="pic" @click="showBigPhoto(picList[0])" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="caseInfo">
+                            <div class="infoName">2.退休人员养老金预核发证明或退休人员养老金核定表</div>
+                            <div class="photoBox">
+                                <div class="picWrap">
+                                        <img :src="picList[1]" class="pic" @click="showBigPhoto(picList[1])" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
         </div>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <Success :flag="successFlag"></Success>
         <!-- 底部 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" :handleNumber="handleNumber" @edit="edit()"></Footer>
@@ -102,7 +132,10 @@ export default {
                 {step:3,name:'审核'},
                 {step:4,name:'办结'}
             ],
+            picList:[],
+            imgUrl: '',
             successFlag: 1,
+            ifShow:false
         }
     },
     created () {
@@ -122,6 +155,11 @@ export default {
         window.removeEventListener('popstate', this.back, false);//false阻止默认事件
     },*/
     methods:{
+        // 查看大图
+        showBigPhoto(val){
+            this.imgUrl = val;
+            this.$refs.photo.open();
+        },
         back(){
             // this.$router.push('/')
         },
@@ -170,6 +208,17 @@ export default {
                         let LS=resData.LS_DS_13
                         this.form={...this.form,...LS}
                         this.handleNumber = this.form.BKZ019;
+                        this.picList = []
+                        if(resData.LS_DS_13.fileList.length==1){
+                            this.ifShow=true;
+                        }else{
+                            this.ifShow=false
+                        }
+                        for(let i=0;i<resData.LS_DS_13.fileList.length;i++){
+                            this.picList.push(resData.LS_DS_13.fileList[i].PUL002) 
+                        }
+
+                        console.log('我要的数据1111111',this.picList);
                         console.log("form",this.form)
                     }else{
                         this.$toast("暂无状态信息")
@@ -405,7 +454,7 @@ export default {
                     span {
                         height: .6rem;
                         line-height: .6rem;
-                        color: #000000;
+                        color: #666666;
                         letter-spacing: 0;
                     }
                 }
@@ -417,6 +466,7 @@ export default {
                     display: flex;
                     position: relative;
                     align-items: center;
+                    color: #000000;
                 }
                 &:last-child {
                     border-bottom: none;
@@ -461,6 +511,7 @@ export default {
                     display: flex;
                     position: relative;
                     align-items: center;
+                    color: #000000;
                     .svg-icon-delete{
                         display: inline-block;
                         width: .6rem;
@@ -492,7 +543,7 @@ export default {
                     span {
                         height: .6rem;
                         line-height: .6rem;
-                        color: #000000;
+                        color: #666666;
                         letter-spacing: 0;
                     }
                 }
@@ -502,6 +553,7 @@ export default {
                     opacity: 0.85;
                     line-height: 1rem;
                     display: flex;
+                    color: #000000;
                     position: relative;
                     align-items: center;
                     input {
@@ -517,6 +569,51 @@ export default {
                     }
                 }
 
+            }
+        }
+        .upLoad{
+            height: 100%;
+            background: #fff;
+            margin-top: .3rem;
+            .upLoadTitle{
+                padding-top: .3rem;
+                padding-left: .3rem;
+                font-size: .36rem;
+                text-align: left;
+                background: #ffffff;
+            }
+            .caseInfo{
+                height: 2.5rem;
+                background: #FFF;
+                padding: 0 .3rem;
+                // margin-top: .3rem;
+                .infoName{
+                    // height: 1.07rem;
+                    // line-height: 1.07rem;
+                    height: .28rem;
+                    line-height: .28rem;
+                    text-align: left;
+                    font-size: .28rem;
+                    color: #000000;
+                    letter-spacing: 0;
+                    position: relative;
+                    top: .37rem;
+                }
+                .photoBox{
+                    position: relative;
+                    text-align: left;
+                    top: .32rem;
+                    .picWrap{
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin-top: .2rem;
+                        .pic{
+                            margin: .1rem .15rem 0 0;
+                            height: 1.5rem;
+                            width: 1.5rem;
+                        }
+                    }
+                }
             }
         }
     }

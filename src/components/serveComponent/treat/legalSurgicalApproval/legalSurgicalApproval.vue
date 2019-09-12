@@ -1,7 +1,8 @@
 <template>
     <div class="SurgicalApproval">
         <!-- 选择器 -->
-        <SelectList :list="slots" ref="select" @choose="chooseType"></SelectList>
+        <SelectList :list="form.slots" ref="select" @choose="chooseType"></SelectList>
+        <SelectList :list="form.slots1" ref="select1" @choose="selectType"></SelectList>
         <!-- 标题 -->
         <Title :title="'计划外生育'" :backRouter="'/'"></Title>
         <mt-datetime-picker
@@ -25,6 +26,16 @@
             </div>
             <div class="ReportInfo" v-if="showAll">
                  <div class="InfoLine">
+                    <div class="InfoName"><span>计划生育分类</span></div>
+                    <div class="InfoText">
+                        <input class="InputContent" v-model="form.typeVALUE" @click="openSelectType" :placeholder="'请选择'" readonly>
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
+                </div>
+                <div class="hintInfo">
+                    <i class="el-icon-warning" style="color:#FFA007"></i><span>流产时，胎次为2以内，分类为计划内流产；胎次大于2时，分类为计划外流产</span>
+                </div>
+                 <div class="InfoLine">
                     <div class="InfoName"><span>计划生育类型</span></div>
                     <div class="InfoText">
                         <input class="InputContent" v-model="form.AMC029VALUE" @click="openChooseType" :placeholder="'请选择'" readonly>
@@ -40,9 +51,9 @@
             </div>
         </div>
         <!-- 发票信息 -->
-        <invoiceInfo v-if="type == '02'" @saveInfo="saveInfo"></invoiceInfo>
+        <invoiceInfo v-if="showPlus" @saveInfo="saveInfo"></invoiceInfo>
         <!-- 发票提交方式 -->
-        <mailInfo v-if="type == '02'" :type="form.BKE200" @mailType="mailType"></mailInfo>
+        <mailInfo v-if="showPlus" :type="form.BKE200" @mailType="mailType"></mailInfo>
     
         <!-- 按钮 -->
         <div class="SubmitBtn" :class="{'active': canSubmit == true}" @click="add()" v-if="showAll">补充材料</div>
@@ -77,16 +88,32 @@ export default {
                 BMC131: '',
                 BKE200: '',
                 AMC029VALUE: '',
+                typeVALUE: '',
+                slots: [],
+                slots1: [],
             },
             showCityPicker: false,
-            slots: [],
+            selectList2: [{
+                value: '4',
+                name: '节育、复通'
+            }],
+            selectList1: [{
+                value: '1',
+                name: '计划内流产、引产'
+            }, {
+                value: '2',
+                name: '计划外流产、引产'
+            }, {
+                value: '3',
+                name: '节育、复通'
+            }],
             name: '',
             value: '',
             endDate: new Date(),
             dateVal: new Date(),
             type: '',
             isDestroy: true,
-            list1:[{
+            list2:[{
                 value: '13',
                 name: '人工流产'
             },{
@@ -111,7 +138,7 @@ export default {
                 value: '22',
                 name: '中期终止妊娠同时取出宫内节育器'
             }],
-            list2: [{
+            list1: [{
                 value: '04',
                 name: '三个月以下流产'
             },{
@@ -137,7 +164,8 @@ export default {
             list4:[{
                 value: '23',
                 name: '输精管结扎'
-            }]
+            }],
+            showPlus: false
         }
     },
     created(){
@@ -152,26 +180,24 @@ export default {
         if(this.dispatch == 1 || sessionStorage.getItem('SET_SURGICAL_MESSAGE') != null) {
             console.log("backtype------------:", this.type)
             this.showAll = true;
-            this.type = '02';
             this.userInfo = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).userInfo;
             this.form = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).form;
             this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'));
             this.type = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).type;
-            if(this.userInfo.AAC004 == '1'){
-                            this.slots = this.list4
-                            console.log("b", this.slots)
-                        } else if (this.userInfo.AAC004 == '2') {
-                            this.slots = this.slots.concat(this.list1, this.list2,this.list3)
-                            console.log("b", this.slots)
-                        }
+            if(this.type == '02' || this.type == '03') {
+                this.showPlus = true
+            }
             console.log("invoice:", this.invoiceList)
+        }
+        if(this.dispatch == 1) {
+            this.showPlus = true
         }
     },
     watch: {
         form:{
             handler:function(val){
                 if(val.AMC029!="" && val.BMC131!=""){
-                    if(this.type == '02') {
+                    if(this.type == '02' || this.type == '03') {
                         if(val.BKE200 != '') {
                             this.canSubmit = true;
                         } else {
@@ -222,27 +248,55 @@ export default {
         openChooseType() {
             this.$refs.select.open();
         },
+        openSelectType() {
+            this.$refs.select1.open();
+        },
         chooseType(val){
-            this.type = ''
             this.form.AMC029VALUE = val.name;
             this.form.AMC029 = val.value;
-            if(val.value =='04' || val.value =='05' || val.value == '06') {
+            // if(val.value =='04' || val.value =='05' || val.value == '06') {
+            //     this.type = '01';
+            // } else if (val.value=='13' || val.value =='14' || val.value == '17' || val.value == '18' || val.value == '19' || val.value == '20' || val.value == '21' || val.value == '22') {
+            //     this.type = '02'             
+            // } else if(val.value=='11' || val.value =='12' || val.value == '15' || val.value == '16' || val.value == '23') {
+            //     this.type = '03'
+            // }   
+        },
+        selectType(val) {
+            this.form.AMC029VALUE = '';
+            this.form.AMC029 = '';
+            console.log("oppp:", val)
+            this.form.typeVALUE = val.name
+            if(val.value == '1') {
+                this.form.slots = this.list1
+                this.type = '01';
+                this.showPlus = false
+            } else if (val.value == '2') {
+                this.form.slots = this.list2
                 this.type = '02';
-            } else if (val.value=='13' || val.value =='14' || val.value == '17' || val.value == '18' || val.value == '19' || val.value == '20' || val.value == '21' || val.value == '22') {
-                this.type = '01'             
-            } else if(val.value=='11' || val.value =='12' || val.value == '15' || val.value == '16' || val.value == '23') {
+                this.showPlus = true
+            } else if (val.value == '3') {
+                this.form.slots = this.list3 
                 this.type = '03'
+                this.showPlus = true
+            } else if (val.value == '4') {
+                this.form.slots = this.list4
+                this.type = '03'
+                this.showPlus = true
             }
-             console.log("this.type:", this.type)
+            console.log("this.type:", this.type)
         },
         //搜索
         search(){
             this.form.AMC029VALUE = '';
             this.form.AMC029 = '';
             this.form.BMC131 = '';
-            this.slots = []
+            this.form.slots = []
+            this.form.slots1 = []
             this.type = ''
             this.showAll=false;
+            this.form.typeVALUE = ''
+            this.showPlus = false
             sessionStorage.removeItem('SET_SURGICAL_INVOICELIST')
             sessionStorage.removeItem('SET_SURGICAL_MESSAGE')
             console.log('通过身份证号请求数据')
@@ -266,14 +320,16 @@ export default {
                         sessionStorage.setItem('payLimitAAE135',this.AAE135);
                         console.log("a-", this.userInfo.AAC002);
                         if(resData.LS_DS[0].AAC004 == '1'){
-                            this.slots = this.list4
+                            this.form.slots = this.list4
                             this.form.AMC029VALUE = '输精管结扎';
                             this.form.AMC029 = '23';
                             this.type = '03'
-                            console.log("b", this.slots)
+                            this.form.slots1 = this.selectList2;
+                            this.form.typeVALUE = '节育、复通';
+                            this.showPlus = true
                         } else if (resData.LS_DS[0].AAC004 == '2') {
-                            this.slots = this.slots.concat(this.list1, this.list2,this.list3)
-                            console.log("b", this.slots)
+                            // this.slots = this.slots.concat(this.list1, this.list2,this.list3)
+                            this.form.slots1 = this.selectList1
                         }
                         this.showAll=true;
                         }else {
@@ -304,8 +360,8 @@ export default {
         add() {
             this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'))
             console.log("list------:", this.invoiceList)
-            if(this.type == '02') {
-                if(this.form.AMC029 == '' || this.form.BMC131 == '' || this.form.BKE200 == '' || this.invoiceList.length == 0) {
+            if(this.type != '01') {
+                if(this.form.AMC029 == '' || this.form.BMC131 == '' || this.form.BKE200 == '' || this.invoiceList == null) {
                     this.$toast('请补全信息！');
                 } else {
                     this.invoiceList.forEach( e => {
@@ -424,6 +480,23 @@ export default {
             width: 7.5rem;
             padding: 0 .3rem;
             background: white;
+            .hintInfo{
+                background-color: rgba(255, 160, 7, .1);
+                padding: .18rem 0;
+                display: flex;
+                align-items: flex-start;
+                text-align: left;
+                padding: .18rem .2rem;
+                margin-top: .1rem;
+                i{
+                    font-size: .24rem;
+                }
+                span{
+                    font-size: .24rem;
+                    color: #FFA007;
+                    letter-spacing: 0;
+                }
+            }
             .InfoLine {
                 height: 1rem;
                 position: relative;

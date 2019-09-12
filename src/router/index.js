@@ -67,6 +67,7 @@ import surgicalPlus from '@/components/serveComponent/treat/legalSurgicalApprova
 import unemployedSubmit from '@/components/serveComponent/treat/unemployed/unemployedSubmit'
 import unemployedDetail from '@/components/serveComponent/treat/unemployed/unemployedDetail'
 import payLimit from '@/components/serveComponent/treat/payLimit/payLimit'
+import payLimitPic from '@/components/serveComponent/treat/payLimit/payLimitPic'
 import payLimitDetail from '@/components/serveComponent/treat/payLimit/payLimitDetail'
 import legalSurgicalApproval from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalApproval'
 import legalSurgicalDetail from '@/components/serveComponent/treat/legalSurgicalApproval/legalSurgicalDetail'
@@ -86,6 +87,8 @@ import searchTreat from '@/components/serveComponent/personal/searchTreat/search
 import searchTreatResult from '@/components/serveComponent/personal/searchTreat/searchTreatResult'
 import medicalDetail from '@/components/serveComponent/medicalDetail'
 import SearchInfoElseWhere from '@/components/serveComponent/SearchInfoElseWhere'
+import SearchInfoPointMedicalStore from '@/components/serveComponent/SearchInfoPointMedicalStore'
+import SearchInfoElseHospital from '@/components/serveComponent/SearchInfoElseHospital'
 import SearchInfoMedicalList from '@/components/serveComponent/SearchInfoMedicalList'
 import login from '@/components/serveComponent/login'
 import natureApproval from '@/components/serveComponent/treat/natureApproval/natureApproval'
@@ -420,6 +423,11 @@ export default new Router({
       component: payLimit
     },
     {
+      path: '/payLimitPic',
+      name: 'payLimitPic',
+      component: payLimitPic
+    }, 
+    {
       path: '/payLimitDetail',
       name: 'payLimitDetail',
       component: payLimitDetail
@@ -503,6 +511,16 @@ export default new Router({
       path: '/searchInfoElseWhere',
       name: 'SearchInfoElseWhere',
       component: SearchInfoElseWhere
+    },
+    {
+      path: '/SearchInfoPointMedicalStore',
+      name: 'SearchInfoPointMedicalStore',
+      component: SearchInfoPointMedicalStore
+    },
+    {
+      path: '/SearchInfoElseHospital',
+      name: 'SearchInfoElseHospital',
+      component: SearchInfoElseHospital
     },
     {
       path: '/searchInfoMedicalList',

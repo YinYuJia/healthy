@@ -18,8 +18,8 @@
                 </div>
             </div>
             <!-- <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView> -->
-            <div v-if="type != '03'">
-                <div class="infoTitle">2.从确认怀孕开始（末次月经）时间的病历复印件</div>
+            <div>
+                <div class="infoTitle">2.{{title}}病历复印件一份</div>
                 <div class="dataUpload">
                     <div class="picWrap">
                         <div v-for="(item,index) in menstruationUrl" :key="index">
@@ -46,8 +46,8 @@
                     </div>
                 </div>
             </div>
-            <div v-if="type == '02'">
-                <div class="infoTitle">4.结婚证复印件</div>
+            <div v-if="type == '02' || visibleMar == true">
+                <div class="infoTitle">{{number}}.结婚证复印件</div>
                 <div class="dataUpload">
                     <div class="picWrap">
                         <div  v-for="(item,index) in marriageCertificateUrl" :key="index">
@@ -99,10 +99,25 @@ export default {
         this.AAC002 = this.$route.query.params.AAC002;
         this.BKE200 = this.$route.query.params.BKE200;
         this.photoIdList = this.$route.query.params.photoIdList;
+        if(this.type == '02') {
+            this.number = '4'
+        } else if (this.type == '03') {
+            this.number = '3'
+        }
         console.log("type:", this.type)
+        if(this.type == '03') {
+            this.title = ''
+            if(this.AMC029 == '12') {
+                this.visibleMar = false
+            } else {
+                this.visibleMar = true
+            }
+        }
     },
     data() {
         return {
+            title: '从确认怀孕开始（末次月经）时间的',
+            number: '',
             BKE200: '',
             photoIdList: '',
             type: '',
@@ -121,8 +136,8 @@ export default {
             listIndex: 1,
             AMC029: '',
             BMC131: '',
-            AAC002: ''
-
+            AAC002: '',
+            visibleMar: false
         }
     },
     methods: {
@@ -188,7 +203,7 @@ export default {
                             this.submitList(obj);
                         }
                     } else if (this.type == '02') {
-                        if(this.applicationFormUrl.length == 0 || this.menstruationUrl.length == 0 || this.abortionUrl.length == 0 || this.menstruationUrl.length == 0 || this.expensesList.length < 3) {
+                        if(this.applicationFormUrl.length == 0 || this.menstruationUrl.length == 0 || this.abortionUrl.length == 0 || this.marriageCertificateUrl.length == 0 || this.expensesList.length < 3) {
                             this.$toast('请补全信息！');
                         } else {
                             obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
@@ -200,10 +215,25 @@ export default {
                             this.submitList(obj);
                         }
                     } else if (this.type == '03') {
-                        if(this.applicationFormUrl.length == 0) {
-                            this.$toast('请补全信息！');
+                        if(this.visibleMar == true){
+                            if(this.applicationFormUrl.length == 0 || this.menstruationUrl.length == 0 || this.marriageCertificateUrl.length == 0){
+                                this.$toast('请补全信息！');
+                            } else {
+                                obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
+                                obj.marriageCertificateUrl = this.marId;// 结婚复印证
+                                obj.photoIdList = this.photoIdList;
+                                obj.BKE200 = this.BKE200;
+                                this.submitList(obj);
+                            }
                         } else {
-                            this.submitList(obj);
+                            if(this.applicationFormUrl.length == 0||this.menstruationUrl.length == 0) {
+                                this.$toast('请补全信息！');
+                            } else {
+                                obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
+                                obj.photoIdList = this.photoIdList;
+                                obj.BKE200 = this.BKE200;
+                                this.submitList(obj);
+                            }
                         }
                     }
         },
