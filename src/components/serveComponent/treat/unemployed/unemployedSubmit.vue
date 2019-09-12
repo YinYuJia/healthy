@@ -8,7 +8,7 @@
                 <!-- 附件不是医疗诊断证明书等 -->
                 <div class="PhotoBox" v-if="item.saveName != 'BMC008URL'">
                     <div class="ImgBox" v-if="item.url!=''">
-                        <img :src="item.url"/>
+                        <img :src="item.url" @click="showBigPhoto(item.url)" />
                         <svg-icon @click="deleteImg(index,item)" icon-class="serveComponent_delete"></svg-icon>
                     </div>
                     <svg-icon @click="uploadImg(index,item)" icon-class="serveComponent_upload"></svg-icon>
@@ -16,7 +16,7 @@
                 <!-- 附件是医疗诊断证明书等 -->
                 <div class="PhotoBox" v-if="item.saveName == 'BMC008URL'">
                     <div class="ImgBox" v-for="(innerItem,innerIndex) in item.url" :key="innerIndex">
-                        <img :src="innerItem"/>
+                        <img :src="innerItem" @click="showBigPhoto(innerItem)" />
                         <svg-icon @click="deleteImg(index,item,innerIndex)" icon-class="serveComponent_delete"></svg-icon>
                     </div>
                     <svg-icon @click="uploadImg(index,item)" icon-class="serveComponent_upload"></svg-icon>
@@ -31,6 +31,8 @@
             </div>
         </div>
         <Footer @submit="submit()" :canSubmit="canSubmit"></Footer>
+        <!-- 大图展示 -->
+        <PhotoView ref="photo" :imgUrl="bigImgUrl"></PhotoView>
     </div>
 </template>
 
@@ -46,7 +48,7 @@ export default {
                 BMC002URL: '', //医疗诊断证明或出院记录复印件一份
                 BMC003URL: [] //未就业承诺书及未就业证明原件一份
             },
-            bigPhotoUrl: '', //大图Url
+            bigImgUrl: '', //大图Url
             canSubmit: false, //是否可以提交
             fileList: [], //上传的文件列表
         };
@@ -278,6 +280,7 @@ export default {
                 AAC002: userInfo.AAC002, //员工证件号码
                 BMC061: '0', //计划生育人员类别,先默认传0
                 BMC131: Number(this.util.DateToNumber(reportInfo.BMC131)), //生育日期
+                AMC099: reportInfo.AMC099, //生育分类
                 AMC029: reportInfo.AMC029, //生育类别
                 AKC264: totalCount, //发票总金额
                 BKC013: invoiceLength, //发票张数
@@ -301,6 +304,10 @@ export default {
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7214");
             return params;
         },
+        showBigPhoto(val){
+            this.bigImgUrl = val;
+            this.$refs.photo.open();
+        }
     }
 }
 </script>

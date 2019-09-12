@@ -6,7 +6,7 @@
         <div class="invoiceList" v-for="(item,index) in invoiceList" :key="index">
             <div class="infoLine">
                 <div class="infoName"><span>发票号</span></div>
-                <div class="infoText"><span class="active" @click="showBigPhoto(item.BKE554)">{{item.BKE100}}</span></div>
+                <div class="infoText"><span class="active" @click="showBigPhoto(item.photoUrl)">{{item.BKE100}}</span></div>
             </div>
             <div class="infoLine">
                 <div class="infoName"><span>发票金额</span></div>
