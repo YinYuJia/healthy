@@ -28,7 +28,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>收款开户行:</span></div>
-                    <div class="InfoText"><span>{{form3.AAE008}}</span></div>
+                    <div class="InfoText"><span>{{form3.BAC048}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>收款开户名:</span></div>
@@ -109,6 +109,19 @@
                     <!-- <svg-icon icon-class="serveComponent_photo" /> -->
                 </div>
             </div>
+            <!-- 结算凭证 -->
+            <div class="settlement">
+                <div class="infoName">结算凭证</div>
+                <div class="photoBox">
+                     <div class="picWrap">
+                        <div class="uploadBtn">
+                            <img :src="settlement" class="pic" @click="showBigPhoto(settlement)" />
+                            <!-- <span>{{item}}</span> -->
+                        </div>
+                    </div>
+                    <!-- <svg-icon icon-class="serveComponent_photo" /> -->
+                </div>
+            </div>
             <!-- 补充材料 -->
             <div v-if="workStatus=='22'" class="CompleteInfo">
                 <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
@@ -142,9 +155,10 @@ export default {
             this.successFlag = 1;
         }
         this.epFn.setTitle('零星报销')
-        this.request()
+        this.request3();
+        this.request();
         
-        this.request2()
+        this.request2();
         // this.needSubmitInfo();  //判断是否需要提交资料
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
@@ -180,6 +194,7 @@ export default {
             BKZ019:"",
             workStatus: '', //办件状态，02受理，22需补齐，06已补正
             completeList: [], //补充材料清单
+            settlement:''//计算凭证
         }
     },
     methods:{
@@ -331,6 +346,69 @@ export default {
                 }
             })
         },
+        request2(){
+            let params=this.formatSubmitData2();
+            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1016/info', params).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {  
+                    this.BKZ019 = resData.LS_DS_08.BKZ019
+                    this.request1();
+                    // this.form3={...this.form3,...resData.LS_DS_08}
+                    let LS=resData.LS_DS_08
+                    this.form3={...this.form3,...LS}
+                    console.log("form",this.form)
+                    this.handleNumber = resData.LS_DS_08.BKZ019
+                    this.picList = []
+                    
+                    for(let i=0;i<resData.LS_DS_08.photoList.length;i++){
+                        this.picList.push(resData.LS_DS_08.photoList[i].PUL002)
+                        
+                    }
+                        console.log('我要的数据',this.picList);
+                    // alert(this.picList.photoList[0].PUL002)
+                    console.log("this.picList.photoList[0].PUL002",resData.LS_DS_08.photoList);
+                    
+                    // this.$toast("提交成功");
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        //缴费结算凭证
+        request3(){
+            let submitForm = {}
+            
+            //从进度查询页面进入接收传参
+            if(this.$route.query.param){
+                submitForm.lx="1";
+                submitForm.BKZ019=this.$route.query.param
+                submitForm.AGA001=this.$route.query.param
+            }else{
+                submitForm.lx="2";
+                submitForm.BKZ019 = sessionStorage.getItem('smallReimBKZ019');
+                submitForm.AGA001 = sessionStorage.getItem('smallReimBKZ019');
+            }
+            this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy0003/getAreaListOne', submitForm).then((resData) => {
+                console.log('返回成功信息',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) {  
+                    this.settlement=resData.imgUrl;
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
         formatSubmitData(){
                 let submitForm = {}
                 let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
@@ -341,7 +419,7 @@ export default {
                 }
                 // submitForm.AGA002 =  "330600007019";
                 // 加入用户名和电子社保卡号
-                submitForm.BKZ019=this.$route.query.param||""
+                submitForm.BKZ019=sessionStorage.getItem('smallReimBKZ019')||this.$route.query.param
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
                     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
                     submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
@@ -380,40 +458,6 @@ export default {
                 const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1031");
                 return params;
         },
-        request2(){
-            let params=this.formatSubmitData2();
-            this.$axios.post(this.epFn.ApiUrl()+ '/h5/jy1016/info', params).then((resData) => {
-                console.log('返回成功信息',resData)
-                //   成功   1000
-                if ( resData.enCode == 1000 ) {  
-                    this.BKZ019 = resData.LS_DS_08.BKZ019
-                    this.request1()
-                    // this.form3={...this.form3,...resData.LS_DS_08}
-                    let LS=resData.LS_DS_08
-                    this.form3={...this.form3,...LS}
-                    console.log("form",this.form)
-                    this.handleNumber = resData.LS_DS_08.BKZ019
-                    this.picList = []
-                    
-                    for(let i=0;i<resData.LS_DS_08.photoList.length;i++){
-                        this.picList.push(resData.LS_DS_08.photoList[i].PUL002)
-                        
-                    }
-                        console.log('我要的数据',this.picList);
-                    // alert(this.picList.photoList[0].PUL002)
-                    console.log("this.picList.photoList[0].PUL002",resData.LS_DS_08.photoList);
-                    
-                    // this.$toast("提交成功");
-                }else if (resData.enCode == 1001 ) {
-                //   失败  1001
-                    this.$toast(resData.msg);
-                    return;
-                }else{
-                    this.$toast('业务出错');
-                    return;
-                }
-            })
-        },
         formatSubmitData2(){
                 let submitForm = {}
                 let AKA078=this.$store.state.SET_SMALL_REIM_1.AKA078
@@ -429,7 +473,7 @@ export default {
                     submitForm.BKZ019=this.$route.query.param
                 }else{
                     submitForm.lx="2";
-                    submitForm.BKZ019="";
+                    submitForm.BKZ019 = sessionStorage.getItem('smallReimBKZ019');
                 }
             // 加入用户名和电子社保卡号
             if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
@@ -657,23 +701,75 @@ export default {
         }
         // 病例资料
         .caseInfo{
-            height: 3rem;
+            height: 2.8rem;
             background: #FFF;
             padding: 0 .3rem;
             margin-top: .3rem;
             .infoName{
-                height: 1.07rem;
-                line-height: 1.07rem;
+                position: relative;
+                height: .28rem;
+                line-height:.28rem;
                 text-align: left;
                 font-size: .28rem;
+                top:.37rem;
                 color: #000000;
                 letter-spacing: 0;
             }
             .photoBox{
+                position: relative;
                 text-align: left;
+                top: .32rem;
                 .svg-icon{
                     height: 1.5rem;
                     width: 1.5rem;
+                }
+            }
+        }
+        .settlement{
+            height:100%;
+            background: #FFF;
+            padding: 0 .3rem;
+            margin-top: .3rem;
+            .infoName{
+                position: relative;
+                height: .28rem;
+                line-height:.28rem;
+                text-align: left;
+                font-size: .28rem;
+                top:.37rem;
+                color: #000000;
+                letter-spacing: 0;
+            }
+            .photoBox{
+                position: relative;
+                text-align: left;
+                top: .32rem;
+                .picWrap{
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-top: .2rem;
+                    .uploadBtn{
+                        position: relative;
+                        height: 100%;
+                        width: 100%;
+                        margin:  .15rem 0 0;
+                        img{
+                            height: 100%;
+                            width: 100%;
+                        }
+                        .svg-icon{
+                            position: absolute;
+                            height: .4rem;
+                            width: .4rem;
+                            top: -0.2rem;
+                            right: -0.2rem;
+                        }
+                    }
+                    .svg-icon{
+                        margin: .1rem .15rem 0 0;
+                        height: 1.5rem;
+                        width: 1.5rem;
+                    }
                 }
             }
         }

@@ -88,9 +88,7 @@
                         <div class="infoName">1.浙江省机关事业养老待遇计发(预发)表</div>
                         <div class="photoBox">
                             <div class="picWrap">
-                                <div class="uploadBtn" v-for="(item,index) in picList" :key="index">
-                                    <img :src="item" class="pic" @click="showBigPhoto(item)" />
-                                </div>
+                                    <img :src="picList[0]" class="pic" @click="showBigPhoto(picList[0])" />
                             </div>
                         </div>
                     </div>
@@ -99,7 +97,7 @@
                             <div class="infoName">1.浙江省职工退休、退职审批表</div>
                             <div class="photoBox">
                                 <div class="picWrap">
-                                        <img :src="picList[0]" class="pic" @click="showBigPhoto(item)" />
+                                        <img :src="picList[0]" class="pic" @click="showBigPhoto(picList[0])" />
                                 </div>
                             </div>
                         </div>
@@ -107,7 +105,7 @@
                             <div class="infoName">2.退休人员养老金预核发证明或退休人员养老金核定表</div>
                             <div class="photoBox">
                                 <div class="picWrap">
-                                        <img :src="picList[1]" class="pic" @click="showBigPhoto(item)" />
+                                        <img :src="picList[1]" class="pic" @click="showBigPhoto(picList[1])" />
                                 </div>
                             </div>
                         </div>
@@ -456,7 +454,7 @@ export default {
                     span {
                         height: .6rem;
                         line-height: .6rem;
-                        color: #000000;
+                        color: #666666;
                         letter-spacing: 0;
                     }
                 }
@@ -468,6 +466,7 @@ export default {
                     display: flex;
                     position: relative;
                     align-items: center;
+                    color: #000000;
                 }
                 &:last-child {
                     border-bottom: none;
@@ -512,6 +511,7 @@ export default {
                     display: flex;
                     position: relative;
                     align-items: center;
+                    color: #000000;
                     .svg-icon-delete{
                         display: inline-block;
                         width: .6rem;
@@ -543,7 +543,7 @@ export default {
                     span {
                         height: .6rem;
                         line-height: .6rem;
-                        color: #000000;
+                        color: #666666;
                         letter-spacing: 0;
                     }
                 }
@@ -553,6 +553,7 @@ export default {
                     opacity: 0.85;
                     line-height: 1rem;
                     display: flex;
+                    color: #000000;
                     position: relative;
                     align-items: center;
                     input {
@@ -582,30 +583,35 @@ export default {
                 background: #ffffff;
             }
             .caseInfo{
-                height: 100%;
+                height: 2.5rem;
                 background: #FFF;
                 padding: 0 .3rem;
                 // margin-top: .3rem;
                 .infoName{
                     // height: 1.07rem;
                     // line-height: 1.07rem;
-                    margin-top: .1rem;
-                    height: .8rem;
-                    line-height: .8rem;
+                    height: .28rem;
+                    line-height: .28rem;
                     text-align: left;
-                    font-size: .3rem;
+                    font-size: .28rem;
                     color: #000000;
                     letter-spacing: 0;
+                    position: relative;
+                    top: .37rem;
                 }
                 .photoBox{
+                    position: relative;
                     text-align: left;
-                    .svg-icon{
-                        height: 1.5rem;
-                        width: 1.5rem;
-                    }
-                    .pic{
-                        width:100%;
-                        height:100%;
+                    top: .32rem;
+                    .picWrap{
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin-top: .2rem;
+                        .pic{
+                            margin: .1rem .15rem 0 0;
+                            height: 1.5rem;
+                            width: 1.5rem;
+                        }
                     }
                 }
             }

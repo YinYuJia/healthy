@@ -330,7 +330,11 @@ export default {
     created(){
         this.checkJump();
 
-        this.epFn.setTitle('缴费年限核定')
+        this.epFn.setTitle('缴费年限核定');
+        //判断到上传附件页面后返回  是否要重新请求
+        if(sessionStorage.getItem('ifRequestPayLimit')!='false'){
+            this.search()
+        }
     },
     methods:{
         goto(){
@@ -628,7 +632,11 @@ export default {
             // 日期传换成Number
             // submitForm.AAE030 = this.util.DateToNumber(this.form.AAE030)
             submitForm.BKE520 = "1";
-            submitForm.AAC002 = this.form.AAE135;
+            if(sessionStorage.getItem('ifRequestPayLimit')=='true'){
+                submitForm.AAC002=sessionStorage.getItem('payLimitAAE135')
+            }else{
+                submitForm.AAC002 = this.form.AAE135;
+            }
             // 加入用户名和电子社保卡号
             // if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
             //     submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
