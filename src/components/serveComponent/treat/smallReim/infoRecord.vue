@@ -13,7 +13,11 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开户行：</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.AAE008" placeholder="请输入"></div>
+                    <div class="InfoText"><input type="text" v-model="form.BAC048" @click="chooseHospital" placeholder="请输入" readonly></div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>行号：</span></div>
+                    <div class="InfoText"><input type="text" v-model="form.AAE008" @click="chooseHospital" placeholder="请输入" readonly></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开户名：</span></div>
@@ -32,6 +36,7 @@
         </div>
         <!-- 按钮 -->
         <Footer @submit="submit()" :canSubmit="canSubmit"></Footer>
+        <SearchInfoPage ref="hospital" :jy9111="true" @childrenClick="hospitalClick" title="选择医院"></SearchInfoPage>
     </div>
 </template>
 
@@ -41,10 +46,10 @@ export default {
         return{
             form:{
                 AAE010: '', //银行账户
-                AAE008: '', //开户行
+                AAE008: '', //行号
                 AAE009: '',//开户名值
                 AAE005: '',//手机号码
-                // BAC048: '',//开户行中文
+                BAC048: '',//开户行中文
                 LS_DS1:[],
             },
             canSubmit: false,
@@ -85,6 +90,16 @@ export default {
         }
     },
     methods:{
+        // 选择转出医院
+        chooseHospital(){
+            this.$refs.hospital.open();
+        },
+        hospitalClick(code,name){
+            console.log("code",code)
+            console.log("name",name)
+            this.form.BAC048 = name
+            this.form.AAE008 = code
+        },
         submit(){
             if(!this.canSubmit){
                 this.$toast("未填写完整");
@@ -110,6 +125,7 @@ export default {
                     console.log('返回成功信息',resData)
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
+                        sessionStorage.setItem('smallReimBKZ019',resData.BKZ019)
                         this.$router.push("/smallReimDetail");
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
@@ -135,6 +151,7 @@ export default {
             console.log(this.$store.state.SET_SMALL_REIM_2,'this.$store.state.SET_SMALL_REIM_2');        
             submitForm.AAE010 = this.form.AAE010.replace(/\s+/g,'');
             submitForm.AAE008 = this.form.AAE008;
+            submitForm.BAC048 = this.form.BAC048;
             submitForm.AAE009 = this.form.AAE009;
             submitForm.AAE005 = this.form.AAE005;
             submitForm.BKE520 = "1"
@@ -201,9 +218,9 @@ export default {
                 if ( resData.enCode == 1000 ) {
                     console.log(resData.AAE005)
                      this.form.AAE010 = resData.AAE010 //银行账户
-                     this.form.AAE008 = resData.BAC048  //开户行
+                     this.form.BAC048 = resData.BAC048  //开户行
                      this.form.AAE009 = resData.AAE009   //开户名
-
+                     this.form.AAE008 = resData.AAE008   //行号
                      this.form.AAE005 = resData.AAE005   //手机号码
                      console.log("手机号码",this.form.AAE005)
                 }else if (resData.enCode == 1001 ) {
