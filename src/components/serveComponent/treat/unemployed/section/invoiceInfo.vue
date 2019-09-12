@@ -48,6 +48,7 @@ export default {
         deleteInvoice(item, index){
             this.invoiceList.splice(index, 1);
             this.$store.dispatch('SET_UNEMPLOYED_INVOICE', this.invoiceList);
+            this.$emit('deleteInvoice',this.invoiceList);
         },
         showBigPhoto(val){
             this.bigImgUrl = val;

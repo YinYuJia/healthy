@@ -1,7 +1,9 @@
 <template>
     <div class="unemployed">
+        <!-- 分类选择器 -->
+        <SelectList :list="sortList" ref="selectSort" @choose="chooseSort"></SelectList>
         <!-- 类型选择器 -->
-        <SelectList :list="optionList" ref="select" @choose="chooseType"></SelectList>
+        <SelectList :list="typeList" ref="selectType" @choose="chooseType"></SelectList>
         <!-- 时间选择器 -->
         <mt-datetime-picker type="date" ref="timePicker" :endDate="endDate" v-model="dateVal" @confirm="chooseTime"></mt-datetime-picker>
         <!-- 检验是否绑定 -->
@@ -23,9 +25,17 @@
                     <div class="InfoText"><input v-model="form.BMC202" placeholder="请输入"/></div>
                 </div>
                 <div class="InfoLine">
+                    <div class="InfoName"><span>计划生育分类：</span></div>
+                    <div class="InfoText">
+                        <input placeholder="请选择" v-if="gender=='man'" v-model="form.AMC099VALUE" @click="openChooseSort" readonly/>
+                        <input v-if="gender=='woman'" v-model="form.AMC099VALUE" readonly/>
+                        <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
+                </div>
+                <div class="InfoLine">
                     <div class="InfoName"><span>计划生育类型：</span></div>
                     <div class="InfoText">
-                        <input placeholder="请选择" v-if="gender=='man'" v-model="form.AMC029VALUE" @click="openChooseType" readonly/>
+                        <input placeholder="请选择" v-if="gender=='man'" v-model="form.AMC029VALUE" @click="openChooseType" :disabled="chooseTypeDisabled" readonly/>
                         <input v-if="gender=='woman'" v-model="form.AMC029VALUE" readonly/>
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
@@ -39,7 +49,7 @@
                 </div>
             </div>
             <!-- 发票信息 -->
-            <invoiceInfo v-if="showInvoice" @saveInfo="saveInfo"></invoiceInfo>
+            <invoiceInfo v-if="showInvoice" @saveInfo="saveInfo" @deleteInvoice="deleteInvoice"></invoiceInfo>
             <!-- 发票提交方式 -->
             <mailInfo v-if="showInvoice" :type="form.BKE200" @mailType="mailType"></mailInfo>
             <!-- 下一步按钮 -->
@@ -65,8 +75,10 @@ export default {
             form: {
                 BMC021: '', //配偶姓名
                 BMC202: '', //配偶身份证号码
+                AMC099: '', //分类
+                AMC099VALUE: '',
                 AMC029: '', //计划生育类别
-                AMC029VALUE: '', //计划生育类型值
+                AMC029VALUE: '',
                 BMC131: '', //计划生育日期
                 BKE200: '', //发票提交方式
                 invoiceList: [], //发票列表
@@ -74,26 +86,13 @@ export default {
             dateVal: new Date(), //初始化时间
             endDate: new Date(), //最晚可选择到当前日期
             userInfo: {},
-            optionList:[
-                {name:'平产、顺产', value: '01'},
-                {name:'助娩产', value: '02'},
-                {name:'剖宫产', value: '03'},
-                {name:'三个月以下流产', value: '04'},
-                {name:'三个月以上四个月以下流产', value: '05'},
-                {name:'满四个月流产', value: '06'},
-                {name:'放置宫内节育器', value: '11'},
-                {name:'取出宫内节育器', value: '12'},
-                {name:'人工流产', value: '13'},
-                {name:'中期终止妊娠', value: '14'},
-                {name:'单纯输卵管结扎', value: '15'},
-                {name:'产后输卵管结扎', value: '16'},
-                {name:'人工流产同时放置宫内节育器', value: '17'},
-                {name:'中期终止妊娠同时放置宫内节育器', value: '18'},
-                {name:'人工流产同时输卵管结扎', value: '19'},
-                {name:'中期终止妊娠同时输卵管结扎', value: '20'},
-                {name:'人工流产同时取出宫内节育器', value: '21'},
-                {name:'中期终止妊娠同时取出宫内节育器', value: '22'}
+            sortList: [
+                {name:'生育', value: '1'},
+                {name:'计划内流产', value: '2'},
+                {name:'计划外流产', value: '3'},
+                {name:'节育、复通', value: '4'}
             ],
+            typeList:[],
             showInvoice: false, //显示发票信息
             showAll: false, //显示剩下的所有信息
             canSubmit: false, //是否可提交
@@ -118,26 +117,68 @@ export default {
                 this.gender = 'man';
             }
             // 判断是否显示发票
-            if((Number(this.form.AMC029) <= 6 && Number(this.form.AMC029) >= 1) || this.form.AMC029 == '23'){
+            if(this.form.AMC099 == '1' || this.form.AMC099 == '2'){
                 this.showInvoice = false;
             }else{
                 this.showInvoice = true;
             }
         }
     },
+    computed:{
+        chooseTypeDisabled(){
+            // 判断类型是否可选
+            if(this.form.AMC099 == ''){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    },
     watch:{
+        'form.AMC099'(val){
+            console.log('生育分类改变',val);
+            // 根据分类显示生育类型
+            switch(val){
+                case '1': this.typeList = [
+                    {name:'平产、顺产', value: '01'},
+                    {name:'助娩产', value: '02'},
+                    {name:'剖宫产', value: '03'}
+                ]; break;
+                case '2': this.typeList = [
+                    {name:'三个月以下流产', value: '04'},
+                    {name:'三个月以上四个月以下流产', value: '05'},
+                    {name:'满四个月流产', value: '06'},
+                ];break;
+                case '3': this.typeList = [
+                    {name:'人工流产', value: '13'},
+                    {name:'中期终止妊娠', value: '14'},
+                    {name:'人工流产同时放置宫内节育器', value: '17'},
+                    {name:'中期终止妊娠同时放置宫内节育器', value: '18'},
+                    {name:'人工流产同时输卵管结扎', value: '19'},
+                    {name:'中期终止妊娠同时输卵管结扎', value: '20'},
+                    {name:'人工流产同时取出宫内节育器', value: '21'},
+                    {name:'中期终止妊娠同时取出宫内节育器', value: '22'}
+                ];break;
+                case '4': this.typeList = [
+                    {name:'放置宫内节育器', value: '11'},
+                    {name:'取出宫内节育器', value: '12'},
+                    {name:'单纯输卵管结扎', value: '15'},
+                    {name:'产后输卵管结扎', value: '16'},
+                ];break;
+            }
+        },
         form: {
             handler(val){
                 if(this.showInvoice == true){
                     // 有发票时
-                    if(val.BMC021 != '' && val.BMC202 != '' && val.AMC029 != '' && val.BMC131 != '' && val.BKE200 != '' && val.invoiceList.length > 0){
+                    if(val.BMC021 != '' && val.BMC202 != '' && val.AMC099 != '' && val.AMC029 != '' && val.BMC131 != '' && val.BKE200 != '' && val.invoiceList.length > 0){
                         this.canSubmit = true;
                     }else {
                         this.canSubmit = false;
                     }
                 }else {
                     // 没有发票时
-                    if(val.BMC021 != '' && val.BMC202 != '' && val.AMC029 != '' && val.BMC131 != ''){
+                    if(val.BMC021 != '' && val.BMC202 != '' && val.AMC099 != '' && val.AMC029 != '' && val.BMC131 != ''){
                         this.canSubmit = true;
                     }else {
                         this.canSubmit = false;
@@ -172,6 +213,9 @@ export default {
                         this.gender = 'woman';
                         this.form.AMC029 = '23';
                         this.form.AMC029VALUE = '输精管结扎';
+                        this.form.AMC099 = '4';
+                        this.form.AMC099VALUE = '节育、复通';
+                        this.showInvoice = true;
                     }else {
                         this.gender = 'man';
                     }
@@ -188,18 +232,30 @@ export default {
                 }
             });
         },
-        // 选择生育类型
-        openChooseType() {
-            this.$refs.select.open();
+        // 选择分类
+        openChooseSort() {
+            this.$refs.selectSort.open();
         },
-        chooseType(val) {
-            this.form.AMC029VALUE = val.name;
-            this.form.AMC029 = val.value;
-            if(val.value <= 6 && val.value >= 1){
+        chooseSort(val) {
+            this.form.AMC099VALUE = val.name;
+            this.form.AMC099 = val.value;
+            // 判断是否显示发票
+            if(val.value == 1 || val.value == 2){
                 this.showInvoice = false;
             }else{
                 this.showInvoice = true;
             }
+            // 清空生育类型
+            this.form.AMC029 = '';
+            this.form.AMC029VALUE = '';
+        },
+        // 选择生育类型
+        openChooseType() {
+            this.$refs.selectType.open();
+        },
+        chooseType(val) {
+            this.form.AMC029VALUE = val.name;
+            this.form.AMC029 = val.value;
         },
         // 选择生育时间
         openChooseTime() {
@@ -215,6 +271,13 @@ export default {
             delete this.form.invoiceList;
             this.$store.dispatch('SET_UNEMPLOYED_REPORT', this.form);
         },
+        // 触发删除发票
+        deleteInvoice(val){
+            this.form.invoiceList = val;
+            if(val.length == 0){
+                this.canSubmit = false;
+            }
+        },
         // 选择发票提交方式
         mailType(val) {
             this.form.BKE200 = val;
@@ -224,6 +287,8 @@ export default {
             this.form = {
                 BMC021: '', //配偶姓名
                 BMC202: '', //配偶身份证号码
+                AMC099: '', //分类
+                AMC099VALUE: '',
                 AMC029: '', //计划生育类别
                 AMC029VALUE: '', //计划生育类型值
                 BMC131: '', //计划生育日期
@@ -298,6 +363,9 @@ export default {
                     border: none;
                     &::placeholder{
                         color: #999;
+                    }
+                    &:disabled{
+                        background:  #FFF;
                     }
                 }
             }

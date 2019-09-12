@@ -2,37 +2,24 @@
     <div class="unemployedSubmit">
         <div class="Content">
             <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
-            <!-- 附件1 -->
-            <div class="CompleteLine">
-                <div class="InfoText">1.《生育保险待遇申请表》<div class="downloadBtn" @click="downloadFile">下载申请表</div></div>
-                <div class="PhotoBox">
-                    <div class="ImgBox" v-if="BMC001PHOTO!=''">
-                        <img :src="BMC001PHOTO"/>
-                        <svg-icon @click="deleteImg('photo1')" icon-class="serveComponent_delete"></svg-icon>
+            <!-- 附件 -->
+            <div class="CompleteLine" v-for="(item,index) in fileList" :key="index">
+                <div class="InfoText">{{index+1}}.{{item.name}}<div class="downloadBtn" v-if="index==0||index ==1" @click="downloadFile">下载申请表</div></div>
+                <!-- 附件不是医疗诊断证明书等 -->
+                <div class="PhotoBox" v-if="item.saveName != 'BMC008URL'">
+                    <div class="ImgBox" v-if="item.url!=''">
+                        <img :src="item.url"/>
+                        <svg-icon @click="deleteImg(index,item)" icon-class="serveComponent_delete"></svg-icon>
                     </div>
-                    <svg-icon @click="uploadImg(1)" icon-class="serveComponent_upload"></svg-icon>
+                    <svg-icon @click="uploadImg(index,item)" icon-class="serveComponent_upload"></svg-icon>
                 </div>
-            </div>
-            <!-- 附件2 -->
-            <div class="CompleteLine">
-                <div class="InfoText">2. 医疗诊断证明或出院记录（需要医院盖章）复印件一份</div>
-                <div class="PhotoBox">
-                    <div class="ImgBox" v-if="BMC002PHOTO!=''">
-                        <img :src="BMC002PHOTO" />
-                        <svg-icon @click="deleteImg('photo2')" icon-class="serveComponent_delete"></svg-icon>
+                <!-- 附件是医疗诊断证明书等 -->
+                <div class="PhotoBox" v-if="item.saveName == 'BMC008URL'">
+                    <div class="ImgBox" v-for="(innerItem,innerIndex) in item.url" :key="innerIndex">
+                        <img :src="innerItem"/>
+                        <svg-icon @click="deleteImg(index,item,innerIndex)" icon-class="serveComponent_delete"></svg-icon>
                     </div>
-                    <svg-icon @click="uploadImg(2)" icon-class="serveComponent_upload"></svg-icon>
-                </div>
-            </div>
-            <!-- 附件3 -->
-            <div class="CompleteLine">
-                <div class="InfoText">3. 未就业承诺书及未就业证明原件（共两份）</div>
-                <div class="PhotoBox">
-                    <div class="ImgBox" v-for="(item,index) in BMC003PHOTO" :key="index">
-                        <img :src="item" />
-                        <svg-icon @click="deleteImg(index)" icon-class="serveComponent_delete"></svg-icon>
-                    </div>
-                    <svg-icon @click="uploadImg(3)" icon-class="serveComponent_upload"></svg-icon>
+                    <svg-icon @click="uploadImg(index,item)" icon-class="serveComponent_upload"></svg-icon>
                 </div>
             </div>
         </div>
@@ -61,7 +48,48 @@ export default {
             },
             bigPhotoUrl: '', //大图Url
             canSubmit: false, //是否可以提交
+            fileList: [], //上传的文件列表
         };
+    },
+    created() {
+        // 根据分类设置需要上传的资料
+        let reportInfo = this.$store.state.SET_UNEMPLOYED_REPORT;
+        switch(reportInfo.AMC099){
+                case '1': this.fileList = [
+                    {name: '《生育保险待遇申请表》',url: '',photoId:'',saveName:'BMC001URL'},
+                    {name: '未就业承诺书一份',url: '',photoId:'',saveName:'BMC002URL'},
+                    {name: '医疗诊断证明或出院记录（需要医院盖章）复印件一份',url: '',photoId:'',saveName:'BMC003URL'}
+                ]; break;
+                case '2': this.fileList = [
+                    {name: '《生育保险待遇申请表》',url: '',photoId:'',saveName:'BMC001URL'},
+                    {name: '未就业承诺书一份',url: '',photoId:'',saveName:'BMC002URL'},
+                    {name: '从确认怀孕开始（末次月经）时间的病历复印件一份',url: '',photoId:'',saveName:'BMC004URL'},
+                    {name: '医疗助产机构出具的流产或引产时间证明（需要医院盖章）复印件一份',url: '',photoId:'',saveName:'BMC005URL'}
+                ]; break;
+                case '3': this.fileList = [
+                    {name: '《生育保险待遇申请表》',url: '',photoId:'',saveName:'BMC001URL'},
+                    {name: '未就业承诺书一份',url: '',photoId:'',saveName:'BMC002URL'},
+                    {name: '从确认怀孕开始（末次月经）时间的病历复印件一份',url: '',photoId:'',saveName:'BMC004URL'},
+                    {name: '医疗助产机构出具的流产或引产时间证明（需要医院盖章）复印件一份',url: '',photoId:'',saveName:'BMC005URL'},
+                    {name: '结婚证复印件一份',url: '',photoId:'',saveName:'BMC006URL'},
+                    {name: '医疗诊断证明书、出院小结及住院费用明细汇总清单（需要医院盖章）复印件一份(共3份)',url: [],photoId:[],saveName:'BMC008URL'}
+                ]; break;
+                case '4': if(reportInfo.AMC029 == '12'){
+                    this.fileList = [
+                        {name: '《生育保险待遇申请表》',url: '',photoId:'',saveName:'BMC001URL'},
+                        {name: '未就业承诺书一份',url: '',photoId:'',saveName:'BMC002URL'},
+                        {name: '病历复印件一份',url: '',photoId:'',saveName:'BMC007URL'}
+                    ];
+                }else{
+                    this.fileList = [
+                        {name: '《生育保险待遇申请表》',url: '',photoId:'',saveName:'BMC001URL'},
+                        {name: '未就业承诺书一份',url: '',photoId:'',saveName:'BMC002URL'},
+                        {name: '病历复印件一份',url: '',photoId:'',saveName:'BMC007URL'},
+                        {name: '结婚证复印件一份',url: '',photoId:'',saveName:'BMC006URL'}
+                    ];
+                } break;
+                default: this.fileList = []; break;
+            }
     },
     watch: {
         form:{
@@ -71,6 +99,23 @@ export default {
                 }else{
                     this.canSubmit = false;
                 }
+            },
+            deep: true
+        },
+        fileList:{
+            handler: function(val){
+                this.canSubmit = true;
+                val.forEach(ele => {
+                    if(ele.saveName != 'BMC008URL'){
+                        if(ele.photoId == ''){
+                            this.canSubmit = false;
+                        }
+                    }else{
+                        if(ele.photoId.length < 3){
+                            this.canSubmit = false;
+                        }
+                    }
+                })
             },
             deep: true
         }
@@ -108,11 +153,10 @@ export default {
             })
         },
         // 上传材料
-        uploadImg(index){
-            if(index == 3){
-                console.log('第三个',this.form.BMC003URL.length)
-                if(this.form.BMC003URL.length >= 2){
-                    this.$toast('该项最多上传两张照片')
+        uploadImg(index,item){
+            if(item.saveName == 'BMC008URL'){
+                if(item.photoId.length >= 3){
+                    this.$toast('该项最多上传三张照片');
                     return;
                 }
             }
@@ -137,15 +181,12 @@ export default {
                             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2006/updPhoto', params).then((resData) => {
                                 //   成功   1000
                                 if ( resData.enCode == 1000 ) {
-                                    if(index == 1){
-                                        this.BMC001PHOTO = data.picPath[0];
-                                        this.form.BMC001URL = resData.photoId;
-                                    }else if(index == 2){
-                                        this.BMC002PHOTO = data.picPath[0];
-                                        this.form.BMC002URL = resData.photoId;
+                                    if(item.saveName != 'BMC008URL'){
+                                        this.fileList[index].url = data.picPath[0];
+                                        this.fileList[index].photoId = resData.photoId;
                                     }else{
-                                        this.BMC003PHOTO.push(data.picPath[0]);
-                                        this.form.BMC003URL.push(resData.photoId);
+                                        this.fileList[index].url.push(data.picPath[0]);
+                                        this.fileList[index].photoId.push(resData.photoId);
                                     }
                                 }else if (resData.enCode == 1001 ) {
                                     this.$toast(resData.msg);
@@ -163,16 +204,13 @@ export default {
             }
         },
         // 删除照片
-        deleteImg(index){
-            if(index == 'photo1'){
-                this.BMC001PHOTO = '';
-                this.form.BMC001URL = '';
-            }else if(index == 'photo2'){
-                this.BMC002PHOTO = '';
-                this.form.BMC002URL = '';
+        deleteImg(index,item,innerIndex){
+            if(innerIndex == undefined){
+                this.fileList[index].photoId = '';
+                this.fileList[index].url = '';
             }else{
-                this.BMC003PHOTO.splice(index,1);
-                this.form.BMC003URL.splice(index,1);
+                this.fileList[index].photoId.splice(innerIndex,1);
+                this.fileList[index].url.splice(innerIndex,1);
             }
         },
         // 提交
@@ -207,7 +245,20 @@ export default {
             // 申请人信息
             let userInfo = this.$store.state.SET_UNEMPLOYED_USERINFO;
             // 附件信息
-            let fileInfo = this.form;
+            let fileInfo = [];
+            for(let i = 1; i <= 8; i++){
+                fileInfo[i] = '';
+                for(let j = 0; j < this.fileList.length; j++){
+                    if(i == Number(this.fileList[j].saveName[5])){
+                        fileInfo[i] = this.fileList[j].photoId;
+                    }
+                }
+            }
+            // 最后一个附件
+            let BMC008URL = '';
+            if(fileInfo[8] != ''){
+                BMC008URL = fileInfo[8].join(',');
+            }
             // 发票信息
             let invoiceInfo = this.$store.state.SET_UNEMPLOYED_INVOICE;
             let totalCount = 0;
@@ -235,10 +286,15 @@ export default {
                 BKE200: reportInfo.BKE200, //附件提供方式
                 AAE011: userInfo.AAC003, //申请人
                 AAC003: userInfo.AAC003,
-                BKE520: '1', //申请渠道,网上
-                BMC001URL: fileInfo.BMC001URL, //生育保险待遇申请表
-                BMC002URL: fileInfo.BMC002URL, //医疗诊断证明或出院记录复印件一份
-                BMC003URL: fileInfo.BMC003URL.join(','), //未就业承诺书及未就业证明原件一份
+                BKE520: '1', //申请渠道,掌上
+                BMC001URL: fileInfo[1], //生育保险待遇申请表
+                BMC002URL: fileInfo[2], //未就业承诺书一份
+                BMC003URL: fileInfo[3], //医疗诊断证明或出院记录（需要医院盖章）复印件一份
+                BMC004URL: fileInfo[4], //从确认怀孕开始（末次月经）时间的病历复印件一份
+                BMC005URL: fileInfo[5], //医疗助产机构出具的流产或引产时间证明（需要医院盖章）复印件一份
+                BMC006URL: fileInfo[6], //结婚证复印件一份
+                BMC007URL: fileInfo[7], //病历复印件
+                BMC008URL: BMC008URL, //医疗诊断证明书、出院小结及住院费用明细汇总清单（需要医院盖章）复印件一份
                 photoIdList: photoIdList.join(','), //发票附件
                 userId: LegalPerson.userId //法人id
             }
