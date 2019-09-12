@@ -179,7 +179,7 @@ export default {
             } else if (this.type == '02') {
                 this.typeShow = '计划外流产、引产'
             }
-            if(this.form.BKE200 != '') {
+            if(this.form.BMC220 != '') {
                         if(this.form.BMC220 == '1'){
                         this.form.BKE200 = '邮寄'
                         } else if (this.form.BMC220 == '2') {
