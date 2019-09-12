@@ -19,7 +19,7 @@
             </div>
             <!-- <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView> -->
             <div>
-                <div class="infoTitle">2.从确认怀孕开始（末次月经）时间的病历复印件</div>
+                <div class="infoTitle">2.{{title}}病历复印件一份</div>
                 <div class="dataUpload">
                     <div class="picWrap">
                         <div v-for="(item,index) in menstruationUrl" :key="index">
@@ -106,6 +106,7 @@ export default {
         }
         console.log("type:", this.type)
         if(this.type == '03') {
+            this.title = ''
             if(this.AMC029 == '12') {
                 this.visibleMar = false
             } else {
@@ -115,6 +116,7 @@ export default {
     },
     data() {
         return {
+            title: '从确认怀孕开始（末次月经）时间的',
             number: '',
             BKE200: '',
             photoIdList: '',
@@ -219,6 +221,8 @@ export default {
                             } else {
                                 obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
                                 obj.marriageCertificateUrl = this.marId;// 结婚复印证
+                                obj.photoIdList = this.photoIdList;
+                                obj.BKE200 = this.BKE200;
                                 this.submitList(obj);
                             }
                         } else {
@@ -226,6 +230,8 @@ export default {
                                 this.$toast('请补全信息！');
                             } else {
                                 obj.menstruationUrl = this.menId;// 从确认怀孕开始（末次月经）时间的病历复印件
+                                obj.photoIdList = this.photoIdList;
+                                obj.BKE200 = this.BKE200;
                                 this.submitList(obj);
                             }
                         }
