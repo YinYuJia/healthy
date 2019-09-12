@@ -31,10 +31,6 @@
                     <div class="InfoText"><span>{{form3.BAC048}}</span></div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>行号:</span></div>
-                    <div class="InfoText"><span>{{form3.AAE008}}</span></div>
-                </div>
-                <div class="InfoLine">
                     <div class="InfoName"><span>收款开户名:</span></div>
                     <div class="InfoText"><span>{{form3.AAE009 |tuoMin(0,2)}}</span></div>
                 </div>

@@ -13,11 +13,9 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开户行：</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.BAC048" @click="chooseHospital" placeholder="请输入" readonly></div>
-                </div>
-                <div class="InfoLine">
-                    <div class="InfoName"><span>行号：</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.AAE008" @click="chooseHospital" placeholder="请输入" readonly></div>
+                    <div class="InfoText"><input type="text" v-model="form.BAC048" @click="chooseHospital" placeholder="请选择" readonly>
+                    <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
+                    </div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>开户名：</span></div>
