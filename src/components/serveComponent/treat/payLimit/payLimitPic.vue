@@ -57,6 +57,7 @@ export default {
                 this.ifShow=true;
                 console.log('非机关')
             }
+            sessionStorage.setItem('ifRequestPayLimit',true)
         }
     },
     watch: {

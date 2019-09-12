@@ -748,32 +748,32 @@ export default {
                 position: relative;
                 text-align: left;
                 top: .32rem;
-            }
-            .picWrap{
-                display: flex;
-                flex-wrap: wrap;
-                margin-top: .2rem;
-                .uploadBtn{
-                    position: relative;
-                    height: 100%;
-                    width: 100%;
-                    margin:  .15rem 0 0;
-                    img{
+                .picWrap{
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-top: .2rem;
+                    .uploadBtn{
+                        position: relative;
                         height: 100%;
                         width: 100%;
+                        margin:  .15rem 0 0;
+                        img{
+                            height: 100%;
+                            width: 100%;
+                        }
+                        .svg-icon{
+                            position: absolute;
+                            height: .4rem;
+                            width: .4rem;
+                            top: -0.2rem;
+                            right: -0.2rem;
+                        }
                     }
                     .svg-icon{
-                        position: absolute;
-                        height: .4rem;
-                        width: .4rem;
-                        top: -0.2rem;
-                        right: -0.2rem;
+                        margin: .1rem .15rem 0 0;
+                        height: 1.5rem;
+                        width: 1.5rem;
                     }
-                }
-                .svg-icon{
-                    margin: .1rem .15rem 0 0;
-                    height: 1.5rem;
-                    width: 1.5rem;
                 }
             }
         }
