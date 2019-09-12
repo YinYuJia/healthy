@@ -301,6 +301,16 @@ export function AMC029( val ) {
   }
   return obj[val]
 }
+//AMC099 生育分类
+export function AMC099( val ) {
+  let obj = {
+    "1": "生育",
+    "2": "计划内流产",
+    "3": "计划外流产",
+    "4": "节育、复通"
+  }
+  return obj[val]
+}
 
 //平产AMC027 是否晚育
 export function AMC027( val ) {

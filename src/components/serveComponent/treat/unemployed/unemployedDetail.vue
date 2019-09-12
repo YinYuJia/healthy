@@ -24,6 +24,10 @@
                     <div class="InfoText">{{allInfo.BMC202}}</div>
                 </div>
                 <div class="InfoLine">
+                    <div class="InfoName"><span>计划生育分类：</span></div>
+                    <div class="InfoText">{{allInfo.AMC099|AMC099}}</div>
+                </div>
+                <div class="InfoLine">
                     <div class="InfoName"><span>计划生育类型：</span></div>
                     <div class="InfoText">{{allInfo.AMC029|AMC029}}</div>
                 </div>
@@ -59,25 +63,16 @@
             <div class="fileInfo">
                 <div class="CompleteTitle">附件</div>
                 <!-- 附件1 -->
-                <div class="CompleteLine">
-                    <div class="InfoText">1.《生育保险待遇申请表》</div>
-                    <div class="PhotoBox">
-                        <div class="ImgBox"><img @click="showBigPhoto(allInfo.BMC001URL)" :src="allInfo.BMC001URL"/></div>
+                <div class="CompleteLine" v-for="(item,index) in fileList" :key="index">
+                    <div class="InfoText">{{index+1}}.{{item.name}}</div>
+                    <!-- 当资料不为医疗诊断证明书等 -->
+                    <div class="PhotoBox" v-if="item.saveName != 'BMC008URL' ">
+                        <div class="ImgBox"><img @click="showBigPhoto(item.url)" :src="item.url"/></div>
                     </div>
-                </div>
-                <!-- 附件2 -->
-                <div class="CompleteLine">
-                    <div class="InfoText">2. 医疗诊断证明或出院记录（需要医院盖章）复印件一份</div>
-                    <div class="PhotoBox">
-                        <div class="ImgBox"><img @click="showBigPhoto(allInfo.BMC002URL)" :src="allInfo.BMC002URL"/></div>
-                    </div>
-                </div>
-                <!-- 附件3 -->
-                <div class="CompleteLine">
-                    <div class="InfoText">3. 未就业承诺书及未就业证明原件（共两份）</div>
-                    <div class="PhotoBox">
-                        <div class="ImgBox" v-for="(item,index) in allInfo.BMC003URL" :key="index">
-                            <img :src="item" @click="showBigPhoto(item)"/>
+                    <!-- 当资料为医疗诊断证明书等 -->
+                    <div class="PhotoBox" v-if="item.saveName == 'BMC008URL' ">
+                        <div class="ImgBox" v-for="(innerItem,innerIndex) in item.url" :key="innerIndex">
+                            <img @click="showBigPhoto(innerItem)" :src="innerItem"/>
                         </div>
                     </div>
                 </div>
@@ -99,6 +94,16 @@ export default {
             successFlag: 1,
             allInfo: {photoList:[]}, //返回的信息
             bigImgUrl: '',
+            fileList:[
+                {name: '《生育保险待遇申请表》',saveName:'BMC001URL',url:''},
+                {name: '未就业承诺书一份',saveName:'BMC002URL',url:''},
+                {name: '医疗诊断证明或出院记录（需要医院盖章）复印件一份',saveName:'BMC003URL',url:''},
+                {name: '从确认怀孕开始（末次月经）时间的病历复印件一份',saveName:'BMC004URL',url:''},
+                {name: '医疗助产机构出具的流产或引产时间证明（需要医院盖章）复印件一份',saveName:'BMC005URL',url:''},
+                {name: '结婚证复印件一份',saveName:'BMC006URL',url:''},
+                {name: '病历复印件一份',saveName:'BMC007URL',url:''},
+                {name: '医疗诊断证明书、出院小结及住院费用明细汇总清单（需要医院盖章）复印件一份(共3份)',saveName:'BMC008URL',url:''}
+            ], //文件列表
         }
     },
     created() {
@@ -165,13 +170,29 @@ export default {
                 if ( resData.enCode == 1000 ) {
                     this.allInfo = resData.LS_DS_20;
                     console.log('结果',this.allInfo)
+                    // 发票信息
                     if(this.allInfo.photoList == undefined){
                         this.allInfo.photoList = [];
                     }
                     // 请求人员信息
                     this.getUserInfo(this.allInfo.AAC002);
-                    // 将第三个照片拆成数组
-                    this.allInfo.BMC003URL = this.allInfo.BMC003URL.split(',');
+                    // 将照片存入fileList
+                    for(let i = 0; i < this.fileList.length; i++){
+                        let name = 'BMC00' + (i + 1) + 'URL';
+                        if(this.allInfo[name] != ''){
+                            this.fileList[i].url = this.allInfo[name];
+                            if((i + 1) == 8){
+                                this.fileList[i].url = this.fileList[i].url.split(',');
+                            }
+                        }
+                    }
+                    for(let i = 0; i < this.fileList.length; i++){
+                        if(this.fileList[i].url == ''){
+                            this.fileList.splice(i,1);
+                            i--;
+                        }
+                    }
+                    console.log('文件列表111',this.fileList);
                 }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                     this.$toast(resData.msg);
