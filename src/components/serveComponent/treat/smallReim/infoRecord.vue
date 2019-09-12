@@ -34,7 +34,7 @@
         </div>
         <!-- 按钮 -->
         <Footer @submit="submit()" :canSubmit="canSubmit"></Footer>
-        <SearchInfoPage ref="hospital" :jy9111="true" @childrenClick="hospitalClick" title="选择医院"></SearchInfoPage>
+        <SearchInfoPage ref="hospital" :jy9111="true" @childrenClick="hospitalClick" title="选择银行"></SearchInfoPage>
     </div>
 </template>
 

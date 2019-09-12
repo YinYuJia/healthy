@@ -617,7 +617,7 @@ export default {
     },
     formatSubmitData3() {
       let submitForm = {};
-      submitForm.NAME = this.params.AAA102||''; //查询关键字
+      submitForm.BAC048 = this.params.AAA102||''; //查询关键字
       submitForm.OUTNUMBER = 15; //每页输出记录条数
       submitForm.PAGE = this.params.pageNum; //页码
       submitForm.JD = '1'; 
