@@ -257,6 +257,8 @@ export default {
             // }   
         },
         selectType(val) {
+            this.form.AMC029VALUE = '';
+            this.form.AMC029 = '';
             console.log("oppp:", val)
             this.form.typeVALUE = val.name
             if(val.value == '1') {
