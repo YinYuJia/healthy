@@ -14,15 +14,19 @@
                     <div class="InfoText">{{form.BAE019}}</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>生育类型:</span></div>
+                    <div class="InfoName"><span>计划生育分类:</span></div>
+                    <div class="InfoText">{{typeShow}}</div>
+                </div>
+                <div class="InfoLine">
+                    <div class="InfoName"><span>计划生育类型:</span></div>
                     <div class="InfoText">{{form.AMC029|AMC029}}</div>
                 </div>
                 <div class="InfoLine">
-                    <div class="InfoName"><span>生育日期:</span></div>
+                    <div class="InfoName"><span>计划生育日期:</span></div>
                     <div class="InfoText">{{form.BMC131}}</div>
                 </div>
             </div>
-            <div class="infoType" v-if="type == '02'">
+            <div class="infoType" v-if="type != '01'">
                 <div class="infoBox">
                     <div class="infoTitle">纸质发票提交方式：</div>
                     <div class="infoTitle">{{form.BKE200}}</div>
@@ -51,7 +55,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="infoTitle">2.从确认怀孕开始（末次月经）时间的病历复印件</div>
+                    <div class="infoTitle">2.{{title}}病历复印件一份</div>
                     <div class="dataUpload">
                         <div class="picWrap">
                             <img :src="form.menstruationUrl" @click="showBigPhoto(form.menstruationUrl)"/>
@@ -101,7 +105,9 @@ export default {
             type: '',
             form: {},
             imgUrl: '',
-            visibleMar: false
+            visibleMar: false,
+            title: '从确认怀孕开始（末次月经）时间的',
+            typeShow: ''
         }
     },
     created () {
@@ -161,11 +167,17 @@ export default {
             let LS=resData.LS_DS_19
             this.form={...this.form,...LS}
             if(this.type == '03') {
+                this.title = '',
+                this.typeShow = '节育、复通'
               if(this.form.AMC029 != '12') {
                   this.visibleMar = true
               } else {
                   this.visibleMar = false
               }
+            } else if (this.type == '01') {
+                this.typeShow = '计划内流产、引产'
+            } else if (this.type == '02') {
+                this.typeShow = '计划外流产、引产'
             }
             if(this.form.BKE200 != '') {
                         if(this.form.BMC220 == '1'){

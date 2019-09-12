@@ -63,15 +63,14 @@
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhere" /></div>
-                    <div class="swiper-slide">
                         <!-- 定点医院 -->
-                        <svg-icon icon-class="serveComponent_icon14" @click="elseHospital" /></div>
-                        
+                        <svg-icon icon-class="serveComponent_icon17" @click="elseHospital" /></div>
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon14" @click="pointMedical" class="right-svg" /></div> 
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhere" /></div> 
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
-                    <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon14" @click="pointMedical" class="right-svg" /></div>
                 </div>
             </div>
             <!-- <div class="bannerSvg">

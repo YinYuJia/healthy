@@ -32,6 +32,9 @@
                         <svg-icon icon-class="serveComponent_arrowRight"></svg-icon>
                     </div>
                 </div>
+                <div class="hintInfo">
+                    <i class="el-icon-warning" style="color:#FFA007"></i><span>流产时，胎次为2以内，分类为计划内流产；胎次大于2时，分类为计划外流产</span>
+                </div>
                  <div class="InfoLine">
                     <div class="InfoName"><span>计划生育类型</span></div>
                     <div class="InfoText">
@@ -181,6 +184,9 @@ export default {
             this.form = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).form;
             this.invoiceList = JSON.parse(sessionStorage.getItem('SET_SURGICAL_INVOICELIST'));
             this.type = JSON.parse(sessionStorage.getItem('SET_SURGICAL_MESSAGE')).type;
+            if(this.type == '02' || this.type == '03') {
+                this.showPlus = true
+            }
             console.log("invoice:", this.invoiceList)
         }
         if(this.dispatch == 1) {
@@ -474,6 +480,23 @@ export default {
             width: 7.5rem;
             padding: 0 .3rem;
             background: white;
+            .hintInfo{
+                background-color: rgba(255, 160, 7, .1);
+                padding: .18rem 0;
+                display: flex;
+                align-items: flex-start;
+                text-align: left;
+                padding: .18rem .2rem;
+                margin-top: .1rem;
+                i{
+                    font-size: .24rem;
+                }
+                span{
+                    font-size: .24rem;
+                    color: #FFA007;
+                    letter-spacing: 0;
+                }
+            }
             .InfoLine {
                 height: 1rem;
                 position: relative;
