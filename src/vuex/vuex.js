@@ -319,6 +319,8 @@ export default new Vuex.Store({ // 暴露与new vuex
     SET_UNEMPLOYED_REPORT:{
       BMC021: '', //配偶姓名
       BMC202: '', //配偶身份证号码
+      AMC099: '', //分类
+      AMC099VALUE: '',
       AMC029: '', //计划生育类别
       AMC029VALUE: '', //计划生育类型值
       BMC131: '', //计划生育日期
