@@ -23,8 +23,19 @@
                 <!-- 进度时间 -->
                 <ProgressDate  :replyDate="form.AAE036"  :progressDate="form.BAE019"></ProgressDate>
             </div>
+            <div class="settlement">
+                <div class="infoName">结算凭证</div>
+                <div class="photoBox">
+                     <div class="picWrap">
+                        <div class="uploadBtn">
+                            <img :src="settlement" class="pic" @click="showBigPhoto(settlement)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <Success :flag="successFlag"></Success>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
         <!-- 底部 -->
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" @edit="edit()" :handleNumber="handleNumber"></Footer>
     </div>
@@ -47,6 +58,8 @@ export default {
             handleNumber:'',
             List:[],
             successFlag: 1,
+            settlement:'',
+            imgUrl:''
         }
     },
     created(){
@@ -57,6 +70,7 @@ export default {
         // this.form = this.$store.state.SET_TRANSFERRENEWING_OPERATION;
         this.request();
         this.request1();
+        this.request2()
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', this.back, false);//false阻止默认事件
@@ -66,6 +80,11 @@ export default {
         window.removeEventListener('popstate', this.back, false);//false阻止默认事件
     },*/
     methods:{
+        // 查看大图
+        showBigPhoto(val){
+            this.imgUrl = val;
+            this.$refs.photo.open();
+        },
         back(){
             // this.$router.push('/')
         },
@@ -123,6 +142,24 @@ export default {
                     }
                     this.handleNumber = resData.LS_DS_07.BKZ019
                     // this.$toast("提交成功");
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        request2(){
+            let params={};
+            params.AGA001='339900190912428400128'||sessionStorage.getItem('transferRenewingBKZ019');
+            this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7108/info', params).then((resData) => {
+                console.log('返回成功信息11!',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) { 
+                    this.settlement=resData.imgUrl;
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);
@@ -215,6 +252,54 @@ export default {
                 }
                 &:last-child{
                     border-bottom: none;
+                }
+            }
+        }
+        .settlement{
+            height:100%;
+            background: #FFF;
+            padding: 0 .3rem;
+            margin-top: .3rem;
+            .infoName{
+                position: relative;
+                height: .28rem;
+                line-height:.28rem;
+                text-align: left;
+                font-size: .28rem;
+                top:.37rem;
+                color: #000000;
+                letter-spacing: 0;
+            }
+            .photoBox{
+                position: relative;
+                text-align: left;
+                top: .32rem;
+                .picWrap{
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-top: .2rem;
+                    .uploadBtn{
+                        position: relative;
+                        height: 100%;
+                        width: 100%;
+                        margin:  .15rem 0 0;
+                        img{
+                            height: 100%;
+                            width: 100%;
+                        }
+                        .svg-icon{
+                            position: absolute;
+                            height: .4rem;
+                            width: .4rem;
+                            top: -0.2rem;
+                            right: -0.2rem;
+                        }
+                    }
+                    .svg-icon{
+                        margin: .1rem .15rem 0 0;
+                        height: 1.5rem;
+                        width: 1.5rem;
+                    }
                 }
             }
         }
