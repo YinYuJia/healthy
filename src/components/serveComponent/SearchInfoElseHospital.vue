@@ -55,7 +55,8 @@
         isShow: false,
         lat: "",
         lng: "",
-        activeIndex:1
+        activeIndex:1,
+        orderParam: '1',//排序参数
       }
     },
     created() {
@@ -76,19 +77,17 @@
     },
     methods: {
       changeIndex(index){
-          if (this.pointStatus == '2') {
-            this.activeIndex = this.pointStatus;
-            return;
-          } else {
-            this.activeIndex = index;
-            if (index == 1) {
-              console.log(11111)
-            } else if(index==2){
-              console.log(22222)
-            }else{
-              console.log(33333)
-            }
-          }
+        this.params.PAGE = 1;
+        this.List = []
+        this.activeIndex = index;
+        if(index == '1') {
+          this.orderParam = '1'
+        } else if (index == '2') {
+          this.orderParam = '3'
+        } else if (index == '3') {
+          this.orderParam = '2'
+        }
+        this.getList()
       },
       deleteSearch() {
         this.NAME = '';
@@ -187,12 +186,14 @@
       },
       formatSubmitData() {
         let submitForm = {};
-        submitForm.PAGE = this.params.PAGE + ''; //查询页数
+        submitForm.PAGE = this.params.PAGE; //查询页数
         submitForm.AKA101 = this.params.AKA101; //医疗机构等级
-        submitForm.OUTNUMBER = this.params.OUTNUMBER + ''; //每页输出记录条数
+        submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
         submitForm.JD = '1'; //经度
         submitForm.WD = '1'; //纬度
         submitForm.NAME = this.NAME; //医院名称
+        submitForm.orderParam = this.orderParam;// 排序参数
+        submitForm.orderType = '1'
         // submitForm.AAA102 = this.params.AAA102; //模糊查询
         // submitForm.AAA100 = this.type; //机构参数
         // submitForm.AAE013 = this.AAE013 //关联性类别码
@@ -335,7 +336,7 @@
       .ListContent{
         padding: 0 .2rem;
         .InfoLine {
-          height: 1.6rem;
+          height: 1.7rem;
           display: flex;
           background: #FFF;
           justify-content: space-between;
