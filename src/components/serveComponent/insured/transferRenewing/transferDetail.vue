@@ -24,11 +24,13 @@
                 <ProgressDate  :replyDate="form.AAE036"  :progressDate="form.BAE019"></ProgressDate>
             </div>
             <div class="settlement">
-                <div class="infoName">结算凭证</div>
+                <div class="infoName">转移变更表</div>
                 <div class="photoBox">
                      <div class="picWrap">
                         <div class="uploadBtn">
                             <img :src="settlement" class="pic" @click="showBigPhoto(settlement)" />
+                            <!-- <a href='static\pdf\web\viewer.html?file=http%3a%2f%2fybj.zjzwfw.gov.cn%3a10540%2fopenapiApp%2fdownload%3fkey%3dbizamt%2frdm%2f1567674102729W6y.pdf'>点我111111</a> -->
+                            <!-- <iframe src="static\pdf\web\compressed.tracemonkey-pldi-09.pdf" width="100%" height="100%"></iframe> -->
                         </div>
                     </div>
                 </div>
@@ -40,7 +42,6 @@
         <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" @edit="edit()" :handleNumber="handleNumber"></Footer>
     </div>
 </template>
-
 <script>
 export default {
     data(){
@@ -59,7 +60,7 @@ export default {
             List:[],
             successFlag: 1,
             settlement:'',
-            imgUrl:''
+            imgUrl:'',
         }
     },
     created(){
@@ -154,12 +155,12 @@ export default {
         },
         request2(){
             let params={};
-            params.AGA001='339900190912428400128'||sessionStorage.getItem('transferRenewingBKZ019');
+            params.AGA001='190830990021690138051'||sessionStorage.getItem('transferRenewingBKZ019');
             this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7108/info', params).then((resData) => {
                 console.log('返回成功信息11!',resData)
                 //   成功   1000
                 if ( resData.enCode == 1000 ) { 
-                    this.settlement=resData.imgUrl;
+                    this.settlement=resData.LS_DS[1].BKE554;
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
                     this.$toast(resData.msg);

@@ -35,7 +35,7 @@
               <span>统一社会信用代码：</span>
             </div>
             <div class="InfoText">
-              <input v-model="form.AAB003" type="text" maxlength="20" placeholder="请输入"  />
+              <input v-model="form.AAB003" type="text" maxlength="20" placeholder="请输入" @blur="check" />
             </div>
           </div>
           <div class="InfoLine">
@@ -375,25 +375,23 @@ export default {
     this.getFromInfo()
   },
   methods: {
-    // check(){
-    //       let params = {};
-    //       params.sydwTycode=this.form.AAB003;
-    //       console.log('----params----',params)
-    //       this.$axios.post( this.epFn.ApiUrl() +  '/H5/jy0006/getAreaList', params)
-    //       .then((resData) => {
-    //         console.log("返回成功信息",resData)
-    //           if(resData.enCode == '1000'){
-    //             this.ifReady=true
+    check(){
+          let params = {};
+          params.sydwTycode=this.form.AAB003;
+          console.log('----params----',params)
+          this.$axios.post( this.epFn.ApiUrl() +  '/H5/jy0006/getAreaList', params)
+          .then((resData) => {
+            console.log("返回成功信息",resData)
+              if(resData.enCode == '1000'){
                 
-    //           }else{
-    //             this.ifReady=false
-    //             this.$toast(resData.msg)
+              }else{
+                this.$toast(resData.msg)
 
-    //           }
-    //       }).catch((error) => {
-    //           console.log(error)
-    //       })
-    // },
+              }
+          }).catch((error) => {
+              console.log(error)
+          })
+    },
     // 选择就诊医院
     chooseBank(){
         this.$refs.bank.open();
@@ -697,7 +695,6 @@ export default {
                   })
                 }else{
                     this.$toast(resData.msg)
-                    this.ifReady=resData.enCode
                     return false;
                 }
             }).catch((error) => {
