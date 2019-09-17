@@ -46,7 +46,7 @@
             </div>
         </div>
         <!-- 办事指南 -->
-        <GuideIcon AGA002="331400512001"></GuideIcon>
+        <GuideIcon AGA002="331400512002"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>
