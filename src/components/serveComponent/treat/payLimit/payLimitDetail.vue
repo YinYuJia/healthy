@@ -145,6 +145,7 @@ export default {
         this.epFn.setTitle('缴费年限核定')
         this.request();
         this.request1();
+        sessionStorage.setItem('payLimitDetail',true)
         /*if (window.history && window.history.pushState) {
             history.pushState(null, null, document.URL);
             window.addEventListener('popstate', this.back, false);//false阻止默认事件
@@ -182,6 +183,9 @@ export default {
                     // console.log("resData.LS_DS.length",resData.LS_DS.length)
                     if (resData.LS_DS.length > 0 ) {
                        this.currentStep = Number(resData.LS_DS[0].BOD037)
+                       if(this.currentStep==5){
+                           this.currentStep=4;
+                       }
                     }else{
                         this.$toast("暂无状态信息")
                     }
