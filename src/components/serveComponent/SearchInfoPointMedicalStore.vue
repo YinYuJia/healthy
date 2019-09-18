@@ -108,6 +108,7 @@
               // //向上取整
               // this.params.PAGE = PAGE;
               // 总页数
+              console.log("距离：", this.List)
               if (resData.LS_DS.length == 15) {
                 this.params.PAGE += 1;
                 this.allLoaded = false;
@@ -332,7 +333,7 @@
           }
           .distBox {
             line-height: 1.6rem;
-            font-size: .04rem;
+            font-size: .24rem;
             color: #999999;
             letter-spacing: 0;
             text-align: right;
