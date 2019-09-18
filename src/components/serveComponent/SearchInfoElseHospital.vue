@@ -24,7 +24,7 @@
               <div class="AddressName">{{item.AAE006||"暂无"}}</div>
               <div>
                 <div class="Btn">{{item.AKA101|level()}}</div>
-                <div class="Btn1" v-if="item.AKB100 != ''">{{item.AKB100|AKB100()}}</div>
+                <!-- <div class="Btn1" v-if="item.AKB100 != ''">{{item.AKB100|AKB100()}}</div> -->
                 <!-- <div class="Btn2">{{item.AKB100|AKB100()}}</div> -->
               </div>
             </div>
@@ -60,7 +60,7 @@
       }
     },
     created() {
-      this.epFn.setTitle('异地定点')
+      this.epFn.setTitle('定点医院')
       if (this.$route.query.param) {
         console.log("有传过来参数")
         console.log("传参", this.$route.query.param)
@@ -118,9 +118,9 @@
       },
       // 获取药品列表
       getList() {
-        console.log(8888888888)
         // 封装数据
         let params = this.formatSubmitData();
+        console.log('8888888888',params)
         // 开始请求
         this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9110/getRecord", params).then(resData => {
           console.log("返回成功信息11", resData);

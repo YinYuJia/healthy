@@ -55,28 +55,22 @@
         </div>
         <!-- banner -->
         <div class="banner">
-            <!-- <div class="swiper-container">
+            <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                        <!-- 定点医院 -->
+                        <svg-icon icon-class="serveComponent_icon17" @click="elseHospital" /></div>
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                        <svg-icon icon-class="serveComponent_icon14" @click="pointMedical" class="right-svg" /></div> 
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhere" /></div> 
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
                 </div>
-            </div> -->
-            <div class="bannerSvg">
-                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
-                <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
             </div>
         </div>
         <!-- 轮播图 -->
         <div class="carousel">
-            <!-- <swipe>
-                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-            </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -153,17 +147,23 @@
             }
         },
         mounted() {
+            console.log('---this.$build', this.$build)
             // 跑马灯效果
             setTimeout(() => {
                 // this.srcollLine()
             }, 500)
             new Swiper('.swiper-container', {
+                loop: false,
                 slidesPerView: 2.15, //显示的范围
-                spaceBetween: -8, //间隔大小
-                slidesOffsetBefore: 10, //靠左偏移量
+                spaceBetween: 10, //间隔大小
+                slidesOffsetBefore: 0, //靠左偏移量
                 slidesOffsetAfter: 10, //靠左偏移量
                 observer: true, //修改swiper自己或子元素时，自动初始化swiper
                 observeParents: true, //修改swiper的父元素时，自动初始化swiper
+                // navigation: {
+                //     nextEl: '.swiper-button-next',
+                //     prevEl: '.swiper-button-prev',
+                // },
             })
         },
         created() {
@@ -535,8 +535,16 @@
             medicalList() {
                 this.$router.push("/SearchInfoMedicalList");
             },
+            elseHospital() {
+                this.$router.push("/SearchInfoElseHospital");
+            //    9110
+            },
+            pointMedical() {
+                this.$router.push("/SearchInfoPointMedicalStore");
+            //    9022
+            },
             //异地定点医院
-            elseWhereHospital() {
+            elseWhere() {
                 let item = {}
                 if (this.lat == "" && this.lng == "") {
                     item.lat = "30.274643833098636"
@@ -962,6 +970,7 @@
             height: 2.48rem;
             background: #FFF;
             padding-bottom: .48rem;
+            padding: 0 .2rem;
             .c-swipe {
                 height: 100%;
                 .svg-icon {
@@ -973,7 +982,7 @@
                 height: 100%;
                 width: 100%;
             }
-        } // 热点资讯
+        }  // 热点资讯
         .hotMsg {
             background: #FFF;
             padding: 0 .32rem;

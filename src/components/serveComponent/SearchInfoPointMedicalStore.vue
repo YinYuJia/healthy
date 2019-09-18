@@ -47,7 +47,7 @@
       }
     },
     created() {
-      this.epFn.setTitle('异地定点')
+      this.epFn.setTitle('定点药店')
       if (this.$route.query.param) {
         console.log("有传过来参数")
         console.log("传参", this.$route.query.param)
@@ -104,11 +104,11 @@
             // this.$toast("提交成功");
             if (resData.LS_DS.length > 0) {
               this.List = [...this.List, ...resData.LS_DS];
-              let PAGE = Math.ceil(this.List.length / this.params.OUTNUMBER);
-              //向上取整
-              this.params.PAGE = PAGE;
+              // let PAGE = Math.ceil(this.List.length / this.params.OUTNUMBER);
+              // //向上取整
+              // this.params.PAGE = PAGE;
               // 总页数
-              if (resData.SPAGE > PAGE) {
+              if (resData.LS_DS.length == 15) {
                 this.params.PAGE += 1;
                 this.allLoaded = false;
                 sessionStorage.setItem("params", JSON.stringify(this.params));
@@ -116,7 +116,7 @@
               } else {
                 this.isShow = true
               }
-              if (resData.SCOUNT <= 15) {
+              if (resData.LS_DS.length < 15) {
                 this.isShow = true
                 this.allLoaded = true;
               }
@@ -260,6 +260,9 @@
         }
       }
     }
+    .mint-loadmore{
+        font-size: .28rem;
+    }
     .content1 {
       overflow: auto; // width: 7.5rem;
       height: 100%;
@@ -267,7 +270,7 @@
       .ListContent{
         padding: 0 .2rem;
         .InfoLine {
-          height: 1.2rem;
+          height: auto;
           display: flex;
           background: #FFF;
           justify-content: space-between;
@@ -329,10 +332,11 @@
           }
           .distBox {
             line-height: 1.6rem;
-            font-size: .24rem;
+            font-size: .04rem;
             color: #999999;
             letter-spacing: 0;
             text-align: right;
+            
           }
         }
         
@@ -343,6 +347,9 @@
         background: white;
         font-size: 14px;
         text-align: center;
+        font-size: .28rem;
+        line-height: .5rem;
+        color: #999;
       }
     }
   }
