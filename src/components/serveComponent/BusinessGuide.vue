@@ -181,7 +181,7 @@ export default {
                 code = '330000'
             }
             if(code=='331099'){
-                code = '3310000'
+                code = '331000'
             }
             submitForm.jurisCode=code
 
