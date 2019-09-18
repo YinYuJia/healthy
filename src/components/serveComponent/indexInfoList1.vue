@@ -144,8 +144,8 @@
             new Swiper('.swiper-container', {
                 loop: false,
                 slidesPerView: 2.15, //显示的范围
-                spaceBetween: 30, //间隔大小
-                slidesOffsetBefore: 10, //靠左偏移量
+                spaceBetween: 10, //间隔大小
+                slidesOffsetBefore: 0, //靠左偏移量
                 slidesOffsetAfter: 10, //靠左偏移量
                 observer: true, //修改swiper自己或子元素时，自动初始化swiper
                 observeParents: true, //修改swiper的父元素时，自动初始化swiper
@@ -1099,6 +1099,7 @@
             height: 2.48rem;
             background: #FFF;
             padding-bottom: .48rem;
+            padding: 0 .2rem;
             .c-swipe {
                 height: 100%;
                 .svg-icon {
