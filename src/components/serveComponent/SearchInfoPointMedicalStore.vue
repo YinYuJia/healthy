@@ -163,8 +163,8 @@
         submitForm.PAGE = this.params.PAGE; //查询页数
         // submitForm.AKA101 = this.params.AKA101; //医疗机构等级
         submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
-        submitForm.JD = '1'; //经度
-        submitForm.WD = '1'; //纬度
+        submitForm.JD = this.lng; //经度
+        submitForm.WD = this.lat; //纬度
         submitForm.NAME = this.NAME; //医院名称
         // submitForm.AAA102 = this.params.AAA102; //模糊查询
         // submitForm.AAA100 = this.type; //机构参数
@@ -174,7 +174,7 @@
         const params = this.epFn.commonRequsetData(
           this.$store.state.SET_NATIVEMSG.PublicHeader,
           submitForm,
-          "9024"
+          "9022"
         );
         return params;
       },

@@ -57,6 +57,7 @@
         lng: "",
         activeIndex:1,
         orderParam: '1',//排序参数
+        orderType: '1'
       }
     },
     created() {
@@ -86,6 +87,7 @@
           this.orderParam = '3'
         } else if (index == '3') {
           this.orderParam = '2'
+          this.orderType = '2'
         }
         this.getList()
       },
@@ -189,11 +191,11 @@
         submitForm.PAGE = this.params.PAGE; //查询页数
         submitForm.AKA101 = this.params.AKA101; //医疗机构等级
         submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
-        submitForm.JD = '1'; //经度
-        submitForm.WD = '1'; //纬度
+        submitForm.JD = this.lng; //经度
+        submitForm.WD = this.lat; //纬度
         submitForm.NAME = this.NAME; //医院名称
         submitForm.orderParam = this.orderParam;// 排序参数
-        submitForm.orderType = '1'
+        submitForm.orderType = this.orderType
         // submitForm.AAA102 = this.params.AAA102; //模糊查询
         // submitForm.AAA100 = this.type; //机构参数
         // submitForm.AAE013 = this.AAE013 //关联性类别码

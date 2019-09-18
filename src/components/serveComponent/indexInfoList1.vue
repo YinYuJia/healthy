@@ -160,6 +160,7 @@
         //     }
         // },
         created() {
+            this.getLocation()
             // 判断登录状态
             sessionStorage.setItem('isClear', this.isClear)
             console.log('sessionISCLEAR', sessionStorage.getItem('isClear'));
@@ -308,14 +309,6 @@
             }
         },
         methods: {
-            elseHospital() {
-                this.$router.push("/SearchInfoElseHospital");
-            //    9110
-            },
-            pointMedical() {
-                this.$router.push("/SearchInfoPointMedicalStore");
-            //    9022
-            },
             // 事项配置url把参数转成对象
             globalConfigObj() {
                 // url事项配置截取url参数方法  ------开始
@@ -648,14 +641,76 @@
                     })
                 })
             },
+            //获取经纬度
+            getLocation() {
+                dd.ready({
+                    usage: [
+                        'dd.device.location.get',
+                    ],
+                    remark: '获取定位信息'
+                }, ()=> {
+                    dd.device.location.get({
+                        onSuccess: (data)=> {
+                            console.log('loca', data)
+                            this.lat = data.latitude;
+                            this.lng = data.longitude;
+                            console.log("lat:", this.lat)
+                            console.log("lng:", this.lng)
+                            sessionStorage.setItem("LAT", this.lat)
+                            sessionStorage.setItem("LNG", this.lng)
+                        },
+                        onFail: (error)=> {
+                            console.log('locafail', error)
+                        }
+                    })
+                })
+            },
             //药品目录
             medicalList() {
-                console.log(1)
-                this.$router.push("/SearchInfoMedicalList");
+                this.$router.push({path: "/SearchInfoMedicalList"});
+            },
+            elseHospital() {
+                let item = {}
+                this.lat = sessionStorage.getItem("LAT")
+                this.lng = sessionStorage.getItem("LNG")
+                console.log("lat111:", this.lat)
+                console.log("lng:", this.lng)
+                if (this.lat == "" && this.lng == "") {
+                    item.lat = "30.274643833098636"
+                    item.lng = "120.14708140897169"
+                } else {
+                    item.lat = this.lat;
+                    item.lng = this.lng;
+                }
+                console.log("item", item)
+                this.$router.push({
+                    path: "/SearchInfoElseHospital", //领取就医凭证
+                    query: {
+                        param: item
+                    }
+                });
+            //    9110
+            },
+            pointMedical() {
+                let item = {}
+                if (this.lat == "" && this.lng == "") {
+                    item.lat = "30.274643833098636"
+                    item.lng = "120.14708140897169"
+                } else {
+                    item.lat = this.lat;
+                    item.lng = this.lng;
+                }
+                console.log("item", item)
+                this.$router.push({
+                    path: "/SearchInfoPointMedicalStore", //领取就医凭证
+                    query: {
+                        param: item
+                    }
+                });
+            //    9022
             },
             //异地定点医院
             elseWhere() {
-                console.log(2)
                 let item = {}
                 if (this.lat == "" && this.lng == "") {
                     item.lat = "30.274643833098636"
