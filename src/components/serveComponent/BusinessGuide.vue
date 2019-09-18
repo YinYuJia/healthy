@@ -92,7 +92,7 @@ export default {
             AGA002:"",//子项编码
             form:{},
             itemArr:[],
-            SDK:""
+            SDK:"",
         }
     },
     created () {
