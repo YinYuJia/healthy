@@ -675,7 +675,7 @@
                 this.lng = sessionStorage.getItem("LNG")
                 console.log("lat111:", this.lat)
                 console.log("lng:", this.lng)
-                if (this.lat == "" && this.lng == "") {
+                if (this.lat == null && this.lng == null) {
                     item.lat = "30.274643833098636"
                     item.lng = "120.14708140897169"
                 } else {
@@ -693,7 +693,9 @@
             },
             pointMedical() {
                 let item = {}
-                if (this.lat == "" && this.lng == "") {
+                this.lat = sessionStorage.getItem("LAT")
+                this.lng = sessionStorage.getItem("LNG")
+                if (this.lat == null && this.lng == null) {
                     item.lat = "30.274643833098636"
                     item.lng = "120.14708140897169"
                 } else {
@@ -712,7 +714,9 @@
             //异地定点医院
             elseWhere() {
                 let item = {}
-                if (this.lat == "" && this.lng == "") {
+                this.lat = sessionStorage.getItem("LAT")
+                this.lng = sessionStorage.getItem("LNG")
+                if (this.lat == null && this.lng == null) {
                     item.lat = "30.274643833098636"
                     item.lng = "120.14708140897169"
                 } else {
