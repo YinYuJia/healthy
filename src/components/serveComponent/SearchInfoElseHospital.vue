@@ -24,7 +24,7 @@
               <div class="AddressName">{{item.AAE006||"暂无"}}</div>
               <div>
                 <div class="Btn">{{item.AKA101|level()}}</div>
-                <!-- <div class="Btn1" v-if="item.AKB100 != ''">{{item.AKB100|AKB100()}}</div> -->
+                <div class="Btn1" v-if="item.BKB024 != ''">{{item.BKB024|BKB024()}}</div>
                 <!-- <div class="Btn2">{{item.AKB100|AKB100()}}</div> -->
               </div>
             </div>
