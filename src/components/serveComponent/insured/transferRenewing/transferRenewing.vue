@@ -5,14 +5,14 @@
         <SelectCity
             :type="3"
             ref="outCityPicker"
-            :jy9028="true"
+            :jy9029="true"
             @confirm="chooseOutCity"
             >
         </SelectCity>
         <SelectCity
             :type="3"
             ref="inCityPicker"
-            :jy9028="true"
+            :jy9029="true"
             @confirm="chooseInCity"
             >
         </SelectCity>
@@ -20,7 +20,7 @@
         <SelectCity
             :type="3"
             ref="allCityPicker"
-            :jy9028="true"
+            :jy9029="true"
             @confirm="chooseAllCity"
             >
         </SelectCity>
