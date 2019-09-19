@@ -47,7 +47,7 @@
       }
     },
     created() {
-      this.epFn.setTitle('异地定点')
+      this.epFn.setTitle('定点药店')
       if (this.$route.query.param) {
         console.log("有传过来参数")
         console.log("传参", this.$route.query.param)
@@ -104,11 +104,12 @@
             // this.$toast("提交成功");
             if (resData.LS_DS.length > 0) {
               this.List = [...this.List, ...resData.LS_DS];
-              let PAGE = Math.ceil(this.List.length / this.params.OUTNUMBER);
-              //向上取整
-              this.params.PAGE = PAGE;
+              // let PAGE = Math.ceil(this.List.length / this.params.OUTNUMBER);
+              // //向上取整
+              // this.params.PAGE = PAGE;
               // 总页数
-              if (resData.SPAGE > PAGE) {
+              console.log("距离：", this.List)
+              if (resData.LS_DS.length == 15) {
                 this.params.PAGE += 1;
                 this.allLoaded = false;
                 sessionStorage.setItem("params", JSON.stringify(this.params));
@@ -116,7 +117,7 @@
               } else {
                 this.isShow = true
               }
-              if (resData.SCOUNT <= 15) {
+              if (resData.LS_DS.length < 15) {
                 this.isShow = true
                 this.allLoaded = true;
               }
@@ -163,8 +164,8 @@
         submitForm.PAGE = this.params.PAGE; //查询页数
         // submitForm.AKA101 = this.params.AKA101; //医疗机构等级
         submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
-        submitForm.JD = '1'; //经度
-        submitForm.WD = '1'; //纬度
+        submitForm.JD = this.lng; //经度
+        submitForm.WD = this.lat; //纬度
         submitForm.NAME = this.NAME; //医院名称
         // submitForm.AAA102 = this.params.AAA102; //模糊查询
         // submitForm.AAA100 = this.type; //机构参数
@@ -174,7 +175,7 @@
         const params = this.epFn.commonRequsetData(
           this.$store.state.SET_NATIVEMSG.PublicHeader,
           submitForm,
-          "9024"
+          "9022"
         );
         return params;
       },
@@ -260,6 +261,9 @@
         }
       }
     }
+    .mint-loadmore{
+        font-size: .28rem;
+    }
     .content1 {
       overflow: auto; // width: 7.5rem;
       height: 100%;
@@ -267,7 +271,7 @@
       .ListContent{
         padding: 0 .2rem;
         .InfoLine {
-          height: 1.2rem;
+          height: auto;
           display: flex;
           background: #FFF;
           justify-content: space-between;
@@ -333,6 +337,7 @@
             color: #999999;
             letter-spacing: 0;
             text-align: right;
+            
           }
         }
         
@@ -343,6 +348,9 @@
         background: white;
         font-size: 14px;
         text-align: center;
+        font-size: .28rem;
+        line-height: .5rem;
+        color: #999;
       }
     }
   }

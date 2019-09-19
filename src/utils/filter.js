@@ -143,6 +143,14 @@ export function BKE520( val ) {
   }
   return obj[val]
  }
+ //医院是否异地
+ export function BKB024( val ) {
+  let obj = {
+    "0": "",
+    "1": "异地就医",
+  }
+  return obj[val]
+ }
  //权力事项类型
  export function matType( val ) {
   let obj = {

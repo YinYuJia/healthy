@@ -91,11 +91,25 @@
                     </div>
                 </div>
             </div>
+            <div class="settlement">
+                <div class="infoName">转移变更表</div>
+                <div class="photoBox">
+                     <div class="picWrap">
+                        <div class="uploadBtn">
+                            <img :src="settlement" class="pic" @click="showBigPhoto(settlement)" />
+                            <!-- <a href='static\pdf\web\viewer.html?file=http%3a%2f%2fybj.zjzwfw.gov.cn%3a10540%2fopenapiApp%2fdownload%3fkey%3dbizamt%2frdm%2f1567674102729W6y.pdf'>点我111111</a> -->
+                            <!-- <iframe src="static\pdf\web\compressed.tracemonkey-pldi-09.pdf" width="100%" height="100%"></iframe> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <Success :flag="successFlag"></Success>
+        <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
+        <!-- 底部 -->
+        <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" @edit="edit()" :handleNumber="handleNumber"></Footer>
     </div>
 </template>
-
 <script>
 export default {
     data(){
@@ -110,6 +124,8 @@ export default {
             ],
             currentStep:1,
             successFlag: 1,
+            settlement:'',
+            imgUrl:'',
         }
     },
     created(){

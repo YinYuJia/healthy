@@ -92,7 +92,7 @@ export default {
             AGA002:"",//子项编码
             form:{},
             itemArr:[],
-            SDK:""
+            SDK:"",
         }
     },
     created () {
@@ -169,7 +169,21 @@ export default {
             let submitForm = {};
             submitForm.matCode = this.AGA002; //权力编码
             submitForm.matName = ""; //权力名称
+            console.log('个人')
+            let code=sessionStorage.getItem("GinsengLandCode")
+            if(code==null){
+                console.log('法人',JSON.parse(sessionStorage.getItem('LegalPerson')))
+                code=JSON.parse(sessionStorage.getItem('LegalPerson')).xzqh
+                submitForm.jurisCode=code 
+            }
             
+            if(code == '339900') {
+                code = '330000'
+            }
+            if(code=='331099'){
+                code = '331000'
+            }
+            submitForm.jurisCode=code
 
             // 加入用户名和电子社保卡号
             // if (this.$store.state.SET_NATIVEMSG.name !== undefined) {

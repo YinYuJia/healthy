@@ -55,28 +55,22 @@
         </div>
         <!-- banner -->
         <div class="banner">
-            <!-- <div class="swiper-container">
+            <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" /></div>
+                        <!-- 定点医院 -->
+                        <svg-icon icon-class="serveComponent_icon17" @click="elseHospital" /></div>
                     <div class="swiper-slide">
-                        <svg-icon icon-class="serveComponent_icon14" @click="hint" /></div>
+                        <svg-icon icon-class="serveComponent_icon14" @click="pointMedical" class="right-svg" /></div> 
+                    <div class="swiper-slide">
+                        <svg-icon icon-class="serveComponent_icon13" @click="elseWhere" /></div> 
                     <div class="swiper-slide">
                         <svg-icon icon-class="serveComponent_icon15" @click="medicalList" class="right-svg" /></div>
                 </div>
-            </div> -->
-            <div class="bannerSvg">
-                <svg-icon icon-class="serveComponent_icon13" @click="elseWhereHospital" />
-                <svg-icon icon-class="serveComponent_icon15" @click="medicalList" />
             </div>
         </div>
         <!-- 轮播图 -->
         <div class="carousel">
-            <!-- <swipe>
-                <swipe-item><svg-icon icon-class="serveComponent_icon16" /></swipe-item>
-                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-                <swipe-item><svg-icon icon-class="serveComponent_icon15" /></swipe-item>
-            </swipe> -->
             <svg-icon icon-class="serveComponent_icon16" />
         </div>
         <!-- 热点资讯 -->
@@ -153,20 +147,27 @@
             }
         },
         mounted() {
+            console.log('---this.$build', this.$build)
             // 跑马灯效果
             setTimeout(() => {
                 // this.srcollLine()
             }, 500)
             new Swiper('.swiper-container', {
+                loop: false,
                 slidesPerView: 2.15, //显示的范围
-                spaceBetween: -8, //间隔大小
-                slidesOffsetBefore: 10, //靠左偏移量
+                spaceBetween: 10, //间隔大小
+                slidesOffsetBefore: 0, //靠左偏移量
                 slidesOffsetAfter: 10, //靠左偏移量
                 observer: true, //修改swiper自己或子元素时，自动初始化swiper
                 observeParents: true, //修改swiper的父元素时，自动初始化swiper
+                // navigation: {
+                //     nextEl: '.swiper-button-next',
+                //     prevEl: '.swiper-button-prev',
+                // },
             })
         },
         created() {
+            this.getLocation()
             sessionStorage.setItem('ifRequest',false)
             sessionStorage.setItem('ifRequestPayLimit',false)
             // 判断是否法人登录
@@ -531,14 +532,82 @@
                     })
                 })
             },
+            //获取经纬度
+            getLocation() {
+                dd.ready({
+                    usage: [
+                        'dd.device.location.get',
+                    ],
+                    remark: '获取定位信息'
+                }, ()=> {
+                    dd.device.location.get({
+                        onSuccess: (data)=> {
+                            console.log('loca', data)
+                            this.lat = data.latitude;
+                            this.lng = data.longitude;
+                            console.log("lat:", this.lat)
+                            console.log("lng:", this.lng)
+                            sessionStorage.setItem("LAT", this.lat)
+                            sessionStorage.setItem("LNG", this.lng)
+                        },
+                        onFail: (error)=> {
+                            console.log('locafail', error)
+                        }
+                    })
+                })
+            },
             //药品目录
             medicalList() {
-                this.$router.push("/SearchInfoMedicalList");
+                this.$router.push({path: "/SearchInfoMedicalList"});
+            },
+            elseHospital() {
+                let item = {}
+                this.lat = sessionStorage.getItem("LAT")
+                this.lng = sessionStorage.getItem("LNG")
+                console.log("lat111:", this.lat)
+                console.log("lng:", this.lng)
+                if (this.lat == null && this.lng == null) {
+                    item.lat = "30.274643833098636"
+                    item.lng = "120.14708140897169"
+                } else {
+                    item.lat = this.lat;
+                    item.lng = this.lng;
+                }
+                console.log("item", item)
+                this.$router.push({
+                    path: "/SearchInfoElseHospital", //领取就医凭证
+                    query: {
+                        param: item
+                    }
+                });
+            //    9110
+            },
+            pointMedical() {
+                let item = {}
+                this.lat = sessionStorage.getItem("LAT")
+                this.lng = sessionStorage.getItem("LNG")
+                if (this.lat == null && this.lng == null) {
+                    item.lat = "30.274643833098636"
+                    item.lng = "120.14708140897169"
+                } else {
+                    item.lat = this.lat;
+                    item.lng = this.lng;
+                }
+                console.log("item", item)
+                this.$router.push({
+                    path: "/SearchInfoPointMedicalStore", //领取就医凭证
+                    query: {
+                        param: item
+                    }
+                });
+            //    9022
             },
             //异地定点医院
-            elseWhereHospital() {
+            elseWhere() {
                 let item = {}
-                if (this.lat == "" && this.lng == "") {
+                this.lat = sessionStorage.getItem("LAT")
+                this.lng = sessionStorage.getItem("LNG")
+                if (this.lat == null && this.lng == null) {
                     item.lat = "30.274643833098636"
                     item.lng = "120.14708140897169"
                 } else {
@@ -962,6 +1031,7 @@
             height: 2.48rem;
             background: #FFF;
             padding-bottom: .48rem;
+            padding: 0 .2rem;
             .c-swipe {
                 height: 100%;
                 .svg-icon {
@@ -973,7 +1043,7 @@
                 height: 100%;
                 width: 100%;
             }
-        } // 热点资讯
+        }  // 热点资讯
         .hotMsg {
             background: #FFF;
             padding: 0 .32rem;

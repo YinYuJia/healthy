@@ -248,24 +248,29 @@ export default {
             }
         },
         submit(){
-            // 封装数据
-            let params = this.formatSubmitData1();
-            // 开始请求
-            console.log('parmas------',params)
-            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1025/addRecord', params).then((resData) => {
-                console.log('返回成功信息',resData)
-                //   成功   1000
-                    if ( resData.enCode == 1000 ) {
-                        this.$router.push("/payLimitDetail");
-                    }else if (resData.enCode == 1001 ) {
-                    //   失败  1001
-                        this.$toast(resData.msg);
-                        return;
-                    }else{
-                        this.$toast('业务出错');
-                        return;
-                    }
-            })
+            if(this.canSubmit==true){
+                // 封装数据
+                let params = this.formatSubmitData1();
+                // 开始请求
+                console.log('parmas------',params)
+                this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1025/addRecord', params).then((resData) => {
+                    console.log('返回成功信息',resData)
+                    //   成功   1000
+                        if ( resData.enCode == 1000 ) {
+                            this.$router.push("/payLimitDetail");
+                        }else if (resData.enCode == 1001 ) {
+                        //   失败  1001
+                            this.$toast(resData.msg);
+                            return;
+                        }else{
+                            this.$toast('业务出错');
+                            return;
+                        }
+                })
+            }else{
+                this.$toast('请先上传附件');
+                return;
+            }
         },
         formatSubmitData1(){
             let submitForm ={}

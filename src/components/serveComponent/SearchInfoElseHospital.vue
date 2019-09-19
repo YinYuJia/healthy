@@ -24,7 +24,7 @@
               <div class="AddressName">{{item.AAE006||"暂无"}}</div>
               <div>
                 <div class="Btn">{{item.AKA101|level()}}</div>
-                <div class="Btn1" v-if="item.AKB100 != ''">{{item.AKB100|AKB100()}}</div>
+                <div class="Btn1" v-if="item.BKB024 != ''">{{item.BKB024|BKB024()}}</div>
                 <!-- <div class="Btn2">{{item.AKB100|AKB100()}}</div> -->
               </div>
             </div>
@@ -55,11 +55,13 @@
         isShow: false,
         lat: "",
         lng: "",
-        activeIndex:1
+        activeIndex:1,
+        orderParam: '1',//排序参数
+        orderType: '1'
       }
     },
     created() {
-      this.epFn.setTitle('异地定点')
+      this.epFn.setTitle('定点医院')
       if (this.$route.query.param) {
         console.log("有传过来参数")
         console.log("传参", this.$route.query.param)
@@ -76,19 +78,18 @@
     },
     methods: {
       changeIndex(index){
-          if (this.pointStatus == '2') {
-            this.activeIndex = this.pointStatus;
-            return;
-          } else {
-            this.activeIndex = index;
-            if (index == 1) {
-              console.log(11111)
-            } else if(index==2){
-              console.log(22222)
-            }else{
-              console.log(33333)
-            }
-          }
+        this.params.PAGE = 1;
+        this.List = []
+        this.activeIndex = index;
+        if(index == '1') {
+          this.orderParam = '1'
+        } else if (index == '2') {
+          this.orderParam = '3'
+        } else if (index == '3') {
+          this.orderParam = '2'
+          this.orderType = '2'
+        }
+        this.getList()
       },
       deleteSearch() {
         this.NAME = '';
@@ -119,9 +120,9 @@
       },
       // 获取药品列表
       getList() {
-        console.log(8888888888)
         // 封装数据
         let params = this.formatSubmitData();
+        console.log('8888888888',params)
         // 开始请求
         this.$axios.post(this.epFn.ApiUrl() + "/H5/jy9110/getRecord", params).then(resData => {
           console.log("返回成功信息11", resData);
@@ -187,12 +188,14 @@
       },
       formatSubmitData() {
         let submitForm = {};
-        submitForm.PAGE = this.params.PAGE + ''; //查询页数
+        submitForm.PAGE = this.params.PAGE; //查询页数
         submitForm.AKA101 = this.params.AKA101; //医疗机构等级
-        submitForm.OUTNUMBER = this.params.OUTNUMBER + ''; //每页输出记录条数
-        submitForm.JD = '1'; //经度
-        submitForm.WD = '1'; //纬度
+        submitForm.OUTNUMBER = this.params.OUTNUMBER; //每页输出记录条数
+        submitForm.JD = this.lng; //经度
+        submitForm.WD = this.lat; //纬度
         submitForm.NAME = this.NAME; //医院名称
+        submitForm.orderParam = this.orderParam;// 排序参数
+        submitForm.orderType = this.orderType
         // submitForm.AAA102 = this.params.AAA102; //模糊查询
         // submitForm.AAA100 = this.type; //机构参数
         // submitForm.AAE013 = this.AAE013 //关联性类别码
@@ -335,7 +338,7 @@
       .ListContent{
         padding: 0 .2rem;
         .InfoLine {
-          height: 1.6rem;
+          height: 1.7rem;
           display: flex;
           background: #FFF;
           justify-content: space-between;

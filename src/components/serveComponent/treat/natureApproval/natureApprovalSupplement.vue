@@ -24,7 +24,6 @@
         <div class="Hint">
             <!-- <svg-icon icon-class="redWarning"></svg-icon> -->
             <div class="hint-left">2. 医疗诊断证明或出院记录（需要医院盖章）复印件一份</div>
-            <div class="hint-right"></div>
         </div>
         <!-- <button class="download" @click="getFileForm">下载原件</button> -->
         <!-- 需要补充信息 -->
@@ -402,6 +401,9 @@ export default {
                     top: -0.2rem;
                     right: -0.2rem;
                 }
+            }
+            &:last-child{
+                margin-top: .3rem;
             }
         }
         .Hint{

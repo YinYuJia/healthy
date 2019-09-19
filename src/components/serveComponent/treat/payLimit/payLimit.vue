@@ -329,7 +329,12 @@ export default {
     },
     created(){
         this.checkJump();
-
+        console.log('payLimitDetail',sessionStorage.getItem('payLimitDetail'))
+        console.log('ifRequestPayLimit',sessionStorage.getItem('ifRequestPayLimit'))
+        //从详情页回退到搜索页  不重新搜索
+        if(sessionStorage.getItem('payLimitDetail')=='true'){
+            sessionStorage.setItem('ifRequestPayLimit',false)
+        }
         this.epFn.setTitle('缴费年限核定');
         //判断到上传附件页面后返回  是否要重新请求
         if(sessionStorage.getItem('ifRequestPayLimit')!='false'){
