@@ -214,6 +214,9 @@ export default {
     created () {
         this.epFn.setTitle('医保转移接续')
         this.getMailInfo();
+        // 自动填入转入地
+        this.form.AAB301VALUE = sessionStorage.getItem('GinsengLandName');
+        this.form.AAB301 = sessionStorage.getItem('GinsengLandCode');
     },
     watch: {
         // 监听转出地

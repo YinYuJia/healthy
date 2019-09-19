@@ -35,6 +35,8 @@
         <!-- 医保类型选择器 -->
         <SelectList :list="ACC002List" ref="ACC002Picker" @choose="chooseACC002"></SelectList>
         <!-- 弹出框区域结束 -->
+        <!-- 检验是否绑定 -->
+        <BindingAgency></BindingAgency>
         <!-- 搜索框 -->
         <SearchInfo @search="search"></SearchInfo>
         <!-- 显示剩下的信息 -->
