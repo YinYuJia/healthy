@@ -349,7 +349,7 @@ export default {
             this.$refs.datePicker.open();
         },
         chooseDate(val){
-            this.form[this.dateFlag] = this.util.formatDate(val,'yyyy-MM-dd');;
+            this.form[this.dateFlag] = this.util.formatDate(val,'yyyy-MM');;
         },
         // 选择医疗保险类型
         openACC002Picker(){
@@ -485,6 +485,11 @@ export default {
 <style lang="less" scoped>
 .insuredChange{
     width: 100%;
+    /deep/ .mint-datetime-picker .picker-slot{
+        &:nth-child(3){
+            display: none;
+        }
+    }
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;

@@ -105,6 +105,7 @@
                 </div>
             </div>
         </div>
+        <Success :flag="successFlag"></Success>
     </div>
 </template>
 

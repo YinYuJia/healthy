@@ -371,7 +371,7 @@ export default {
             this.$refs.datePicker.open();
         },
         chooseDate(val){
-            this.form[this.dateFlag] = this.util.formatDate(val,'yyyy-MM-dd');;
+            this.form[this.dateFlag] = this.util.formatDate(val,'yyyy-MM');;
         },
         // 选择医疗保险类型
         openACC002Picker(){
@@ -413,7 +413,7 @@ export default {
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         sessionStorage.setItem('BKZ019',resData.BKZ019);
-                        this.$router.push("/transferDetail");
+                        this.$router.push("/legalTransferDetail");
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);
@@ -507,6 +507,11 @@ export default {
 
 <style lang="less" scoped>
 .legalTransfer{
+    /deep/ .mint-datetime-picker .picker-slot{
+        &:nth-child(3){
+            display: none;
+        }
+    }
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;

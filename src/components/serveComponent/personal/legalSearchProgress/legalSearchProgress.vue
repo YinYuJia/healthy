@@ -102,6 +102,7 @@
 							case '给付-00142-002-02': path = '/legalSurgicalView'; break; //流产
                             case '给付-00142-002-03': path = '/legalSurgicalView'; break; //流产
                             case '给付-00142-003': path = '/unemployedDetail'; break; //未就业
+                            case '公共服务-00512-002': path = 'legalTransferDetail'; break; //转移接续
 							default: path = ''; break;
 						}
 						if(path == ''){
