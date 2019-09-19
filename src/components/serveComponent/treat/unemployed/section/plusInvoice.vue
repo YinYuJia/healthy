@@ -13,11 +13,11 @@
             <div class="ReportInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>发票号码：</span></div>
-                    <div class="InfoText"><input type="text" v-model="form.BKE100" placeholder="请输入"></div>
+                    <div class="InfoText"><input type="text" maxlength="50" v-model="form.BKE100" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>发票金额：</span></div>
-                    <div class="InfoText"><input type="number" v-model="form.AKC264" placeholder="请输入"></div>
+                    <div class="InfoText"><input type="number" maxlength="16" v-model="form.AKC264" placeholder="请输入"></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>发票日期：</span></div>
