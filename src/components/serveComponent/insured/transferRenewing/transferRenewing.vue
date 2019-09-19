@@ -215,8 +215,15 @@ export default {
         this.epFn.setTitle('医保转移接续')
         this.getMailInfo();
         // 自动填入转入地
-        this.form.AAB301VALUE = sessionStorage.getItem('GinsengLandName');
-        this.form.AAB301 = sessionStorage.getItem('GinsengLandCode');
+        this.form.AAS301 = '330000';
+        if(sessionStorage.getItem('GinsengLandCode') == '339900'){
+            this.form.AAB301VALUE = sessionStorage.getItem('GinsengLandName');
+            this.form.AAB301 = sessionStorage.getItem('GinsengLandCode');
+        }else{
+            this.form.AAQ301 = sessionStorage.getItem('GinsengLandCode');
+            this.form.AAB301 = sessionStorage.getItem('GinsengLandCode').slice(0,4) + '00';
+            this.form.AAB301VALUE = sessionStorage.getItem('GinsengLandName');
+        }
     },
     watch: {
         // 监听转出地
@@ -240,7 +247,7 @@ export default {
         },
         // 监听转入地
         'form.AAB301'(val){
-            if(val == ''){
+            if(val == '' || this.form.AAS027 == ''){
                 return;
             }
             // 如果不是浙江省则提示错误,清空数据
@@ -248,12 +255,6 @@ export default {
                 this.$toast('如需办理省内转往省外的业务，请前往【医保证明】打印个人参保证明');
                 this.clearIncity();
             }else{
-                // 提示先选择转出地
-                if(this.form.AAA027VALUE == ''){
-                    this.$toast('请先选择转出地');
-                    this.clearIncity();
-                    return;
-                }
                 // 省内转省内
                 if(this.form.AAS027 == '330000'){
                     this.isOutsideProvince = false;
