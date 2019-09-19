@@ -334,8 +334,9 @@ export default {
                         this.invoiceComplete = false
                     }
                     this.invoices = resData.LS_DS0
-                    if(resData.LS_DS0.BKE586=='3'){
+                    if(resData.LS_DS0[0].BKE586=='3'){
                         this.showSettlement=true;
+                        this.request3();
                     }else{
                         this.showSettlement=false
                     }
