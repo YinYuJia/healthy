@@ -1,6 +1,5 @@
 <template>
-    <div class="insuredChange">
-        <Title :title="'医保转移接续'" :backRouter="'/'"></Title>
+    <div class="legalTransfer">
         <!-- MintUI弹出框区域 -->
         <SelectCity
             :type="3"
@@ -36,9 +35,12 @@
         <!-- 医保类型选择器 -->
         <SelectList :list="ACC002List" ref="ACC002Picker" @choose="chooseACC002"></SelectList>
         <!-- 弹出框区域结束 -->
-        <div class="Content">
-            <!-- 基本信息 -->
-            <UserBaseInfo></UserBaseInfo>
+        <!-- 搜索框 -->
+        <SearchInfo @search="search"></SearchInfo>
+        <!-- 显示剩下的信息 -->
+        <div class="Content" v-show="showAll">
+            <!-- 用户信息 -->
+            <UserInfoPad :userInfo="userInfo"></UserInfoPad>
             <!-- 转移信息 -->
             <div class="ReportInfo">
                 <h2 class="InfoTitle">转移信息</h2>
@@ -148,14 +150,7 @@
                     </div>
                 </div>
             </div>
-            <!-- 提示 -->
-            <div class="Hint">
-                <div class="HintTitle"><i class="el-icon-warning" style="color:#05AEF0"></i>温馨提示</div>
-                <div class="HintText">手机号码将用于您事项办结后的消息通知，请您准确填写。</div>
-            </div>
         </div>
-        <!-- 办事指南 -->
-        <GuideIcon AGA002="331400512002"></GuideIcon>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
     </div>
@@ -165,6 +160,8 @@
 export default {
     data(){
         return{
+            showAll: false,
+            userInfo: {},
             isOutsideProvince: false, //转出地是否为省外
             cityFlag: '', //存储当先填写的是哪个地址
             dateFlag: '', //存储选择的是哪个日期
@@ -211,9 +208,8 @@ export default {
             canSubmit: false,
         }
     },
-    created () {
-        this.epFn.setTitle('医保转移接续')
-        this.getMailInfo();
+    created(){
+        this.epFn.setTitle('转移接续')
     },
     watch: {
         // 监听转出地
@@ -294,6 +290,34 @@ export default {
         },
     },
     methods:{
+        // 搜索
+        search(val) {
+            let submitForm = {AAE135: val}
+            // 请求参数封装
+            const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1013");
+            this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1013/info', params).then((resData) => {
+                if ( resData.enCode == 1000 ) {
+                    // 检测搜索的人是不是该公司员工
+                    if(sessionStorage.getItem('LOGINNAME') != resData.LS_DS[0].AAB001){
+                        this.$toast('该人员不是本单位职工，请重新输入身份证查询');
+                        return;
+                    }
+                    // 存储申请人基本信息
+                    this.userInfo = resData.LS_DS[0];
+                    this.getMailInfo(val);
+                    // 判断是否显示剩余信息
+                    this.showAll = true;
+                }else if (resData.enCode == 1001 ) {
+                    this.showAllInfo = false;
+                //   失败  1001
+                    this.$toast('请输入有效的身份证号');
+                    return;
+                }else{
+                    this.$message('业务出错');
+                    return;
+                }
+            });
+        },
         // 清空转入地
         clearIncity(){
             this.form.AAB301VALUE = '';
@@ -450,16 +474,13 @@ export default {
             return params;
         },
        // 获取邮寄信息
-        getMailInfo(){
+        getMailInfo(idNo){
             let submitForm = {}
             // 加入电子社保卡号
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-                this.$toast("未获取到人员基本信息");
-            }
+            submitForm.AAE135 = idNo;
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
+                console.log('2002',resData);
                 //   成功   1000
                 if ( resData.enCode == 1000 ) {
                     this.form.AAE005 = resData.AAE005; //手机号码
@@ -478,8 +499,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.insuredChange{
-    width: 100%;
+.legalTransfer{
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
@@ -535,24 +555,6 @@ export default {
         .RemainInfo{
             .ReportInfo{
                 margin-top: .15rem;
-            }
-        }
-        .Hint{
-            margin-top: .45rem;
-            padding: 0 .3rem;
-            opacity: 0.45;
-            font-size: .24rem;
-            color: red;
-            text-align: left;
-            .HintTitle{
-                i{
-                    margin-right: .2rem;
-                    letter-spacing: 0;
-                }
-            }
-            .HintText{
-                margin-top: .28rem;
-                letter-spacing: 0;
             }
         }
     }

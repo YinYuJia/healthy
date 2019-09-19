@@ -772,7 +772,6 @@ export default {
       .InfoLine {
         height: 1.2rem;
         position: relative;
-        font-family: PingFangSC-Regular;
         font-size: 0.3rem;
         display: flex;
         justify-content: space-between;
