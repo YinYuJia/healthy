@@ -394,7 +394,7 @@ export default {
                     //   成功   1000
                     if ( resData.enCode == 1000 ) {
                         sessionStorage.setItem('BKZ019',resData.BKZ019);
-                        this.$router.push("/transferDetail");
+                        this.$router.push("/legalTransferDetail");
                     }else if (resData.enCode == 1001 ) {
                     //   失败  1001
                         this.$toast(resData.msg);
@@ -428,8 +428,12 @@ export default {
             let submitForm = {};
             let params;
             if(this.isOutsideProvince){
+                let legalPerson = JSON.parse(sessionStorage.getItem('LegalPerson'));
                 submitForm = {
-                    AAC002: this.$store.state.SET_NATIVEMSG.idCard, //身份证
+                    AAC002: this.userInfo.AAC002, //被操作人身份证
+                    AAC003: this.userInfo.AAC003, //被操作人姓名
+                    AAE011: legalPerson.attnName, //经办人姓名
+                    AAE135: legalPerson.attnIDNo, //经办人身份证
                     AAC067: this.form.AAC067, //手机号码
                     AAC010: this.form.AAC010_1 + this.form.AAC010_2, //户籍地址
                     AAC009: this.form.AAC009, //户籍类型
@@ -448,12 +452,12 @@ export default {
                     AAE030: this.form.AAE030, //参保开始时间
                     AAE031: this.form.AAE031, //参保结束时间
                     BAB459: this.form.BAB459, //累计缴费月数
-                    AAE135: this.$store.state.SET_NATIVEMSG.idCard,
+                    userId: legalPerson.userId,
                     BKE520: '1', //申请渠道
-                    AAE011: this.$store.state.SET_NATIVEMSG.name, //申请人
                 }
                 params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9105");
             }else{
+                let legalPerson = JSON.parse(sessionStorage.getItem('LegalPerson'));
                 submitForm = {
                     AAA027: this.form.AAA027, //转出地市级编码
                     AAQ027: this.form.AAQ027, //转出地区/县级编码
@@ -461,11 +465,12 @@ export default {
                     AAS301: this.form.AAS301, //转入地省级编码
                     AAB301: this.form.AAB301, //转入地市级编码
                     AAQ301: this.form.AAQ301, //转入地区/县级编码
-                    AAC003: this.$store.state.SET_NATIVEMSG.name, //姓名
-                    AAE135: this.$store.state.SET_NATIVEMSG.idCard, //社会保障号
-                    AAC002: this.$store.state.SET_NATIVEMSG.idCard, //办理人身份证
-                    AAE011: this.$store.state.SET_NATIVEMSG.name, //申请人姓名
+                    AAE011: legalPerson.attnName, //经办人姓名
+                    AAE135: legalPerson.attnIDNo, //经办人身份证
+                    AAC003: this.userInfo.AAC003, //被操作人姓名
+                    AAC002: this.userInfo.AAC002, //被操作人身份证
                     AAE005: this.form.AAE005, //联系电话
+                    userId: legalPerson.userId,
                     BKZ019: '', //经办编号
                     BKE420: '1', //申请渠道
                 }

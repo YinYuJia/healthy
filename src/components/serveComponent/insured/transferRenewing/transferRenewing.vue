@@ -406,6 +406,9 @@ export default {
             if(this.isOutsideProvince){
                 submitForm = {
                     AAC002: this.$store.state.SET_NATIVEMSG.idCard, //身份证
+                    AAE011: this.$store.state.SET_NATIVEMSG.name, //申请人
+                    AAC003: this.$store.state.SET_NATIVEMSG.name,
+                    AAE135: this.$store.state.SET_NATIVEMSG.idCard,
                     AAC067: this.form.AAC067, //手机号码
                     AAC010: this.form.AAC010_1 + this.form.AAC010_2, //户籍地址
                     AAC009: this.form.AAC009, //户籍类型
@@ -424,9 +427,7 @@ export default {
                     AAE030: this.form.AAE030, //参保开始时间
                     AAE031: this.form.AAE031, //参保结束时间
                     BAB459: this.form.BAB459, //累计缴费月数
-                    AAE135: this.$store.state.SET_NATIVEMSG.idCard,
                     BKE520: '1', //申请渠道
-                    AAE011: this.$store.state.SET_NATIVEMSG.name, //申请人
                 }
                 params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9105");
             }else{
