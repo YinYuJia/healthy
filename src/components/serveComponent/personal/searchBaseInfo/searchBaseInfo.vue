@@ -121,14 +121,9 @@ export default {
         formatSubmitData(){
             let submitForm ={};
             // 加入用户名和电子社保卡号
-
-            if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
-                submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
-            }else {
-
-                this.$toast("未获取到人员基本信息");
-            }
+            submitForm.AAC003 = this.$store.state.SET_NATIVEMSG.name;
+            submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+            submitForm.AAA027 = sessionStorage.getItem('GinsengLandCode');
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1013");
             return params;
