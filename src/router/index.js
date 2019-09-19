@@ -33,6 +33,8 @@ import searchSelect from '@/components/serveComponent/insured/searchPrint/search
 import insuredDownload from '@/components/serveComponent/insured/searchPrint/insuredDownload'
 import transferRenewing from '@/components/serveComponent/insured/transferRenewing/transferRenewing'
 import transferDetail from '@/components/serveComponent/insured/transferRenewing/transferDetail'
+import legalTransfer from '@/components/serveComponent/insured/legalTransfer/legalTransfer'
+import legalTransferDetail from '@/components/serveComponent/insured/legalTransfer/legalTransferDetail'
 import elseWhere from '@/components/serveComponent/record/elseWhere/elseWhere'
 import elseDetail from '@/components/serveComponent/record/elseWhere/elseDetail'
 import legalElseWhere from '@/components/serveComponent/record/legalElseWhere/legalElseWhere'
@@ -231,6 +233,16 @@ export default new Router({
       path: '/transferDetail',
       name: 'transferDetail',
       component: transferDetail
+    },
+    {
+      path: '/legalTransfer',
+      name: 'legalTransfer',
+      component: legalTransfer
+    },
+    {
+      path: '/legalTransferDetail',
+      name: 'legalTransferDetail',
+      component: legalTransferDetail
     },
     {
       path: '/elseWhere',

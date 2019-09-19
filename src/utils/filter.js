@@ -328,3 +328,23 @@ export function AMC027( val ) {
   }
   return obj[val]
 }
+
+//AAC009户籍类型
+export function AAC009( val ) {
+  let obj = {
+    "1": "城镇（非农业户口）",
+    "2": "农村（农业户口）",
+    "3": "其他",
+  }
+  return obj[val]
+}
+
+//ACC002医保类型
+export function ACC002( val ) {
+  let obj = {
+    "1": "职工医保",
+    "2": "居民医保",
+    "5": "其他",
+  }
+  return obj[val]
+}
