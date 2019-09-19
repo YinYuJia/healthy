@@ -94,7 +94,7 @@
                     </div>
                     <div class="InfoLine">
                         <div class="InfoName"><span>邮政编码</span></div>
-                        <div class="InfoText"><input placeholder="请输入" maxlength="6" v-model="form.AAE007"></div>
+                        <div class="InfoText"><input placeholder="请输入" type="tel" maxlength="6" v-model="form.AAE007"></div>
                     </div>
                 </div>
                 <div class="ReportInfo">
@@ -125,7 +125,7 @@
                     </div>
                     <div class="InfoLine">
                         <div class="InfoName"><span>邮政编码</span></div>
-                        <div class="InfoText"><input placeholder="请输入邮政编码" maxlength="6" v-model="form.AKC330"></div>
+                        <div class="InfoText"><input placeholder="请输入邮政编码" type="tel" maxlength="6" v-model="form.AKC330"></div>
                     </div>
                 </div>
                 <div class="ReportInfo">
@@ -431,9 +431,9 @@ export default {
                 params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9105");
             }else{
                 submitForm = {
+                    AAS027: this.form.AAS027, //转出地区/省级编码
                     AAA027: this.form.AAA027, //转出地市级编码
                     AAQ027: this.form.AAQ027, //转出地区/县级编码
-                    AAS027: this.form.AAS027, //转出地区/省级编码
                     AAS301: this.form.AAS301, //转入地省级编码
                     AAB301: this.form.AAB301, //转入地市级编码
                     AAQ301: this.form.AAQ301, //转入地区/县级编码
