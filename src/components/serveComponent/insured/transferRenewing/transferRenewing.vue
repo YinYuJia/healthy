@@ -448,7 +448,7 @@ export default {
                     AAE011: this.$store.state.SET_NATIVEMSG.name, //申请人姓名
                     AAE005: this.form.AAE005, //联系电话
                     BKZ019: '', //经办编号
-                    BKE420: '1', //申请渠道
+                    BKE520: '1', //申请渠道
                 }
                 params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1017");
             }

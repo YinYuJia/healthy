@@ -4,7 +4,7 @@
             <div class="CompleteTitle">根据业务需要，需要您补充提交以下资料</div>
             <!-- 附件 -->
             <div class="CompleteLine" v-for="(item,index) in fileList" :key="index">
-                <div class="InfoText">{{index+1}}.{{item.name}}<div class="downloadBtn" v-if="index==0||index ==1" @click="downloadFile">下载申请表</div></div>
+                <div class="InfoText">{{index+1}}.{{item.name}}<div class="downloadBtn" v-if="index==0||index ==1" @click="downloadFile(index)">下载申请表</div></div>
                 <!-- 附件不是医疗诊断证明书等 -->
                 <div class="PhotoBox" v-if="item.saveName != 'BMC008URL'">
                     <div class="ImgBox" v-if="item.url!=''">
@@ -124,15 +124,24 @@ export default {
     },
     methods:{
         // 下载资料
-        downloadFile() {
+        downloadFile(index) {
             let submitForm ={};
             let u = navigator.userAgent;
             let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
             if(isiOS){
                 console.log("是否为苹果设备",isiOS);
-                submitForm.AAA001='TEMPLATE_URL_IOSXY';
+                console.log("index:", typeof(index))
+                if(index == 0){
+                    submitForm.AAA001 = 'TEMPLATE_URL_IOSXY'
+                }else{
+                    submitForm.AAA001 = 'TEMPLATE_URL_IOSJY'
+                }
             }else{
-                submitForm.AAA001='TEMPLATE_URL_XY';
+                if(index == 0){
+                    submitForm.AAA001 = 'TEMPLATE_URL_XY'
+                }else{
+                    submitForm.AAA001 = 'TEMPLATE_URL_JY'
+                }
             }
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"7212");
