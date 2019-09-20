@@ -50,8 +50,7 @@
                 <div class="iconBox" v-for="(item,index) in iconList" :key="index">
                     <div class="photoBox" @click="jumpToUrl(item.jumpUrl,item.status)"><img :src="item.outPicUrl" /></div>
                     <div class="text">{{item.mattersName}}</div>
-                    <svg-icon v-if="item.mattersId == '50' || item.mattersId == '51' || item.mattersId == '53' || item.mattersId == '54' ||
-                    item.mattersId == '40' || item.mattersId == '41'" class="provinceIcon" icon-class="serveComponent_province" />
+                    <svg-icon v-if="item.mattersId == '40' || item.mattersId == '41'" class="provinceIcon" icon-class="serveComponent_province" />
                 </div>
                 <div class="iconBox" @click="goRouter('indexInfoListMore')">
                     <svg-icon icon-class="serveComponent_icon12" />
