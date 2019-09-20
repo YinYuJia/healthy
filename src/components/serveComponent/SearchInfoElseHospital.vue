@@ -83,6 +83,7 @@
         this.activeIndex = index;
         if(index == '1') {
           this.orderParam = '1'
+          this.orderType = '1'
         } else if (index == '2') {
           this.orderParam = '3'
           this.orderType = '2'
