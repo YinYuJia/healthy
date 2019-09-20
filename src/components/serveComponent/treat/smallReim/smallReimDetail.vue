@@ -110,7 +110,7 @@
                 </div>
             </div>
             <!-- 结算凭证 -->
-            <div class="settlement">
+            <div class="settlement" v-if="showSettlement">
                 <div class="infoName">结算凭证</div>
                 <div class="photoBox">
                      <div class="picWrap">
@@ -155,7 +155,7 @@ export default {
             this.successFlag = 1;
         }
         this.epFn.setTitle('零星报销')
-        this.request3();
+        
         this.request();
         
         this.request2();
@@ -194,7 +194,8 @@ export default {
             BKZ019:"",
             workStatus: '', //办件状态，02受理，22需补齐，06已补正
             completeList: [], //补充材料清单
-            settlement:''//计算凭证
+            settlement:'',//计算凭证
+            showSettlement:false
         }
     },
     methods:{
@@ -333,6 +334,12 @@ export default {
                         this.invoiceComplete = false
                     }
                     this.invoices = resData.LS_DS0
+                    if(resData.LS_DS0[0].BKE586=='3'){
+                        this.showSettlement=true;
+                        this.request3();
+                    }else{
+                        this.showSettlement=false
+                    }
                     console.log('数据最新resData.LS_DS111',resData.LS_DS0);
                     
                     // this.form={...this.from,...this.List[0]}
@@ -389,6 +396,7 @@ export default {
                 submitForm.lx="1";
                 submitForm.BKZ019=this.$route.query.param
                 submitForm.AGA001=this.$route.query.param
+                // submitForm.AGA001='339900190910368376255'
             }else{
                 submitForm.lx="2";
                 submitForm.BKZ019 = sessionStorage.getItem('smallReimBKZ019');

@@ -75,6 +75,10 @@ export default {
             type:Boolean,
             default:false
         },
+        jy9029:{//转移接续
+            type:Boolean,
+            default:false
+        },
         work:{//工龄
             type: Boolean,
             default: false
@@ -176,6 +180,8 @@ export default {
                 this.request('7100')
             }else if(this.jy9028){//单位信息变更
                 this.request('9028')
+            }else if(this.jy9029){
+                this.request('9029')
             }else if(this.work){//工龄
                 this.insuredCity[0].values= this.epFn.workYear();
                 this.fullCity[0].values= this.epFn.workYear();

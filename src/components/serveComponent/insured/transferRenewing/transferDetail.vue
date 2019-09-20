@@ -13,17 +13,29 @@
                 <ProgressDate nameWidth="2rem"  :replyDate="form.AAE036"  :progressDate="form.BAE019"></ProgressDate>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转出地:</span></div>
-                    <div class="InfoText"><span>{{form.AAC027VALUE}}</span></div>
+                    <!-- 省外转省内 -->
+                    <div class="InfoText"  v-if="isOutsideProvince"><span>{{form.AAS027VALUE}}{{form.AAB027VALUE}}{{form.AAC027VALUE}}</span></div>
+                    <!-- 省内转省内 -->
+                    <div class="InfoText"  v-if="!isOutsideProvince"><span>{{form.AAS027VALUE}}{{form.AAA027VALUE}}{{form.AAQ027VALUE}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>转入地:</span></div>
+                    <!-- 省外转省内 -->
                     <div class="InfoText" v-if="isOutsideProvince"><span>浙江省省本级</span></div>
+                    <!-- 省内转省内 -->
+                    <div class="InfoText"  v-if="!isOutsideProvince"><span>{{form.AAS301VALUE}}{{form.AAB301VALUE}}{{form.AAQ301VALUE}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>手机号码:</span></div>
                     <div class="InfoText"><span>{{form.AAE005 | tuoMin(3,4)}}</span></div>
                 </div>
             </div>
+            <div class="MailInfo transferForm" v-if="!isOutsideProvince">
+                    <h2 class="InfoTitle">转移变更表</h2>
+                    <div class="InfoLine">
+                        <img :src="imgUrl" @click="showBigPhoto">
+                    </div>
+                </div>
             <div class="RemainInfo" v-if="isOutsideProvince">
                 <div class="MailInfo">
                     <h2 class="InfoTitle">基本信息</h2>
@@ -52,7 +64,7 @@
                     <h2 class="InfoTitle">转出地社保经办机构信息</h2>
                     <div class="InfoLine">
                         <div class="InfoName"><span>机构名称:</span></div>
-                        <div class="InfoText"><span>{{form.AAS027VALUE}}{{form.AAC027VALUE}}{{form.AAB027VALUE}}{{form.AKC328}}</span></div>
+                        <div class="InfoText"><span>{{form.AAS027VALUE}}{{form.AAB027VALUE}}{{form.AAC027VALUE}}{{form.AKC328}}</span></div>
                     </div>
                     <div class="InfoLine">
                         <div class="InfoName"><span>联系人:</span></div>
@@ -91,23 +103,9 @@
                     </div>
                 </div>
             </div>
-            <div class="settlement">
-                <div class="infoName">转移变更表</div>
-                <div class="photoBox">
-                     <div class="picWrap">
-                        <div class="uploadBtn">
-                            <img :src="settlement" class="pic" @click="showBigPhoto(settlement)" />
-                            <!-- <a href='static\pdf\web\viewer.html?file=http%3a%2f%2fybj.zjzwfw.gov.cn%3a10540%2fopenapiApp%2fdownload%3fkey%3dbizamt%2frdm%2f1567674102729W6y.pdf'>点我111111</a> -->
-                            <!-- <iframe src="static\pdf\web\compressed.tracemonkey-pldi-09.pdf" width="100%" height="100%"></iframe> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <Success :flag="successFlag"></Success>
         <PhotoView ref="photo" :imgUrl="imgUrl"></PhotoView>
-        <!-- 底部 -->
-        <Footer :btnType="2" v-if="currentStep==1" @backout="backout()" @edit="edit()" :handleNumber="handleNumber"></Footer>
     </div>
 </template>
 <script>
@@ -124,7 +122,6 @@ export default {
             ],
             currentStep:1,
             successFlag: 1,
-            settlement:'',
             imgUrl:'',
         }
     },
@@ -194,6 +191,8 @@ export default {
                         this.form = resData.LS_DS_21;
                     }else{
                         this.form = resData.LS_DS_07;
+                        console.log('form',this.form)
+                        this.getTransferForm(this.form.BKZ019);
                     }
                 }else if (resData.enCode == 1001 ) {
                 //   失败  1001
@@ -205,6 +204,28 @@ export default {
                 }
             })
         },
+        // 获取转移变更表
+        getTransferForm(AGA001){
+            let submitForm = { AGA001: AGA001}
+            this.$axios.post(this.epFn.ApiUrl()+ '/H5/jy7108/info', submitForm).then((resData) => {
+                console.log('返回成功信息7108',resData)
+                //   成功   1000
+                if ( resData.enCode == 1000 ) { 
+                    this.imgUrl = resData.LS_DS[1].BKE555;
+                }else if (resData.enCode == 1001 ) {
+                //   失败  1001
+                    this.$toast(resData.msg);
+                    return;
+                }else{
+                    this.$toast('业务出错');
+                    return;
+                }
+            })
+        },
+        // 查看大图
+        showBigPhoto(){
+            this.$refs.photo.open();
+        }
     }
 }
 </script>
@@ -267,6 +288,14 @@ export default {
         .RemainInfo{
             .MailInfo{
                 margin-top: .15rem;
+            }
+        }
+        .transferForm{
+            margin-top: .15rem;
+            .InfoLine{
+                img{
+                    width: 100%;
+                }
             }
         }
     }

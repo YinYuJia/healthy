@@ -5,14 +5,14 @@
         <SelectCity
             :type="3"
             ref="outCityPicker"
-            :jy9028="true"
+            :jy9029="true"
             @confirm="chooseOutCity"
             >
         </SelectCity>
         <SelectCity
             :type="3"
             ref="inCityPicker"
-            :jy9028="true"
+            :jy9029="true"
             @confirm="chooseInCity"
             >
         </SelectCity>
@@ -20,7 +20,7 @@
         <SelectCity
             :type="3"
             ref="allCityPicker"
-            :jy9028="true"
+            :jy9029="true"
             @confirm="chooseAllCity"
             >
         </SelectCity>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="InfoLine">
                         <div class="InfoName"><span>邮政编码</span></div>
-                        <div class="InfoText"><input placeholder="请输入" maxlength="6" v-model="form.AAE007"></div>
+                        <div class="InfoText"><input placeholder="请输入" type="tel" maxlength="6" v-model="form.AAE007"></div>
                     </div>
                 </div>
                 <div class="ReportInfo">
@@ -125,7 +125,7 @@
                     </div>
                     <div class="InfoLine">
                         <div class="InfoName"><span>邮政编码</span></div>
-                        <div class="InfoText"><input placeholder="请输入邮政编码" maxlength="6" v-model="form.AKC330"></div>
+                        <div class="InfoText"><input placeholder="请输入邮政编码" type="tel" maxlength="6" v-model="form.AKC330"></div>
                     </div>
                 </div>
                 <div class="ReportInfo">
@@ -214,6 +214,16 @@ export default {
     created () {
         this.epFn.setTitle('医保转移接续')
         this.getMailInfo();
+        // 自动填入转入地
+        this.form.AAS301 = '330000';
+        if(sessionStorage.getItem('GinsengLandCode') == '339900'){
+            this.form.AAB301VALUE = sessionStorage.getItem('GinsengLandName');
+            this.form.AAB301 = sessionStorage.getItem('GinsengLandCode');
+        }else{
+            this.form.AAQ301 = sessionStorage.getItem('GinsengLandCode');
+            this.form.AAB301 = sessionStorage.getItem('GinsengLandCode').slice(0,4) + '00';
+            this.form.AAB301VALUE = sessionStorage.getItem('GinsengLandName');
+        }
     },
     watch: {
         // 监听转出地
@@ -237,7 +247,7 @@ export default {
         },
         // 监听转入地
         'form.AAB301'(val){
-            if(val == ''){
+            if(val == '' || this.form.AAS027 == ''){
                 return;
             }
             // 如果不是浙江省则提示错误,清空数据
@@ -245,12 +255,6 @@ export default {
                 this.$toast('如需办理省内转往省外的业务，请前往【医保证明】打印个人参保证明');
                 this.clearIncity();
             }else{
-                // 提示先选择转出地
-                if(this.form.AAA027VALUE == ''){
-                    this.$toast('请先选择转出地');
-                    this.clearIncity();
-                    return;
-                }
                 // 省内转省内
                 if(this.form.AAS027 == '330000'){
                     this.isOutsideProvince = false;
@@ -345,7 +349,7 @@ export default {
             this.$refs.datePicker.open();
         },
         chooseDate(val){
-            this.form[this.dateFlag] = this.util.formatDate(val,'yyyy-MM-dd');;
+            this.form[this.dateFlag] = this.util.formatDate(val,'yyyy-MM');;
         },
         // 选择医疗保险类型
         openACC002Picker(){
@@ -406,6 +410,9 @@ export default {
             if(this.isOutsideProvince){
                 submitForm = {
                     AAC002: this.$store.state.SET_NATIVEMSG.idCard, //身份证
+                    AAE011: this.$store.state.SET_NATIVEMSG.name, //申请人
+                    AAC003: this.$store.state.SET_NATIVEMSG.name,
+                    AAE135: this.$store.state.SET_NATIVEMSG.idCard,
                     AAC067: this.form.AAC067, //手机号码
                     AAC010: this.form.AAC010_1 + this.form.AAC010_2, //户籍地址
                     AAC009: this.form.AAC009, //户籍类型
@@ -424,16 +431,14 @@ export default {
                     AAE030: this.form.AAE030, //参保开始时间
                     AAE031: this.form.AAE031, //参保结束时间
                     BAB459: this.form.BAB459, //累计缴费月数
-                    AAE135: this.$store.state.SET_NATIVEMSG.idCard,
                     BKE520: '1', //申请渠道
-                    AAE011: this.$store.state.SET_NATIVEMSG.name, //申请人
                 }
                 params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"9105");
             }else{
                 submitForm = {
+                    AAS027: this.form.AAS027, //转出地区/省级编码
                     AAA027: this.form.AAA027, //转出地市级编码
                     AAQ027: this.form.AAQ027, //转出地区/县级编码
-                    AAS027: this.form.AAS027, //转出地区/省级编码
                     AAS301: this.form.AAS301, //转入地省级编码
                     AAB301: this.form.AAB301, //转入地市级编码
                     AAQ301: this.form.AAQ301, //转入地区/县级编码
@@ -480,6 +485,11 @@ export default {
 <style lang="less" scoped>
 .insuredChange{
     width: 100%;
+    /deep/ .mint-datetime-picker .picker-slot{
+        &:nth-child(3){
+            display: none;
+        }
+    }
     .Content{
         height: 100%;
         margin-bottom: 1.4rem;
