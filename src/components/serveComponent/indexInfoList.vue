@@ -1007,6 +1007,7 @@
             margin-bottom: -.3rem;
             .swiper-container {
                 height: 100%;
+                z-index: -1;
                 .swiper-wrapper {
                     height: 100%;
                     .swiper-slide {
