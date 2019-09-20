@@ -411,15 +411,19 @@ export default {
                     this.$toast('请填写正确的手机号码');
                     return false
                 }
-                // 检验邮箱格式
-                if(!this.util.checkMail(this.form.AAE007)){
-                    this.$toast("邮箱格式不正确");
-                    return false;
+                // 检验邮编格式
+                if(this.form.AAE007){
+                    if(!this.util.postOffic(this.form.AAE007)){
+                        this.$toast('请填写正确的邮政编码');
+                        return false;
+                    }
                 }
-                // 检验邮箱格式
-                if(!this.util.checkMail(this.form.AKC330)){
-                    this.$toast("邮箱格式不正确");
-                    return false;
+                // 检验邮编格式
+                if(this.form.AKC330){
+                    if(!this.util.postOffic(this.form.AKC330)){
+                        this.$toast('请填写正确的邮政编码');
+                        return false;
+                    }
                 }
                 if(this.form.AAE005&&this.form.AAE005.length==11){
                     if(!this.util.checkPhone(this.form.AAE005)){
