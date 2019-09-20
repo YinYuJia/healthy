@@ -719,18 +719,18 @@ export default {
         .userBaseInfo{
             margin-top: .15rem;
             height: 3rem;
-            width: 7.5rem;
+            width: 100%;
             background: #fff;
             display: flex;
-            justify-content: center;
+            justify-content: left;
             align-items: flex-end;
             position: relative;
-            z-index: -2;
+            z-index: 0;
             .infoBox{
                 font-size: .3rem;
                 position: relative;
                 height: 100%;
-                width: 7rem;
+                width: 100%;
                 color: #ffffff;
                 border-radius: 0.05rem;
                 display: flex;
@@ -745,7 +745,7 @@ export default {
                     z-index: -1;
                 }
                 .infoName{
-                    width: 5rem;
+                    width: 3rem;
                     height: .5rem;
                     text-align: left;
                     margin-top: .28rem;
@@ -769,7 +769,7 @@ export default {
                 }
                 .infoAddress{
                     margin-top: .20rem;
-                    width: 100%;
+                    width: 5rem;
                     text-align: left;
                     margin-left: .3rem;
                     .titleText{
@@ -804,10 +804,11 @@ export default {
         }
         .ReportInfo {
             height: 100%;
-            width: 7.5rem;
-            padding: 0 .3rem;
+            width: 100%;
+            padding:.2rem;
             background: white;
             .InfoLine {
+                width: 100%;
                 height: 1rem;
                 position: relative;
                 font-family: PingFangSC-Regular;
@@ -832,7 +833,7 @@ export default {
                     position: relative;
                     align-items: center;
                     input {
-                        width: 4rem;
+                        width: 3rem;
                         height: .6rem;
                         opacity: 0.85;
                         font-family: PingFangSC-Regular;
@@ -851,8 +852,8 @@ export default {
         .simpleNote{
             margin-top: .3rem;
             height: 7rem;
-            width: 7.5rem;
-            padding: 0 .3rem;
+            width: 100%;
+            padding:.3rem;
             background: white;
             .InfoTitle{
                 height: .8rem;
@@ -904,6 +905,7 @@ export default {
                 height: 1rem;
                 line-height: 1rem;
                 position: relative;
+                width: 100%;
                 font-family: PingFangSC-Regular;
                 font-size: .3rem;
                 display: flex;
