@@ -216,6 +216,33 @@ export default {
         this.epFn.setTitle('转移接续')
     },
     watch: {
+        //监听是否省外转出
+        isOutsideProvince(val) {
+            if(val == true) {
+                let submitForm = {}
+                // 加入电子社保卡号
+                if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
+                    submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+                }else {
+                    this.$toast("未获取到人员基本信息");
+                }
+                const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,'2002');
+                this.$axios.post(this.epFn.ApiUrl() + '/h5/jy2002/getRecord', params).then((resData) => {
+                    //   成功   1000
+                    if ( resData.enCode == 1000 ) {
+                        this.form.AAE005 = ''; //手机号码
+                        this.form.AAC067 = resData.AAE005
+                    }else if (resData.enCode == 1001 ) {
+                    //   失败  1001
+                        this.$toast(resData.msg);
+                        return;
+                    }else{
+                        this.$toast('业务出错');
+                        return;
+                    }
+                })
+            }
+        },
         // 监听转出地
         'form.AAA027'(val){
             if(val == ''){
@@ -287,6 +314,16 @@ export default {
                         this.canSubmit = true;
                     }else{
                         this.canSubmit = false;
+                    }
+                }
+                if (val.AAE030 != '' && val.AAE031 != '') {
+                    let AAE030 = new Date(val.AAE030);
+                    let AAE031 = new Date(val.AAE031);
+                    let month = 24 * 3600 * 1000 * 30;
+                    let gap = AAE031 - AAE030;
+                    if (gap <=0) {
+                        this.$toast('结束日期必须大于开始日期');
+                        this.form.AAE031 = '';
                     }
                 }
             },

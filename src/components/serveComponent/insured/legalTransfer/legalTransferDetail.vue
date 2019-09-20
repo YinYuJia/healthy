@@ -26,7 +26,7 @@
                     <!-- 省内转省内 -->
                     <div class="InfoText"  v-if="!isOutsideProvince"><span>{{form.AAS301VALUE}}{{form.AAB301VALUE}}{{form.AAQ301VALUE}}</span></div>
                 </div>
-                <div class="InfoLine">
+                <div class="InfoLine" v-if="!isOutsideProvince">
                     <div class="InfoName"><span>手机号码:</span></div>
                     <div class="InfoText"><span>{{form.AAE005 | tuoMin(3,4)}}</span></div>
                 </div>
