@@ -1004,6 +1004,7 @@
             padding: 0 .2rem;
             display: flex;
             align-items: center;
+            margin-bottom: -.3rem;
             .swiper-container {
                 height: 100%;
                 .swiper-wrapper {

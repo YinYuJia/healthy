@@ -665,11 +665,11 @@ export default {
         z-index: -1000;
     }
     .Content {
-        height: 100%;
-        margin-bottom: 1.4rem;
+        padding: .2rem;
+        background: #FFF;
         .SearchContent {
-                height: 1.18rem;
-                width: 7.5rem;
+                width: 100%;
+                height: 100%;
                 background: #fff;
                 display: flex;
                 justify-content: center;

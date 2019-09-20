@@ -423,9 +423,11 @@ export default {
 .SurgicalApproval {
     .Content {
         height: 100%;
+        padding: .2rem;
+        background: #FFF;
         .SearchContent {
-                height: .9rem;
-                width: 7.5rem;
+                width: 100%;
+                height: 100%;
                 background: #fff;
                 display: flex;
                 justify-content: center;
