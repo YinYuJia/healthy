@@ -164,6 +164,7 @@
 export default {
     data(){
         return{
+            AAE135: '',//搜索框身份证
             showAll: false,
             userInfo: {},
             isOutsideProvince: false, //转出地是否为省外
@@ -222,7 +223,8 @@ export default {
                 let submitForm = {}
                 // 加入电子社保卡号
                 if (this.$store.state.SET_NATIVEMSG.name !== undefined ) {
-                    submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+                    // submitForm.AAE135 = this.$store.state.SET_NATIVEMSG.idCard;
+                    submitForm.AAE135 = this.AAE135
                 }else {
                     this.$toast("未获取到人员基本信息");
                 }
@@ -334,6 +336,7 @@ export default {
         // 搜索
         search(val) {
             let submitForm = {AAE135: val}
+            this.AAE135 = val;
             // 请求参数封装
             const params = this.epFn.commonRequsetData(this.$store.state.SET_NATIVEMSG.PublicHeader,submitForm,"1013");
             this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1013/info', params).then((resData) => {
