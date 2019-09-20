@@ -22,7 +22,7 @@
             <div class="ListInfo">
                 <div class="InfoLine">
                     <div class="InfoName"><span>权力事项类型:</span></div>
-                    <div class="InfoText"><span>{{form.matType|matType}}</span></div>
+                    <div class="InfoText"><span>{{form.matType}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>权力来源:</span></div>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>受理时间:</span></div>
-                    <div class="InfoText"><span>{{form.acceptdate}}</span></div>
+                    <div class="InfoText"><span>{{form.acceptDate}}</span></div>
                 </div>
                 <div class="InfoLine">
                     <div class="InfoName"><span>办件类型:</span></div>

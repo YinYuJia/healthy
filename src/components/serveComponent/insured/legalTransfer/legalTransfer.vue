@@ -155,6 +155,8 @@
         </div>
         <!-- 按钮 -->
         <Footer :canSubmit='canSubmit' @submit="submit()"></Footer>
+        <!-- 办事指南 -->
+        <GuideIcon AGA002="331400512002"></GuideIcon>
     </div>
 </template>
 
@@ -391,6 +393,34 @@ export default {
             // 如果是省外转省内
             if(this.isOutsideProvince){
                 // 省内转省内
+                if (!this.util.checkPhone(this.form.AAC067)) {
+                    this.$toast('请填写正确的手机号码');
+                    return false
+                }
+                // 检验邮箱格式
+                if(!this.util.checkMail(this.form.AAE007)){
+                    this.$toast("邮箱格式不正确");
+                    return false;
+                }
+                // 检验邮箱格式
+                if(!this.util.checkMail(this.form.AKC330)){
+                    this.$toast("邮箱格式不正确");
+                    return false;
+                }
+                if(this.form.AAE005&&this.form.AAE005.length==11){
+                    if(!this.util.checkPhone(this.form.AAE005)){
+                        this.$toast('请填写正确的手机号码')
+                        return false;
+                        }
+                }else if(this.form.AAE005&&(this.form.AAE005.length==7||this.form.AAE005.length==8)){
+                    if(!this.util.checkHomePhone(this.form.AAE005)){
+                        this.$toast('请填写正确的电话号码')
+                        return false;
+                        }
+                }else if(this.form.AAE005&&(this.form.AAE005.length!=7||this.form.AAE005.length!=8||this.form.AAE005.length!=11)){
+                        this.$toast('请确认填写的号码位数是否正确')
+                        return false;
+                }
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy9105/distanceHospital', params).then((resData) => {
                     console.log('返回成功信息9105',resData)
                     //   成功   1000
@@ -408,6 +438,10 @@ export default {
                 })
             }else{
                 // 省内转省内
+                if (!this.util.checkPhone(this.form.AAE005)) {
+                    this.$toast('请填写正确的手机号码');
+                    return false
+                }                        
                 this.$axios.post(this.epFn.ApiUrl() + '/h5/jy1017/info', params).then((resData) => {
                     console.log('返回成功信息1017',resData)
                     //   成功   1000
