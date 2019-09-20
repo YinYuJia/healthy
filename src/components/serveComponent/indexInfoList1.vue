@@ -1132,11 +1132,11 @@
             display: flex;
             align-items: center;
             margin-bottom: -.3rem;
+            z-index: -1;
             .swiper-container {
                 height: 100%;
                 .swiper-wrapper {
                     height: 100%;
-                    z-index: -1;
                     .swiper-slide {
                         .svg-icon {
                             height: 100%;
